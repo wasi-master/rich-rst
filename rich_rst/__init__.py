@@ -27,7 +27,7 @@ from rich.rule import Rule
 
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
-__version__ = "0.2.5"
+__version__ = "1.0.1"
 
 install(show_locals=True)
 
@@ -204,7 +204,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_system_message(self, node):
-        self.errors.append(node.parent)
+        self.errors.append(node)
         raise docutils.nodes.SkipChildren()
 
     def visit_field(self, node):
@@ -316,6 +316,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.hr", default="yellow")
         self.renderables.append(Rule(style=style))
 
+    def visit_rubric(self, node):
+        self.visit_title(node)
+
+    def visit_math_block(self, node):
+        self.renderables.append(Text(node.astext()))
+        raise docutils.nodes.SkipChildren()
+
 
 class RestructuredText(JupyterMixin):
     """A reStructuredText renderable for rich."""
@@ -345,6 +352,7 @@ class RestructuredText(JupyterMixin):
         # Parse the `markup` into a RST `document`.
         option_parser = docutils.frontend.OptionParser(components=(docutils.parsers.rst.Parser,))
         settings = option_parser.get_default_values()
+        settings.report_level = 69
         source = docutils.io.StringInput(self.markup)
         document = docutils.utils.new_document(source.source_path, settings)
         rst_parser = docutils.parsers.rst.Parser()
@@ -361,13 +369,14 @@ class RestructuredText(JupyterMixin):
                 yield from console.render(
                     Panel(
                         console.render_str(error.astext()),
-                        title=f"System Message: {error.attributes['type']}/{error.attributes['level']} ({error.attributes['source']}, line {error.attributes['line']});",
-                        border_style={"INFO": "bold cyan", "WARNING": "bold yellow", "ERROR": "bold red"}[
-                            error.attributes["type"]
+                        title=f"System Message: {error.attributes.get('type', '?')}/{error.attributes.get('level', '?')} ({error.attributes.get('source', '?')}, line {error.attributes.get('line', '?')});",
+                        border_style={None: "none", "INFO": "bold cyan", "WARNING": "bold yellow", "ERROR": "bold red"}[
+                            error.attributes.get("type")
                         ],
                     ),
                     options,
                 )
+
 
 
 RST = ReStructuredText = reStructuredText = RestructuredText

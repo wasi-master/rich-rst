@@ -4,11 +4,11 @@
 
 | Type               | Amount | Meaning                                        |
 | ------------------ | ------ | ---------------------------------------------- |
-| All                | 97     |  |
-| ⛔ Not Possible     | 3     | Not possible to implement in a console context |
-| ✅ Implemented      | 63    | Supported                                      |
-| 📰 No Documentation | 22    | Not enough available information to implement  |
-| ❌ Not Implemented  | 12    | Not implemented                                |
+| All                | 97     |                                                |
+| ⛔ Not Possible     | 3      | Not possible to implement in a console context |
+| ✅ Implemented      | 63     | Supported                                      |
+| 📰 No Documentation | 22     | Not enough available information to implement  |
+| ❌ Not Implemented  | 12     | Not implemented                                |
 
 ## Element List
 
@@ -70,8 +70,8 @@
 |  54   | [list-item](https://docutils.sourceforge.io/docs/ref/doctree.html#list-item)                             |         ✅ Yes          |
 |  55   | [literal](https://docutils.sourceforge.io/docs/ref/doctree.html#literal)                                 |         ✅ Yes          |
 |  56   | [literal-block](https://docutils.sourceforge.io/docs/ref/doctree.html#literal-block)                     |         ✅ Yes          |
-|  57   | [math](https://docutils.sourceforge.io/docs/ref/doctree.html#math)                                       |        ❌ No[^6]        |
-|  58   | [math-block](https://docutils.sourceforge.io/docs/ref/doctree.html#math-block)                           |        ❌ No[^6]        |
+|  57   | [math](https://docutils.sourceforge.io/docs/ref/doctree.html#math)                                       |   ⛔ Not Possible[^6]   |
+|  58   | [math-block](https://docutils.sourceforge.io/docs/ref/doctree.html#math-block)                           |   ⛔ Not Possible[^6]   |
 |  59   | [meta](https://docutils.sourceforge.io/docs/ref/doctree.html#meta)                                       |         ✅ Yes          |
 |  60   | [note](https://docutils.sourceforge.io/docs/ref/doctree.html#note)                                       |         ✅ Yes          |
 |  61   | [option](https://docutils.sourceforge.io/docs/ref/doctree.html#option)                                   |         ✅ Yes          |
@@ -88,7 +88,7 @@
 |  72   | [reference](https://docutils.sourceforge.io/docs/ref/doctree.html#reference)                             |   📰 No Documentation   |
 |  73   | [revision](https://docutils.sourceforge.io/docs/ref/doctree.html#revision)                               |         ✅ Yes          |
 |  74   | [row](https://docutils.sourceforge.io/docs/ref/doctree.html#row)                                         |   📰 No Documentation   |
-|  75   | [rubric](https://docutils.sourceforge.io/docs/ref/doctree.html#rubric)                                   |   📰 No Documentation   |
+|  75   | [rubric](https://docutils.sourceforge.io/docs/ref/doctree.html#rubric)                                   |         ✅ Yes          |
 |  76   | [section](https://docutils.sourceforge.io/docs/ref/doctree.html#section)                                 |         ✅ Yes          |
 |  77   | [sidebar](https://docutils.sourceforge.io/docs/ref/doctree.html#sidebar)                                 |         ✅ Yes          |
 |  78   | [status](https://docutils.sourceforge.io/docs/ref/doctree.html#status)                                   |         ✅ Yes          |
@@ -118,4 +118,4 @@
 [^3]: Enumerated lists are supported without nesting
 [^4]: Currently the document is rendered top to bottom and I don't really know any method of adding a element at the end or at the beginning and keeping that order, any suggestions appreciated
 [^5]: Images show an emoji and the alt text or title text (aka hover text) and they are clickable, if the image has a target link then it opens that target link when clicked, otherwise it opens the image url
-[^6]: Math elements are really hard to implement since they require a lot of logic and code. And with restructuredtext math isn't really used that much so I don't want to implement them
+[^6]: Math elements are usually written in the latex format. This makes it hard to show them properly in the terminal, A tool called [formulador](https://github.com/stylewarning/formulador) exists but it's written in [Common Lisp](https://common-lisp.net/ "Common Lisp is the modern, multi-paradigm, high-performance, compiled, ANSI-standardized, most prominent (along with Scheme) descendant of the long-running Lisp language"), And another tool called [cl4py](https://github.com/marcoheisig/cl4py) also exists but it requires some form of lisp to be installed, it will be a hassle to make people install lisp and formulador and the general public that uses sphinx probably doesn't use math much
