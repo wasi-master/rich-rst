@@ -25,11 +25,14 @@ from rich.text import Text
 from rich.traceback import install
 from rich.rule import Rule
 
+from pygments.lexers import guess_lexer
+from pygments.util import ClassNotFound
+
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 
-install(show_locals=True)
+install()
 
 # pylama:ignore=D,C0116
 class RSTVisitor(docutils.nodes.SparseNodeVisitor):
@@ -40,14 +43,35 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         document: docutils.nodes.document,
         console: Console,
         code_theme: Union[str, SyntaxTheme] = "monokai",
+        guess_lexer: Optional[bool] = True,
+        default_lexer: Optional[str] = "python",
     ) -> None:
         super().__init__(document)
         self.console = console
         self.code_theme = code_theme
         self.renderables = []
-        self.supercript = str.maketrans("1234567890", "¹²³⁴⁵⁶⁷⁸⁹⁰")
-        self.subscript = str.maketrans("1234567890", "₁₂₃₄₅₆₇₈₉₀")
+        self.supercript = str.maketrans("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷", "¹²³⁴⁵⁶⁷⁸⁹⁰ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᑫʳˢᵗᵘᵛʷˣʸᶻᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ⁼⁺⁻*/×÷")
+        self.subscript = str.maketrans("1234567890abcdefghijklmnopqrstuvwxyz=+-*/×÷", "₁₂₃₄₅₆₇₈₉₀abcdₑfgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz₌₊₋*/×÷")
         self.errors = []
+        self.footer = []
+        self.guess_lexer = guess_lexer
+        self.default_lexer = default_lexer
+
+    def _find_lexer(self, node):
+        lexer = node["classes"][1] if len(node.get("classes")) >= 2 else (node["format"] if node.get("format") else None)
+        if lexer is None and self.guess_lexer:
+            try:
+                lexer = guess_lexer(node.astext())
+            except ClassNotFound:
+                lexer = self.default_lexer
+            else:
+                lexer = lexer.aliases[0] if lexer.aliases else self.default_lexer
+            if lexer == "text":
+                return self.default_lexer
+            return lexer
+        elif lexer is None and not self.guess_lexer:
+            lexer = self.default_lexer
+            return lexer
 
     def visit_paragraph(self, node):
         if hasattr(node, "parent") and isinstance(node.parent, docutils.nodes.system_message):
@@ -63,59 +87,59 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_Text(self, node):
         style = self.console.get_style("restructuredtext.text", default="none")
-        self.renderables.append(Text(node.astext(), end="", style=style))
+        self.renderables.append(Text(node.astext().replace("\n", " "), end="", style=style))
 
     def visit_comment(self, node):
         raise docutils.nodes.SkipChildren()
 
     def visit_admonition(self, node):
         style = self.console.get_style("restructuredtext.admonition", default="bold white")
-        self.renderables.append(Text("Attention: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("Attention: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_attention(self, node):
         style = self.console.get_style("restructuredtext.attention", default="bold black on yellow")
-        self.renderables.append(Text("Attention: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("Attention: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_caution(self, node):
         style = self.console.get_style("restructuredtext.caution", default="white on red")
-        self.renderables.append(Text("Caution: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("Caution: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_danger(self, node):
         style = self.console.get_style("restructuredtext.danger", default="bold white on red")
-        self.renderables.append(Text("DANGER: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("DANGER: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_error(self, node):
         style = self.console.get_style("restructuredtext.error", default="bold red")
-        self.renderables.append(Text("ERROR: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("ERROR: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_hint(self, node):
         style = self.console.get_style("restructuredtext.hint", default="yellow")
-        self.renderables.append(Text("Hint: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("Hint: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_important(self, node):
         style = self.console.get_style("restructuredtext.important", default="bold blue")
-        self.renderables.append(Text("IMPORTANT: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("IMPORTANT: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_note(self, node):
         style = self.console.get_style("restructuredtext.note", default="bold white")
-        self.renderables.append(Text("Note: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("Note: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_tip(self, node):
         style = self.console.get_style("restructuredtext.tip", default="bold green")
-        self.renderables.append(Text("Tip: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("Tip: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_warning(self, node):
         style = self.console.get_style("restructuredtext.warning", default="bold yellow")
-        self.renderables.append(Text("Warning: " + node.rawsource.strip(), style=style))
+        self.renderables.append(Text("Warning: " + node.rawsource.replace("\n", " ").strip(), style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_subscript(self, node):
@@ -130,12 +154,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_emphasis(self, node):
         style = self.console.get_style("restructuredtext.emphasis", default="italic")
-        self.renderables.append(Text(node.astext(), style=style, end=""))
+        self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
     def visit_strong(self, node):
         style = self.console.get_style("restructuredtext.strong", default="bold")
-        self.renderables.append(Text(node.astext(), style=style, end=""))
+        self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
     def visit_image(self, node):
@@ -188,17 +212,18 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_literal(self, node):
         style = self.console.get_style("restructuredtext.inline_codeblock", default="grey78 on grey7")
-        self.renderables.append(Text(node.astext(), style=style, end=""))
+        self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
     def visit_literal_block(self, node):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
-        lexer = node["classes"][1] if len(node["classes"]) >= 2 else "python"
+        lexer = self._find_lexer(node)
         self.renderables.append(
             Panel(
                 Syntax(node.astext(), lexer, theme=self.code_theme),
                 border_style=style,
                 box=box.SQUARE,
+                title=lexer
             )
         )
         raise docutils.nodes.SkipChildren()
@@ -225,16 +250,29 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         classifier_style = self.console.get_style("restructuredtext.classifier_style", default="cyan")
         definitions_style = self.console.get_style("restructuredtext.definitions_style", default="none")
         for child in node.children:
-            rich.inspect(child)
-            term, classifier, definitions = child.children
-            self.renderables.append(
-                Text(term.astext(), style=term_style, end="")
-                + Text(" : ", end="")
-                + Text(classifier.astext(), style=classifier_style)
-                + Text("\n  ", end="")
-                + Text(definitions.astext(), style=definitions_style)
-                + Text("\n", end="")
-            )
+            try:
+                term, classifier, definitions = child.children
+            except ValueError:
+                term, classifier = child.children[0], child.children[1]
+                for children in child.children[2:]:
+                    if isinstance(children, docutils.nodes.bullet_list):
+                        self.visit_bullet_list(children)
+                    elif isinstance(children, docutils.nodes.literal_block):
+                        self.visit_literal_block(children)
+                    elif isinstance(children, docutils.nodes.literal):
+                        self.visit_literal(children)
+                    elif isinstance(children, docutils.nodes.block_quote):
+                        self.visit_block_quote(children)
+            else:
+                self.renderables.append(
+                    Text("    ")
+                    + Text(term.astext(), style=term_style, end="")
+                    + Text(" : ", end="")
+                    + Text(classifier.astext(), style=classifier_style)
+                    + Text("\n      ", end="")
+                    + Text(definitions.astext().replace("\n", " "), style=definitions_style)
+                    + Text("\n", end="")
+                )
         raise docutils.nodes.SkipChildren()
 
     def visit_option_list(self, node):
@@ -285,13 +323,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             "restructuredtext.blockquote_attribution_marker", default="bright_magenta"
         )
         author_style = self.console.get_style("restructuredtext.blockquote_attribution_text", default="grey89")
-        paragraph, attribution = node.children
-        self.renderables.append(
-            Text("▌ ", style=marker_style)
-            + Text(paragraph.astext(), style=text_style)
-            + Text("\n")
-            + Text("  - " + attribution.astext(), style=author_style)
-        )
+        try:
+            paragraph, attribution = node.children
+        except ValueError:
+            pass # If there isn't a paragraph and a attribution then it's most likely not a blockquote
+        else:
+            self.renderables.append(
+                Text("▌ ", style=marker_style)
+                + Text(paragraph.astext(), style=text_style)
+                + Text("\n")
+                + Text("  - " + attribution.astext(), style=author_style)
+            )
         raise docutils.nodes.SkipChildren()
 
     def visit_line_block(self, node):
@@ -300,7 +342,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_sidebar(self, node):
-        rich.inspect(node)
         if len(node.children) > 2:
             title, subtitle, paragraph = node.children
         else:
@@ -323,6 +364,55 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.renderables.append(Text(node.astext()))
         raise docutils.nodes.SkipChildren()
 
+    def visit_citation(self, node):
+        border_style = self.console.get_style("restructuredtext.citation_border", default="grey74")
+        self.renderables.append(
+            Panel(node.astext(), title="citation", border_style=border_style)
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_citation_reference(self, node):
+        style = self.console.get_style("restructuredtext.citation_reference", default="grey74")
+        self.renderables.append(Text(node.astext(), style=style, end=""))
+        raise docutils.nodes.SkipChildren()
+
+    def visit_header(self, node):
+        style = self.console.get_style("restructuredtext.caption", default="bold")
+        self.renderables.insert(0, Panel(Align(node.astext(), "center"), title="caption", box=box.DOUBLE, style=style))
+        raise docutils.nodes.SkipChildren()
+
+    def visit_footer(self, node):
+        self.footer.append(Align(node.astext(), "center"))
+        raise docutils.nodes.SkipChildren()
+
+    def visit_footnote(self, node):
+        self.footer.append(Align(node.astext(), "center"))
+        raise docutils.nodes.SkipChildren()
+
+    def visit_generated(self, node):
+        self.footer.append(Align(node.astext(), "center"))
+        raise docutils.nodes.SkipChildren()
+
+    def visit_pendings(self, node):
+        raise docutils.nodes.SkipChildren()
+
+    def visit_problematic(self, node):
+        self.visit_system_message(node)
+
+    def visit_raw(self, node):
+        style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
+        lexer = self._find_lexer(node)
+
+        self.renderables.append(
+            Panel(
+                Syntax(node.astext(), lexer, theme=self.code_theme),
+                border_style=style,
+                box=box.SQUARE,
+                title="raw " + lexer
+            )
+        )
+        raise docutils.nodes.SkipChildren()
+
 
 class RestructuredText(JupyterMixin):
     """A reStructuredText renderable for rich."""
@@ -332,6 +422,8 @@ class RestructuredText(JupyterMixin):
         markup: str,
         code_theme: Optional[Union[str, SyntaxTheme]] = "monokai",
         show_errors: Optional[bool] =True,
+        guess_lexer: Optional[bool] = True,
+        default_lexer: Optional[str] = "python"
     ) -> None:
         """A reStructuredText renderable for rich.
 
@@ -343,10 +435,16 @@ class RestructuredText(JupyterMixin):
             Pygments theme for code blocks. Defaults to "monokai".
         show_errors : Optional[bool]
             Whether to show system_messages aka errors and warnings.
+        guess_lexer : Optional[bool]
+            Whether to guess lexers for code blocks without specified language.
+        default_lexer : Optional[str]
+            Which lexer to use if no lexer is guessed or found. Defaults to "python"
         """
         self.markup = markup
         self.code_theme = code_theme
         self.log_errors = show_errors
+        self.guess_lexer = guess_lexer
+        self.default_lexer = default_lexer
 
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
         # Parse the `markup` into a RST `document`.
@@ -359,7 +457,7 @@ class RestructuredText(JupyterMixin):
         rst_parser.parse(source.read(), document)
 
         # Render the RST `document` using Rich.
-        visitor = RSTVisitor(document, console=console, code_theme=self.code_theme)
+        visitor = RSTVisitor(document, console=console, code_theme=self.code_theme, guess_lexer=self.guess_lexer, default_lexer=self.default_lexer)
         document.walkabout(visitor)
 
         for renderable in visitor.renderables:
@@ -376,6 +474,22 @@ class RestructuredText(JupyterMixin):
                     ),
                     options,
                 )
+        style = console.get_style("restructuredtext.footer", default="none")
+        border_style = console.get_style("restructuredtext.footer_border", default="grey74")
+        footer_text = ""
+        for element in visitor.footer:
+            footer_text = element
+        if footer_text:
+            yield from console.render(
+                Panel(
+                    footer_text,
+                    title="Footer",
+                    box=box.SQUARE,
+                    border_style=border_style,
+                    style=style
+                )
+            )
+
 
 
 

@@ -1,6 +1,6 @@
 # rich-rst
 
-Allows [rich](https://rich.readthedocs.io/en/latest/introduction.html) to print a [reStructuredText](https://docutils.sourceforge.io/rst.html) document in a rich format simillar to [rich.Markdown](https://rich.readthedocs.io/en/latest/reference/markdown.html).
+Allows [rich](https://rich.readthedocs.io/en/latest/introduction.html) to print a [reStructuredText](https://docutils.sourceforge.io/rst.html) document in a rich format similar to [`rich.Markdown`](https://rich.readthedocs.io/en/latest/reference/markdown.html).
 
 ## Features
 
@@ -82,3 +82,37 @@ print(RestructuredText(docs, code_theme="dracula", show_errors=False))
 - Fix a but where the error message wasn't parsed properly and therefore the parser crashed
 - Fix system messages showing up twice
 - Fix math blocks not having new lines
+
+## [1.1.0]
+
+### New Features
+
+- Add support for acronym
+- Add support for attribution
+- Add support for citations and citation references
+- Add support for decoration
+- Add support for footers
+- Add support for headers
+- Add support for footnotes
+- Add support for more elements in definition lists and improve formatting
+- Add subscript and superscript support for some letters and symbols
+- Add support for pending
+- Add support for raw
+
+- Add custom default lexer support
+- Add support for guessing the lexer
+### CLI
+
+- Add code theme argument
+- Add support for html output
+
+### Docs
+
+- Add demos to the demos folder
+- Specify that caption is not possible
+- Specify that figures are not supported
+
+### Bugs
+
+- Fix a bug where newlines weren't replaced with spaces as they should be
+- Also get lexer name from format for literal codeblocks
