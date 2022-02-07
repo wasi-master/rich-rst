@@ -4,7 +4,7 @@ Allows [rich](https://rich.readthedocs.io/en/latest/introduction.html) to print 
 
 ## Features
 
-66 supported reStructuredText elements. For a list see [ELEMENTS.md](https://github.com/wasi-master/rich-rst/blob/main/ELEMENTS.md)
+75 supported reStructuredText elements. For a list see [ELEMENTS.md](https://github.com/wasi-master/rich-rst/blob/main/ELEMENTS.md)
 
 ## Command line interface
 
