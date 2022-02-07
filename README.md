@@ -116,3 +116,9 @@ print(RestructuredText(docs, code_theme="dracula", show_errors=False))
 
 - Fix a bug where newlines weren't replaced with spaces as they should be
 - Also get lexer name from format for literal codeblocks
+
+## [1.1.1]
+
+- Fix default lexer not being used sometimes
+- Improve formatting for html with raw tag
+- Add hide-error option for the CLI

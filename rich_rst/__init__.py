@@ -4,9 +4,11 @@ reStructuredText parser for rich
 Initial few lines gotten from: https://github.com/willmcgugan/rich/discussions/1263#discussioncomment-808898
 There are a lot of improvements are added by me
 """
+from io import StringIO
+from html.parser import HTMLParser
+from typing import Optional, Union
 
 # Imports from docutils package for the parsing
-from typing import Optional, Union
 import docutils.io
 import docutils.nodes
 import docutils.parsers.rst
@@ -30,9 +32,31 @@ from pygments.util import ClassNotFound
 
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 install()
+
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs = True
+        self.text = StringIO()
+
+    def handle_data(self, d):
+        self.text.write(d)
+
+    def get_data(self):
+        return self.text.getvalue()
+
+
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
+
 
 # pylama:ignore=D,C0116
 class RSTVisitor(docutils.nodes.SparseNodeVisitor):
@@ -50,15 +74,22 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.console = console
         self.code_theme = code_theme
         self.renderables = []
-        self.supercript = str.maketrans("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷", "¹²³⁴⁵⁶⁷⁸⁹⁰ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᑫʳˢᵗᵘᵛʷˣʸᶻᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ⁼⁺⁻*/×÷")
-        self.subscript = str.maketrans("1234567890abcdefghijklmnopqrstuvwxyz=+-*/×÷", "₁₂₃₄₅₆₇₈₉₀abcdₑfgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz₌₊₋*/×÷")
+        self.supercript = str.maketrans(
+            "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷",
+            "¹²³⁴⁵⁶⁷⁸⁹⁰ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᑫʳˢᵗᵘᵛʷˣʸᶻᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ⁼⁺⁻*/×÷",
+        )
+        self.subscript = str.maketrans(
+            "1234567890abcdefghijklmnopqrstuvwxyz=+-*/×÷", "₁₂₃₄₅₆₇₈₉₀abcdₑfgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz₌₊₋*/×÷"
+        )
         self.errors = []
         self.footer = []
         self.guess_lexer = guess_lexer
         self.default_lexer = default_lexer
 
     def _find_lexer(self, node):
-        lexer = node["classes"][1] if len(node.get("classes")) >= 2 else (node["format"] if node.get("format") else None)
+        lexer = (
+            node["classes"][1] if len(node.get("classes")) >= 2 else (node["format"] if node.get("format") else None)
+        )
         if lexer is None and self.guess_lexer:
             try:
                 lexer = guess_lexer(node.astext())
@@ -72,6 +103,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         elif lexer is None and not self.guess_lexer:
             lexer = self.default_lexer
             return lexer
+        return lexer
 
     def visit_paragraph(self, node):
         if hasattr(node, "parent") and isinstance(node.parent, docutils.nodes.system_message):
@@ -219,17 +251,20 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         lexer = self._find_lexer(node)
         self.renderables.append(
-            Panel(
-                Syntax(node.astext(), lexer, theme=self.code_theme),
-                border_style=style,
-                box=box.SQUARE,
-                title=lexer
-            )
+            Panel(Syntax(node.astext(), lexer, theme=self.code_theme), border_style=style, box=box.SQUARE, title=lexer)
         )
         raise docutils.nodes.SkipChildren()
 
     def visit_system_message(self, node):
-        self.errors.append(node)
+        self.errors.append(
+            Panel(
+                self.console.render_str(node.astext()),
+                title=f"System Message: {node.attributes.get('type', '?')}/{node.attributes.get('level', '?')} ({node.attributes.get('source', '?')}, line {node.attributes.get('line', '?')});",
+                border_style={None: "none", "INFO": "bold cyan", "WARNING": "bold yellow", "ERROR": "bold red"}[
+                    node.attributes.get("type")
+                ],
+            ),
+        )
         raise docutils.nodes.SkipChildren()
 
     def visit_field(self, node):
@@ -326,7 +361,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         try:
             paragraph, attribution = node.children
         except ValueError:
-            pass # If there isn't a paragraph and a attribution then it's most likely not a blockquote
+            pass  # If there isn't a paragraph and a attribution then it's most likely not a blockquote
         else:
             self.renderables.append(
                 Text("▌ ", style=marker_style)
@@ -366,9 +401,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_citation(self, node):
         border_style = self.console.get_style("restructuredtext.citation_border", default="grey74")
-        self.renderables.append(
-            Panel(node.astext(), title="citation", border_style=border_style)
-        )
+        self.renderables.append(Panel(node.astext(), title="citation", border_style=border_style))
         raise docutils.nodes.SkipChildren()
 
     def visit_citation_reference(self, node):
@@ -397,19 +430,26 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_problematic(self, node):
-        self.visit_system_message(node)
+        self.errors.append(
+            Panel(
+                Syntax(node.astext(), lexer="rst", theme=self.code_theme),
+                title=f"System Message: Problematic Element",
+                border_style="bold red",
+            ),
+        )
 
     def visit_raw(self, node):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         lexer = self._find_lexer(node)
+        text = node.astext()
+        title = "raw " + lexer if lexer != "html" else "stripped raw html"
+
+        if lexer == "html":
+            text = strip_tags(text)
+            lexer = guess_lexer(text).aliases[0] if self.guess_lexer else self.default_lexer
 
         self.renderables.append(
-            Panel(
-                Syntax(node.astext(), lexer, theme=self.code_theme),
-                border_style=style,
-                box=box.SQUARE,
-                title="raw " + lexer
-            )
+            Panel(Syntax(text, lexer, theme=self.code_theme), border_style=style, box=box.SQUARE, title=title)
         )
         raise docutils.nodes.SkipChildren()
 
@@ -421,9 +461,9 @@ class RestructuredText(JupyterMixin):
         self,
         markup: str,
         code_theme: Optional[Union[str, SyntaxTheme]] = "monokai",
-        show_errors: Optional[bool] =True,
+        show_errors: Optional[bool] = True,
         guess_lexer: Optional[bool] = True,
-        default_lexer: Optional[str] = "python"
+        default_lexer: Optional[str] = "python",
     ) -> None:
         """A reStructuredText renderable for rich.
 
@@ -457,23 +497,20 @@ class RestructuredText(JupyterMixin):
         rst_parser.parse(source.read(), document)
 
         # Render the RST `document` using Rich.
-        visitor = RSTVisitor(document, console=console, code_theme=self.code_theme, guess_lexer=self.guess_lexer, default_lexer=self.default_lexer)
+        visitor = RSTVisitor(
+            document,
+            console=console,
+            code_theme=self.code_theme,
+            guess_lexer=self.guess_lexer,
+            default_lexer=self.default_lexer,
+        )
         document.walkabout(visitor)
 
         for renderable in visitor.renderables:
             yield from console.render(renderable, options)
         if self.log_errors and visitor.errors:
             for error in visitor.errors:
-                yield from console.render(
-                    Panel(
-                        console.render_str(error.astext()),
-                        title=f"System Message: {error.attributes.get('type', '?')}/{error.attributes.get('level', '?')} ({error.attributes.get('source', '?')}, line {error.attributes.get('line', '?')});",
-                        border_style={None: "none", "INFO": "bold cyan", "WARNING": "bold yellow", "ERROR": "bold red"}[
-                            error.attributes.get("type")
-                        ],
-                    ),
-                    options,
-                )
+                yield from console.render(error, options)
         style = console.get_style("restructuredtext.footer", default="none")
         border_style = console.get_style("restructuredtext.footer_border", default="grey74")
         footer_text = ""
@@ -481,16 +518,8 @@ class RestructuredText(JupyterMixin):
             footer_text = element
         if footer_text:
             yield from console.render(
-                Panel(
-                    footer_text,
-                    title="Footer",
-                    box=box.SQUARE,
-                    border_style=border_style,
-                    style=style
-                )
+                Panel(footer_text, title="Footer", box=box.SQUARE, border_style=border_style, style=style)
             )
-
-
 
 
 RST = ReStructuredText = reStructuredText = RestructuredText

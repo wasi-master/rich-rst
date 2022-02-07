@@ -82,9 +82,16 @@ parser.add_argument(
     default="python",
     help="The default lexer for code blocks without specified language if no lexer could be guessed or found",
 )
+parser.add_argument(
+    "-he",
+    "--hide-errors",
+    action="store_true",
+    dest="hide_errors",
+    default=False,
+    help="Whether to hide errors or not",
+)
 
-
-rgb = lambda r,g,b: (r,g,b)
+rgb = lambda r, g, b: (r, g, b)
 
 DRACULA_TERMINAL_THEME = TerminalTheme(
     rgb(40, 42, 54),
@@ -119,11 +126,16 @@ console = Console(force_terminal=args.force_color, width=args.width, record=bool
 
 if args.path == "-":
     code = sys.stdin.read()
-    rst = RestructuredText(code, code_theme=args.code_theme, guess_lexer=args.guess_lexer, default_lexer=args.default_lexer)
 else:
     with open(args.path, "rt", encoding=args.encoding) as code_file:
         code = code_file.read()
-    rst = RestructuredText(code, code_theme=args.code_theme, guess_lexer=args.guess_lexer, default_lexer=args.default_lexer)
+rst = RestructuredText(
+    code,
+    code_theme=args.code_theme,
+    guess_lexer=args.guess_lexer,
+    default_lexer=args.default_lexer,
+    show_errors=not args.hide_errors,
+)
 console.print(rst, soft_wrap=args.soft_wrap)
 
 if args.html_filename:
