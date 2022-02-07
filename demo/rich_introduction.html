@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<style>
+.r1 {font-weight: bold}
+.r2 {font-style: italic}
+.r3 {color: #ffffff; text-decoration-color: #ffffff; font-weight: bold}
+.r4 {color: #949494; text-decoration-color: #949494}
+.r5 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36}
+.r6 {background-color: #282a36}
+.r7 {color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212}
+.r8 {color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36}
+.r9 {color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic}
+.r10 {color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36}
+.r11 {color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36}
+.r12 {color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36}
+body {
+    color: #f8f8f2;
+    background-color: #282a36;
+}
+</style>
+</head>
+<html>
+<body>
+    <code>
+        <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                             Introduction                                                                              ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+Rich is a Python library for writing <span class="r2">rich</span> text (with color and style) to the terminal, and for displaying advanced content such as tables, markdown, and syntax highlight
+
+Use Rich to make your command line applications visually appealing and present data in a more readable way. Rich can also be a useful debugging aid by pretty printing 
+and syntax highlighting data structures.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                             Requirements                                                                              ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+Rich works with OSX, Linux and Windows.
+
+On Windows both the (ancient) cmd.exe terminal is supported and the new Windows Terminal. The latter has much improved support for color and style.
+
+Rich requires Python 3.6.1 and above. Note that Python 3.6.0 is <span class="r2">not</span> supported due to lack of support for methods on NamedTuples.
+
+<span class="r3">Note: PyCharm users will need to enable &quot;emulate terminal&quot; in output console option in run/debug configuration to see styled output.</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                             Installation                                                                              ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+You can install Rich from PyPI with pip or your favorite package manager:
+
+<span class="r4">┌─────────────────────────────────────────────────────────────────────────────── python ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r5">pip install rich</span><span class="r6">                                                                                                                                                     </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+Add the <span class="r7">-U</span> switch to update to the current version, if Rich is already installed.
+
+If you intend to use Rich with Jupyter then there are some additional dependencies which you can install with the following command:
+
+<span class="r4">┌─────────────────────────────────────────────────────────────────────────────── python ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r5">pip install rich[jupyter]</span><span class="r6">                                                                                                                                            </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                              Quick Start                                                                              ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+The quickest way to get up and running with Rich is to import the alternative <span class="r7">print</span> function which takes the same arguments as the built-in <span class="r7">print</span> and may be used as a dr
+
+<span class="r4">┌─────────────────────────────────────────────────────────────────────────────── python ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r8">from</span><span class="r5"> rich </span><span class="r8">import</span><span class="r5"> </span><span class="r9">print</span><span class="r6">                                                                                                                                               </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+You can then print strings or objects to the terminal in the usual way. Rich will do some basic syntax highlighting and format data structures to make them easier to 
+read.
+
+Strings may contain :ref:`console_markup` which can be used to insert color and styles in to the output.
+
+The following demonstrates both console markup and pretty formatting of Python objects:
+
+<span class="r4">┌─────────────────────────────────────────────────────────────────────────────── python ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> </span><span class="r9">print</span><span class="r5">(</span><span class="r10">&quot;[italic red]Hello[/italic red] World!&quot;</span><span class="r5">, </span><span class="r9">locals</span><span class="r5">())</span><span class="r6">                                                                                                         </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+This writes the following output to the terminal (including all the colors and styles):
+
+<span class="r4">┌────────────────────────────────────────────────────────────────────────── stripped raw html ──────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r5">Hello World!</span><span class="r6">                                                                                                                                                         </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">{</span><span class="r6">                                                                                                                                                                    </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">    </span><span class="r10">&#x27;__annotations__&#x27;</span><span class="r5">: {},</span><span class="r6">                                                                                                                                           </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">    </span><span class="r10">&#x27;__builtins__&#x27;</span><span class="r5">: </span><span class="r8">&lt;</span><span class="r5">module </span><span class="r10">&#x27;builtins&#x27;</span><span class="r5"> (built</span><span class="r8">-in</span><span class="r5">)</span><span class="r8">&gt;</span><span class="r5">,</span><span class="r6">                                                                                                                  </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">    </span><span class="r10">&#x27;__doc__&#x27;</span><span class="r5">: </span><span class="r8">None</span><span class="r5">,</span><span class="r6">                                                                                                                                                 </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">    </span><span class="r10">&#x27;__loader__&#x27;</span><span class="r5">: </span><span class="r8">&lt;class</span><span class="r5"> &#x27;</span><span class="r11">_frozen_importlib</span><span class="r8">.</span><span class="r5">BuiltinImporter</span><span class="r10">&#x27;&gt;,</span><span class="r6">                                                                                                       </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">    </span><span class="r10">&#x27;__name__&#x27;</span><span class="r5">: </span><span class="r10">&#x27;__main__&#x27;</span><span class="r5">,</span><span class="r6">                                                                                                                                          </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">    </span><span class="r10">&#x27;__package__&#x27;</span><span class="r5">: </span><span class="r8">None</span><span class="r5">,</span><span class="r6">                                                                                                                                             </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">    </span><span class="r10">&#x27;__spec__&#x27;</span><span class="r5">: </span><span class="r8">None</span><span class="r5">,</span><span class="r6">                                                                                                                                                </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">    </span><span class="r10">&#x27;print&#x27;</span><span class="r5">: </span><span class="r8">&lt;</span><span class="r5">function </span><span class="r9">print</span><span class="r5"> at </span><span class="r12">0x1027fd4c0</span><span class="r8">&gt;</span><span class="r5">,</span><span class="r6">                                                                                                                        </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">} </span><span class="r6">                                                                                                                                                                   </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+If you would rather not shadow Python&#x27;s built-in print, you can import <span class="r7">rich.print</span> as <span class="r7">rprint</span> (for example):
+
+<span class="r4">┌─────────────────────────────────────────────────────────────────────────────── python ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r8">from</span><span class="r5"> rich </span><span class="r8">import</span><span class="r5"> </span><span class="r9">print</span><span class="r5"> </span><span class="r8">as</span><span class="r5"> rprint</span><span class="r6">                                                                                                                                     </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+Continue reading to learn about the more advanced features of Rich.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                           Rich in the REPL                                                                            ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+Rich may be installed in the REPL so that Python data structures are automatically pretty printed with syntax highlighting. Here&#x27;s how:
+
+<span class="r4">┌─────────────────────────────────────────────────────────────────────────────── python ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> </span><span class="r8">from</span><span class="r5"> rich </span><span class="r8">import</span><span class="r5"> pretty</span><span class="r6">                                                                                                                                          </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> pretty</span><span class="r8">.</span><span class="r5">install()</span><span class="r6">                                                                                                                                                 </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> [</span><span class="r10">&quot;Rich and pretty&quot;</span><span class="r5">, </span><span class="r8">True</span><span class="r5">]</span><span class="r6">                                                                                                                                        </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+You can also use this feature to try out Rich <span class="r2">renderables</span>. Here&#x27;s an example:
+
+<span class="r4">┌─────────────────────────────────────────────────────────────────────────────── python ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> </span><span class="r8">from</span><span class="r5"> rich.panel </span><span class="r8">import</span><span class="r5"> Panel</span><span class="r6">                                                                                                                                     </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> Panel</span><span class="r8">.</span><span class="r5">fit(</span><span class="r10">&quot;[bold yellow]Hi, I&#x27;m a Panel&quot;</span><span class="r5">, border_style</span><span class="r8">=</span><span class="r10">&quot;red&quot;</span><span class="r5">)</span><span class="r6">                                                                                                    </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+Read on to learn more about Rich renderables.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                           IPython Extension                                                                           ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+Rich also includes an IPython extension that will do this same pretty install + pretty tracebacks. Here&#x27;s how to load it:
+
+<span class="r4">┌─────────────────────────────────────────────────────────────────────────────── python ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r5">In [</span><span class="r12">1</span><span class="r5">]: </span><span class="r8">%</span><span class="r5">load_ext rich</span><span class="r6">                                                                                                                                               </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+You can also have it load by default by adding &quot;rich&quot; to the <span class="r7">c.InteractiveShellApp.extension</span> variable in IPython Configuration.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                             Rich Inspect                                                                              ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+Rich has an :meth:`~rich.inspect` function which can generate a report on any Python object. It is a fantastic debug aid, and a good example of the output that Rich can 
+example:
+
+<span class="r4">┌─────────────────────────────────────────────────────────────────────────────── python ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> </span><span class="r8">from</span><span class="r5"> rich </span><span class="r8">import</span><span class="r5"> inspect</span><span class="r6">                                                                                                                                         </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> </span><span class="r8">from</span><span class="r5"> rich.color </span><span class="r8">import</span><span class="r5"> Color</span><span class="r6">                                                                                                                                     </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> color </span><span class="r8">=</span><span class="r5"> Color</span><span class="r8">.</span><span class="r5">parse(</span><span class="r10">&quot;red&quot;</span><span class="r5">)</span><span class="r6">                                                                                                                                       </span> <span class="r4">│</span>
+<span class="r4">│</span> <span class="r8">&gt;&gt;&gt;</span><span class="r5"> inspect(color, methods</span><span class="r8">=True</span><span class="r5">)</span><span class="r6">                                                                                                                                     </span> <span class="r4">│</span>
+<span class="r4">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+</pre>
+    </code>
+</body>
+</html>
