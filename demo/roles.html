@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<style>
+.r1 {font-weight: bold}
+.r2 {color: #bcbcbc; text-decoration-color: #bcbcbc}
+.r3 {color: #949494; text-decoration-color: #949494}
+.r4 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36}
+.r5 {color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic}
+.r6 {background-color: #282a36}
+.r7 {color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36}
+.r8 {color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212}
+.r9 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; text-decoration: underline}
+.r10 {color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36}
+.r11 {font-style: italic}
+.r12 {color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36}
+.r13 {color: #8be9fd; text-decoration-color: #8be9fd}
+.r14 {color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold}
+.r15 {color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold}
+body {
+    color: #f8f8f2;
+    background-color: #282a36;
+}
+</style>
+</head>
+<html>
+<body>
+    <code>
+        <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                reStructuredText Interpreted Text Roles                                                                ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─── Author ────╮</span>
+<span class="r2">│</span> David Goodger <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─────────────── Contact ────────────────╮</span>
+<span class="r2">│</span> docutils-develop@lists.sourceforge.net <span class="r2">│</span>
+<span class="r2">╰────────────────────────────────────────╯</span>
+<span class="r2">╭──── Revision ─────╮</span>
+<span class="r2">│</span> $Revision: 8959 $ <span class="r2">│</span>
+<span class="r2">╰───────────────────╯</span>
+<span class="r2">╭───────────────────────── Date ─────────────────────────╮</span>
+<span class="r2">│</span> $Date: 2022-01-21 14:45:42 +0100 (Fr, 21. JÃ¤n 2022) $ <span class="r2">│</span>
+<span class="r2">╰────────────────────────────────────────────────────────╯</span>
+<span class="r2">╭───────────────────── Copyright ─────────────────────╮</span>
+<span class="r2">│</span> This document has been placed in the public domain. <span class="r2">│</span>
+<span class="r2">╰─────────────────────────────────────────────────────╯</span>
+This document describes the interpreted text roles implemented in the reference reStructuredText parser.
+
+Interpreted text uses backquotes (`) around the text.  An explicit role marker may optionally appear before or after the text, delimited with colons.  For example:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">This is </span><span class="r5">`interpreted text`</span><span class="r4"> using the default role.</span><span class="r6">                                                                                                                   </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r6">                                                                                                                                                                     </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">This is </span><span class="r7">:title:</span><span class="r5">`interpreted text`</span><span class="r4"> using an explicit role.</span><span class="r6">                                                                                                            </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+A default role may be defined by applications of reStructuredText; it is used if no explicit <span class="r8">:role:</span> prefix or suffix is given.  The &quot;default default role&quot; is :title-refe
+
+See the Interpreted Text section in the reStructuredText Markup Specification for syntax details.  For details on the hierarchy of elements, please see The Docutils Docu
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                               Contents                                                                                ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                             Customization                                                                             ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+Custom interpreted text roles may be defined in a document with the &quot;role&quot; directive.  Customization details are listed with each role.
+
+A <span class="r8">class</span> option is recognized by the &quot;role&quot; directive for most interpreted text roles.  A description is provided in the &quot;role&quot; directive documentation.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                            Standard Roles                                                                             ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                              :emphasis:                                                                               ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> None      <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> emphasis      <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class.          <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+Implements emphasis.  These are equivalent:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r9">*text*</span><span class="r6">                                                                                                                                                               </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r7">:emphasis:</span><span class="r5">`text`</span><span class="r6">                                                                                                                                                     </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                               :literal:                                                                               ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> None      <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> literal       <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class.          <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+Implements inline literal text.  These are equivalent:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r10">``text``</span><span class="r6">                                                                                                                                                             </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r7">:literal:</span><span class="r5">`text`</span><span class="r6">                                                                                                                                                      </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+Care must be taken with backslash-escapes though.  These are <span class="r11">not</span> equivalent:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r10">``text \ and \ backslashes``</span><span class="r6">                                                                                                                                         </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r7">:literal:</span><span class="r5">`text \ and \ backslashes`</span><span class="r6">                                                                                                                                  </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+The backslashes in the first line are preserved (and do nothing), whereas the backslashes in the second line escape the following spaces.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                                :code:                                                                                 ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> None      <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> literal       <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class, language <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+(New in Docutils 0.9.)
+
+The <span class="r8">code</span> role marks its content as code in a formal language.
+
+For syntax highlight of inline code, the &quot;role&quot; directive can be used to build custom roles with the code language specified in the &quot;language&quot; option.
+
+For example, the following creates a LaTeX-specific &quot;latex&quot; role:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">.. </span><span class="r12">role</span><span class="r4">:: latex(code)</span><span class="r6">                                                                                                                                                </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">   </span><span class="r7">:language:</span><span class="r4"> latex</span><span class="r6">                                                                                                                                                  </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+Content of the new role is parsed and tagged by the Pygments syntax highlighter. See the code directive for more info on parsing and display of code in reStructuredText.
+
+In addition to &quot;class&quot;, the following option is recognized:
+
+    language : <span class="r13">text</span>
+      Name of the code&#x27;s language. See supported languages and markup formats for recognized values.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                                :math:                                                                                 ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> None      <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> math          <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class           <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+(New in Docutils 0.8.)
+
+The <span class="r8">math</span> role marks its content as mathematical notation (inline formula).
+
+The input format is LaTeX math syntax without the â€œmath delimitersâ€œ (<span class="r8">$ $</span>), for example:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">The area of a circle is </span><span class="r7">:math:</span><span class="r5">`A_\text{c} = (\pi/4) d^2`</span><span class="r4">.</span><span class="r6">                                                                                                            </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+See the math directive (producing display formulas) for more info on mathematical notation in reStructuredText.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                            :pep-reference:                                                                            ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> :PEP:     <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> reference     <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class.          <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+The <span class="r8">:pep-reference:</span> role is used to create an HTTP reference to a PEP (Python Enhancement Proposal).  The <span class="r8">:PEP:</span> alias is usually used.  The content must be a number, for
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">See </span><span class="r7">:PEP:</span><span class="r5">`287`</span><span class="r4"> for more information about reStructuredText.</span><span class="r6">                                                                                                          </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+This is equivalent to:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">See </span><span class="r10">`PEP 287`__</span><span class="r4"> for more information about reStructuredText.</span><span class="r6">                                                                                                         </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r6">                                                                                                                                                                     </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">__ https://www.python.org/dev/peps/pep-0287</span><span class="r6">                                                                                                                          </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                            :rfc-reference:                                                                            ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> :RFC:     <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> reference     <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class.          <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+The <span class="r8">:rfc-reference:</span> role is used to create an HTTP reference to an RFC (Internet Request for Comments).  The <span class="r8">:RFC:</span> alias is usually used.  The content must be a number ,
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">See </span><span class="r7">:RFC:</span><span class="r5">`2822`</span><span class="r4"> for information about email headers.</span><span class="r6">                                                                                                                 </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+This is equivalent to:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">See </span><span class="r10">`RFC 2822`__</span><span class="r4"> for information about email headers.</span><span class="r6">                                                                                                                </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r6">                                                                                                                                                                     </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">__ https://tools.ietf.org/html/rfc2822.html</span><span class="r6">                                                                                                                          </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                               :strong:                                                                                ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> None      <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> strong        <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class.          <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+Implements strong emphasis.  These are equivalent:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">**text**</span><span class="r6">                                                                                                                                                             </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r7">:strong:</span><span class="r5">`text`</span><span class="r6">                                                                                                                                                       </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                              :subscript:                                                                              ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> :sub:     <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> subscript     <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class.          <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+Implements subscripts.
+
+<span class="r14">Tip: Whitespace or punctuation is required around interpreted text, but often not desired with subscripts &amp; superscripts. Backslash-escaped whitespace can be used; the </span>
+<span class="r14">whitespace will be removed from the processed document::      H\ :sub:`2`\ O     E = mc\ :sup:`2`  In such cases, readability of the plain text can be greatly improved </span>
+<span class="r14">with substitutions::      The chemical formula for pure water is |H2O|.      .. |H2O| replace:: H\ :sub:`2`\ O  See `the reStructuredText spec`__ for further information</span>
+<span class="r14">on `character-level markup`__ and `the substitution mechanism`__.  __ restructuredtext.html __ restructuredtext.html#character-level-inline-markup __ </span>
+<span class="r14">restructuredtext.html#substitution-references</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                             :superscript:                                                                             ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> :sup:     <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> superscript   <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class.          <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+Implements superscripts.  See the tip in :subscript: above.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                           :title-reference:                                                                           ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─── Aliases ───╮</span>
+<span class="r2">│</span> :title:, :t:. <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭── DTD Element ──╮</span>
+<span class="r2">│</span> title_reference <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class.          <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None.           <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+The <span class="r8">:title-reference:</span> role is used to describe the titles of books, periodicals, and other materials.  It is the equivalent of the HTML &quot;cite&quot; element, and it is expecte
+will typically render &quot;title_reference&quot; elements using &quot;cite&quot;.
+
+Since title references are typically rendered with italics, they are often marked up using <span class="r8">*emphasis*</span>, which is misleading and vague. The &quot;title_reference&quot; element provi
+
+Let&#x27;s assume <span class="r8">:title-reference:</span> is the default interpreted text role (see below) for this example:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r5">`Design Patterns`</span><span class="r4"> </span><span class="r10">[GoF95]_</span><span class="r4"> is an excellent read.</span><span class="r6">                                                                                                                     </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+The following document fragment (pseudo-XML) will result from processing:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r12">&lt;paragraph&gt;</span><span class="r6">                                                                                                                                                          </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">    &lt;title_reference&gt;</span><span class="r6">                                                                                                                                                </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">        Design Patterns</span><span class="r6">                                                                                                                                              </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r6">                                                                                                                                                                     </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">    &lt;citation_reference refname=&quot;gof95&quot;&gt;</span><span class="r6">                                                                                                                             </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">        GoF95</span><span class="r6">                                                                                                                                                        </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">     is an excellent read.</span><span class="r6">                                                                                                                                           </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r8">:title-reference:</span> is the default interpreted text role in the standard reStructuredText parser.  This means that no explicit role is required.  Applications of reStructu
+designate a different default role, in which case the explicit <span class="r8">:title-reference:</span> role must be used to obtain a <span class="r8">title_reference</span> element.
+
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                           Specialized Roles                                                                           ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r1">╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                                                  raw                                                                                  ║</span>
+<span class="r1">╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">╭─ Aliases ─╮</span>
+<span class="r2">│</span> None      <span class="r2">│</span>
+<span class="r2">╰───────────╯</span>
+<span class="r2">╭─ DTD Element ─╮</span>
+<span class="r2">│</span> raw           <span class="r2">│</span>
+<span class="r2">╰───────────────╯</span>
+<span class="r2">╭─ Customization ─╮</span>
+<span class="r2">│</span> Options         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> class, format   <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> Content         <span class="r2">│</span>
+<span class="r2">│</span>                 <span class="r2">│</span>
+<span class="r2">│</span> None            <span class="r2">│</span>
+<span class="r2">╰─────────────────╯</span>
+<span class="r15">Warning: The &quot;raw&quot; role is a stop-gap measure allowing the author to bypass reStructuredText&#x27;s markup.  It is a &quot;power-user&quot; feature that should not be overused or </span>
+<span class="r15">abused.  The use of &quot;raw&quot; ties documents to specific output formats and makes them less portable.  If you often need to use &quot;raw&quot;-derived interpreted text roles or the </span>
+<span class="r15">&quot;raw&quot; directive, that is a sign either of overuse/abuse or that functionality may be missing from reStructuredText.  Please describe your situation in a message to the </span>
+<span class="r15">Docutils-users_ mailing list.  .. _Docutils-users: ../../user/mailing-lists.html#docutils-user</span>
+The &quot;raw&quot; role indicates non-reStructuredText data that is to be passed untouched to the Writer.  It is the inline equivalent of the &quot;raw&quot; directive; see its documentati
+
+The &quot;raw&quot; role cannot be used directly.  The &quot;role&quot; directive must first be used to build custom roles based on the &quot;raw&quot; role.  One or more formats (Writer names) must 
+
+For example, the following creates an HTML-specific &quot;raw-html&quot; role:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">.. </span><span class="r12">role</span><span class="r4">:: raw-html(raw)</span><span class="r6">                                                                                                                                              </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">   </span><span class="r7">:format:</span><span class="r4"> html</span><span class="r6">                                                                                                                                                     </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+This role can now be used directly to pass data untouched to the HTML Writer.  For example:
+
+<span class="r3">┌───────────────────────────────────────────────────────────────────────────────── rst ─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">If there just </span><span class="r9">*has*</span><span class="r4"> to be a line break here,</span><span class="r6">                                                                                                                         </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r7">:raw-html:</span><span class="r5">`&lt;br /&gt;`</span><span class="r6">                                                                                                                                                   </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">it can be accomplished with a &quot;raw&quot;-derived role.</span><span class="r6">                                                                                                                    </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">But the line block syntax should be considered first.</span><span class="r6">                                                                                                                </span> <span class="r3">│</span>
+<span class="r3">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r14">Tip: Roles based on &quot;raw&quot; should clearly indicate their origin, so they are not mistaken for reStructuredText markup.  Using a &quot;raw-&quot; prefix for role names is </span>
+<span class="r14">recommended.</span>
+In addition to &quot;class&quot;, the following option is recognized:
+
+    format : <span class="r13">text</span>
+      One or more space-separated output format names (Writer names).
+
+<span class="r2">┌─────────────────────────────────────────────────────────────────────────────── Footer ────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="r2">│</span>                                                   You can link to a specific section by saying                                                                        <span class="r2">│</span>
+<span class="r2">│</span>                                                   :rfc:`number#anchor`. (New in Docutils 0.15.)                                                                       <span class="r2">│</span>
+<span class="r2">│</span>                                                                                                                                                                       <span class="r2">│</span>
+<span class="r2">│</span>                                                   The anchor (anything following a #) is appended to                                                                  <span class="r2">│</span>
+<span class="r2">│</span>                                                   the reference without any checks and not shown in the link text.                                                    <span class="r2">│</span>
+<span class="r2">│</span>                                                                                                                                                                       <span class="r2">│</span>
+<span class="r2">│</span>                                                   It is recommended to use hyperlink references for                                                                   <span class="r2">│</span>
+<span class="r2">│</span>                                                   anything more complex than a single RFC number.                                                                     <span class="r2">│</span>
+<span class="r2">└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+</pre>
+    </code>
+</body>
+</html>
