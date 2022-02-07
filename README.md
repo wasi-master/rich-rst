@@ -122,3 +122,9 @@ print(RestructuredText(docs, code_theme="dracula", show_errors=False))
 - Fix default lexer not being used sometimes
 - Improve formatting for html with raw tag
 - Add hide-error option for the CLI
+
+## [1.1.2]
+
+- Admonitions are now shown inside panels
+- Fields are now shown inside tables
+- Default value for guess_lexer is now False

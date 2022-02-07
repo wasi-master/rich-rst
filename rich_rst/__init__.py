@@ -24,6 +24,7 @@ from rich.panel import Panel
 from rich.style import Style
 from rich.syntax import Syntax, SyntaxTheme
 from rich.text import Text
+from rich.table import Table
 from rich.traceback import install
 from rich.rule import Rule
 
@@ -32,7 +33,7 @@ from pygments.util import ClassNotFound
 
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 install()
 
@@ -105,6 +106,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             return lexer
         return lexer
 
+
+
     def visit_paragraph(self, node):
         if hasattr(node, "parent") and isinstance(node.parent, docutils.nodes.system_message):
             self.visit_system_message(node.parent)
@@ -126,52 +129,52 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_admonition(self, node):
         style = self.console.get_style("restructuredtext.admonition", default="bold white")
-        self.renderables.append(Text("Attention: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Admonition: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_attention(self, node):
         style = self.console.get_style("restructuredtext.attention", default="bold black on yellow")
-        self.renderables.append(Text("Attention: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Attention: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_caution(self, node):
         style = self.console.get_style("restructuredtext.caution", default="white on red")
-        self.renderables.append(Text("Caution: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Caution: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_danger(self, node):
         style = self.console.get_style("restructuredtext.danger", default="bold white on red")
-        self.renderables.append(Text("DANGER: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="DANGER: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_error(self, node):
         style = self.console.get_style("restructuredtext.error", default="bold red")
-        self.renderables.append(Text("ERROR: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="ERROR: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_hint(self, node):
         style = self.console.get_style("restructuredtext.hint", default="yellow")
-        self.renderables.append(Text("Hint: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Hint: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_important(self, node):
         style = self.console.get_style("restructuredtext.important", default="bold blue")
-        self.renderables.append(Text("IMPORTANT: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="IMPORTANT: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_note(self, node):
         style = self.console.get_style("restructuredtext.note", default="bold white")
-        self.renderables.append(Text("Note: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Note: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_tip(self, node):
         style = self.console.get_style("restructuredtext.tip", default="bold green")
-        self.renderables.append(Text("Tip: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Tip: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_warning(self, node):
         style = self.console.get_style("restructuredtext.warning", default="bold yellow")
-        self.renderables.append(Text("Warning: " + node.rawsource.replace("\n", " ").strip(), style=style))
+        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Warning: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_subscript(self, node):
@@ -233,10 +236,10 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_enumerated_list(self, node):
-        marker_style = self.console.get_style("restructuredtext.enumerated_list_marker", default="none")
+        marker_style = self.console.get_style("restructuredtext.enumerated_list_marker", default="bold yellow")
         text_style = self.console.get_style("restructuredtext.enumerated_text", default="none")
         for i, list_item in enumerate(node.children, 1):
-            self.renderables.append(Text(f" {i}.", end=" ", style=marker_style))
+            self.renderables.append(Text(f" {i}", end=" ", style=marker_style))
             self.renderables.append(Text(list_item.astext(), style=text_style))
 
         self.renderables.append(Text())
@@ -268,16 +271,25 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_field(self, node):
-        border_style = self.console.get_style("restructuredtext.field_border", default="grey74")
-        text_style = self.console.get_style("restructuredtext.field_text", default="none")
-        self.renderables.append(
-            Panel(
-                Text(node.children[1].astext(), style=text_style),
-                title=node.children[0].astext(),
-                expand=False,
-                border_style=border_style,
-            )
-        )
+        field_name_style = self.console.get_style("restructuredtext.field_name", default="bold")
+        field_value_style = self.console.get_style("restructuredtext.field_value", default="none")
+        previous_table = None
+        if isinstance(self.renderables[-1], Table):
+            possible_table = self.renderables[-1]
+            if (possible_table.columns[0].header == "Field Name") and (possible_table.columns[1].header == "Field Value"):
+                table = possible_table
+                previous_table = True
+            else:
+                table = Table("Field Name", "Field Value", show_lines=True)
+                previous_table = False
+        else:
+            previous_table = False
+        if previous_table is False:
+            table = Table("Field Name", "Field Value", show_lines=True)
+            table.add_row(Text(node.children[0].astext(), style=field_name_style), Text(node.children[1].astext(), style=field_value_style))
+            self.renderables.append(table)
+        else:
+            table.add_row(Text(node.children[0].astext(), style=field_name_style), Text(node.children[1].astext(), style=field_value_style))
         raise docutils.nodes.SkipChildren()
 
     def visit_definition_list(self, node):
@@ -462,7 +474,7 @@ class RestructuredText(JupyterMixin):
         markup: str,
         code_theme: Optional[Union[str, SyntaxTheme]] = "monokai",
         show_errors: Optional[bool] = True,
-        guess_lexer: Optional[bool] = True,
+        guess_lexer: Optional[bool] = False,
         default_lexer: Optional[str] = "python",
     ) -> None:
         """A reStructuredText renderable for rich.
