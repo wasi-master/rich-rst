@@ -1,5 +1,7 @@
 # rich-rst
 
+[![Documentation Status](https://readthedocs.org/projects/rich-rst/badge/?version=latest)](https://rich-rst.readthedocs.io/en/latest/?badge=latest)
+
 Allows [rich](https://rich.readthedocs.io/en/latest/introduction.html) to print a [reStructuredText](https://docutils.sourceforge.io/rst.html) document in a rich format similar to [`rich.Markdown`](https://rich.readthedocs.io/en/latest/reference/markdown.html).
 
 ## Features
@@ -24,7 +26,7 @@ For more help see `python -m rich_rst --help`
 
 ## Usage
 
-> Note: There are some aliases: RST, ReStructuredText, reStructuredText, RestructuredText
+> Note: There are some aliases: RST, reST, ReStructuredText, reStructuredText, RestructuredText
 
 ```python
 from rich_rst import RestructuredText
