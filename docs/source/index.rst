@@ -30,7 +30,7 @@ If you want to live on the edge and install from master branch that may be unsta
 
    python -m pip install "git+https://github.com/wasi-master/rich-rst"
 
-Here, you may need to replace ``python`` with ``python3` `on Linux and Mac and with ```py`` on Windows
+Here, you may need to replace ``python`` with ``python3`` on Linux and Mac and with ``py`` on Windows
 
 Usage
 ~~~~~
