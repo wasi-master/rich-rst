@@ -52,7 +52,7 @@ templates_path = ['_templates']
 exclude_patterns = []
 
 # For readthedocs
-master_doc = 'contents'
+master_doc = 'index'
 
 # -- Options for HTML output -------------------------------------------------
 
