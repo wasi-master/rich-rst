@@ -128,3 +128,21 @@ print(RestructuredText(docs, code_theme="dracula", show_errors=False))
 - Admonitions are now shown inside panels
 - Fields are now shown inside tables
 - Default value for guess_lexer is now False
+
+## [1.1.3]
+
+### Bugs
+
+- Change caution style from `white on red` to just `red`
+- Fix line breaks for enumerated lists and bullet lists
+
+### New Features
+
+- Add a filename parameter to the `RestructuredText` class
+- Add another alias `reST`
+
+### CLI
+
+- Add new parameter for setting custom html width for word wrapping
+- Add custom html layout for custom selection color, max width and font
+- System messages now use the file name instead of `<string>`

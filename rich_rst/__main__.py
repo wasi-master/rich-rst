@@ -35,6 +35,14 @@ parser.add_argument(
     help="width of output (default will auto-detect)",
 )
 parser.add_argument(
+    "-hw",
+    "--html-width",
+    type=str,
+    dest="html_width",
+    default="1675px",
+    help="width of html output (default: 1675px)",
+)
+parser.add_argument(
     "-t",
     "--code-theme",
     dest="code_theme",
@@ -90,6 +98,7 @@ parser.add_argument(
     default=False,
     help="Whether to hide errors or not",
 )
+args = parser.parse_args()
 
 rgb = lambda r, g, b: (r, g, b)
 
@@ -118,7 +127,43 @@ DRACULA_TERMINAL_THEME = TerminalTheme(
     ],
 )
 
-args = parser.parse_args()
+CONSOLE_HTML_FORMAT = """\
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<style>
+{stylesheet}
+body {{
+    color: {foreground};
+    background-color: {background};
+    max-width: """+args.html_width+"""
+}}
+pre {{
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}}
+::-moz-selection {{ /* Code for Firefox */
+  background: #44475a;
+}}
+
+::selection {{
+  background: #44475a;
+}}
+
+</style>
+</head>
+<html>
+<body>
+    <code>
+        <pre style="font-family:ui-monospace,'Fira Code',Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">{code}</pre>
+    </code>
+</body>
+</html>
+"""
+
 
 from rich.console import Console
 
@@ -135,8 +180,9 @@ rst = RestructuredText(
     guess_lexer=args.guess_lexer,
     default_lexer=args.default_lexer,
     show_errors=not args.hide_errors,
+    filename=args.path if args.path != "-" else "<stdin>",
 )
 console.print(rst, soft_wrap=args.soft_wrap)
 
 if args.html_filename:
-    console.save_html(args.html_filename, theme=DRACULA_TERMINAL_THEME)
+    console.save_html(args.html_filename, theme=DRACULA_TERMINAL_THEME, code_format=CONSOLE_HTML_FORMAT)

@@ -39,6 +39,7 @@ install()
 
 
 class MLStripper(HTMLParser):
+    """Utility class to strip out html for raw html source"""
     def __init__(self):
         super().__init__()
         self.reset()
@@ -138,7 +139,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_caution(self, node):
-        style = self.console.get_style("restructuredtext.caution", default="white on red")
+        style = self.console.get_style("restructuredtext.caution", default="red")
         self.renderables.append(Panel(node.astext().replace("\n", " "), title="Caution: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
@@ -225,13 +226,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if nested_list:
                 for list_item in list_item.children:
                     self.renderables.append(Text("  ", end="") + Text(" ∘ ", end="", style=marker_style))
-                    self.renderables.append(Text(list_item.astext(), style=text_style))
+                    self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
                     if isinstance(list_item, docutils.nodes.bullet_list):
                         for list_item in list_item.children:
                             self.renderables.append(Text("    ", end="") + Text(" ▪ ", end="", style=marker_style))
-                            self.renderables.append(Text(list_item.astext(), style=text_style))
+                            self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
             self.renderables.append(Text(" • ", end="", style=marker_style))
-            self.renderables.append(Text(list_item.astext(), style=text_style))
+            self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
         self.renderables.append(Text())
         raise docutils.nodes.SkipChildren()
 
@@ -240,7 +241,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         text_style = self.console.get_style("restructuredtext.enumerated_text", default="none")
         for i, list_item in enumerate(node.children, 1):
             self.renderables.append(Text(f" {i}", end=" ", style=marker_style))
-            self.renderables.append(Text(list_item.astext(), style=text_style))
+            self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
 
         self.renderables.append(Text())
         raise docutils.nodes.SkipChildren()
@@ -467,7 +468,23 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
 
 class RestructuredText(JupyterMixin):
-    """A reStructuredText renderable for rich."""
+    """A reStructuredText renderable for rich.
+
+    Parameters
+    ----------
+    markup : str
+        A string containing reStructuredText markup.
+    code_theme : Optional[Union[str, SyntaxTheme]]
+        Pygments theme for code blocks. Defaults to "monokai".
+    show_errors : Optional[bool]
+        Whether to show system_messages aka errors and warnings.
+    guess_lexer : Optional[bool]
+        Whether to guess lexers for code blocks without specified language.
+    default_lexer : Optional[str]
+        Which lexer to use if no lexer is guessed or found. Defaults to "python"
+    filename : Optional[str]
+        A file name to use for error messages, useful for debugging purposes. Defaults to "<rst-document>"
+    """
 
     def __init__(
         self,
@@ -476,27 +493,14 @@ class RestructuredText(JupyterMixin):
         show_errors: Optional[bool] = True,
         guess_lexer: Optional[bool] = False,
         default_lexer: Optional[str] = "python",
+        filename: Optional[str] = "<rst-document>"
     ) -> None:
-        """A reStructuredText renderable for rich.
-
-        Parameters
-        ----------
-        markup : str
-            A string containing reStructuredText markup.
-        code_theme : Optional[Union[str, SyntaxTheme]]
-            Pygments theme for code blocks. Defaults to "monokai".
-        show_errors : Optional[bool]
-            Whether to show system_messages aka errors and warnings.
-        guess_lexer : Optional[bool]
-            Whether to guess lexers for code blocks without specified language.
-        default_lexer : Optional[str]
-            Which lexer to use if no lexer is guessed or found. Defaults to "python"
-        """
         self.markup = markup
         self.code_theme = code_theme
         self.log_errors = show_errors
         self.guess_lexer = guess_lexer
         self.default_lexer = default_lexer
+        self.filename = filename
 
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
         # Parse the `markup` into a RST `document`.
@@ -504,7 +508,7 @@ class RestructuredText(JupyterMixin):
         settings = option_parser.get_default_values()
         settings.report_level = 69
         source = docutils.io.StringInput(self.markup)
-        document = docutils.utils.new_document(source.source_path, settings)
+        document = docutils.utils.new_document(self.filename, settings)
         rst_parser = docutils.parsers.rst.Parser()
         rst_parser.parse(source.read(), document)
 
@@ -534,4 +538,4 @@ class RestructuredText(JupyterMixin):
             )
 
 
-RST = ReStructuredText = reStructuredText = RestructuredText
+RST = reST = ReStructuredText = reStructuredText = RestructuredText
