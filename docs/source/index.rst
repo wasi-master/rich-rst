@@ -41,13 +41,12 @@ If you want to print a RST document then you can use the following code
    import rich
    from rich_rst import RestructuredText
 
-   # Documentation for discord.py: https://pypi.org/project/discord.py
-   docs = "Hello *World!*"
+   rst_text = "Hello *World!*"
 
-   rich.print(RestructuredText(docs, code_theme="dracula", show_errors=False))
+   rich.print(RestructuredText(rst_text, code_theme="dracula", show_errors=False))
 
-Here docs is just a example and you should change it to your desired RST text.
-The parameters are documented in :doc:`documentation <./documentation>`
+Here rst_text is just a example and you should change it to your desired RST text.
+The parameters for the constructor are documented in :doc:`documentation <./documentation>`
 
 Contributing
 ~~~~~~~~~~~~
