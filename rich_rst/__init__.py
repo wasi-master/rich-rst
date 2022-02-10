@@ -33,7 +33,7 @@ from pygments.util import ClassNotFound
 
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
-__version__ = "1.1.4"
+__version__ = "1.1.5"
 
 install()
 
@@ -114,7 +114,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.visit_system_message(node.parent)
 
     def depart_paragraph(self, node):  # pylint: disable=unused-argument
-        self.renderables.append(Text("\n"))
+        if isinstance(self.renderables[-1], Text):
+            if len(self.renderables[-1].end) == 0:
+                self.renderables[-1].append("\n\n")
 
     def visit_title(self, node):
         style = self.console.get_style("restructuredtext.title", default="bold")
@@ -265,13 +267,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.inline_codeblock", default="grey78 on grey7")
         if isinstance(self.renderables[-1], Text):
             self.renderables[-1].append(Text(node.astext().replace("\n", " "), style=style, end=" "))
-            print(node.astext())
             raise docutils.nodes.SkipChildren()
         self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
     def visit_literal_block(self, node):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
+        if isinstance(self.renderables[-1], Text):
+            self.renderables[-1].rstrip()
+            self.renderables[-1].append(Text("\n"))
         lexer = self._find_lexer(node)
         self.renderables.append(
             Panel(Syntax(node.astext(), lexer, theme=self.code_theme), border_style=style, box=box.SQUARE, title=lexer)
