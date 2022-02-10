@@ -97,3 +97,10 @@
 ## [1.1.4]
 
 - Fix text being truncated (https://github.com/wasi-master/rich-rst/issues/1)
+- Doctest blocks now use the `pycon` lexer rather than the default `python` lexer since the `pycon` lexer is especially made for console sessions
+
+## [1.1.5]
+
+- Fix a debug print message showing up
+- Fix paragraphs not having adequate separation
+- Fix code blocks having too much separation
