@@ -118,9 +118,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if len(self.renderables[-1].end) == 0:
                 self.renderables[-1].append("\n\n")
 
-    def visit_compact_paragraph(self, node):
-        rich.inspect(node)
-
     def visit_title(self, node):
         style = self.console.get_style("restructuredtext.title", default="bold")
         self.renderables.append(Panel(Align(node.astext(), "center"), box=box.DOUBLE, style=style))
