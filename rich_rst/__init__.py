@@ -33,7 +33,7 @@ from pygments.util import ClassNotFound
 
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
-__version__ = "1.1.5"
+__version__ = "1.1.6"
 
 install()
 
