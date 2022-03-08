@@ -33,7 +33,7 @@ from pygments.util import ClassNotFound
 
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
-__version__ = "1.1.6"
+__version__ = "1.1.7"
 
 install()
 
@@ -124,7 +124,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_Text(self, node):
-        style = self.console.get_style("restructuredtext.text", default="none")
+        style = self.console.get_style("restructuredtext.text", default="default on default")
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].append(Text(node.astext().replace("\n", " "), style=style, end=" "))
             return
@@ -325,15 +325,24 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 term, classifier, definitions = child.children
             except ValueError:
                 term, classifier = child.children[0], child.children[1]
-                for children in child.children[2:]:
-                    if isinstance(children, docutils.nodes.bullet_list):
-                        self.visit_bullet_list(children)
-                    elif isinstance(children, docutils.nodes.literal_block):
-                        self.visit_literal_block(children)
-                    elif isinstance(children, docutils.nodes.literal):
-                        self.visit_literal(children)
-                    elif isinstance(children, docutils.nodes.block_quote):
-                        self.visit_block_quote(children)
+                if len(child.children) > 2:
+                    for children in child.children[2:]:
+                        if isinstance(children, docutils.nodes.bullet_list):
+                            self.visit_bullet_list(children)
+                        elif isinstance(children, docutils.nodes.literal_block):
+                            self.visit_literal_block(children)
+                        elif isinstance(children, docutils.nodes.literal):
+                            self.visit_literal(children)
+                        elif isinstance(children, docutils.nodes.block_quote):
+                            self.visit_block_quote(children)
+                else:
+
+                    self.renderables.append(
+                        Text.from_markup(f"[{classifier_style}]{term.astext()}[/{classifier_style}]")
+                        + Text("\n    ", end="")
+                        + Text(classifier.astext().replace("\n", " "), style=definitions_style)
+                        + Text("\n      ", end="")
+                    )
             else:
                 self.renderables.append(
                     Text("    ")
@@ -397,7 +406,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         try:
             paragraph, attribution = node.children
         except ValueError:
-            pass  # If there isn't a paragraph and a attribution then it's most likely not a blockquote
+            paragraph ,= node.children
+            self.renderables.append(
+                Text("    ")
+                + Text(paragraph.astext().replace('\n', ' '), style=text_style)
+                + Text("\n\n")
+            )
         else:
             self.renderables.append(
                 Text("▌ ", style=marker_style)

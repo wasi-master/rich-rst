@@ -104,3 +104,12 @@
 - Fix a debug print message showing up
 - Fix paragraphs not having adequate separation
 - Fix code blocks having too much separation
+
+## [1.1.6]
+
+- Fix a issue where if a document started with bare text (not headers) then it would crash
+
+## [1.1.7]
+
+- Fix entire text being showed as a inline codeblock when only the first text is
+- Fix https://github.com/Textualize/rich-cli/issues/31
