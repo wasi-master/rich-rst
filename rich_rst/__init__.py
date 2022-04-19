@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """
 reStructuredText parser for rich
 
@@ -8,28 +7,32 @@ There are a lot of improvements are added by me
 """
 from html.parser import HTMLParser
 from io import StringIO
-from typing import Optional, Union
+from typing import Optional
+from typing import Union
 
-# Imports from docutils package for the parsing
 import docutils.io
 import docutils.nodes
 import docutils.parsers.rst
 import docutils.utils
-# Imports from the rich package for the printing
 import rich
 from pygments.lexers import guess_lexer
 from pygments.util import ClassNotFound
 from rich import box
 from rich.align import Align
-from rich.console import Console, ConsoleOptions, RenderResult
+from rich.console import Console
+from rich.console import ConsoleOptions
+from rich.console import RenderResult
 from rich.jupyter import JupyterMixin
 from rich.panel import Panel
 from rich.rule import Rule
 from rich.style import Style
-from rich.syntax import Syntax, SyntaxTheme
+from rich.syntax import Syntax
+from rich.syntax import SyntaxTheme
 from rich.table import Table
 from rich.text import Text
 from rich.traceback import install
+# Imports from docutils package for the parsing
+# Imports from the rich package for the printing
 
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
