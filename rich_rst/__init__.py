@@ -6,8 +6,8 @@ reStructuredText parser for rich
 Initial few lines gotten from: https://github.com/willmcgugan/rich/discussions/1263#discussioncomment-808898
 There are a lot of improvements are added by me
 """
-from io import StringIO
 from html.parser import HTMLParser
+from io import StringIO
 from typing import Optional, Union
 
 # Imports from docutils package for the parsing
@@ -15,23 +15,21 @@ import docutils.io
 import docutils.nodes
 import docutils.parsers.rst
 import docutils.utils
-
 # Imports from the rich package for the printing
 import rich
+from pygments.lexers import guess_lexer
+from pygments.util import ClassNotFound
 from rich import box
 from rich.align import Align
 from rich.console import Console, ConsoleOptions, RenderResult
 from rich.jupyter import JupyterMixin
 from rich.panel import Panel
+from rich.rule import Rule
 from rich.style import Style
 from rich.syntax import Syntax, SyntaxTheme
-from rich.text import Text
 from rich.table import Table
+from rich.text import Text
 from rich.traceback import install
-from rich.rule import Rule
-
-from pygments.lexers import guess_lexer
-from pygments.util import ClassNotFound
 
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
