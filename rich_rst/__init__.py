@@ -408,7 +408,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         try:
             paragraph, attribution = node.children
         except ValueError:
-            paragraph ,= node.children
+            paragraph = node.children[0]
             self.renderables.append(
                 Text("    ")
                 + Text(paragraph.astext().replace('\n', ' '), style=text_style)
