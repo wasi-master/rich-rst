@@ -89,6 +89,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.footer = []
         self.guess_lexer = guess_lexer
         self.default_lexer = default_lexer
+        self.refname_to_renderable = {}
 
     def _find_lexer(self, node):
         lexer = (
@@ -109,7 +110,40 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             return lexer
         return lexer
 
+    def visit_reference(self, node):
+        refuri = node.attributes.get("refuri")
+        style = self.console.get_style("restructuredtext.reference", default="blue underline on default")
+        if refuri:
+            style = style.update_link(refuri)
+        renderable = Text(node.astext().replace("\n", " "), style=style, end="")
+        if self.renderables and isinstance(self.renderables[-1], Text):
+            renderable.end = " "
+            start = len(self.renderables[-1])
+            self.renderables[-1].append_text(renderable)
+        else:
+            start = 0
+            self.renderables.append(renderable)
+        end = len(self.renderables[-1])
 
+        if not refuri:
+            # We'll get the URL reference later in visit_target.
+            refname = node.attributes.get("refname")
+            if refname:
+                self.refname_to_renderable[refname] = (self.renderables[-1], start, end)
+        raise docutils.nodes.SkipChildren()
+
+    def visit_target(self, node):
+        uri = node.get("refuri")
+        if uri:
+            for name in node["names"]:
+                try:
+                    renderable, start, end = self.refname_to_renderable[name]
+                except KeyError:
+                    continue
+                style = renderable.get_style_at_offset(self.console, start)
+                style = style.update_link(uri)
+                renderable.stylize(style, start, end)
+        raise docutils.nodes.SkipChildren()
 
     def visit_paragraph(self, node):
         if hasattr(node, "parent") and isinstance(node.parent, docutils.nodes.system_message):
@@ -126,9 +160,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_Text(self, node):
-        style = self.console.get_style("restructuredtext.text", default="default on default")
+        style = self.console.get_style("restructuredtext.text", default="default on default not underline")
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append(Text(node.astext().replace("\n", " "), style=style, end=" "))
+            self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
             return
         self.renderables.append(Text(node.astext().replace("\n", " "), end="", style=style))
 
@@ -188,7 +222,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_subscript(self, node):
         style = self.console.get_style("restructuredtext.subscript", default="none")
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append(Text(node.astext().translate(self.subscript), style=style, end=" "))
+            self.renderables[-1].append_text(Text(node.astext().translate(self.subscript), style=style, end=" "))
             raise docutils.nodes.SkipChildren()
         self.renderables.append(Text(node.astext().translate(self.subscript), end="", style=style))
         raise docutils.nodes.SkipChildren()
@@ -196,7 +230,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_superscript(self, node):
         style = self.console.get_style("restructuredtext.superscript", default="none")
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append(Text(node.astext().translate(self.supercript), style=style, end=" "))
+            self.renderables[-1].append_text(Text(node.astext().translate(self.supercript), style=style, end=" "))
             raise docutils.nodes.SkipChildren()
         self.renderables.append(Text(node.astext().translate(self.supercript), end="", style=style))
         raise docutils.nodes.SkipChildren()
@@ -204,7 +238,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_emphasis(self, node):
         style = self.console.get_style("restructuredtext.emphasis", default="italic")
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append(Text(node.astext().replace("\n", " "), style=style, end=" "))
+            self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
             raise docutils.nodes.SkipChildren()
         self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
@@ -212,7 +246,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_strong(self, node):
         style = self.console.get_style("restructuredtext.strong", default="bold")
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append(Text(node.astext().replace("\n", " "), style=style, end=" "))
+            self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
             raise docutils.nodes.SkipChildren()
         self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
@@ -268,7 +302,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_literal(self, node):
         style = self.console.get_style("restructuredtext.inline_codeblock", default="grey78 on grey7")
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append(Text(node.astext().replace("\n", " "), style=style, end=" "))
+            self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
             raise docutils.nodes.SkipChildren()
         self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
@@ -277,7 +311,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].rstrip()
-            self.renderables[-1].append(Text("\n"))
+            self.renderables[-1].append_text(Text("\n"))
         lexer = self._find_lexer(node)
         self.renderables.append(
             Panel(Syntax(node.astext(), lexer, theme=self.code_theme), border_style=style, box=box.SQUARE, title=lexer)
