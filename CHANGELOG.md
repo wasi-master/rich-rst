@@ -113,3 +113,13 @@
 
 - Fix entire text being showed as a inline codeblock when only the first text is
 - Fix https://github.com/Textualize/rich-cli/issues/31
+
+## [1.2.0]
+
+- Add Hyperlink Support
+- Add python 3.11 and 3.12 classifiers
+- Add UTF-8 header
+- Add rich as a dependency
+- Refactor __main__.py
+- Fix too many arguments to unpack when visiting block quote
+
