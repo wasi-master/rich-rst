@@ -583,8 +583,14 @@ class RestructuredText(JupyterMixin):
 
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
         # Parse the `markup` into a RST `document`.
-        option_parser = docutils.frontend.OptionParser(components=(docutils.parsers.rst.Parser,))
-        settings = option_parser.get_default_values()
+
+        # Docutils version compatability; from https://stackoverflow.com/a/75996218
+        if hasattr(docutils.frontend, 'get_default_settings'):
+            # docutils >= 0.18
+            settings = docutils.frontend.get_default_settings(docutils.parsers.rst.Parser)
+        else:
+            # docutils < 0.18
+            settings = docutils.frontend.OptionParser(components=(docutils.parsers.rst.Parser,)).get_default_values()
         settings.report_level = 69
         source = docutils.io.StringInput(self.markup)
         document = docutils.utils.new_document(self.filename, settings)
