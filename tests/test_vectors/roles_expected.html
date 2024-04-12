@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+.r1 {font-weight: bold}
+.r2 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36}
+.r3 {color: #949494; text-decoration-color: #949494}
+.r4 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822}
+.r5 {color: #ff4689; text-decoration-color: #ff4689; background-color: #272822}
+.r6 {color: #ed007e; text-decoration-color: #ed007e; background-color: #1e0010}
+.r7 {background-color: #272822}
+.r8 {color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212}
+.r9 {color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline}
+.r10 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic}
+.r11 {color: #8be9fd; text-decoration-color: #8be9fd}
+.r12 {color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822}
+.r13 {color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822}
+.r14 {color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold}
+.r15 {color: #e6db74; text-decoration-color: #e6db74; background-color: #272822}
+.r16 {color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold}
+.r17 {color: #bcbcbc; text-decoration-color: #bcbcbc}
+body {
+    color: #f8f8f2;
+    background-color: #282a36;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                       reStructuredText Interpreted Text Roles                                        ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name </span>┃<span class="r1"> Field Value                                            </span>┃
+┡━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ <span class="r1">Author    </span> │ David Goodger                                          │
+├────────────┼────────────────────────────────────────────────────────┤
+│ <span class="r1">Contact   </span> │ docutils-develop@lists.sourceforge.net                 │
+├────────────┼────────────────────────────────────────────────────────┤
+│ <span class="r1">Revision  </span> │ $Revision: 8959 $                                      │
+├────────────┼────────────────────────────────────────────────────────┤
+│ <span class="r1">Date      </span> │ $Date: 2022-01-21 14:45:42 +0100 (Fr, 21. JÃ¤n 2022) $ │
+├────────────┼────────────────────────────────────────────────────────┤
+│ <span class="r1">Copyright </span> │ This document has been placed in the public domain.    │
+└────────────┴────────────────────────────────────────────────────────┘
+<span class="r2">This document describes the interpreted text roles implemented in the reference reStructuredText parser.</span>
+
+<span class="r2">Interpreted text uses backquotes (`) around the text.  An explicit role marker may optionally appear before or after the</span>
+<span class="r2">text, delimited with colons.  For example:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">This </span><span class="r5">is</span><span class="r4"> </span><span class="r6">`</span><span class="r4">interpreted text</span><span class="r6">`</span><span class="r4"> using the default role</span><span class="r5">.</span><span class="r7">                                                                  </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r7">                                                                                                                    </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">This </span><span class="r5">is</span><span class="r4"> :title:</span><span class="r6">`</span><span class="r4">interpreted text</span><span class="r6">`</span><span class="r4"> using an explicit role</span><span class="r5">.</span><span class="r7">                                                           </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">A default role may be defined by applications of reStructuredText; it is used if no explicit </span><span class="r8">:role:</span><span class="r2"> prefix or suffix is </span>
+<span class="r2">given.  The &quot;default default role&quot; is </span><span class="r9">:title-reference:</span><span class="r2">.  It can be changed using the </span><a class="r9" href="directives.html#default-role">default-role</a><span class="r2"> directive.</span>
+
+<span class="r2">See the </span><a class="r9" href="restructuredtext.html#interpreted-text">Interpreted Text</a><span class="r2"> section in the </span><a class="r9" href="restructuredtext.html">reStructuredText Markup Specification</a><span class="r2"> for syntax details.  For details on the </span>
+<span class="r2">hierarchy of elements, please see </span><a class="r9" href="../doctree.html">The Docutils Document Tree</a><span class="r2"> and the </span><a class="r9" href="../docutils.dtd">Docutils Generic DTD</a><span class="r2"> XML document type definition. </span>
+<span class="r2">For interpreted text role implementation details, see </span><a class="r9" href="../../howto/rst-roles.html">Creating reStructuredText Interpreted Text Roles</a><span class="r2">.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                       Contents                                                       ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                    Customization                                                     ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">Custom interpreted text roles may be defined in a document with the </span><span class="r9">&quot;role&quot; directive</span><span class="r2">.  Customization details are listed </span>
+<span class="r2">with each role.</span>
+
+<span class="r2">A </span><span class="r8">class</span><span class="r2"> option is recognized by the &quot;role&quot; directive for most interpreted text roles.  A </span><span class="r9">description</span><span class="r2"> is provided in the </span>
+<span class="r9">&quot;role&quot; directive</span><span class="r2"> documentation.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                    Standard Roles                                                    ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                      :emphasis:                                                      ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ None        │
+├───────────────┼─────────────┤
+│ <span class="r1">DTD Element  </span> │ emphasis    │
+├───────────────┼─────────────┤
+│ <span class="r1">Customization</span> │ Options     │
+│               │             │
+│               │ class.      │
+│               │             │
+│               │ Content     │
+│               │             │
+│               │ None.       │
+└───────────────┴─────────────┘
+<span class="r2">Implements emphasis.  These are equivalent:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r5">*</span><span class="r4">text</span><span class="r5">*</span><span class="r7">                                                                                                              </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">:emphasis:</span><span class="r6">`</span><span class="r4">text</span><span class="r6">`</span><span class="r7">                                                                                                    </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                      :literal:                                                       ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ None        │
+├───────────────┼─────────────┤
+│ <span class="r1">DTD Element  </span> │ literal     │
+├───────────────┼─────────────┤
+│ <span class="r1">Customization</span> │ Options     │
+│               │             │
+│               │ class.      │
+│               │             │
+│               │ Content     │
+│               │             │
+│               │ None.       │
+└───────────────┴─────────────┘
+<span class="r2">Implements inline literal text.  These are equivalent:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r6">``</span><span class="r4">text</span><span class="r6">``</span><span class="r7">                                                                                                            </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">:literal:</span><span class="r6">`</span><span class="r4">text</span><span class="r6">`</span><span class="r7">                                                                                                     </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">Care must be taken with backslash-escapes though.  These are </span><span class="r10">not</span><span class="r2"> equivalent:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r6">``</span><span class="r4">text \ </span><span class="r5">and</span><span class="r4"> \ backslashes</span><span class="r6">``</span><span class="r7">                                                                                        </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">:literal:</span><span class="r6">`</span><span class="r4">text \ </span><span class="r5">and</span><span class="r4"> \ backslashes</span><span class="r6">`</span><span class="r7">                                                                                 </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">The backslashes in the first line are preserved (and do nothing), whereas the backslashes in the second line escape the </span>
+<span class="r2">following spaces.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                        :code:                                                        ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value     </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ None            │
+├───────────────┼─────────────────┤
+│ <span class="r1">DTD Element  </span> │ literal         │
+├───────────────┼─────────────────┤
+│ <span class="r1">Customization</span> │ Options         │
+│               │                 │
+│               │ class, language │
+│               │                 │
+│               │ Content         │
+│               │                 │
+│               │ None.           │
+└───────────────┴─────────────────┘
+<span class="r2">(New in Docutils 0.9.)</span>
+
+<span class="r2">The </span><span class="r8">code</span><span class="r2"> role marks its content as code in a formal language.</span>
+
+<span class="r2">For syntax highlight of inline code, the </span><span class="r9">&quot;role&quot; directive</span><span class="r2"> can be used to build custom roles with the code language </span>
+<span class="r2">specified in the &quot;language&quot; option.</span>
+
+<span class="r2">For example, the following creates a LaTeX-specific &quot;latex&quot; role:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r5">..</span><span class="r4"> role:: latex(code)</span><span class="r7">                                                                                               </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">   :language: latex</span><span class="r7">                                                                                                 </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">Content of the new role is parsed and tagged by the </span><a class="r9" href="https://pygments.org/">Pygments</a><span class="r2"> syntax highlighter. See the </span><a class="r9" href="directives.html#code">code directive</a><span class="r2"> for more info on</span>
+<span class="r2">parsing and display of code in reStructuredText.</span>
+
+<span class="r2">In addition to &quot;</span><span class="r9">class</span><span class="r2">&quot;, the following option is recognized:</span>
+
+    language : <span class="r11">text</span>
+      Name of the code&#x27;s language. See supported languages and markup formats for recognized values.
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                        :math:                                                        ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ None        │
+├───────────────┼─────────────┤
+│ <span class="r1">DTD Element  </span> │ math        │
+├───────────────┼─────────────┤
+│ <span class="r1">Customization</span> │ Options     │
+│               │             │
+│               │ class       │
+│               │             │
+│               │ Content     │
+│               │             │
+│               │ None.       │
+└───────────────┴─────────────┘
+<span class="r2">(New in Docutils 0.8.)</span>
+
+<span class="r2">The </span><span class="r8">math</span><span class="r2"> role marks its content as mathematical notation (inline formula).</span>
+
+<span class="r2">The input format is LaTeX math syntax without the â€œmath delimitersâ€œ (</span><span class="r8">$ $</span><span class="r2">), for example:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">The area of a circle </span><span class="r5">is</span><span class="r4"> :math:</span><span class="r6">`</span><span class="r4">A_\text{c} </span><span class="r5">=</span><span class="r4"> (\pi</span><span class="r5">/</span><span class="r12">4</span><span class="r4">) d</span><span class="r5">^</span><span class="r12">2</span><span class="r6">`</span><span class="r5">.</span><span class="r7">                                                           </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">See the </span><a class="r9" href="directives.html#math">math directive</a><span class="r2"> (producing display formulas) for more info on mathematical notation in reStructuredText.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                   :pep-reference:                                                    ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ :PEP:       │
+├───────────────┼─────────────┤
+│ <span class="r1">DTD Element  </span> │ reference   │
+├───────────────┼─────────────┤
+│ <span class="r1">Customization</span> │ Options     │
+│               │             │
+│               │ class.      │
+│               │             │
+│               │ Content     │
+│               │             │
+│               │ None.       │
+└───────────────┴─────────────┘
+<span class="r2">The </span><span class="r8">:pep-reference:</span><span class="r2"> role is used to create an HTTP reference to a PEP (Python Enhancement Proposal).  The </span><span class="r8">:PEP:</span><span class="r2"> alias is</span>
+<span class="r2">usually used.  The content must be a number, for example:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">See :PEP:</span><span class="r6">`</span><span class="r12">287</span><span class="r6">`</span><span class="r4"> </span><span class="r13">for</span><span class="r4"> more information about reStructuredText</span><span class="r5">.</span><span class="r7">                                                         </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">This is equivalent to:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">See </span><span class="r6">`</span><span class="r4">PEP </span><span class="r12">287</span><span class="r6">`</span><span class="r4">__ </span><span class="r13">for</span><span class="r4"> more information about reStructuredText</span><span class="r5">.</span><span class="r7">                                                        </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r7">                                                                                                                    </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">__ https:</span><span class="r5">//</span><span class="r4">www</span><span class="r5">.</span><span class="r4">python</span><span class="r5">.</span><span class="r4">org</span><span class="r5">/</span><span class="r4">dev</span><span class="r5">/</span><span class="r4">peps</span><span class="r5">/</span><span class="r4">pep</span><span class="r5">-</span><span class="r12">0287</span><span class="r7">                                                                         </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                   :rfc-reference:                                                    ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ :RFC:       │
+├───────────────┼─────────────┤
+│ <span class="r1">DTD Element  </span> │ reference   │
+├───────────────┼─────────────┤
+│ <span class="r1">Customization</span> │ Options     │
+│               │             │
+│               │ class.      │
+│               │             │
+│               │ Content     │
+│               │             │
+│               │ None.       │
+└───────────────┴─────────────┘
+<span class="r2">The </span><span class="r8">:rfc-reference:</span><span class="r2"> role is used to create an HTTP reference to an RFC (Internet Request for Comments).  The </span><span class="r8">:RFC:</span><span class="r2"> alias</span>
+<span class="r2">is usually used.  The content must be a number , for example:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">See :RFC:</span><span class="r6">`</span><span class="r12">2822</span><span class="r6">`</span><span class="r4"> </span><span class="r13">for</span><span class="r4"> information about email headers</span><span class="r5">.</span><span class="r7">                                                                </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">This is equivalent to:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">See </span><span class="r6">`</span><span class="r4">RFC </span><span class="r12">2822</span><span class="r6">`</span><span class="r4">__ </span><span class="r13">for</span><span class="r4"> information about email headers</span><span class="r5">.</span><span class="r7">                                                               </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r7">                                                                                                                    </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">__ https:</span><span class="r5">//</span><span class="r4">tools</span><span class="r5">.</span><span class="r4">ietf</span><span class="r5">.</span><span class="r4">org</span><span class="r5">/</span><span class="r4">html</span><span class="r5">/</span><span class="r4">rfc2822</span><span class="r5">.</span><span class="r4">html</span><span class="r7">                                                                         </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                       :strong:                                                       ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ None        │
+├───────────────┼─────────────┤
+│ <span class="r1">DTD Element  </span> │ strong      │
+├───────────────┼─────────────┤
+│ <span class="r1">Customization</span> │ Options     │
+│               │             │
+│               │ class.      │
+│               │             │
+│               │ Content     │
+│               │             │
+│               │ None.       │
+└───────────────┴─────────────┘
+<span class="r2">Implements strong emphasis.  These are equivalent:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r5">**</span><span class="r4">text</span><span class="r5">**</span><span class="r7">                                                                                                            </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">:strong:</span><span class="r6">`</span><span class="r4">text</span><span class="r6">`</span><span class="r7">                                                                                                      </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                     :subscript:                                                      ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ :sub:       │
+├───────────────┼─────────────┤
+│ <span class="r1">DTD Element  </span> │ subscript   │
+├───────────────┼─────────────┤
+│ <span class="r1">Customization</span> │ Options     │
+│               │             │
+│               │ class.      │
+│               │             │
+│               │ Content     │
+│               │             │
+│               │ None.       │
+└───────────────┴─────────────┘
+<span class="r2">Implements subscripts.</span>
+
+<span class="r14">╭─────────────────────────────────────────────────────── Tip:  ────────────────────────────────────────────────────────╮</span>
+<span class="r14">│ Whitespace or punctuation is required around interpreted text, but often not desired with subscripts &amp; superscripts. │</span>
+<span class="r14">│ Backslash-escaped whitespace can be used; the whitespace will be removed from the processed document:  H\ :sub:`2`\  │</span>
+<span class="r14">│ O E = mc\ :sup:`2`  In such cases, readability of the plain text can be greatly improved with substitutions:  The    │</span>
+<span class="r14">│ chemical formula for pure water is |H2O|.  .. |H2O| replace:: H\ :sub:`2`\ O  See the reStructuredText spec for      │</span>
+<span class="r14">│ further information on character-level markup and the substitution mechanism.                                        │</span>
+<span class="r14">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                    :superscript:                                                     ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ :sup:       │
+├───────────────┼─────────────┤
+│ <span class="r1">DTD Element  </span> │ superscript │
+├───────────────┼─────────────┤
+│ <span class="r1">Customization</span> │ Options     │
+│               │             │
+│               │ class.      │
+│               │             │
+│               │ Content     │
+│               │             │
+│               │ None.       │
+└───────────────┴─────────────┘
+<span class="r2">Implements superscripts.  See the tip in </span><span class="r9">:subscript:</span><span class="r2"> above.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                  :title-reference:                                                   ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value     </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ :title:, :t:.   │
+├───────────────┼─────────────────┤
+│ <span class="r1">DTD Element  </span> │ title_reference │
+├───────────────┼─────────────────┤
+│ <span class="r1">Customization</span> │ Options         │
+│               │                 │
+│               │ class.          │
+│               │                 │
+│               │ Content         │
+│               │                 │
+│               │ None.           │
+└───────────────┴─────────────────┘
+<span class="r2">The </span><span class="r8">:title-reference:</span><span class="r2"> role is used to describe the titles of books, periodicals, and other materials.  It is the </span>
+<span class="r2">equivalent of the HTML &quot;cite&quot; element, and it is expected that HTML writers will typically render &quot;title_reference&quot; </span>
+<span class="r2">elements using &quot;cite&quot;.</span>
+
+<span class="r2">Since title references are typically rendered with italics, they are often marked up using </span><span class="r8">*emphasis*</span><span class="r2">, which is </span>
+<span class="r2">misleading and vague. The &quot;title_reference&quot; element provides accurate and unambiguous descriptive markup.</span>
+
+<span class="r2">Let&#x27;s assume </span><span class="r8">:title-reference:</span><span class="r2"> is the default interpreted text role (see below) for this example:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r6">`</span><span class="r4">Design Patterns</span><span class="r6">`</span><span class="r4"> [GoF95]_ </span><span class="r5">is</span><span class="r4"> an excellent read</span><span class="r5">.</span><span class="r7">                                                                    </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">The following document fragment (</span><a class="r9" href="../doctree.html#pseudo-xml">pseudo-XML</a><span class="r2">) will result from processing:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r5">&lt;</span><span class="r4">paragraph</span><span class="r5">&gt;</span><span class="r7">                                                                                                         </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">    </span><span class="r5">&lt;</span><span class="r4">title_reference</span><span class="r5">&gt;</span><span class="r7">                                                                                               </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">        Design Patterns</span><span class="r7">                                                                                             </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r7">                                                                                                                    </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">    </span><span class="r5">&lt;</span><span class="r4">citation_reference refname</span><span class="r5">=</span><span class="r15">&quot;gof95&quot;</span><span class="r5">&gt;</span><span class="r7">                                                                            </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">        GoF95</span><span class="r7">                                                                                                       </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">     </span><span class="r5">is</span><span class="r4"> an excellent read</span><span class="r5">.</span><span class="r7">                                                                                          </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r8">:title-reference:</span><span class="r2"> is the default interpreted text role in the standard reStructuredText parser.  This means that no </span>
+<span class="r2">explicit role is required.  Applications of reStructuredText may designate a different default role, in which case the </span>
+<span class="r2">explicit </span><span class="r8">:title-reference:</span><span class="r2"> role must be used to obtain a </span><span class="r8">title_reference</span><span class="r2"> element.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                  Specialized Roles                                                   ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                         raw                                                          ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name    </span>┃<span class="r1"> Field Value   </span>┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ <span class="r1">Aliases      </span> │ None          │
+├───────────────┼───────────────┤
+│ <span class="r1">DTD Element  </span> │ raw           │
+├───────────────┼───────────────┤
+│ <span class="r1">Customization</span> │ Options       │
+│               │               │
+│               │ class, format │
+│               │               │
+│               │ Content       │
+│               │               │
+│               │ None          │
+└───────────────┴───────────────┘
+<span class="r16">╭───────────────────────────────────────────────────── Warning:  ──────────────────────────────────────────────────────╮</span>
+<span class="r16">│ The &quot;raw&quot; role is a stop-gap measure allowing the author to bypass reStructuredText&#x27;s markup.  It is a &quot;power-user&quot;  │</span>
+<span class="r16">│ feature that should not be overused or abused.  The use of &quot;raw&quot; ties documents to specific output formats and makes │</span>
+<span class="r16">│ them less portable.  If you often need to use &quot;raw&quot;-derived interpreted text roles or the &quot;raw&quot; directive, that is a │</span>
+<span class="r16">│ sign either of overuse/abuse or that functionality may be missing from reStructuredText.  Please describe your       │</span>
+<span class="r16">│ situation in a message to the Docutils-users mailing list.                                                           │</span>
+<span class="r16">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r2">The &quot;raw&quot; role indicates non-reStructuredText data that is to be passed untouched to the Writer.  It is the inline </span>
+<span class="r2">equivalent of the </span><a class="r9" href="directives.html#raw-directive">&quot;raw&quot; directive</a><span class="r2">; see its documentation for details on the semantics.</span>
+
+<span class="r2">The &quot;raw&quot; role cannot be used directly.  The </span><span class="r9">&quot;role&quot; directive</span><span class="r2"> must first be used to build custom roles based on the </span>
+<span class="r2">&quot;raw&quot; role.  One or more formats (Writer names) must be provided in a &quot;format&quot; option.</span>
+
+<span class="r2">For example, the following creates an HTML-specific &quot;raw-html&quot; role:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r5">..</span><span class="r4"> role:: raw</span><span class="r5">-</span><span class="r4">html(raw)</span><span class="r7">                                                                                             </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">   :format: html</span><span class="r7">                                                                                                    </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">This role can now be used directly to pass data untouched to the HTML Writer.  For example:</span>
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r4">If there just </span><span class="r5">*</span><span class="r4">has</span><span class="r5">*</span><span class="r4"> to be a line </span><span class="r13">break</span><span class="r4"> here,</span><span class="r7">                                                                        </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">:raw</span><span class="r5">-</span><span class="r4">html:</span><span class="r6">`</span><span class="r5">&lt;</span><span class="r4">br </span><span class="r5">/&gt;</span><span class="r6">`</span><span class="r7">                                                                                                  </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">it can be accomplished </span><span class="r13">with</span><span class="r4"> a </span><span class="r15">&quot;raw&quot;</span><span class="r5">-</span><span class="r4">derived role</span><span class="r5">.</span><span class="r7">                                                                   </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r4">But the line block syntax should be considered first</span><span class="r5">.</span><span class="r7">                                                               </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r14">╭─────────────────────────────────────────────────────── Tip:  ────────────────────────────────────────────────────────╮</span>
+<span class="r14">│ Roles based on &quot;raw&quot; should clearly indicate their origin, so they are not mistaken for reStructuredText markup.     │</span>
+<span class="r14">│ Using a &quot;raw-&quot; prefix for role names is recommended.                                                                 │</span>
+<span class="r14">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r2">In addition to &quot;</span><span class="r9">class</span><span class="r2">&quot;, the following option is recognized:</span>
+
+    format : <span class="r11">text</span>
+      One or more space-separated output format names (Writer names).
+
+<span class="r17">┌─────────────────────────────────────────────────────── Footer ───────────────────────────────────────────────────────┐</span>
+<span class="r17">│</span>                           You can link to a specific section by saying                                               <span class="r17">│</span>
+<span class="r17">│</span>                           :rfc:`number#anchor`. (New in Docutils 0.15.)                                              <span class="r17">│</span>
+<span class="r17">│</span>                                                                                                                      <span class="r17">│</span>
+<span class="r17">│</span>                           The anchor (anything following a #) is appended to                                         <span class="r17">│</span>
+<span class="r17">│</span>                           the reference without any checks and not shown in the link text.                           <span class="r17">│</span>
+<span class="r17">│</span>                                                                                                                      <span class="r17">│</span>
+<span class="r17">│</span>                           It is recommended to use hyperlink references for                                          <span class="r17">│</span>
+<span class="r17">│</span>                           anything more complex than a single RFC number.                                            <span class="r17">│</span>
+<span class="r17">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre>
+</body>
+</html>
