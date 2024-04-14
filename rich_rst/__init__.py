@@ -581,6 +581,17 @@ class RestructuredText(JupyterMixin):
         self.default_lexer = default_lexer
         self.filename = filename
 
+    @property
+    def _members(self):
+        return (self.markup, self.code_theme, self.log_errors, self.guess_lexer, self.default_lexer, self.filename)
+
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self._members == other._members
+        else:
+            return False
+
+
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
         # Parse the `markup` into a RST `document`.
         option_parser = docutils.frontend.OptionParser(components=(docutils.parsers.rst.Parser,))

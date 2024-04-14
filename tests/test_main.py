@@ -50,3 +50,13 @@ def test_main(rst_path):
 
     expected_html = expected_html_path.read_text()
     assert expected_html == actual_html
+
+
+def test_eq():
+    assert RestructuredText("foo") == RestructuredText("foo")
+    assert RestructuredText("foo") != RestructuredText("bar")
+
+
+def test_unhashable():
+    with pytest.raises(TypeError):
+        hash(RestructuredText("foo"))
