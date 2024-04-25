@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+.r1 {font-weight: bold}
+.r2 {color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline}
+.r3 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36}
+.r4 {color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold}
+.r5 {font-style: italic}
+.r6 {color: #ffffff; text-decoration-color: #ffffff}
+.r7 {color: #bcbcbc; text-decoration-color: #bcbcbc}
+body {
+    color: #f8f8f2;
+    background-color: #282a36;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                         An Introduction to reStructuredText                                          ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃<span class="r1"> Field Name </span>┃<span class="r1"> Field Value                                            </span>┃
+┡━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ <span class="r1">Author    </span> │ David Goodger                                          │
+├────────────┼────────────────────────────────────────────────────────┤
+│ <span class="r1">Contact   </span> │ docutils-develop@lists.sourceforge.net                 │
+├────────────┼────────────────────────────────────────────────────────┤
+│ <span class="r1">Revision  </span> │ $Revision: 8959 $                                      │
+├────────────┼────────────────────────────────────────────────────────┤
+│ <span class="r1">Date      </span> │ $Date: 2022-01-21 14:45:42 +0100 (Fr, 21. JÃ¤n 2022) $ │
+├────────────┼────────────────────────────────────────────────────────┤
+│ <span class="r1">Copyright </span> │ This document has been placed in the public domain.    │
+└────────────┴────────────────────────────────────────────────────────┘
+<span class="r2">reStructuredText</span><span class="r3"> is an easy-to-read, what-you-see-is-what-you-get plaintext markup syntax and parser system.  It is </span>
+<span class="r3">useful for inline program documentation (such as Python docstrings), for quickly creating simple web pages, and for </span>
+<span class="r3">standalone documents. </span><a class="r2" href="https://docutils.sourceforge.io/rst.html">reStructuredText</a><span class="r3"> is a proposed revision and reinterpretation of the </span><a class="r2" href="https://zopestructuredtext.readthedocs.org/">StructuredText</a><span class="r3"> and </span><a class="r2" href="https://docutils.sourceforge.io/mirror/setext.html">Setext</a><span class="r3"> </span>
+<span class="r3">lightweight markup systems.</span>
+
+<span class="r3">reStructuredText is designed for extensibility for specific application domains.  Its parser is a component of </span><a class="r2" href="https://docutils.sourceforge.io/">Docutils</a><span class="r3">.</span>
+
+<span class="r3">This document defines the </span><span class="r2">goals</span><span class="r3"> of reStructuredText and provides a </span><span class="r2">history</span><span class="r3"> of the project.  It is written using the </span>
+<span class="r3">reStructuredText markup, and therefore serves as an example of its use.  For a gentle introduction to using </span>
+<span class="r3">reStructuredText, please read </span><a class="r2" href="../../user/rst/quickstart.html">A ReStructuredText Primer</a><span class="r3">.  The </span><a class="r2" href="../../user/rst/quickref.html">Quick reStructuredText</a><span class="r3"> user reference is also useful.  The</span>
+<a class="r2" href="restructuredtext.html">reStructuredText Markup Specification</a><span class="r3"> is the definitive reference.  There is also an analysis of the </span><a class="r2" href="../../dev/rst/problems.html">Problems With </a>
+<a class="r2" href="../../dev/rst/problems.html">StructuredText</a><span class="r3">.</span>
+
+<span class="r3">ReStructuredText&#x27;s web page is </span><a class="r2" href="https://docutils.sourceforge.io/rst.html">https://docutils.sourceforge.io/rst.html</a><span class="r3">.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                        Goals                                                         ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r3">The primary goal of </span><span class="r2">reStructuredText</span><span class="r3"> is to define a markup syntax for use in Python docstrings and other documentation </span>
+<span class="r3">domains, that is readable and simple, yet powerful enough for non-trivial use.  The intended purpose of the </span>
+<span class="r3">reStructuredText markup is twofold:</span>
+
+<span class="r4"> • </span>the establishment of a set of standard conventions allowing the expression of structure within plaintext, and
+<span class="r4"> • </span>the conversion of such documents into useful structured data formats.
+<span class="r3">The secondary goal of reStructuredText is to be accepted by the Python community (by way of being blessed by PythonLabs </span>
+<span class="r3">and the BDFL ) as a standard for Python inline documentation (possibly one of several standards, to account for </span>
+<span class="r3">taste).To clarify the primary goal, here are specific design goals, in order, beginning with the most important:</span>
+<span class="r4"> 1</span> Readable.  The marked-up text must be easy to read without any prior knowledge of the markup language.  It should be 
+easily read in raw form as in processed form.
+<span class="r4"> 2</span> Unobtrusive.  The markup that is used should be as simple and unobtrusive as possible.  The simplicity of markup 
+constructs should be roughly proportional to their frequency of use.  The most common constructs, with natural and 
+obvious markup, should be the simplest and most unobtrusive.  Less common constructs, for which there is no natural or 
+obvious markup, should be distinctive.
+<span class="r4"> 3</span> Unambiguous.  The rules for markup must not be open for interpretation.  For any given input, there should be one and
+only one possible output (including error output).
+<span class="r4"> 4</span> Unsurprising.  Markup constructs should not cause unexpected output upon processing.  As a fallback, there must be a 
+to prevent unwanted markup processing when a markup construct is used in a non-markup context (for example, when 
+documenting the markup syntax itself).
+<span class="r4"> 5</span> Intuitive.  Markup should be as obvious and easily remembered as possible, for the author as well as for the reader. 
+Constructs should take their cues from such naturally occurring sources as plaintext email messages, newsgroup postings,
+and text documentation such as README.txt files.
+<span class="r4"> 6</span> Easy.  It should be easy to mark up text using any ordinary text editor.
+<span class="r4"> 7</span> Scalable.  The markup should be applicable regardless of the length of the text.
+<span class="r4"> 8</span> Powerful.  The markup should provide enough constructs to produce a reasonably rich structured document.
+<span class="r4"> 9</span> Language-neutral.  The markup should apply to multiple natural (as well as artificial) languages, not only English.
+<span class="r4"> 10</span> Extensible.  The markup should provide a simple syntax and interface for adding more complex general markup, and cus
+markup.
+<span class="r4"> 11</span> Output-format-neutral.  The markup will be appropriate for processing to multiple output formats, and will not be bi
+toward any particular format.
+<span class="r3">The design goals above were used as criteria for accepting or rejecting syntax, or selecting between alternatives.It is </span>
+<span class="r3">emphatically </span><span class="r5">not</span><span class="r3"> the goal of reStructuredText to define docstring semantics, such as docstring contents or docstring </span>
+<span class="r3">length. These issues are orthogonal to the markup syntax and beyond the scope of this specification.Also, it is not the </span>
+<span class="r3">goal of reStructuredText to maintain compatibility with </span><span class="r2">StructuredText</span><span class="r3"> or </span><span class="r2">Setext</span><span class="r3">.  reStructuredText shamelessly steals </span>
+<span class="r3">their great ideas and ignores the not-so-great.Author&#x27;s note:</span>
+    <span class="r6">Due to the nature of the problem we&#x27;re trying to solve (or, perhaps, due to the nature of the proposed solution), </span>
+<span class="r6">the above goals unavoidably conflict.  I have tried to extract and distill the wisdom accumulated over the years in the </span>
+<span class="r6">Python Doc-SIG mailing list and elsewhere, to come up with a coherent and consistent set of syntax rules, and the above </span>
+<span class="r6">goals by which to measure them.</span>
+
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                       History                                                        ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">reStructuredText</span><span class="r3">, the specification, is based on </span><span class="r2">StructuredText</span><span class="r3"> and </span><span class="r2">Setext</span><span class="r3">.  StructuredText was developed by Jim Fulton </span>
+<span class="r3">of </span><span class="r2">Zope Corporation</span><span class="r3"> (formerly Digital Creations) and first released in 1996. It is now released as a part of the </span>
+<span class="r3">open-source &quot;Z Object Publishing Environment&quot; (</span><a class="r2" href="https://www.zope.dev">ZOPE</a><span class="r3">).  Ian Feldman&#x27;s and Tony Sanders&#x27; earlier </span><span class="r2">Setext</span><span class="r3"> specification was </span>
+<span class="r3">either an influence on StructuredText or, by their similarities, at least evidence of the correctness of this approach.</span>
+
+<span class="r3">I discovered </span><span class="r2">StructuredText</span><span class="r3"> in late 1999 while searching for a way to document the Python modules in one of my projects.</span>
+<span class="r3">Version 1.1 of StructuredText was included in Daniel Larsson&#x27;s </span><a class="r2" href="http://starship.python.net/crew/danilo/pythondoc/">pythondoc</a><span class="r3">.  Although I was not able to get pythondoc to </span>
+<span class="r3">work for me, I found StructuredText to be almost ideal for my needs.  I joined the Python </span><span class="r2">Doc-SIG</span><span class="r3"> (Documentation Special</span>
+<span class="r3">Interest Group) mailing list and found an ongoing discussion of the shortcomings of the StructuredText &quot;standard&quot;.  This</span>
+<span class="r3">discussion has been going on since the inception of the mailing list in 1996, and possibly predates it.</span>
+
+<span class="r3">I decided to modify the original module with my own extensions and some suggested by the Doc-SIG members.  I soon </span>
+<span class="r3">realized that the module was not written with extension in mind, so I embarked upon a general reworking, including </span>
+<span class="r3">adapting it to the &quot;re&quot; regular expression module (the original inspiration for the name of this project).  Soon after I</span>
+<span class="r3">completed the modifications, I discovered that StructuredText.py was up to version 1.23 in the ZOPE distribution. </span>
+<span class="r3">Implementing the new syntax extensions from version 1.23 proved to be an exercise in frustration, as the complexity of </span>
+<span class="r3">the module had become overwhelming.</span>
+
+<span class="r3">In 2000, development on StructuredTextNG (&quot;Next Generation&quot;) began at </span><a class="r2" href="http://www.zope.com">Zope Corporation</a><span class="r3"> (then Digital Creations).  It </span>
+<span class="r3">seems to have many improvements, but still suffers from many of the problems of classic StructuredText.</span>
+
+<span class="r3">I decided that a complete rewrite was in order, and even started a </span><a class="r2" href="http://structuredtext.sourceforge.net/">reStructuredText SourceForge project</a><span class="r3"> (now inactive). </span>
+<span class="r3">My motivations (the &quot;itches&quot; I aim to &quot;scratch&quot;) are as follows:</span>
+
+<span class="r4"> • </span>I need a standard format for inline documentation of the programs I write.  This inline documentation has to be 
+convertible to other useful formats, such as HTML.  I believe many others have the same need.
+<span class="r4"> • </span>I believe in the Setext/StructuredText idea and want to help formalize the standard.  However, I feel the current 
+specifications and implementations have flaws that desperately need fixing.
+<span class="r4"> • </span>reStructuredText could form part of the foundation for a documentation extraction and processing system, greatly 
+benefitting Python.  But it is only a part, not the whole.  reStructuredText is a markup language specification and a 
+reference parser implementation, but it does not aspire to be the entire system.  I don&#x27;t want reStructuredText or a 
+hypothetical Python documentation processor to die stillborn because of over-ambition.
+<span class="r4"> • </span>Most of all, I want to help ease the documentation chore, the bane of many a programmer.
+<span class="r3">Unfortunately I was sidetracked and stopped working on this project. In November 2000 I made the time to enumerate the </span>
+<span class="r3">problems of StructuredText and possible solutions, and complete the first draft of a specification.  This first draft </span>
+<span class="r3">was posted to the Doc-SIG in three parts:</span>
+<span class="r4"> • </span>A Plan for Structured Text
+<span class="r4"> • </span>Problems With StructuredText
+<span class="r4"> • </span>reStructuredText: Revised Structured Text Specification
+<span class="r3">In March 2001 a flurry of activity on the Doc-SIG spurred me to further revise and refine my specification, the result </span>
+<span class="r3">of which you are now reading.  An offshoot of the reStructuredText project has been the realization that a single markup</span>
+<span class="r3">scheme, no matter how well thought out, may not be enough.  In order to tame the endless debates on Doc-SIG, a flexible </span>
+<a class="r2" href="../../peps/pep-0256.html">Docstring Processing System framework</a><span class="r3"> needed to be constructed.  This framework has become the more important of the two</span>
+<span class="r3">projects; </span><span class="r2">reStructuredText</span><span class="r3"> has found its place as one possible choice for a single component of the larger framework.The</span>
+<span class="r3">project web site and the first project release were rolled out in June 2001, including posting the second draft of the </span>
+<span class="r3">spec  and the first draft of PEPs 256, 257, and 258  to the Doc-SIG.  These documents and the project implementation </span>
+<span class="r3">proceeded to evolve at a rapid pace.  Implementation history details can be found in the </span><a class="r2" href="../../../HISTORY.html">project history file</a><span class="r3">.In </span>
+<span class="r3">November 2001, the reStructuredText parser was nearing completion. Development of the parser continued with the addition</span>
+<span class="r3">of small convenience features, improvements to the syntax, the filling in of gaps, and bug fixes.  After a long holiday </span>
+<span class="r3">break, in early 2002 most development moved over to the other Docutils components, the &quot;Readers&quot;, &quot;Writers&quot;, and </span>
+<span class="r3">&quot;Transforms&quot;.  A &quot;standalone&quot; reader (processes standalone text file documents) was completed in February, and a basic </span>
+<span class="r3">HTML writer (producing HTML 4.01, using CSS-1) was completed in early March.</span><a class="r2" href="../../peps/pep-0287.html">PEP 287</a><span class="r3">, &quot;reStructuredText Standard </span>
+<span class="r3">Docstring Format&quot;, was created to formally propose reStructuredText as a standard format for Python docstrings, PEPs, </span>
+<span class="r3">and other files.  It was first posted to </span><a class="r2" href="news:comp.lang.python">comp.lang.python</a><span class="r3"> and the </span><a class="r2" href="https://mail.python.org/pipermail/python-dev/">Python-dev</a><span class="r3"> mailing list on 2002-04-02.Version 0.4 of </span>
+<span class="r3">the </span><span class="r2">reStructuredText</span><span class="r3"> and </span><a class="r2" href="http://docstring.sourceforge.net/">Docstring Processing System</a><span class="r3"> projects were released in April 2002.  The two projects were </span>
+<span class="r3">immediately merged, renamed to &quot;</span><span class="r2">Docutils</span><span class="r3">&quot;, and a 0.1 release soon followed.</span>
+<span class="r7">┌─────────────────────────────────────────────────────── Footer ───────────────────────────────────────────────────────┐</span>
+<span class="r7">│</span>                          First drafts of the PEPs:                                                                   <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">│</span>                          PEP 256: Docstring Processing System Framework                                              <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">│</span>                          PEP 258: DPS Generic Implementation Details                                                 <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">│</span>                          PEP 257: Docstring Conventions                                                              <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">│</span>                          Current working versions of the PEPs can be found in                                        <span class="r7">│</span>
+<span class="r7">│</span>                          https://docutils.sourceforge.io/docs/peps/, and official versions                           <span class="r7">│</span>
+<span class="r7">│</span>                          can be found in the master PEP repository.                                                  <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
+<span class="r7">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre>
+</body>
+</html>

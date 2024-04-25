@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+.r1 {font-weight: bold}
+.r2 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36}
+.r3 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic}
+.r4 {color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline}
+.r5 {color: #ffffff; text-decoration-color: #ffffff; font-weight: bold}
+.r6 {color: #949494; text-decoration-color: #949494}
+.r7 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822}
+.r8 {background-color: #272822}
+.r9 {color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212}
+.r10 {color: #ff4689; text-decoration-color: #ff4689; background-color: #272822}
+.r11 {color: #e6db74; text-decoration-color: #e6db74; background-color: #272822}
+.r12 {color: #ed007e; text-decoration-color: #ed007e; background-color: #1e0010}
+.r13 {color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822}
+.r14 {color: #a6e22e; text-decoration-color: #a6e22e; background-color: #272822}
+.r15 {color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822}
+.r16 {color: #ff5555; text-decoration-color: #ff5555; font-weight: bold}
+.r17 {color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold}
+.r18 {color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold}
+.r19 {color: #50fa7b; text-decoration-color: #50fa7b}
+body {
+    color: #f8f8f2;
+    background-color: #282a36;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                     Introduction                                                     ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">Rich is a Python library for writing </span><span class="r3">rich</span><span class="r2"> text (with color and style) to the terminal, and for displaying advanced </span>
+<span class="r2">content such as tables, markdown, and syntax highlighted code.</span>
+
+<span class="r2">Use Rich to make your command line applications visually appealing and present data in a more readable way. Rich can </span>
+<span class="r2">also be a useful debugging aid by pretty printing and syntax highlighting data structures.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                     Requirements                                                     ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">Rich works with OSX, Linux and Windows.</span>
+
+<span class="r2">On Windows both the (ancient) cmd.exe terminal is supported and the new </span><a class="r4" href="https://github.com/microsoft/terminal/releases">Windows Terminal</a><span class="r2">. The latter has much improved </span>
+<span class="r2">support for color and style.</span>
+
+<span class="r2">Rich requires Python 3.6.1 and above. Note that Python 3.6.0 is </span><span class="r3">not</span><span class="r2"> supported due to lack of support for methods on </span>
+<span class="r2">NamedTuples.</span>
+
+<span class="r5">╭─────────────────────────────────────────────────────── Note:  ───────────────────────────────────────────────────────╮</span>
+<span class="r5">│ PyCharm users will need to enable &quot;emulate terminal&quot; in output console option in run/debug configuration to see      │</span>
+<span class="r5">│ styled output.                                                                                                       │</span>
+<span class="r5">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                     Installation                                                     ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">You can install Rich from PyPI with pip or your favorite package manager:</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r7">pip install rich</span><span class="r8">                                                                                                    </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">Add the </span><span class="r9">-U</span><span class="r2"> switch to update to the current version, if Rich is already installed.</span>
+
+<span class="r2">If you intend to use Rich with Jupyter then there are some additional dependencies which you can install with the </span>
+<span class="r2">following command:</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r7">pip install rich[jupyter]</span><span class="r8">                                                                                           </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                     Quick Start                                                      ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">The quickest way to get up and running with Rich is to import the alternative </span><span class="r9">print</span><span class="r2"> function which takes the same </span>
+<span class="r2">arguments as the built-in </span><span class="r9">print</span><span class="r2"> and may be used as a drop-in replacement. Here&#x27;s how you would do that:</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r10">from</span><span class="r7"> rich </span><span class="r10">import</span><span class="r7"> print</span><span class="r8">                                                                                              </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">You can then print strings or objects to the terminal in the usual way. Rich will do some basic syntax highlighting and </span>
+<span class="r2">format data structures to make them easier to read.</span>
+
+<span class="r2">Strings may contain :ref:`console_markup` which can be used to insert color and styles in to the output.</span>
+
+<span class="r2">The following demonstrates both console markup and pretty formatting of Python objects:</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> print(</span><span class="r11">&quot;[italic red]Hello[/italic red] World!&quot;</span><span class="r7">, locals())</span><span class="r8">                                                        </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">This writes the following output to the terminal (including all the colors and styles):</span>
+
+<span class="r6">┌─────────────────────────────────────────────── raw stripped raw html ────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r7">Hello World</span><span class="r12">!</span><span class="r8">                                                                                                        </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">{</span><span class="r8">                                                                                                                   </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">    </span><span class="r11">&#x27;__annotations__&#x27;</span><span class="r7">: {},</span><span class="r8">                                                                                          </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">    </span><span class="r11">&#x27;__builtins__&#x27;</span><span class="r7">: </span><span class="r10">&lt;</span><span class="r7">module </span><span class="r11">&#x27;builtins&#x27;</span><span class="r7"> (built</span><span class="r10">-in</span><span class="r7">)</span><span class="r10">&gt;</span><span class="r7">,</span><span class="r8">                                                                 </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">    </span><span class="r11">&#x27;__doc__&#x27;</span><span class="r7">: </span><span class="r13">None</span><span class="r7">,</span><span class="r8">                                                                                                </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">    </span><span class="r11">&#x27;__loader__&#x27;</span><span class="r7">: </span><span class="r10">&lt;</span><span class="r13">class</span><span class="r7"> </span><span class="r12">&#x27;</span><span class="r14">_frozen_importlib</span><span class="r10">.</span><span class="r7">BuiltinImporter</span><span class="r11">&#x27;&gt;,</span><span class="r8">                                                      </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">    </span><span class="r11">&#x27;__name__&#x27;</span><span class="r7">: </span><span class="r11">&#x27;__main__&#x27;</span><span class="r7">,</span><span class="r8">                                                                                         </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">    </span><span class="r11">&#x27;__package__&#x27;</span><span class="r7">: </span><span class="r13">None</span><span class="r7">,</span><span class="r8">                                                                                            </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">    </span><span class="r11">&#x27;__spec__&#x27;</span><span class="r7">: </span><span class="r13">None</span><span class="r7">,</span><span class="r8">                                                                                               </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">    </span><span class="r11">&#x27;print&#x27;</span><span class="r7">: </span><span class="r10">&lt;</span><span class="r7">function print at </span><span class="r15">0x1027fd4c0</span><span class="r10">&gt;</span><span class="r7">,</span><span class="r8">                                                                       </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r7">} </span><span class="r8">                                                                                                                  </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">If you would rather not shadow Python&#x27;s built-in print, you can import </span><span class="r9">rich.print</span><span class="r2"> as </span><span class="r9">rprint</span><span class="r2"> (for example):</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r10">from</span><span class="r7"> rich </span><span class="r10">import</span><span class="r7"> print </span><span class="r13">as</span><span class="r7"> rprint</span><span class="r8">                                                                                    </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">Continue reading to learn about the more advanced features of Rich.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                   Rich in the REPL                                                   ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">Rich may be installed in the REPL so that Python data structures are automatically pretty printed with syntax </span>
+<span class="r2">highlighting. Here&#x27;s how:</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> </span><span class="r10">from</span><span class="r7"> rich </span><span class="r10">import</span><span class="r7"> pretty</span><span class="r8">                                                                                         </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> pretty</span><span class="r10">.</span><span class="r7">install()</span><span class="r8">                                                                                                </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> [</span><span class="r11">&quot;Rich and pretty&quot;</span><span class="r7">, </span><span class="r13">True</span><span class="r7">]</span><span class="r8">                                                                                       </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">You can also use this feature to try out Rich </span><span class="r3">renderables</span><span class="r2">. Here&#x27;s an example:</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> </span><span class="r10">from</span><span class="r7"> rich.panel </span><span class="r10">import</span><span class="r7"> Panel</span><span class="r8">                                                                                    </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> Panel</span><span class="r10">.</span><span class="r7">fit(</span><span class="r11">&quot;[bold yellow]Hi, I&#x27;m a Panel&quot;</span><span class="r7">, border_style</span><span class="r10">=</span><span class="r11">&quot;red&quot;</span><span class="r7">)</span><span class="r8">                                                   </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">Read on to learn more about Rich renderables.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                  IPython Extension                                                   ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">Rich also includes an IPython extension that will do this same pretty install + pretty tracebacks. Here&#x27;s how to load </span>
+<span class="r2">it:</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r7">In [</span><span class="r15">1</span><span class="r7">]: </span><span class="r10">%</span><span class="r7">load_ext rich</span><span class="r8">                                                                                              </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r2">You can also have it load by default by adding &quot;rich&quot; to the </span><span class="r9">c.InteractiveShellApp.extension</span><span class="r2"> variable in </span><a class="r4" href="https://ipython.readthedocs.io/en/stable/config/intro.html">IPython </a>
+<a class="r4" href="https://ipython.readthedocs.io/en/stable/config/intro.html">Configuration</a><span class="r2">.</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                     Rich Inspect                                                     ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">Rich has an :meth:`~rich.inspect` function which can generate a report on any Python object. It is a fantastic debug </span>
+<span class="r2">aid, and a good example of the output that Rich can generate. Here is a simple example:</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> </span><span class="r10">from</span><span class="r7"> rich </span><span class="r10">import</span><span class="r7"> inspect</span><span class="r8">                                                                                        </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> </span><span class="r10">from</span><span class="r7"> rich.color </span><span class="r10">import</span><span class="r7"> Color</span><span class="r8">                                                                                    </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> color </span><span class="r10">=</span><span class="r7"> Color</span><span class="r10">.</span><span class="r7">parse(</span><span class="r11">&quot;red&quot;</span><span class="r7">)</span><span class="r8">                                                                                      </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r10">&gt;&gt;&gt;</span><span class="r7"> inspect(color, methods</span><span class="r10">=</span><span class="r13">True</span><span class="r7">)</span><span class="r8">                                                                                    </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r16">╭──────────────────────────────────────── System Message: Problematic Element ─────────────────────────────────────────╮</span>
+<span class="r16">│</span> <span class="r14">:ref:</span><span class="r7">`console_markup`</span><span class="r8">                                                                                               </span> <span class="r16">│</span>
+<span class="r16">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r17">╭───────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 43); ──────────────────────────────────╮</span>
+<span class="r17">│</span> <span class="r1">&lt;</span><span class="r18">rst-document</span><span class="r1">&gt;</span>:<span class="r17">43</span>: <span class="r1">(</span>INFO/<span class="r17">1</span><span class="r1">)</span> No role entry for <span class="r19">&quot;ref&quot;</span> in module <span class="r19">&quot;docutils.parsers.rst.languages.en&quot;</span>.                   <span class="r17">│</span>
+<span class="r17">│</span> Trying <span class="r19">&quot;ref&quot;</span> as canonical role name.                                                                                 <span class="r17">│</span>
+<span class="r17">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r16">╭───────────────────────────────── System Message: ERROR/3 (&lt;rst-document&gt;, line 43); ─────────────────────────────────╮</span>
+<span class="r16">│</span> <span class="r1">&lt;</span><span class="r18">rst-document</span><span class="r1">&gt;</span>:<span class="r17">43</span>: <span class="r1">(</span>ERROR/<span class="r17">3</span><span class="r1">)</span> Unknown interpreted text role <span class="r19">&quot;ref&quot;</span>.                                                    <span class="r16">│</span>
+<span class="r16">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r16">╭──────────────────────────────────────── System Message: Problematic Element ─────────────────────────────────────────╮</span>
+<span class="r16">│</span> <span class="r14">:meth:</span><span class="r7">`~rich.inspect`</span><span class="r8">                                                                                               </span> <span class="r16">│</span>
+<span class="r16">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r17">╭───────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 101); ─────────────────────────────────╮</span>
+<span class="r17">│</span> <span class="r1">&lt;</span><span class="r18">rst-document</span><span class="r1">&gt;</span>:<span class="r17">101</span>: <span class="r1">(</span>INFO/<span class="r17">1</span><span class="r1">)</span> No role entry for <span class="r19">&quot;meth&quot;</span> in module <span class="r19">&quot;docutils.parsers.rst.languages.en&quot;</span>.                 <span class="r17">│</span>
+<span class="r17">│</span> Trying <span class="r19">&quot;meth&quot;</span> as canonical role name.                                                                                <span class="r17">│</span>
+<span class="r17">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r16">╭──────────────────────────────── System Message: ERROR/3 (&lt;rst-document&gt;, line 101); ─────────────────────────────────╮</span>
+<span class="r16">│</span> <span class="r1">&lt;</span><span class="r18">rst-document</span><span class="r1">&gt;</span>:<span class="r17">101</span>: <span class="r1">(</span>ERROR/<span class="r17">3</span><span class="r1">)</span> Unknown interpreted text role <span class="r19">&quot;meth&quot;</span>.                                                  <span class="r16">│</span>
+<span class="r16">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</code></pre>
+</body>
+</html>

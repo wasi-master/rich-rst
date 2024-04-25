@@ -158,3 +158,6 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 .history/**
+
+*_actual.html
+*.DS_Store

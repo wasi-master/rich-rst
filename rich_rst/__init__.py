@@ -607,6 +607,9 @@ class RestructuredText(JupyterMixin):
         )
         document.walkabout(visitor)
 
+        if visitor.renderables and isinstance(visitor.renderables[-1], Text):
+            visitor.renderables[-1].rstrip()
+            visitor.renderables[-1].end = "\n"
         for renderable in visitor.renderables:
             yield from console.render(renderable, options)
         if self.log_errors and visitor.errors:
