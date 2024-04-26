@@ -7,7 +7,7 @@
 .r2 {color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline}
 .r3 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36}
 .r4 {color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold}
-.r5 {font-style: italic}
+.r5 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic}
 .r6 {color: #ffffff; text-decoration-color: #ffffff}
 .r7 {color: #bcbcbc; text-decoration-color: #bcbcbc}
 body {
@@ -57,9 +57,12 @@ body {
 
 <span class="r4"> • </span>the establishment of a set of standard conventions allowing the expression of structure within plaintext, and
 <span class="r4"> • </span>the conversion of such documents into useful structured data formats.
+
 <span class="r3">The secondary goal of reStructuredText is to be accepted by the Python community (by way of being blessed by PythonLabs </span>
-<span class="r3">and the BDFL ) as a standard for Python inline documentation (possibly one of several standards, to account for </span>
-<span class="r3">taste).To clarify the primary goal, here are specific design goals, in order, beginning with the most important:</span>
+<span class="r3">and the BDFL ) as a standard for Python inline documentation (possibly one of several standards, to account for taste).</span>
+
+<span class="r3">To clarify the primary goal, here are specific design goals, in order, beginning with the most important:</span>
+
 <span class="r4"> 1</span> Readable.  The marked-up text must be easy to read without any prior knowledge of the markup language.  It should be 
 easily read in raw form as in processed form.
 <span class="r4"> 2</span> Unobtrusive.  The markup that is used should be as simple and unobtrusive as possible.  The simplicity of markup 
@@ -82,11 +85,17 @@ and text documentation such as README.txt files.
 markup.
 <span class="r4"> 11</span> Output-format-neutral.  The markup will be appropriate for processing to multiple output formats, and will not be bi
 toward any particular format.
-<span class="r3">The design goals above were used as criteria for accepting or rejecting syntax, or selecting between alternatives.It is </span>
-<span class="r3">emphatically </span><span class="r5">not</span><span class="r3"> the goal of reStructuredText to define docstring semantics, such as docstring contents or docstring </span>
-<span class="r3">length. These issues are orthogonal to the markup syntax and beyond the scope of this specification.Also, it is not the </span>
-<span class="r3">goal of reStructuredText to maintain compatibility with </span><span class="r2">StructuredText</span><span class="r3"> or </span><span class="r2">Setext</span><span class="r3">.  reStructuredText shamelessly steals </span>
-<span class="r3">their great ideas and ignores the not-so-great.Author&#x27;s note:</span>
+
+<span class="r3">The design goals above were used as criteria for accepting or rejecting syntax, or selecting between alternatives.</span>
+
+<span class="r3">It is emphatically </span><span class="r5">not</span><span class="r3"> the goal of reStructuredText to define docstring semantics, such as docstring contents or </span>
+<span class="r3">docstring length. These issues are orthogonal to the markup syntax and beyond the scope of this specification.</span>
+
+<span class="r3">Also, it is not the goal of reStructuredText to maintain compatibility with </span><span class="r2">StructuredText</span><span class="r3"> or </span><span class="r2">Setext</span><span class="r3">.  reStructuredText </span>
+<span class="r3">shamelessly steals their great ideas and ignores the not-so-great.</span>
+
+<span class="r3">Author&#x27;s note:</span>
+
     <span class="r6">Due to the nature of the problem we&#x27;re trying to solve (or, perhaps, due to the nature of the proposed solution), </span>
 <span class="r6">the above goals unavoidably conflict.  I have tried to extract and distill the wisdom accumulated over the years in the </span>
 <span class="r6">Python Doc-SIG mailing list and elsewhere, to come up with a coherent and consistent set of syntax rules, and the above </span>
@@ -129,29 +138,37 @@ benefitting Python.  But it is only a part, not the whole.  reStructuredText is 
 reference parser implementation, but it does not aspire to be the entire system.  I don&#x27;t want reStructuredText or a 
 hypothetical Python documentation processor to die stillborn because of over-ambition.
 <span class="r4"> • </span>Most of all, I want to help ease the documentation chore, the bane of many a programmer.
+
 <span class="r3">Unfortunately I was sidetracked and stopped working on this project. In November 2000 I made the time to enumerate the </span>
 <span class="r3">problems of StructuredText and possible solutions, and complete the first draft of a specification.  This first draft </span>
 <span class="r3">was posted to the Doc-SIG in three parts:</span>
+
 <span class="r4"> • </span>A Plan for Structured Text
 <span class="r4"> • </span>Problems With StructuredText
 <span class="r4"> • </span>reStructuredText: Revised Structured Text Specification
+
 <span class="r3">In March 2001 a flurry of activity on the Doc-SIG spurred me to further revise and refine my specification, the result </span>
 <span class="r3">of which you are now reading.  An offshoot of the reStructuredText project has been the realization that a single markup</span>
 <span class="r3">scheme, no matter how well thought out, may not be enough.  In order to tame the endless debates on Doc-SIG, a flexible </span>
 <a class="r2" href="../../peps/pep-0256.html">Docstring Processing System framework</a><span class="r3"> needed to be constructed.  This framework has become the more important of the two</span>
-<span class="r3">projects; </span><span class="r2">reStructuredText</span><span class="r3"> has found its place as one possible choice for a single component of the larger framework.The</span>
-<span class="r3">project web site and the first project release were rolled out in June 2001, including posting the second draft of the </span>
-<span class="r3">spec  and the first draft of PEPs 256, 257, and 258  to the Doc-SIG.  These documents and the project implementation </span>
-<span class="r3">proceeded to evolve at a rapid pace.  Implementation history details can be found in the </span><a class="r2" href="../../../HISTORY.html">project history file</a><span class="r3">.In </span>
-<span class="r3">November 2001, the reStructuredText parser was nearing completion. Development of the parser continued with the addition</span>
-<span class="r3">of small convenience features, improvements to the syntax, the filling in of gaps, and bug fixes.  After a long holiday </span>
-<span class="r3">break, in early 2002 most development moved over to the other Docutils components, the &quot;Readers&quot;, &quot;Writers&quot;, and </span>
+<span class="r3">projects; </span><span class="r2">reStructuredText</span><span class="r3"> has found its place as one possible choice for a single component of the larger framework.</span>
+
+<span class="r3">The project web site and the first project release were rolled out in June 2001, including posting the second draft of </span>
+<span class="r3">the spec  and the first draft of PEPs 256, 257, and 258  to the Doc-SIG.  These documents and the project implementation</span>
+<span class="r3">proceeded to evolve at a rapid pace.  Implementation history details can be found in the </span><a class="r2" href="../../../HISTORY.html">project history file</a><span class="r3">.</span>
+
+<span class="r3">In November 2001, the reStructuredText parser was nearing completion. Development of the parser continued with the </span>
+<span class="r3">addition of small convenience features, improvements to the syntax, the filling in of gaps, and bug fixes.  After a long</span>
+<span class="r3">holiday break, in early 2002 most development moved over to the other Docutils components, the &quot;Readers&quot;, &quot;Writers&quot;, and</span>
 <span class="r3">&quot;Transforms&quot;.  A &quot;standalone&quot; reader (processes standalone text file documents) was completed in February, and a basic </span>
-<span class="r3">HTML writer (producing HTML 4.01, using CSS-1) was completed in early March.</span><a class="r2" href="../../peps/pep-0287.html">PEP 287</a><span class="r3">, &quot;reStructuredText Standard </span>
-<span class="r3">Docstring Format&quot;, was created to formally propose reStructuredText as a standard format for Python docstrings, PEPs, </span>
-<span class="r3">and other files.  It was first posted to </span><a class="r2" href="news:comp.lang.python">comp.lang.python</a><span class="r3"> and the </span><a class="r2" href="https://mail.python.org/pipermail/python-dev/">Python-dev</a><span class="r3"> mailing list on 2002-04-02.Version 0.4 of </span>
-<span class="r3">the </span><span class="r2">reStructuredText</span><span class="r3"> and </span><a class="r2" href="http://docstring.sourceforge.net/">Docstring Processing System</a><span class="r3"> projects were released in April 2002.  The two projects were </span>
-<span class="r3">immediately merged, renamed to &quot;</span><span class="r2">Docutils</span><span class="r3">&quot;, and a 0.1 release soon followed.</span>
+<span class="r3">HTML writer (producing HTML 4.01, using CSS-1) was completed in early March.</span>
+
+<a class="r2" href="../../peps/pep-0287.html">PEP 287</a><span class="r3">, &quot;reStructuredText Standard Docstring Format&quot;, was created to formally propose reStructuredText as a standard </span>
+<span class="r3">format for Python docstrings, PEPs, and other files.  It was first posted to </span><a class="r2" href="news:comp.lang.python">comp.lang.python</a><span class="r3"> and the </span><a class="r2" href="https://mail.python.org/pipermail/python-dev/">Python-dev</a><span class="r3"> mailing</span>
+<span class="r3">list on 2002-04-02.</span>
+
+<span class="r3">Version 0.4 of the </span><span class="r2">reStructuredText</span><span class="r3"> and </span><a class="r2" href="http://docstring.sourceforge.net/">Docstring Processing System</a><span class="r3"> projects were released in April 2002.  The two </span>
+<span class="r3">projects were immediately merged, renamed to &quot;</span><span class="r2">Docutils</span><span class="r3">&quot;, and a 0.1 release soon followed.</span>
 <span class="r7">┌─────────────────────────────────────────────────────── Footer ───────────────────────────────────────────────────────┐</span>
 <span class="r7">│</span>                          First drafts of the PEPs:                                                                   <span class="r7">│</span>
 <span class="r7">│</span>                                                                                                                      <span class="r7">│</span>
