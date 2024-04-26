@@ -161,3 +161,4 @@ cython_debug/
 
 *_actual.html
 *.DS_Store
+rich_rst/_version.py
