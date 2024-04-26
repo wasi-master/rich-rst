@@ -1,0 +1,57 @@
+[build-system]
+requires = [
+    "setuptools>=64",
+    "setuptools_scm[toml]>=8"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rich-rst"
+dynamic = ["version"]
+description = "A beautiful reStructuredText renderer for rich"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Wasi Master", email = "arianmollik323@gmail.com" }
+]
+keywords = ["richrst", "restructuredtextrich", "restructuredtextrich-restructuredtextrich", "rstrich-rst"]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English"
+]
+dependencies = [
+    "docutils",
+    "rich>=12.0.0",
+]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/wasi-master/rich-rst/issues"
+"Source" = "https://github.com/wasi-master/rich-rst"
+"Documentation" = "https://rich-rst.readthedocs.io/en/latest/"
+"Say Thanks" = "https://saythanks.io/to/wasi-master"
+"Homepage" = "https://wasi-master.github.io/rich-rst"
+
+[project.optional-dependencies]
+docs = [
+    "sphinx"
+]
+
+[tool.setuptools]
+packages = [
+    "rich_rst",
+]
+
+[tool.setuptools_scm]
+version_file = "rich_rst/_version.py"
