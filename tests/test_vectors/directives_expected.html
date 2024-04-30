@@ -123,10 +123,10 @@ body {
 <span class="r10"> • </span>note
 <span class="r10"> • </span>tip
 <span class="r10"> • </span>warning
+
 <span class="r2">Any text immediately following the directive indicator (on the same line and/or indented on following lines) is </span>
 <span class="r2">interpreted as a directive block and is parsed for normal body elements.  For example, the following &quot;note&quot; admonition </span>
 <span class="r2">directive contains one paragraph and a bullet list consisting of two list items:</span>
-
 <span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r3">│</span> <span class="r4">..</span><span class="r6"> note:: This </span><span class="r4">is</span><span class="r6"> a note admonition</span><span class="r4">.</span><span class="r5">                                                                                </span> <span class="r3">│</span>
 <span class="r3">│</span> <span class="r6">   This </span><span class="r4">is</span><span class="r6"> the second line of the first paragraph</span><span class="r4">.</span><span class="r5">                                                                  </span> <span class="r3">│</span>
@@ -767,8 +767,8 @@ overriding a table_style or class value &quot;colwidths-auto&quot;.
 <span class="r10"> • </span>Block markup and inline markup within cells is supported.  Line ends are recognized within cells.
 <span class="r10"> • </span>There is no support for checking that the number of columns in each row is the same. The directive automatically adds
 empty entries at the end of short rows.  Add &quot;strict&quot; option to verify input?
-<span class="r2">Example:</span>
 
+<span class="r2">Example:</span>
 <span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r3">│</span> <span class="r4">..</span><span class="r6"> csv</span><span class="r4">-</span><span class="r6">table:: Frozen Delights</span><span class="r9">!</span><span class="r5">                                                                                     </span> <span class="r3">│</span>
 <span class="r3">│</span> <span class="r6">   :header: </span><span class="r7">&quot;Treat&quot;</span><span class="r6">, </span><span class="r7">&quot;Quantity&quot;</span><span class="r6">, </span><span class="r7">&quot;Description&quot;</span><span class="r5">                                                                      </span> <span class="r3">│</span>
@@ -1175,9 +1175,11 @@ entities, e.g. &amp;#x1a2b;
     <span class="r10"> ▪ </span>hexadecimal numbers, prefixed by 0x, x, \x, U+, u, or \u or as XML-style hexadecimal character entities, e.g. &amp;#x
 <span class="r10"> • </span>hexadecimal numbers, prefixed by 0x, x, \x, U+, u, or \u or as XML-style hexadecimal character entities, e.g. &amp;#x1a2b
 <span class="r10"> • </span>text, which is used as-is.
-<span class="r2">Text following &quot; .. &quot; is a comment and is ignored.  The spaces between the arguments are ignored and thus do not appear </span>
-<span class="r2">in the output. Hexadecimal codes are case-insensitive.For example, the following text:</span>
 
+<span class="r2">Text following &quot; .. &quot; is a comment and is ignored.  The spaces between the arguments are ignored and thus do not appear </span>
+<span class="r2">in the output. Hexadecimal codes are case-insensitive.</span>
+
+<span class="r2">For example, the following text:</span>
 <span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r3">│</span> <span class="r6">Copyright </span><span class="r4">|</span><span class="r6">copy</span><span class="r4">|</span><span class="r6"> </span><span class="r12">2003</span><span class="r6">, </span><span class="r4">|</span><span class="r6">BogusMegaCorp (TM)</span><span class="r4">|</span><span class="r6"> </span><span class="r4">|---|</span><span class="r5">                                                                   </span> <span class="r3">│</span>
 <span class="r3">│</span> <span class="r6">all rights reserved</span><span class="r4">.</span><span class="r5">                                                                                                </span> <span class="r3">│</span>
@@ -1449,10 +1451,14 @@ tab_width configuration setting.
 <span class="r10"> • </span>accented characters to the base character,
 <span class="r10"> • </span>non-alphanumeric characters to hyphens,
 <span class="r10"> • </span>consecutive hyphens into one hyphen
+
 <span class="r2">and stripping</span>
+
 <span class="r10"> • </span>leading hyphens and number characters, and
 <span class="r10"> • </span>trailing hyphens.
+
 <span class="r2">For example </span><span class="r17">&quot;Rot.Gelb&amp;GrÃ¼n:+2008&quot;</span><span class="r2"> becomes </span><span class="r17">&quot;rot-gelb-grun-2008&quot;</span><span class="r2"> and </span><span class="r17">&quot;1000_Steps!&quot;</span><span class="r2"> becomes </span><span class="r17">&quot;steps&quot;</span><span class="r2">.</span>
+
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                                      Rationale:                                                      ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -1466,10 +1472,12 @@ may be followed by any number of letters, digits ([0-9]), hyphens (&quot;-&quot;
 <span class="r10"> • </span>The CSS1 spec defines identifiers based on the &quot;name&quot; token (&quot;flex&quot; tokenizer notation below; &quot;latin1&quot; and &quot;escape&quot; 
 8-bit characters have been replaced with XML entities):  unicode     \\[0-9a-f]{1,4} latin1      [&amp;iexcl;-&amp;yuml;] escape
 {unicode}|\\[ -~&amp;iexcl;-&amp;yuml;] nmchar      [-A-Za-z0-9]|{latin1}|{escape} name        {nmchar}+
+
 <span class="r2">The CSS1 rule requires underscores (&quot;_&quot;), colons (&quot;:&quot;), and periods (&quot;.&quot;) to be escaped , therefore </span><span class="r8">&quot;classes&quot;</span><span class="r2"> and </span><a class="r8" href="../doctree.html#ids">&quot;ids&quot;</a><span class="r2"> </span>
 <span class="r2">attributes should not contain these characters.  Combined with HTML4.1 requirements (the first character must be a </span>
 <span class="r2">letter; no &quot;unicode&quot;, &quot;latin1&quot;, or &quot;escape&quot; characters), this results in the regular expression </span><span class="r17">[A-Za-z][-A-Za-z0-9]*</span><span class="r2">. </span>
 <span class="r2">Docutils adds a normalization by downcasing and merge of consecutive hyphens.</span>
+
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                            Custom Interpreted Text Roles                                             ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>

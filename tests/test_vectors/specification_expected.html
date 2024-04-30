@@ -27,12 +27,11 @@
 .r22 {color: #959077; text-decoration-color: #959077; background-color: #272822}
 .r23 {color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold}
 .r24 {color: #8be9fd; text-decoration-color: #8be9fd}
-.r25 {font-style: italic}
-.r26 {color: #ff5555; text-decoration-color: #ff5555}
-.r27 {color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold}
-.r28 {color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold}
-.r29 {color: #50fa7b; text-decoration-color: #50fa7b}
-.r30 {color: #bcbcbc; text-decoration-color: #bcbcbc}
+.r25 {color: #ff5555; text-decoration-color: #ff5555}
+.r26 {color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold}
+.r27 {color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold}
+.r28 {color: #50fa7b; text-decoration-color: #50fa7b}
+.r29 {color: #bcbcbc; text-decoration-color: #bcbcbc}
 body {
     color: #f8f8f2;
     background-color: #282a36;
@@ -172,10 +171,12 @@ footnotes/citations,    hyperlink targets, directives, or substitution definitio
 lists),
 <span class="r5"> • </span>the content of literal blocks, and
 <span class="r5"> • </span>the content of explicit markup blocks (directives, footnotes, ...).
-<span class="r4">Any text whose indentation is less than that of the current level (i.e., unindented text or &quot;dedents&quot;) ends the current </span>
-<span class="r4">level of indentation.Since all indentation is significant, the level of indentation must be consistent.  For example, </span>
-<span class="r4">indentation is the sole markup indicator for </span><span class="r3">block quotes</span><span class="r4">:</span>
 
+<span class="r4">Any text whose indentation is less than that of the current level (i.e., unindented text or &quot;dedents&quot;) ends the current </span>
+<span class="r4">level of indentation.</span>
+
+<span class="r4">Since all indentation is significant, the level of indentation must be consistent.  For example, indentation is the sole</span>
+<span class="r4">markup indicator for </span><span class="r3">block quotes</span><span class="r4">:</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r7">This </span><span class="r8">is</span><span class="r7"> a top</span><span class="r8">-</span><span class="r7">level paragraph</span><span class="r8">.</span><span class="r9">                                                                                      </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r9">                                                                                                                    </span> <span class="r6">│</span>
@@ -256,8 +257,10 @@ represents the character itself. (A literal backslash can be specified by two ba
 backslash escapes the second. )
 <span class="r5"> • </span>Escaped whitespace characters are removed from the output document together with the escaping backslash. This allows 
 character-level inline markup.  In URI context , backslash-escaped whitespace represents a single space.
+
 <span class="r4">Backslashes have no special meaning in literal context . Here, a single backslash represents a literal backslash, </span>
 <span class="r4">without having to double up. </span>
+
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                                   Reference Names                                                    ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -287,8 +290,8 @@ character-level inline markup.  In URI context , backslash-escaped whitespace re
 <span class="r5"> • </span>whitespace is normalized (one or more spaces, horizontal or vertical tabs, newlines, carriage returns, or form feeds,
 are interpreted as a single space), and
 <span class="r5"> • </span>case is normalized (all alphabetic characters are converted to lowercase).
-<span class="r4">For example, the following </span><span class="r3">hyperlink references</span><span class="r4"> are equivalent:</span>
 
+<span class="r4">For example, the following </span><span class="r3">hyperlink references</span><span class="r4"> are equivalent:</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r8">-</span><span class="r7"> </span><span class="r15">`</span><span class="r7">A HYPERLINK</span><span class="r15">`</span><span class="r7">_</span><span class="r9">                                                                                                    </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r8">-</span><span class="r7"> </span><span class="r15">`</span><span class="r7">a    hyperlink</span><span class="r15">`</span><span class="r7">_</span><span class="r9">                                                                                                 </span> <span class="r6">│</span>
@@ -501,26 +504,35 @@ are interpreted as a single space), and
 <span class="r5"> • </span>lower-case alphabet characters: a, b, c, ..., z.
 <span class="r5"> • </span>uppercase Roman numerals: I, II, III, IV, ..., MMMMCMXCIX (4999).
 <span class="r5"> • </span>lowercase Roman numerals: i, ii, iii, iv, ..., mmmmcmxcix (4999).
+
 <span class="r4">In addition, the auto-enumerator, &quot;#&quot;, may be used to automatically enumerate a list.  Auto-enumerated lists may begin </span>
 <span class="r4">with explicit enumeration, which sets the sequence.  Fully auto-enumerated lists use arabic numerals and begin with 1.  </span>
-<span class="r4">(Auto-enumerated lists are new in Docutils 0.3.8.)The following formatting types are recognized:</span>
+<span class="r4">(Auto-enumerated lists are new in Docutils 0.3.8.)</span>
+
+<span class="r4">The following formatting types are recognized:</span>
+
 <span class="r5"> • </span>suffixed with a period: &quot;1.&quot;, &quot;A.&quot;, &quot;a.&quot;, &quot;I.&quot;, &quot;i.&quot;.
 <span class="r5"> • </span>surrounded by parentheses: &quot;(1)&quot;, &quot;(A)&quot;, &quot;(a)&quot;, &quot;(I)&quot;, &quot;(i)&quot;.
 <span class="r5"> • </span>suffixed with a right-parenthesis: &quot;1)&quot;, &quot;A)&quot;, &quot;a)&quot;, &quot;I)&quot;, &quot;i)&quot;.
+
 <span class="r4">While parsing an enumerated list, a new list will be started whenever:</span>
+
 <span class="r5"> • </span>An enumerator is encountered which does not have the same format and sequence type as the current list (e.g. &quot;1.&quot;, &quot;(
 produces two separate lists).
 <span class="r5"> • </span>The enumerators are not in sequence (e.g., &quot;1.&quot;, &quot;3.&quot; produces two separate lists).
+
 <span class="r4">It is recommended that the enumerator of the first list item be ordinal-1 (&quot;1&quot;, &quot;A&quot;, &quot;a&quot;, &quot;I&quot;, or &quot;i&quot;).  Although other </span>
 <span class="r4">start-values will be recognized, they may not be supported by the output format.  A level-1 [info] system message will </span>
-<span class="r4">be generated for any list beginning with a non-ordinal-1 enumerator.Lists using Roman numerals must begin with &quot;I&quot;/&quot;i&quot; </span>
-<span class="r4">or a multi-character value, such as &quot;II&quot; or &quot;XV&quot;.  Any other single-character Roman numeral (&quot;V&quot;, &quot;X&quot;, &quot;L&quot;, &quot;C&quot;, &quot;D&quot;, </span>
-<span class="r4">&quot;M&quot;) will be interpreted as a letter of the alphabet, not as a Roman numeral. Likewise, lists using letters of the </span>
-<span class="r4">alphabet may not begin with &quot;I&quot;/&quot;i&quot;, since these are recognized as Roman numeral 1.The second line of each enumerated </span>
-<span class="r4">list item is checked for validity. This is to prevent ordinary paragraphs from being mistakenly interpreted as list </span>
-<span class="r4">items, when they happen to begin with text identical to enumerators.  For example, this text is parsed as an ordinary </span>
-<span class="r4">paragraph:</span>
+<span class="r4">be generated for any list beginning with a non-ordinal-1 enumerator.</span>
 
+<span class="r4">Lists using Roman numerals must begin with &quot;I&quot;/&quot;i&quot; or a multi-character value, such as &quot;II&quot; or &quot;XV&quot;.  Any other </span>
+<span class="r4">single-character Roman numeral (&quot;V&quot;, &quot;X&quot;, &quot;L&quot;, &quot;C&quot;, &quot;D&quot;, &quot;M&quot;) will be interpreted as a letter of the alphabet, not as a </span>
+<span class="r4">Roman numeral. Likewise, lists using letters of the alphabet may not begin with &quot;I&quot;/&quot;i&quot;, since these are recognized as </span>
+<span class="r4">Roman numeral 1.</span>
+
+<span class="r4">The second line of each enumerated list item is checked for validity. This is to prevent ordinary paragraphs from being </span>
+<span class="r4">mistakenly interpreted as list items, when they happen to begin with text identical to enumerators.  For example, this </span>
+<span class="r4">text is parsed as an ordinary paragraph:</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r7">A</span><span class="r8">.</span><span class="r7"> Einstein was a really</span><span class="r9">                                                                                            </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r7">smart dude</span><span class="r8">.</span><span class="r9">                                                                                                         </span> <span class="r6">│</span>
@@ -566,8 +578,8 @@ if it appears outside of any inline markup.
 <span class="r5"> • </span>A definition is a block indented relative to the term, and may contain multiple paragraphs and other body elements.  
 There may be no blank line between a term line and a definition block (this distinguishes definition lists from block 
 quotes). Blank lines are required before the first and after the last definition list item, but are optional in-between.
-<span class="r4">Example:</span>
 
+<span class="r4">Example:</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r7">term </span><span class="r10">1</span><span class="r9">                                                                                                              </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r7">    Definition </span><span class="r10">1.</span><span class="r9">                                                                                                   </span> <span class="r6">│</span>
@@ -593,8 +605,8 @@ quotes). Blank lines are required before the first and after the last definition
 <span class="r5"> • </span>To describe program variables.  The term is the variable name, a classifier may be used to indicate the type of the 
 variable (string, integer, etc.), and the definition describes the variable&#x27;s use in the program.  This usage of 
 definition lists supports the classifier syntax of Grouch, a system for describing and enforcing a Python object schema.
-<span class="r4">Syntax diagram:</span>
 
+<span class="r4">Syntax diagram:</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r8">+----------------------------+</span><span class="r9">                                                                                      </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r8">|</span><span class="r7"> term [ </span><span class="r11">&quot; : &quot;</span><span class="r7"> classifier ]</span><span class="r8">*</span><span class="r7"> </span><span class="r8">|</span><span class="r9">                                                                                      </span> <span class="r6">│</span>
@@ -736,26 +748,34 @@ definition lists supports the classifier syntax of Grouch, a system for describi
 <span class="r5"> • </span>Old GNU-style &quot;plus&quot; options consist of one plus and an option letter (&quot;plus&quot; options are deprecated now, their use 
 discouraged).
 <span class="r5"> • </span>DOS/VMS options consist of a slash and an option letter or word.
+
 <span class="r4">Please note that both POSIX-style and DOS/VMS-style options may be used by DOS or Windows software.  These and other </span>
-<span class="r4">variations are sometimes used mixed together.  The names above have been chosen for convenience only.The syntax for </span>
-<span class="r4">short and long POSIX options is based on the syntax supported by Python&#x27;s </span><a class="r3" href="https://docs.python.org/3/library/getopt.html">getopt.py</a><span class="r4"> module, which implements an option </span>
-<span class="r4">parser similar to the </span><a class="r3" href="https://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Options.html">GNU libc getopt_long()</a><span class="r4"> function but with some restrictions.  There are many variant option </span>
-<span class="r4">systems, and reStructuredText option lists do not support all of them.Although long POSIX and DOS/VMS option words may </span>
-<span class="r4">be allowed to be truncated by the operating system or the application when used on the command line, reStructuredText </span>
-<span class="r4">option lists do not show or support this with any special syntax.  The complete option word should be given, supported </span>
-<span class="r4">by notes about truncation if and when applicable.Options may be followed by an argument placeholder, whose role and </span>
-<span class="r4">syntax should be explained in the description text. Either a space or an equals sign may be used as a delimiter between </span>
-<span class="r4">long options and option argument placeholders; short options (&quot;-&quot; or &quot;+&quot; prefix only) use a space or omit the delimiter.</span>
-<span class="r4">Option arguments may take one of two forms:</span>
+<span class="r4">variations are sometimes used mixed together.  The names above have been chosen for convenience only.</span>
+
+<span class="r4">The syntax for short and long POSIX options is based on the syntax supported by Python&#x27;s </span><a class="r3" href="https://docs.python.org/3/library/getopt.html">getopt.py</a><span class="r4"> module, which </span>
+<span class="r4">implements an option parser similar to the </span><a class="r3" href="https://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Options.html">GNU libc getopt_long()</a><span class="r4"> function but with some restrictions.  There are many </span>
+<span class="r4">variant option systems, and reStructuredText option lists do not support all of them.</span>
+
+<span class="r4">Although long POSIX and DOS/VMS option words may be allowed to be truncated by the operating system or the application </span>
+<span class="r4">when used on the command line, reStructuredText option lists do not show or support this with any special syntax.  The </span>
+<span class="r4">complete option word should be given, supported by notes about truncation if and when applicable.</span>
+
+<span class="r4">Options may be followed by an argument placeholder, whose role and syntax should be explained in the description text. </span>
+<span class="r4">Either a space or an equals sign may be used as a delimiter between long options and option argument placeholders; short</span>
+<span class="r4">options (&quot;-&quot; or &quot;+&quot; prefix only) use a space or omit the delimiter. Option arguments may take one of two forms:</span>
+
 <span class="r5"> • </span>Begins with a letter ([a-zA-Z]) and subsequently consists of letters, numbers, underscores and hyphens ([a-zA-Z0-9_-]
 <span class="r5"> • </span>Begins with an open-angle-bracket (&lt;) and ends with a close-angle-bracket (&gt;); any characters except angle brackets a
 allowed internally.
-<span class="r4">Multiple option &quot;synonyms&quot; may be listed, sharing a single description.  They must be separated by comma-space.There </span>
-<span class="r4">must be at least two spaces between the option(s) and the description (which can also start on the next line).  The </span>
-<span class="r4">description may contain multiple body elements. The first line after the option marker determines the indentation of the</span>
-<span class="r4">description.  As with other types of lists, blank lines are required before the first option list item and after the </span>
-<span class="r4">last, but are optional between option entries.Syntax diagram (simplified):</span>
 
+<span class="r4">Multiple option &quot;synonyms&quot; may be listed, sharing a single description.  They must be separated by comma-space.</span>
+
+<span class="r4">There must be at least two spaces between the option(s) and the description (which can also start on the next line).  </span>
+<span class="r4">The description may contain multiple body elements. The first line after the option marker determines the indentation of</span>
+<span class="r4">the description.  As with other types of lists, blank lines are required before the first option list item and after the</span>
+<span class="r4">last, but are optional between option entries.</span>
+
+<span class="r4">Syntax diagram (simplified):</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r8">+----------------------------+-------------+</span><span class="r9">                                                                        </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r8">|</span><span class="r7"> option [</span><span class="r11">&quot; &quot;</span><span class="r7"> argument] </span><span class="r11">&quot;  &quot;</span><span class="r7"> </span><span class="r8">|</span><span class="r7"> description </span><span class="r8">|</span><span class="r9">                                                                        </span> <span class="r6">│</span>
@@ -797,9 +817,11 @@ allowed internally.
 <span class="r5"> 1</span> Expanded form:  Paragraph:  ::      Literal block
 <span class="r5"> 2</span> Partially minimized form:  Paragraph: ::      Literal block
 <span class="r5"> 3</span> Fully minimized form:  Paragraph::      Literal block
+
 <span class="r4">All whitespace (including line breaks, but excluding minimum indentation for indented literal blocks) is preserved.  </span>
 <span class="r4">Blank lines are required before and after a literal block, but these blank lines are not included as part of the literal</span>
 <span class="r4">block.</span>
+
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                               Indented Literal Blocks                                                ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -1153,11 +1175,15 @@ allowed internally.
 <span class="r5"> • </span>whose first line begins with &quot;..&quot; followed by whitespace (the &quot;explicit markup start&quot;),
 <span class="r5"> • </span>whose second and subsequent lines (if any) are indented relative to the first, and
 <span class="r5"> • </span>which ends before an unindented line.
+
 <span class="r4">Explicit markup blocks are analogous to field list items. The maximum common indentation is always removed from the </span>
 <span class="r4">second and subsequent lines of the block body.  Therefore, if the first construct fits in one line and the indentation </span>
 <span class="r4">of the first and second constructs should differ, the first construct should not begin on the same line as the explicit </span>
-<span class="r4">markup start.Blank lines are required between explicit markup blocks and other elements, but are optional between </span>
-<span class="r4">explicit markup blocks where unambiguous.</span>
+<span class="r4">markup start.</span>
+
+<span class="r4">Blank lines are required between explicit markup blocks and other elements, but are optional between explicit markup </span>
+<span class="r4">blocks where unambiguous.</span>
+
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                                      Footnotes                                                       ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -1174,13 +1200,16 @@ allowed internally.
 <span class="r5"> • </span>a single &quot;#&quot; (denoting auto-numbered footnotes),
 <span class="r5"> • </span>a &quot;#&quot; followed by a simple reference name (an autonumber label), or
 <span class="r5"> • </span>a single &quot;*&quot; (denoting auto-symbol footnotes).
+
 <span class="r4">The footnote content (body elements) must be consistently indented and left-aligned.  The first body element within a </span>
 <span class="r4">footnote may often begin on the same line as the footnote label. However, if the first element fits on one line and the </span>
 <span class="r4">indentation of the remaining elements differ, the first element must begin on the line after the footnote label.  </span>
-<span class="r4">Otherwise, the difference in indentation will not be detected.Footnotes may occur anywhere in the document, not only at </span>
-<span class="r4">the end. Where and how they appear in the processed output depends on the processing system.Here is a manually numbered </span>
-<span class="r4">footnote:</span>
+<span class="r4">Otherwise, the difference in indentation will not be detected.</span>
 
+<span class="r4">Footnotes may occur anywhere in the document, not only at the end. Where and how they appear in the processed output </span>
+<span class="r4">depends on the processing system.</span>
+
+<span class="r4">Here is a manually numbered footnote:</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r8">..</span><span class="r7"> [</span><span class="r10">1</span><span class="r7">] Body elements go here</span><span class="r8">.</span><span class="r9">                                                                                       </span> <span class="r6">│</span>
 <span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
@@ -1215,10 +1244,10 @@ allowed internally.
 reference.  For example:  If [#note]_ is the first footnote reference, it will show up as &quot;[1]&quot;.  We can refer to it 
 again as [#note]_ and again see &quot;[1]&quot;.  We can also refer to it as note_ (an ordinary internal hyperlink reference).  ..
 [#note] This is the footnote labeled &quot;note&quot;.
+
 <span class="r4">The numbering is determined by the order of the footnotes, not by the order of the references.  For footnote references </span>
 <span class="r4">without autonumber labels (</span><span class="r14">[#]_</span><span class="r4">), the footnotes and footnote references must be in the same relative order but need not </span>
 <span class="r4">alternate in lock-step.  For example:</span>
-
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r7">[</span><span class="r22">#]_ is a reference to footnote 1, and [#]_ is a reference to</span><span class="r9">                                                       </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r7">footnote </span><span class="r10">2.</span><span class="r9">                                                                                                         </span> <span class="r6">│</span>
@@ -1258,8 +1287,10 @@ again as [#note]_ and again see &quot;[1]&quot;.  We can also refer to it as not
 <span class="r5"> • </span>heart suit (&quot;&amp;hearts;&quot;/U+02665)
 <span class="r5"> • </span>diamond suit (&quot;&amp;diams;&quot;/U+02666)
 <span class="r5"> • </span>club suit (&quot;&amp;clubs;&quot;/U+02663)
+
 <span class="r4">If more than ten symbols are required, the same sequence will be reused, doubled and then tripled, and so on (&quot;**&quot; </span>
 <span class="r4">etc.).</span>
+
 <span class="r2">╭─────────────────────────────────────────────────────── Note:  ───────────────────────────────────────────────────────╮</span>
 <span class="r2">│ When using auto-symbol footnotes, the choice of output encoding is important.  Many of the symbols used are not      │</span>
 <span class="r2">│ encodable in certain common text encodings such as Latin-1 (ISO 8859-1).  The use of UTF-8 for the output encoding   │</span>
@@ -1369,13 +1400,17 @@ the same line as the explicit markup start or the next line.  It may also be spl
 the lines are joined with whitespace before being normalized.  For example, the following indirect hyperlink targets are
 equivalent:  .. _one-liner: `A HYPERLINK`_ .. _entirely-below:    `a    hyperlink`_ .. _split: `A    Hyperlink`_  It is 
 possible to include an alias directly within hyperlink references. See Embedded URIs and Aliases below.
+
 <span class="r4">If the reference name contains any colons, either:</span>
+
 <span class="r5"> • </span>the phrase must be enclosed in backquotes:  .. _`FAQTS: Computers: Programming: Languages: Python`:    
 http://python.faqts.com/
 <span class="r5"> • </span>or the colon(s) must be backslash-escaped in the link target:  .. _Chapter One\: &quot;Tadpole Days&quot;:  It&#x27;s not easy being
 green...
-<span class="r4">See </span><span class="r3">Implicit Hyperlink Targets</span><span class="r4"> below for the resolution of duplicate reference names.Syntax diagram:</span>
 
+<span class="r4">See </span><span class="r3">Implicit Hyperlink Targets</span><span class="r4"> below for the resolution of duplicate reference names.</span>
+
+<span class="r4">Syntax diagram:</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r8">+-------+----------------------+</span><span class="r9">                                                                                    </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r8">|</span><span class="r7"> </span><span class="r11">&quot;.. &quot;</span><span class="r7"> </span><span class="r8">|</span><span class="r7"> </span><span class="r11">&quot;_&quot;</span><span class="r7"> name </span><span class="r11">&quot;:&quot;</span><span class="r7"> link    </span><span class="r8">|</span><span class="r9">                                                                                    </span> <span class="r6">│</span>
@@ -1449,18 +1484,20 @@ green...
 <span class="r5"> • </span>If an implementation of reStructuredText does not recognize a directive (i.e., the directive-handler is not installed
 a level-3 (error) system message is generated, and the entire directive block (including the directive itself) will be 
 included as a literal block.  Thus &quot;::&quot; is a natural choice.
+
 <span class="r4">The directive block consists of any text on the first line of the directive after the directive marker, and any </span>
 <span class="r4">subsequent indented text.  The interpretation of the directive block is up to the directive code.  There are three </span>
 <span class="r4">logical parts to the directive block:</span>
+
 <span class="r5"> 1</span> Directive arguments.
 <span class="r5"> 2</span> Directive options.
 <span class="r5"> 3</span> Directive content.
+
 <span class="r4">Individual directives can employ any combination of these parts. Directive arguments can be filesystem paths, URLs, </span>
 <span class="r4">title text, etc. Directive options are indicated using </span><span class="r3">field lists</span><span class="r4">; the field names and contents are directive-specific.</span>
 <span class="r4">Arguments and options must form a contiguous block beginning on the first or second line of the directive; a blank line </span>
 <span class="r4">indicates the beginning of the directive content block.  If either arguments and/or options are employed by the </span>
 <span class="r4">directive, a blank line must separate them from the directive content. The &quot;figure&quot; directive employs all three parts:</span>
-
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r8">..</span><span class="r7"> figure:: larch</span><span class="r8">.</span><span class="r7">png</span><span class="r9">                                                                                               </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r7">   :scale: </span><span class="r10">50</span><span class="r9">                                                                                                       </span> <span class="r6">│</span>
@@ -1648,9 +1685,12 @@ duplicate implicit hyperlink targets.
 <span class="r5"> 3</span> Duplicate explicit hyperlink targets are removed, and level-2 (warning) system messages are inserted.  Exception: 
 duplicate external hyperlink targets (identical hyperlink names and referenced URIs) do not conflict, and are not 
 removed.
-<span class="r4">System messages are inserted where target links have been removed. See &quot;Error Handling&quot; in </span><span class="r3">PEP 258</span><span class="r4">.The parser must </span>
-<span class="r4">return a set of </span><span class="r25">unique</span><span class="r4"> hyperlink targets.  The calling software (such as the </span><a class="r3" href="https://docutils.sourceforge.io/">Docutils</a><span class="r4">) can warn of unresolvable links, </span>
-<span class="r4">giving reasons for the messages.</span>
+
+<span class="r4">System messages are inserted where target links have been removed. See &quot;Error Handling&quot; in </span><span class="r3">PEP 258</span><span class="r4">.</span>
+
+<span class="r4">The parser must return a set of </span><span class="r13">unique</span><span class="r4"> hyperlink targets.  The calling software (such as the </span><a class="r3" href="https://docutils.sourceforge.io/">Docutils</a><span class="r4">) can warn of </span>
+<span class="r4">unresolvable links, giving reasons for the messages.</span>
+
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                                    Inline Markup                                                     ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -1667,11 +1707,17 @@ removed.
 <span class="r5"> • </span>interpreted text: &quot;`&quot;
 <span class="r5"> • </span>inline literals: &quot;``&quot;
 <span class="r5"> • </span>substitution references: &quot;|&quot;
+
 <span class="r4">Three constructs use different start-strings and end-strings:</span>
+
 <span class="r5"> • </span>inline internal targets: &quot;_`&quot; and &quot;`&quot;
 <span class="r5"> • </span>footnote references: &quot;[&quot; and &quot;]_&quot;
 <span class="r5"> • </span>hyperlink references: &quot;`&quot; and &quot;`_&quot; (phrases), or just a trailing &quot;_&quot; (single words)
-<span class="r3">Standalone hyperlinks</span><span class="r4"> are recognized implicitly, and use no extra markup.Inline comments are not supported.</span>
+
+<span class="r3">Standalone hyperlinks</span><span class="r4"> are recognized implicitly, and use no extra markup.</span>
+
+<span class="r4">Inline comments are not supported.</span>
+
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                           Inline markup recognition rules                                            ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -1685,14 +1731,18 @@ end-string of inline literals). See Escaping Mechanism above for details.
 <span class="r5"> 5</span> If an inline markup start-string is immediately preceded by one of the ASCII characters &#x27; &quot; &lt; ( [ { or a similar 
 non-ASCII character , it must not be followed by the corresponding closing character from &#x27; &quot; &gt; ) ] } or a similar 
 non-ASCII character . (For quotes, matching characters can be any of the quotation marks in international usage.)
+
 <span class="r4">If the configuration setting </span><span class="r3">character-level-inline-markup</span><span class="r4"> is False (default), additional conditions apply to the </span>
 <span class="r4">characters &quot;around&quot; the inline markup:</span>
+
 <span class="r5"> 1</span> Inline markup start-strings must start a text block or be immediately preceded by  whitespace,  one of the ASCII 
 characters - : / &#x27; &quot; &lt; ( [ {  or a similar non-ASCII punctuation character. 
 <span class="r5"> 2</span> Inline markup end-strings must end a text block or be immediately followed by  whitespace,  one of the ASCII characte
 - . , : ; ! ? \ / &#x27; &quot; ) ] } &gt;  or a similar non-ASCII punctuation character. 
+
 <span class="r4">The inline markup recognition rules were devised to allow 90% of non-markup uses of &quot;*&quot;, &quot;`&quot;, &quot;_&quot;, and &quot;|&quot; without </span>
 <span class="r4">escaping. For example, none of the following terms are recognized as containing inline markup strings:</span>
+
 <span class="r5"> • </span>2 * x  a ** b  (* BOM32_* ` `` _ __ | (breaks rule 1)
 <span class="r5"> • </span>|| (breaks rule 3)
 <span class="r5"> • </span>&quot;*&quot; &#x27;|&#x27; (*) [*] {*} &lt;*&gt; â€˜*â€™ â€š*â€˜ â€˜*â€š â€™*â€™ â€š*â€™ â€œ*â€ â€ž*â€œ â€œ*â€ž â€*â€ â€ž*â€ Â»*Â« â€º*â€¹ Â«*
@@ -1700,12 +1750,16 @@ characters - : / &#x27; &quot; &lt; ( [ {  or a similar non-ASCII punctuation ch
 &lt;rst-document&gt;:2564: (WARNING/2) Inline emphasis start-string without end-string.  &lt;rst-document&gt;:2564: (WARNING/2) 
 Inline emphasis start-string without end-string.
 <span class="r5"> • </span>2*x a**b O(N**2) e**(x*y) f(x)*f(y) a|b file*.* __init__ __init__()  (breaks rule 6)
+
 <span class="r4">No escaping is required inside the following inline markup examples:</span>
+
 <span class="r5"> • </span>*2 * x  *a **b *.txt* (breaks rule 2; renders as &quot;2 * x  *a **b *.txt&quot;)
 <span class="r5"> • </span>*2*x a**b O(N**2) e**(x*y) f(x)*f(y) a*(1+2)* (breaks rule 7; renders as &quot;2*x a**b O(N**2) e**(x*y) f(x)*f(y) a*(1+2)
-<span class="r4">It may be desirable to use </span><span class="r3">inline literals</span><span class="r4"> for some of these anyhow, especially if they represent code snippets.  It&#x27;s a</span>
-<span class="r4">judgment call.The following terms </span><span class="r25">do</span><span class="r4"> require either literal-quoting or escaping to avoid misinterpretation:</span>
 
+<span class="r4">It may be desirable to use </span><span class="r3">inline literals</span><span class="r4"> for some of these anyhow, especially if they represent code snippets.  It&#x27;s a</span>
+<span class="r4">judgment call.</span>
+
+<span class="r4">The following terms </span><span class="r13">do</span><span class="r4"> require either literal-quoting or escaping to avoid misinterpretation:</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r8">*</span><span class="r10">4</span><span class="r7">, class_, </span><span class="r8">*</span><span class="r7">args, </span><span class="r8">**</span><span class="r7">kwargs, </span><span class="r15">`</span><span class="r7">TeX</span><span class="r8">-</span><span class="r7">quoted</span><span class="r11">&#x27;, *ML, *.txt</span><span class="r9">                                                               </span> <span class="r6">│</span>
 <span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
@@ -1749,10 +1803,10 @@ mutually independent.
 <span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
 <span class="r4">The backslashes and spaces separating &quot;re&quot;, &quot;Structured&quot;, and &quot;Text&quot; above will disappear from the processed document.</span>
 
-<span class="r26">╭───────────────────────────────────────────────────── Caution:  ──────────────────────────────────────────────────────╮</span>
-<span class="r26">│ The use of backslash-escapes for character-level inline markup is not encouraged.  Such use is ugly and detrimental  │</span>
-<span class="r26">│ to the unprocessed document&#x27;s readability.  Please use this feature sparingly and only where absolutely necessary.   │</span>
-<span class="r26">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r25">╭───────────────────────────────────────────────────── Caution:  ──────────────────────────────────────────────────────╮</span>
+<span class="r25">│ The use of backslash-escapes for character-level inline markup is not encouraged.  Such use is ugly and detrimental  │</span>
+<span class="r25">│ to the unprocessed document&#x27;s readability.  Please use this feature sparingly and only where absolutely necessary.   │</span>
+<span class="r25">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                                       Emphasis                                                       ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -1869,12 +1923,13 @@ mutually independent.
     <span class="r5"> ▪ </span>No start-string, end-string = &quot;__&quot;.
     <span class="r5"> ▪ </span>Start-string = &quot;`&quot;, end-string = &quot;`__&quot;.  (Phrase references.)
 <span class="r5"> • </span>Start-string = &quot;`&quot;, end-string = &quot;`__&quot;.  (Phrase references.)
+
 <span class="r4">Hyperlink references are indicated by a trailing underscore, &quot;_&quot;, except for </span><span class="r3">standalone hyperlinks</span><span class="r4"> which are recognized </span>
 <span class="r4">independently.  The underscore can be thought of as a right-pointing arrow.  The trailing underscores point away from </span>
-<span class="r4">hyperlink references, and the leading underscores point toward </span><span class="r3">hyperlink targets</span><span class="r4">.Hyperlinks consist of two parts.  In </span>
-<span class="r4">the text body, there is a source link, a reference name with a trailing underscore (or two underscores for </span><span class="r3">anonymous </span>
-<span class="r3">hyperlinks</span><span class="r4">):</span>
+<span class="r4">hyperlink references, and the leading underscores point toward </span><span class="r3">hyperlink targets</span><span class="r4">.</span>
 
+<span class="r4">Hyperlinks consist of two parts.  In the text body, there is a source link, a reference name with a trailing underscore </span>
+<span class="r4">(or two underscores for </span><span class="r3">anonymous hyperlinks</span><span class="r4">):</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r7">See the Python_ home page </span><span class="r12">for</span><span class="r7"> info</span><span class="r8">.</span><span class="r9">                                                                                 </span> <span class="r6">│</span>
 <span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
@@ -1945,12 +2000,12 @@ mutually independent.
 <span class="r6">│</span> <span class="r7">See </span><span class="r15">`</span><span class="r8">&lt;</span><span class="r7">a_named_relative_link</span><span class="r8">&gt;</span><span class="r15">`</span><span class="r7">_ </span><span class="r8">or</span><span class="r7"> </span><span class="r15">`</span><span class="r8">&lt;</span><span class="r7">an_anonymous_relative_link</span><span class="r8">&gt;</span><span class="r15">`</span><span class="r7">__</span><span class="r9">                                                  </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r12">for</span><span class="r7"> details</span><span class="r8">.</span><span class="r9">                                                                                                        </span> <span class="r6">│</span>
 <span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
-<span class="r26">╭───────────────────────────────────────────────────── Caution:  ──────────────────────────────────────────────────────╮</span>
-<span class="r26">│ This construct offers easy authoring and maintenance of hyperlinks at the expense of general readability.  Inline    │</span>
-<span class="r26">│ URIs, especially long ones, inevitably interrupt the natural flow of text.  For documents meant to be read in source │</span>
-<span class="r26">│ form, the use of independent block-level hyperlink targets is strongly recommended.  The embedded URI construct is   │</span>
-<span class="r26">│ most suited to documents intended only to be read in processed form.                                                 │</span>
-<span class="r26">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r25">╭───────────────────────────────────────────────────── Caution:  ──────────────────────────────────────────────────────╮</span>
+<span class="r25">│ This construct offers easy authoring and maintenance of hyperlinks at the expense of general readability.  Inline    │</span>
+<span class="r25">│ URIs, especially long ones, inevitably interrupt the natural flow of text.  For documents meant to be read in source │</span>
+<span class="r25">│ form, the use of independent block-level hyperlink targets is strongly recommended.  The embedded URI construct is   │</span>
+<span class="r25">│ most suited to documents intended only to be read in processed form.                                                 │</span>
+<span class="r25">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                               Inline Internal Targets                                                ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -1986,8 +2041,8 @@ mutually independent.
 <span class="r5"> • </span>a single &quot;#&quot; (denoting auto-numbered footnotes),
 <span class="r5"> • </span>a &quot;#&quot; followed by a simple reference name (an autonumber label), or
 <span class="r5"> • </span>a single &quot;*&quot; (denoting auto-symbol footnotes).
-<span class="r4">For example:</span>
 
+<span class="r4">For example:</span>
 <span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
 <span class="r6">│</span> <span class="r7">Please RTFM [</span><span class="r10">1</span><span class="r7">]_</span><span class="r8">.</span><span class="r9">                                                                                                   </span> <span class="r6">│</span>
 <span class="r6">│</span> <span class="r9">                                                                                                                    </span> <span class="r6">│</span>
@@ -2069,9 +2124,11 @@ email addresses and newsgroups:  mailto:someone@somewhere.com  news:comp.lang.py
 URI, as defined in RFC2396 and RFC2732.
 <span class="r5"> 2</span> Standalone email addresses, which are treated as if they were absolute URIs with a &quot;mailto:&quot; scheme.  Example:  
 someone@somewhere.com
+
 <span class="r4">Punctuation at the end of a URI is not considered part of the URI, unless the URI is terminated by a closing angle </span>
 <span class="r4">bracket (&quot;&gt;&quot;). Backslashes may be used in URIs to escape markup characters, specifically asterisks (&quot;*&quot;) and underscores</span>
 <span class="r4">(&quot;_&quot;) which are valid URI characters (see </span><span class="r3">Escaping Mechanism</span><span class="r4"> above).</span>
+
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                                        Units                                                         ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -2095,9 +2152,14 @@ someone@somewhere.com
 <span class="r5"> • </span>px (pixels, 1Â px = 1/96Â in) 
 <span class="r5"> • </span>pt (points; 1Â pt = 1/72Â in)
 <span class="r5"> • </span>pc (picas; 1Â pc = 1/6Â in = 12Â pt)
-<span class="r4">This set corresponds to the </span><a class="r3" href="https://www.w3.org/TR/CSS2/syndata.html#length-units">length units in CSS2</a><span class="r4"> (a subset of </span><a class="r3" href="https://www.w3.org/TR/css-values-3/#absolute-lengths">length units in CSS3</a><span class="r4">).The following are all valid length </span>
-<span class="r4">values: &quot;1.5em&quot;, &quot;20 mm&quot;, &quot;.5in&quot;.Length values without unit are completed with a writer-dependent default (e.g. &quot;px&quot; </span>
-<span class="r4">with HTML, &quot;pt&quot; with latex2e). See the writer specific documentation in the </span><span class="r3">user doc</span><span class="r4"> for details.</span>
+
+<span class="r4">This set corresponds to the </span><a class="r3" href="https://www.w3.org/TR/CSS2/syndata.html#length-units">length units in CSS2</a><span class="r4"> (a subset of </span><a class="r3" href="https://www.w3.org/TR/css-values-3/#absolute-lengths">length units in CSS3</a><span class="r4">).</span>
+
+<span class="r4">The following are all valid length values: &quot;1.5em&quot;, &quot;20 mm&quot;, &quot;.5in&quot;.</span>
+
+<span class="r4">Length values without unit are completed with a writer-dependent default (e.g. &quot;px&quot; with HTML, &quot;pt&quot; with latex2e). See </span>
+<span class="r4">the writer specific documentation in the </span><span class="r3">user doc</span><span class="r4"> for details.</span>
+
 <span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
 <span class="r1">║                                                   Percentage Units                                                   ║</span>
 <span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
@@ -2110,25 +2172,25 @@ someone@somewhere.com
 <span class="r4">Doctree elements: </span><a class="r3" href="../doctree.html#system-message">system_message</a><span class="r4">, </span><a class="r3" href="../doctree.html#problematic">problematic</a><span class="r4">.</span>
 
 <span class="r4">Markup errors are handled according to the specification in </span><a class="r3" href="../../peps/pep-0258.html">PEP 258</a><span class="r4">.</span>
-<span class="r27">╭────────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 5); ──────────────────────────────────╮</span>
-<span class="r27">│</span> <span class="r1">&lt;</span><span class="r28">rst-document</span><span class="r1">&gt;</span>:<span class="r27">5</span>: <span class="r1">(</span>INFO/<span class="r27">1</span><span class="r1">)</span> Enumerated list start value not ordinal-<span class="r27">1</span>: <span class="r29">&quot;6&quot;</span> <span class="r1">(</span>ordinal <span class="r27">6</span><span class="r1">)</span>                                <span class="r27">│</span>
-<span class="r27">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
-<span class="r27">╭──────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 3197); ─────────────────────────────────╮</span>
-<span class="r27">│</span> <span class="r1">&lt;</span><span class="r28">rst-document</span><span class="r1">&gt;</span>:<span class="r27">3197</span>: <span class="r1">(</span>INFO/<span class="r27">1</span><span class="r1">)</span> Duplicate explicit target name: <span class="r29">&quot;topic&quot;</span>.                                               <span class="r27">│</span>
-<span class="r27">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
-<span class="r27">╭──────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 3208); ─────────────────────────────────╮</span>
-<span class="r27">│</span> <span class="r1">&lt;</span><span class="r28">rst-document</span><span class="r1">&gt;</span>:<span class="r27">3208</span>: <span class="r1">(</span>INFO/<span class="r27">1</span><span class="r1">)</span> Duplicate explicit target name: <span class="r29">&quot;list_item&quot;</span>.                                           <span class="r27">│</span>
-<span class="r27">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
-<span class="r27">╭──────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 3254); ─────────────────────────────────╮</span>
-<span class="r27">│</span> <span class="r1">&lt;</span><span class="r28">rst-document</span><span class="r1">&gt;</span>:<span class="r27">3254</span>: <span class="r1">(</span>INFO/<span class="r27">1</span><span class="r1">)</span> Duplicate explicit target name: <span class="r29">&quot;reference&quot;</span>.                                           <span class="r27">│</span>
-<span class="r27">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
-<span class="r27">╭──────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 3255); ─────────────────────────────────╮</span>
-<span class="r27">│</span> <span class="r1">&lt;</span><span class="r28">rst-document</span><span class="r1">&gt;</span>:<span class="r27">3255</span>: <span class="r1">(</span>INFO/<span class="r27">1</span><span class="r1">)</span> Duplicate explicit target name: <span class="r29">&quot;reference&quot;</span>.                                           <span class="r27">│</span>
-<span class="r27">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
-<span class="r30">┌─────────────────────────────────────────────────────── Footer ───────────────────────────────────────────────────────┐</span>
-<span class="r30">│</span>                          In LaTeX, the default definition is 1Â px = 1/72Â in (cf. How to                            <span class="r30">│</span>
-<span class="r30">│</span>                          configure the size of a pixel in the LaTeX writer documentation).                           <span class="r30">│</span>
-<span class="r30">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="r26">╭────────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 5); ──────────────────────────────────╮</span>
+<span class="r26">│</span> <span class="r1">&lt;</span><span class="r27">rst-document</span><span class="r1">&gt;</span>:<span class="r26">5</span>: <span class="r1">(</span>INFO/<span class="r26">1</span><span class="r1">)</span> Enumerated list start value not ordinal-<span class="r26">1</span>: <span class="r28">&quot;6&quot;</span> <span class="r1">(</span>ordinal <span class="r26">6</span><span class="r1">)</span>                                <span class="r26">│</span>
+<span class="r26">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r26">╭──────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 3197); ─────────────────────────────────╮</span>
+<span class="r26">│</span> <span class="r1">&lt;</span><span class="r27">rst-document</span><span class="r1">&gt;</span>:<span class="r26">3197</span>: <span class="r1">(</span>INFO/<span class="r26">1</span><span class="r1">)</span> Duplicate explicit target name: <span class="r28">&quot;topic&quot;</span>.                                               <span class="r26">│</span>
+<span class="r26">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r26">╭──────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 3208); ─────────────────────────────────╮</span>
+<span class="r26">│</span> <span class="r1">&lt;</span><span class="r27">rst-document</span><span class="r1">&gt;</span>:<span class="r26">3208</span>: <span class="r1">(</span>INFO/<span class="r26">1</span><span class="r1">)</span> Duplicate explicit target name: <span class="r28">&quot;list_item&quot;</span>.                                           <span class="r26">│</span>
+<span class="r26">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r26">╭──────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 3254); ─────────────────────────────────╮</span>
+<span class="r26">│</span> <span class="r1">&lt;</span><span class="r27">rst-document</span><span class="r1">&gt;</span>:<span class="r26">3254</span>: <span class="r1">(</span>INFO/<span class="r26">1</span><span class="r1">)</span> Duplicate explicit target name: <span class="r28">&quot;reference&quot;</span>.                                           <span class="r26">│</span>
+<span class="r26">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r26">╭──────────────────────────────── System Message: INFO/1 (&lt;rst-document&gt;, line 3255); ─────────────────────────────────╮</span>
+<span class="r26">│</span> <span class="r1">&lt;</span><span class="r27">rst-document</span><span class="r1">&gt;</span>:<span class="r26">3255</span>: <span class="r1">(</span>INFO/<span class="r26">1</span><span class="r1">)</span> Duplicate explicit target name: <span class="r28">&quot;reference&quot;</span>.                                           <span class="r26">│</span>
+<span class="r26">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span class="r29">┌─────────────────────────────────────────────────────── Footer ───────────────────────────────────────────────────────┐</span>
+<span class="r29">│</span>                          In LaTeX, the default definition is 1Â px = 1/72Â in (cf. How to                            <span class="r29">│</span>
+<span class="r29">│</span>                          configure the size of a pixel in the LaTeX writer documentation).                           <span class="r29">│</span>
+<span class="r29">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
 </code></pre>
 </body>
 </html>
