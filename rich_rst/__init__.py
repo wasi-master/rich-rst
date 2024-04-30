@@ -20,7 +20,7 @@ import docutils.utils
 import rich
 from rich import box
 from rich.align import Align
-from rich.console import Console, ConsoleOptions, RenderResult
+from rich.console import Console, ConsoleOptions, RenderResult, NewLine
 from rich.jupyter import JupyterMixin
 from rich.panel import Panel
 from rich.style import Style
@@ -286,7 +286,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                             self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
             self.renderables.append(Text(" • ", end="", style=marker_style))
             self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
-        self.renderables.append(Text())
+        self.renderables.append(NewLine())
         raise docutils.nodes.SkipChildren()
 
     def visit_enumerated_list(self, node):
@@ -296,7 +296,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.renderables.append(Text(f" {i}", end=" ", style=marker_style))
             self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
 
-        self.renderables.append(Text())
+        self.renderables.append(NewLine())
         raise docutils.nodes.SkipChildren()
 
     def visit_literal(self, node):
@@ -607,9 +607,20 @@ class RestructuredText(JupyterMixin):
         )
         document.walkabout(visitor)
 
-        if visitor.renderables and isinstance(visitor.renderables[-1], Text):
-            visitor.renderables[-1].rstrip()
-            visitor.renderables[-1].end = "\n"
+        # Strip all trailing newlines and newline-like rich objects
+        while visitor.renderables:
+            if isinstance(visitor.renderables[-1], Text):
+                visitor.renderables[-1].rstrip()
+                visitor.renderables[-1].end = "\n"
+                if visitor.renderables[-1]:  # The Text object still contains data.
+                    break
+                else:
+                    visitor.renderables.pop()
+            elif isinstance(visitor.renderables[-1], NewLine):
+                visitor.renderables.pop()
+            else:
+                break
+
         for renderable in visitor.renderables:
             yield from console.render(renderable, options)
         if self.log_errors and visitor.errors:
