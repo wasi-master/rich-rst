@@ -1,3 +1,4 @@
+import docutils
 import pytest
 from rich_rst import RestructuredText
 from pathlib import Path
@@ -6,6 +7,10 @@ from rich.terminal_theme import TerminalTheme
 
 test_vectors_path = Path("tests/test_vectors")
 rst_paths = sorted(str(x) for x in test_vectors_path.glob("*.rst"))
+docutils_0_22_mark = pytest.mark.skipif(
+    docutils.__version_info__ < (0, 22),
+    reason="requires docutils 0.22 or higher",
+)
 
 
 def render_to_html(rst):
@@ -38,7 +43,17 @@ def render_to_html(rst):
     return console.export_html(theme=DRACULA_TERMINAL_THEME)
 
 
-@pytest.mark.parametrize("rst_path", rst_paths)
+@pytest.mark.parametrize(
+    "rst_path",
+    [
+        (
+            pytest.param(path, marks=docutils_0_22_mark)
+            if path.endswith(("directives.rst", "specification.rst"))
+            else path
+        )
+        for path in rst_paths
+    ],
+)
 def test_main(rst_path):
     rst_path = Path(rst_path)
     actual_html_path = rst_path.parent / (rst_path.stem + "_actual.html")
