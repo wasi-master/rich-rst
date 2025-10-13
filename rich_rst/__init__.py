@@ -67,6 +67,69 @@ def strip_tags(html):
     return s.get_data()
 
 
+def _register_sphinx_roles():
+    """
+    Register common Sphinx roles to gracefully handle Sphinx-specific markup.
+
+    Sphinx roles like :func:, :class:, :meth: are very common in Python docstrings
+    but are not available in standard docutils. This function registers them to
+    render as inline code/literal text instead of showing errors.
+    """
+    import docutils.parsers.rst.roles
+    import docutils.parsers.rst.languages.en
+
+    def sphinx_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        """
+        Generic Sphinx role handler that renders as inline literal text.
+
+        Parameters
+        ----------
+        name : str
+            The role name
+        rawtext : str
+            The entire role text including role markup
+        text : str
+            The interpreted text content
+        lineno : int
+            The line number where the interpreted text begins
+        inliner : Inliner
+            The inliner instance that called this role function
+        options : dict
+            Directive options for customization
+        content : list
+            The directive content for customization
+
+        Returns
+        -------
+        tuple
+            A tuple of (nodes, messages)
+        """
+        node = docutils.nodes.literal(rawtext, text)
+        return [node], []
+
+    sphinx_roles = [
+        'func', 'function',
+        'meth', 'method',
+        'class',
+        'mod', 'module',
+        'attr', 'attribute',
+        'obj', 'object',
+        'data',
+        'const', 'constant',
+        'exc', 'exception',
+        'var', 'variable',
+        'type',
+        'py:func', 'py:meth', 'py:class', 'py:mod', 'py:attr',
+        'py:obj', 'py:data', 'py:const', 'py:exc',
+    ]
+
+    for role in sphinx_roles:
+        docutils.parsers.rst.roles.register_canonical_role(role, sphinx_role)
+        # Also register in language module to avoid INFO messages
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles[role] = role
+
+
 # pylama:ignore=D,C0116
 class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     """A visitor that produces rich renderables"""
@@ -566,6 +629,10 @@ class RestructuredText(JupyterMixin):
         Whether to guess lexers for code blocks without specified language.
     default_lexer : Optional[str]
         Which lexer to use if no lexer is guessed or found. Defaults to "python"
+    sphinx_compat : Optional[bool]
+        Enable compatibility with Sphinx roles (func, meth, class, etc.) commonly used in
+        Python docstrings. When enabled, these roles render as inline code instead of errors.
+        Defaults to True for better compatibility with Python documentation.
     filename : Optional[str]
         A file name to use for error messages, useful for debugging purposes. Defaults to "<rst-document>"
     """
@@ -577,6 +644,7 @@ class RestructuredText(JupyterMixin):
         show_errors: Optional[bool] = True,
         guess_lexer: Optional[bool] = False,
         default_lexer: Optional[str] = "python",
+        sphinx_compat: Optional[bool] = True,
         filename: Optional[str] = "<rst-document>"
     ) -> None:
         self.markup = markup
@@ -584,10 +652,12 @@ class RestructuredText(JupyterMixin):
         self.log_errors = show_errors
         self.guess_lexer = guess_lexer
         self.default_lexer = default_lexer
+        self.sphinx_compat = sphinx_compat
         self.filename = filename
 
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
-        # Parse the `markup` into a RST `document`.
+        if self.sphinx_compat:
+            _register_sphinx_roles()
 
         # Docutils version compatability; from https://stackoverflow.com/a/75996218
         if hasattr(docutils.frontend, 'get_default_settings'):

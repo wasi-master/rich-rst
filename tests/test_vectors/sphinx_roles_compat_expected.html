@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+.r1 {font-weight: bold}
+.r2 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36}
+.r3 {color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212}
+.r4 {color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold}
+.r5 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold}
+.r6 {color: #949494; text-decoration-color: #949494}
+.r7 {color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822}
+.r8 {color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822}
+.r9 {color: #a6e22e; text-decoration-color: #a6e22e; background-color: #272822}
+.r10 {color: #ff4689; text-decoration-color: #ff4689; background-color: #272822}
+.r11 {color: #e6db74; text-decoration-color: #e6db74; background-color: #272822}
+.r12 {background-color: #272822}
+body {
+    color: #f8f8f2;
+    background-color: #282a36;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                         Sphinx Roles with Compatibility Mode                                         ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">This test demonstrates how rich-rst handles Sphinx-specific roles with </span><span class="r3">sphinx_compat=True</span><span class="r2"> (the default behavior).</span>
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                 Common Sphinx Roles                                                  ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">These roles are commonly used in Python docstrings and render as inline code:</span>
+
+<span class="r4"> • </span>Function reference: os.path.join
+<span class="r4"> • </span>Method reference: str.format
+<span class="r4"> • </span>Class reference: pathlib.Path
+<span class="r4"> • </span>Module reference: collections.abc
+<span class="r4"> • </span>Attribute reference: object.__name__
+<span class="r4"> • </span>Object reference: sys.stdout
+<span class="r4"> • </span>Data reference: sys.maxsize
+<span class="r4"> • </span>Exception reference: ValueError
+<span class="r4"> • </span>Type reference: int
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                 Python Domain Roles                                                  ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">With explicit python domain prefix:</span>
+
+<span class="r4"> • </span>open
+<span class="r4"> • </span>dict
+<span class="r4"> • </span>list.append
+<span class="r4"> • </span>os.path
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                    Mixed Content                                                     ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">Sphinx roles work seamlessly with other RST markup:</span>
+
+<span class="r2">This paragraph contains a </span><span class="r3">function_call</span><span class="r2"> and </span><span class="r5">bold text</span><span class="r2"> and </span><span class="r3">regular code</span><span class="r2"> all together. You can also have </span><span class="r3">MyClass</span><span class="r2"> in lists:</span>
+
+<span class="r4"> • </span>Item with method_name reference
+<span class="r4"> • </span>Another function_ref here
+<span class="r4"> • </span>Regular text without roles
+
+<span class="r1">╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="r1">║                                                  Realistic Example                                                   ║</span>
+<span class="r1">╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+<span class="r2">Here&#x27;s a realistic Python docstring example:</span>
+<span class="r6">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r6">│</span> <span class="r7">def</span><span class="r8"> </span><span class="r9">read_config</span><span class="r8">(path, encoding</span><span class="r10">=</span><span class="r11">&#x27;utf-8&#x27;</span><span class="r8">):</span><span class="r12">                                                                            </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r8">    </span><span class="r11">&quot;&quot;&quot;</span><span class="r12">                                                                                                             </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    Read configuration file from filesystem.</span><span class="r12">                                                                        </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r12">                                                                                                                    </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    Parameters</span><span class="r12">                                                                                                      </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    ----------</span><span class="r12">                                                                                                      </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    path : :class:`pathlib.Path` or str</span><span class="r12">                                                                             </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">        Path to configuration file</span><span class="r12">                                                                                  </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    encoding : str</span><span class="r12">                                                                                                  </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">        File encoding, see :func:`open` for details</span><span class="r12">                                                                 </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r12">                                                                                                                    </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    Returns</span><span class="r12">                                                                                                         </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    -------</span><span class="r12">                                                                                                         </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    :class:`dict`</span><span class="r12">                                                                                                   </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">        Parsed configuration dictionary</span><span class="r12">                                                                             </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r12">                                                                                                                    </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    See Also</span><span class="r12">                                                                                                        </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    --------</span><span class="r12">                                                                                                        </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    :func:`write_config` : Write configuration to file</span><span class="r12">                                                              </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    :meth:`dict.update` : Update configuration values</span><span class="r12">                                                               </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r11">    &quot;&quot;&quot;</span><span class="r12">                                                                                                             </span> <span class="r6">│</span>
+<span class="r6">│</span> <span class="r8">    </span><span class="r7">pass</span><span class="r12">                                                                                                            </span> <span class="r6">│</span>
+<span class="r6">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre>
+</body>
+</html>
