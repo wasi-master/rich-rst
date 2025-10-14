@@ -104,7 +104,14 @@ def _register_sphinx_roles():
         tuple
             A tuple of (nodes, messages)
         """
-        node = docutils.nodes.literal(rawtext, text)
+        display_text = text
+        if '<' in text and text.endswith('>'):
+            bracket_pos = text.rfind('<')
+            potential_display = text[:bracket_pos].strip()
+            if potential_display:
+                display_text = potential_display
+
+        node = docutils.nodes.literal(rawtext, display_text)
         return [node], []
 
     sphinx_roles = [

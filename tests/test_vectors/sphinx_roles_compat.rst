@@ -29,6 +29,16 @@ With explicit python domain prefix:
 - :py:meth:`list.append`
 - :py:mod:`os.path`
 
+Explicit Reference Text
+-----------------------
+
+When using explicit reference text (custom display text), only the display text
+should be shown, not the full reference:
+
+- :func:`custom name <os.path.join>` should show "custom name"
+- :class:`MyPath <pathlib.Path>` should show "MyPath"
+- :meth:`format method <str.format>` should show "format method"
+
 Mixed Content
 -------------
 
