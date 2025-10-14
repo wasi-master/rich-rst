@@ -1,16 +1,16 @@
 [build-system]
 requires = [
-    "setuptools>=64",
-    "setuptools_scm[toml]>=8"
+    "setuptools>=64"
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "rich-rst"
-dynamic = ["version"]
+version = "1.3.2"
 description = "A beautiful reStructuredText renderer for rich"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name = "Wasi Master", email = "arianmollik323@gmail.com" }
 ]
@@ -27,7 +27,6 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -55,5 +54,4 @@ packages = [
     "rich_rst",
 ]
 
-[tool.setuptools_scm]
-version_file = "rich_rst/_version.py"
+
