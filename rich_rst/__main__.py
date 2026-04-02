@@ -3,6 +3,7 @@ import sys
 from rich.console import Console
 from rich_rst import RestructuredText
 from rich.terminal_theme import TerminalTheme
+from rich.traceback import install
 
 def rgb(r, g, b):
     """
@@ -28,7 +29,7 @@ def parse_arguments():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description="Render reStructuredText to the console with rich-rst")
     parser.add_argument("path", metavar="PATH", help="path to file, or - for stdin")
-    parser.add_argument("-c", "--force-color", dest="force_color", action="store_true", default=False, help="force color for non-terminals")
+    parser.add_argument("-c", "--force-color", dest="force_color", action="store_true", default=None, help="force color for non-terminals")
     parser.add_argument("-e", "--encoding", dest="encoding", type=str, default="utf-8", help="encoding for file (default: utf-8)")
     parser.add_argument("-w", "--width", type=int, dest="width", default=None, help="width of output (default will auto-detect)")
     parser.add_argument("-hw", "--html-width", type=str, dest="html_width", default="1675px", help="width of html output (default: 1675px)")
@@ -123,4 +124,5 @@ def main():
         console.save_html(args.html_filename, theme=DRACULA_TERMINAL_THEME, code_format=CONSOLE_HTML_FORMAT)
 
 if __name__ == "__main__":
+    install()
     main()
