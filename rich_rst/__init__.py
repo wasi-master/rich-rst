@@ -161,17 +161,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.default_lexer = default_lexer
         self.refname_to_renderable = {}
 
+    def _guess_lexer_name(self, text):
+        try:
+            lexer = guess_lexer(text)
+        except ClassNotFound:
+            return self.default_lexer
+        return lexer.aliases[0] if lexer.aliases else self.default_lexer
+
     def _find_lexer(self, node):
         lexer = (
             node["classes"][1] if len(node.get("classes")) >= 2 else (node["format"] if node.get("format") else None)
         )
         if lexer is None and self.guess_lexer:
-            try:
-                lexer = guess_lexer(node.astext())
-            except ClassNotFound:
-                lexer = self.default_lexer
-            else:
-                lexer = lexer.aliases[0] if lexer.aliases else self.default_lexer
+            lexer = self._guess_lexer_name(node.astext())
             if lexer == "text":
                 return self.default_lexer
             return lexer
@@ -649,7 +651,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         if lexer == "html":
             text = strip_tags(text)
-            lexer = guess_lexer(text).aliases[0] if self.guess_lexer else self.default_lexer
+            lexer = self._guess_lexer_name(text) if self.guess_lexer else self.default_lexer
 
         self.renderables.append(
             Panel(Syntax(text, lexer, theme=self.code_theme), border_style=style, box=box.SQUARE, title=title)
