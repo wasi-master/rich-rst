@@ -766,7 +766,8 @@ overriding a table_style or class value &quot;colwidths-auto&quot;.
 
 <span class="r10"> • </span>Block markup and inline markup within cells is supported.  Line ends are recognized within cells.
 <span class="r10"> • </span>There is no support for checking that the number of columns in each row is the same. The directive automatically adds
-empty entries at the end of short rows.  Add &quot;strict&quot; option to verify input?
+empty entries at the end of short rows.
+  Add &quot;strict&quot; option to verify input?
 
 <span class="r2">Example:</span>
 <span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
@@ -1168,12 +1169,9 @@ right numbering for a document split over several source files.  The default is 
 
 <span class="r2">The arguments, separated by spaces, can be:</span>
 
-  <span class="r10"> ∘ </span>character codes as
-  <span class="r10"> ∘ </span>decimal numbers or  hexadecimal numbers, prefixed by 0x, x, \x, U+, u, or \u or as XML-style hexadecimal character 
-entities, e.g. &amp;#x1a2b;
-    <span class="r10"> ▪ </span>decimal numbers or
-    <span class="r10"> ▪ </span>hexadecimal numbers, prefixed by 0x, x, \x, U+, u, or \u or as XML-style hexadecimal character entities, e.g. &amp;#x
-<span class="r10"> • </span>hexadecimal numbers, prefixed by 0x, x, \x, U+, u, or \u or as XML-style hexadecimal character entities, e.g. &amp;#x1a2b
+<span class="r10"> • </span>character codes as
+<span class="r10">   ∘ </span>decimal numbers or
+<span class="r10">   ∘ </span>hexadecimal numbers, prefixed by 0x, x, \x, U+, u, or \u or as XML-style hexadecimal character entities, e.g. &amp;#x1a
 <span class="r10"> • </span>text, which is used as-is.
 
 <span class="r2">Text following &quot; .. &quot; is a comment and is ignored.  The spaces between the arguments are ignored and thus do not appear </span>
@@ -1466,12 +1464,19 @@ tab_width configuration setting.
 
 <span class="r2">For HTMLÂ 4.1 + CSS1 compatibility, identifiers should have no underscores, colons, or periods.  Hyphens may be used.</span>
 
-<span class="r10"> • </span>The HTML 4.01 spec defines identifiers based on SGML tokens:  ID and NAME tokens must begin with a letter ([A-Za-z]) 
-may be followed by any number of letters, digits ([0-9]), hyphens (&quot;-&quot;), underscores (&quot;_&quot;), colons (&quot;:&quot;), and periods 
-(&quot;.&quot;).  https://www.w3.org/TR/html401/types.html#type-name
+<span class="r10"> • </span>The HTML 4.01 spec defines identifiers based on SGML tokens:
+  ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), 
+hyphens (&quot;-&quot;), underscores (&quot;_&quot;), colons (&quot;:&quot;), and periods (&quot;.&quot;).  https://www.w3.org/TR/html401/types.html#type-name
 <span class="r10"> • </span>The CSS1 spec defines identifiers based on the &quot;name&quot; token (&quot;flex&quot; tokenizer notation below; &quot;latin1&quot; and &quot;escape&quot; 
-8-bit characters have been replaced with XML entities):  unicode     \\[0-9a-f]{1,4} latin1      [&amp;iexcl;-&amp;yuml;] escape
-{unicode}|\\[ -~&amp;iexcl;-&amp;yuml;] nmchar      [-A-Za-z0-9]|{latin1}|{escape} name        {nmchar}+
+8-bit characters have been replaced with XML entities):
+
+<span class="r3">┌─────────────────────────────────────────────────────── python ───────────────────────────────────────────────────────┐</span>
+<span class="r3">│</span> <span class="r6">unicode     \\[</span><span class="r12">0</span><span class="r4">-</span><span class="r12">9</span><span class="r6">a</span><span class="r4">-</span><span class="r6">f]{</span><span class="r12">1</span><span class="r6">,</span><span class="r12">4</span><span class="r6">}</span><span class="r5">                                                                                         </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r6">latin1      [</span><span class="r4">&amp;</span><span class="r6">iexcl;</span><span class="r4">-&amp;</span><span class="r6">yuml;]</span><span class="r5">                                                                                        </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r6">escape      {unicode}</span><span class="r4">|</span><span class="r6">\\[ </span><span class="r4">-~&amp;</span><span class="r6">iexcl;</span><span class="r4">-&amp;</span><span class="r6">yuml;]</span><span class="r5">                                                                         </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r6">nmchar      [</span><span class="r4">-</span><span class="r6">A</span><span class="r4">-</span><span class="r6">Za</span><span class="r4">-</span><span class="r6">z0</span><span class="r4">-</span><span class="r12">9</span><span class="r6">]</span><span class="r4">|</span><span class="r6">{latin1}</span><span class="r4">|</span><span class="r6">{escape}</span><span class="r5">                                                                          </span> <span class="r3">│</span>
+<span class="r3">│</span> <span class="r6">name        {nmchar}</span><span class="r4">+</span><span class="r5">                                                                                               </span> <span class="r3">│</span>
+<span class="r3">└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
 
 <span class="r2">The CSS1 rule requires underscores (&quot;_&quot;), colons (&quot;:&quot;), and periods (&quot;.&quot;) to be escaped , therefore </span><span class="r8">&quot;classes&quot;</span><span class="r2"> and </span><a class="r8" href="../doctree.html#ids">&quot;ids&quot;</a><span class="r2"> </span>
 <span class="r2">attributes should not contain these characters.  Combined with HTML4.1 requirements (the first character must be a </span>
