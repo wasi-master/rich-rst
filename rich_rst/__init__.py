@@ -673,6 +673,60 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         )
         raise docutils.nodes.SkipChildren()
 
+    def visit_table(self, node):
+        header_style = self.console.get_style("restructuredtext.table_header", default="bold")
+        cell_style = self.console.get_style("restructuredtext.table_cell", default="none")
+
+        # Extract optional caption/title and the tgroup
+        title = None
+        tgroup = None
+        for child in node.children:
+            if isinstance(child, docutils.nodes.title):
+                title = child.astext()
+            elif isinstance(child, docutils.nodes.tgroup):
+                tgroup = child
+
+        if tgroup is None:
+            raise docutils.nodes.SkipChildren()
+
+        # Find thead and tbody within tgroup
+        thead = None
+        tbody = None
+        for child in tgroup.children:
+            if isinstance(child, docutils.nodes.thead):
+                thead = child
+            elif isinstance(child, docutils.nodes.tbody):
+                tbody = child
+
+        if tbody is None:
+            raise docutils.nodes.SkipChildren()
+
+        # Build the rich Table
+        has_header = thead is not None and bool(thead.children)
+        rich_table = Table(
+            show_header=has_header,
+            title=title,
+            header_style=header_style,
+            show_lines=True,
+        )
+
+        # Add columns, using header-row entries as column labels when thead exists
+        if thead is not None and thead.children:
+            for entry in thead.children[0].children:
+                rich_table.add_column(entry.astext().replace("\n", " "), style=cell_style)
+        elif tbody.children:
+            for _ in tbody.children[0].children:
+                rich_table.add_column("", style=cell_style)
+
+        # Add body rows
+        for row in tbody.children:
+            rich_table.add_row(
+                *[Text(entry.astext().replace("\n", " "), style=cell_style) for entry in row.children]
+            )
+
+        self.renderables.append(rich_table)
+        raise docutils.nodes.SkipChildren()
+
 
 class RestructuredText(JupyterMixin):
     """A reStructuredText renderable for rich.
