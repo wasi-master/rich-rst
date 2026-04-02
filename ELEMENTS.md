@@ -6,9 +6,9 @@
 | ------------------ | ------ | ---------------------------------------------- |
 | All                | 98     |                                                |
 | ⛔ Not Possible     | 5      | Not possible to implement in a console context |
-| ✅ Implemented      | 75     | Supported                                      |
-| 📰 No Documentation | 12     | Not enough available information to implement  |
-| ❌ Not Implemented  | 7      | Not implemented                                |
+| ✅ Implemented      | 79     | Supported                                      |
+| 📰 No Documentation | 11     | Not enough available information to implement  |
+| ❌ Not Implemented  | 3      | Not implemented                                |
 
 ## Element List
 
@@ -29,7 +29,7 @@
 |  13   | [citation](https://docutils.sourceforge.io/docs/ref/doctree.html#citation)                               |       ✅ Yes        |
 |  14   | [citation-reference](https://docutils.sourceforge.io/docs/ref/doctree.html#citation-reference)           |       ✅ Yes        |
 |  15   | [classifier](https://docutils.sourceforge.io/docs/ref/doctree.html#classifier)                           |       ✅ Yes        |
-|  16   | [colspec](https://docutils.sourceforge.io/docs/ref/doctree.html#colspec)                                 | 📰 No Documentation |
+|  16   | [colspec](https://docutils.sourceforge.io/docs/ref/doctree.html#colspec)                                 |       ✅ Yes        |
 |  17   | [comment](https://docutils.sourceforge.io/docs/ref/doctree.html#comment)                                 |       ✅ Yes        |
 |  18   | [compound](https://docutils.sourceforge.io/docs/ref/doctree.html#compound)                               |        ❌ No        |
 |  19   | [contact](https://docutils.sourceforge.io/docs/ref/doctree.html#contact)                                 |       ✅ Yes        |
@@ -46,7 +46,7 @@
 |  30   | [doctest-block](https://docutils.sourceforge.io/docs/ref/doctree.html#doctest-block)                     |       ✅ Yes        |
 |  31   | [document](https://docutils.sourceforge.io/docs/ref/doctree.html#document)                               |       ✅ Yes        |
 |  32   | [emphasis](https://docutils.sourceforge.io/docs/ref/doctree.html#emphasis)                               |       ✅ Yes        |
-|  33   | [entry](https://docutils.sourceforge.io/docs/ref/doctree.html#entry)                                     | 📰 No Documentation |
+|  33   | [entry](https://docutils.sourceforge.io/docs/ref/doctree.html#entry)                                     |       ✅ Yes        |
 |  34   | [enumerated-list](https://docutils.sourceforge.io/docs/ref/doctree.html#enumerated-list)                 |     ✅ Yes[^3]      |
 |  35   | [error](https://docutils.sourceforge.io/docs/ref/doctree.html#error)                                     |       ✅ Yes        |
 |  36   | [field](https://docutils.sourceforge.io/docs/ref/doctree.html#field)                                     |       ✅ Yes        |
@@ -87,7 +87,7 @@
 |  71   | [raw](https://docutils.sourceforge.io/docs/ref/doctree.html#raw)                                         | 📰 No Documentation |
 |  72   | [reference](https://docutils.sourceforge.io/docs/ref/doctree.html#reference)                             | 📰 No Documentation |
 |  73   | [revision](https://docutils.sourceforge.io/docs/ref/doctree.html#revision)                               |       ✅ Yes        |
-|  74   | [row](https://docutils.sourceforge.io/docs/ref/doctree.html#row)                                         | 📰 No Documentation |
+|  74   | [row](https://docutils.sourceforge.io/docs/ref/doctree.html#row)                                         |       ✅ Yes        |
 |  75   | [rubric](https://docutils.sourceforge.io/docs/ref/doctree.html#rubric)                                   |       ✅ Yes        |
 |  76   | [section](https://docutils.sourceforge.io/docs/ref/doctree.html#section)                                 |       ✅ Yes        |
 |  77   | [sidebar](https://docutils.sourceforge.io/docs/ref/doctree.html#sidebar)                                 |       ✅ Yes        |
@@ -99,12 +99,12 @@
 |  83   | [subtitle](https://docutils.sourceforge.io/docs/ref/doctree.html#subtitle)                               |       ✅ Yes        |
 |  84   | [superscript](https://docutils.sourceforge.io/docs/ref/doctree.html#superscript)                         |       ✅ Yes        |
 |  85   | [system-message](https://docutils.sourceforge.io/docs/ref/doctree.html#system-message)                   |       ✅ Yes        |
-|  86   | [table](https://docutils.sourceforge.io/docs/ref/doctree.html#table)                                     |        ❌ No        |
+|  86   | [table](https://docutils.sourceforge.io/docs/ref/doctree.html#table)                                     |       ✅ Yes        |
 |  87   | [target](https://docutils.sourceforge.io/docs/ref/doctree.html#target)                                   | 📰 No Documentation |
-|  88   | [tbody](https://docutils.sourceforge.io/docs/ref/doctree.html#tbody)                                     |        ❌ No        |
+|  88   | [tbody](https://docutils.sourceforge.io/docs/ref/doctree.html#tbody)                                     |       ✅ Yes        |
 |  89   | [term](https://docutils.sourceforge.io/docs/ref/doctree.html#term)                                       |       ✅ Yes        |
-|  90   | [tgroup](https://docutils.sourceforge.io/docs/ref/doctree.html#tgroup)                                   |        ❌ No        |
-|  91   | [thead](https://docutils.sourceforge.io/docs/ref/doctree.html#thead)                                     |        ❌ No        |
+|  90   | [tgroup](https://docutils.sourceforge.io/docs/ref/doctree.html#tgroup)                                   |       ✅ Yes        |
+|  91   | [thead](https://docutils.sourceforge.io/docs/ref/doctree.html#thead)                                     |       ✅ Yes        |
 |  92   | [tip](https://docutils.sourceforge.io/docs/ref/doctree.html#tip)                                         |       ✅ Yes        |
 |  93   | [title](https://docutils.sourceforge.io/docs/ref/doctree.html#title)                                     |       ✅ Yes        |
 |  94   | [title-reference](https://docutils.sourceforge.io/docs/ref/doctree.html#title-reference)                 | 📰 No Documentation |
