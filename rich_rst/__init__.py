@@ -673,7 +673,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.footer.append(Align(node.astext(), "center"))
         raise docutils.nodes.SkipChildren()
 
-    def visit_pendings(self, node):
+    def visit_pending(self, node):
         raise docutils.nodes.SkipChildren()
 
     def visit_problematic(self, node):
