@@ -151,6 +151,7 @@
 - Add `visit_topic` handler, rendering topics (including auto-generated table of contents) as a bordered panel
 - Add `visit_footnote_reference` to render inline `[N]` footnote markers inline with the surrounding text
 - Add `visit_title_reference` (the backtick `title` role) rendered in italic
+- Add `visit_substitle_reference` to render substitution references.
 - Add dedicated `docinfo` bibliographic-field handlers: `author`, `authors`, `organization`, `address`, `contact`, `version`, `revision`, `status`, `date`, `copyright` — all rendered in the shared field table
 - Apply `DocTitle` and `DocInfo` transforms so recognised metadata fields are promoted to typed `docinfo` nodes before rendering
 - Add `_render_admonition_body` helper: all admonition types (note, warning, tip, hint, attention, caution, danger, error, important, generic) now render their body through a sub-visitor, preserving inline markup (bold, italic, code, links, etc.) instead of stripping it to plain text

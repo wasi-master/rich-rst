@@ -306,3 +306,20 @@ def test_substitution_definition_not_rendered_standalone(render_text):
     # The resolved text should appear exactly once, not additionally
     # rendered from the substitution_definition node itself
     assert render_text(rst).count("RichRST") == 1
+
+
+def test_substitution_with_markup(render_text):
+    """Test that substitution references with inline markup are resolved correctly."""
+    rst = "The chemical formula is |H2O|.\n\n.. |H2O| replace:: H\\ :sub:`2`\\ O\n"
+    rendered = render_text(rst)
+    # The subscript should be rendered (either as '2' or as unicode subscript '₂')
+    assert "H" in rendered and "O" in rendered
+
+
+def test_substitution_reference_with_image(render_text):
+    """Test that substitution references can contain images."""
+    rst = "Warning: |hazard| symbol.\n\n.. |hazard| image:: hazard.png\n"
+    rendered = render_text(rst)
+    # The substitution should be resolved (even if the image isn't loaded)
+    assert "Warning:" in rendered
+

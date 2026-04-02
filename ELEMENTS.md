@@ -6,8 +6,8 @@
 | ------------------ | ------ | ---------------------------------------------- |
 | All                | 98     |                                                |
 | ⛔ Not Possible     | 2      | Not possible to implement in a console context |
-| ✅ Implemented      | 88     | Supported                                      |
-| 📰 No Documentation | 6      | Not enough available information to implement  |
+| ✅ Implemented      | 89     | Supported                                      |
+| 📰 No Documentation | 5      | Not enough available information to implement  |
 | ❌ Not Implemented  | 2      | Not implemented                                |
 
 ## Element List
@@ -95,7 +95,7 @@
 |  79   | [strong](https://docutils.sourceforge.io/docs/ref/doctree.html#strong)                                   |       ✅ Yes        |
 |  80   | [subscript](https://docutils.sourceforge.io/docs/ref/doctree.html#subscript)                             |       ✅ Yes        |
 |  81   | [substitution-definition](https://docutils.sourceforge.io/docs/ref/doctree.html#substitution-definition) |       ✅ Yes        |
-|  82   | [substitution-reference](https://docutils.sourceforge.io/docs/ref/doctree.html#substitution-reference)   | 📰 No Documentation |
+|  82   | [substitution-reference](https://docutils.sourceforge.io/docs/ref/doctree.html#substitution-reference)   |       ✅ Yes        |
 |  83   | [subtitle](https://docutils.sourceforge.io/docs/ref/doctree.html#subtitle)                               |       ✅ Yes        |
 |  84   | [superscript](https://docutils.sourceforge.io/docs/ref/doctree.html#superscript)                         |       ✅ Yes        |
 |  85   | [system-message](https://docutils.sourceforge.io/docs/ref/doctree.html#system-message)                   |       ✅ Yes        |

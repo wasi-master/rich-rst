@@ -860,6 +860,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.renderables.append(Text(text, style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
+    def visit_substitution_reference(self, node):
+        style = self.console.get_style("restructuredtext.substitution_reference", default="none")
+        text = node.astext().replace("\n", " ")
+        if self.renderables and isinstance(self.renderables[-1], Text):
+            self.renderables[-1].append(text, style=style)
+            raise docutils.nodes.SkipChildren()
+        self.renderables.append(Text(text, style=style, end=""))
+        raise docutils.nodes.SkipChildren()
+
     def visit_footnote(self, node):
         self.footer.append(Align(node.astext(), "left"))
         raise docutils.nodes.SkipChildren()
