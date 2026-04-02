@@ -139,3 +139,48 @@
 - Add support for common sphinx roles.
 [maintenance] update expected test vectors
 - Update the test expectations for Docutils 0.22
+
+## [2.0.0]
+
+### New Features
+
+- Add support for `.. figure::` directive via a dedicated `visit_figure` handler
+- Add inline `[N]` footnote reference rendering via `visit_footnote_reference`
+- Add title rendering for doctest blocks
+- Add support for the `title_reference` role
+- Add support for showing line numbers in code blocks
+- Add improved heading and title rendering
+- Add RST grid and simple table rendering via `visit_table`
+- Add dedicated `docinfo` node handlers with bibliographic transforms
+- Add `visit_topic` handler and `apply_transforms` for table-of-contents (TOC) rendering
+
+### Bug Fixes
+
+- Fix malformed HTML output
+- Fix footnotes not being left-aligned
+- Fix superscript variable name typo
+- Fix `_register_sphinx_roles()` registering roles multiple times
+- Fix admonition body losing inline markup (now uses recursive visitor rendering)
+- Fix `visit_line_block` not preserving nested line-block indentation
+- Fix block quote silently dropping all paragraphs after the first
+- Fix table caption not rendering for `csv-table` and `list-table` directives
+- Fix abbreviation and acronym roles not rendering correctly
+- Fix Rich markup injection via `Text.from_markup` with user-supplied content
+- Fix definition list misidentifying children when no classifier is present
+- Fix bug in math block rendering
+- Fix `visit_pending` crashing
+- Fix image formatting issues
+- Fix `visit_paragraph` re-entering `visit_system_message` and not stopping
+- Fix bug in footer rendering (footer only retaining the last element)
+- Fix raw HTML title rendering
+- Fix `ClassNotFound` / `IndexError` in `visit_raw`
+- Fix `IndexError` when subtitle is absent in `visit_sidebar`
+- Fix `TypeError` when concatenating `Text` with `""` in `visit_option_list`
+- Fix file handle leak in the CLI
+- Fix `IndexError` when renderables list is empty in `visit_field`
+- Fix `KeyError` on unknown message type inside `visit_system_message`
+- Rewrite list rendering to support unlimited nesting and any child node types
+
+### CLI
+
+- Move Rich tracebacks to CLI only (no longer shown in library usage)
