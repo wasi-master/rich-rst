@@ -473,7 +473,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_system_message(self, node):
         self.errors.append(
             Panel(
-                self.console.render_str(node.astext()),
+                self.console.render(Text(node.astext())),
                 title=f"System Message: {node.attributes.get('type', '?')}/{node.attributes.get('level', '?')} ({node.attributes.get('source', '?')}, line {node.attributes.get('line', '?')});",
                 border_style={None: "none", "INFO": "bold cyan", "WARNING": "bold yellow", "ERROR": "bold red", "SEVERE": "bold magenta", "DEBUG": "bold white"}.get(
                     node.attributes.get("type"), "bold red"
