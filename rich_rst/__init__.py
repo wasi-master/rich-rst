@@ -748,7 +748,7 @@ class RestructuredText(JupyterMixin):
         border_style = console.get_style("restructuredtext.footer_border", default="grey74")
         footer_text = ""
         for element in visitor.footer:
-            footer_text = element
+            footer_text += element
         if footer_text:
             yield from console.render(
                 Panel(footer_text, title="Footer", box=box.SQUARE, border_style=border_style, style=style)
