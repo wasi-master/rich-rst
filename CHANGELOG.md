@@ -194,3 +194,7 @@
 - Rewrite docs/source/index.rst — clean description, standard Installation / Quick start / CLI / Contributing sections
 - Rewrite docs/source/documentation.rst — single autoclass, aliases table, full CLI options table
 - Rewrite docs/source/demonstration.rst — cleaner structure, consolidated sources table
+
+### Testing
+
+- Rewrite tests from the ground up. individual item testing
