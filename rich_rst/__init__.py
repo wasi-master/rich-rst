@@ -524,7 +524,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     + (
                         Text(option_group.child_text_separator, style=option_child_text_separator_style)
                         if len(option_group.children) > 1
-                        else ""
+                        else Text()
                     )
                 )
             if description:
