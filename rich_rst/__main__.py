@@ -103,7 +103,11 @@ def main():
     </html>
     """
     console = Console(force_terminal=args.force_color, width=args.width, record=bool(args.html_filename))
-    code = sys.stdin.read() if args.path == "-" else open(args.path, "rt", encoding=args.encoding).read()
+    if args.path == "-":
+        code = sys.stdin.read()
+    else:
+        with open(args.path, "rt", encoding=args.encoding) as file_handle:
+            code = file_handle.read()
     rst = RestructuredText(
         code,
         code_theme=args.code_theme,
