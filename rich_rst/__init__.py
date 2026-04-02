@@ -45,7 +45,6 @@ class MLStripper(HTMLParser):
     def __init__(self):
         super().__init__()
         self.reset()
-        self.strict = False
         self.convert_charrefs = True
         self.text = StringIO()
 
