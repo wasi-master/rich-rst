@@ -732,7 +732,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         title = None
         tgroup = None
         for child in node.children:
-            if isinstance(child, docutils.nodes.title):
+            if isinstance(child, (docutils.nodes.title, docutils.nodes.caption)):
                 title = child.astext()
             elif isinstance(child, docutils.nodes.tgroup):
                 tgroup = child
