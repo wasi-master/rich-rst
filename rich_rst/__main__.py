@@ -28,7 +28,7 @@ def parse_arguments():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description="Render reStructuredText to the console with rich-rst")
     parser.add_argument("path", metavar="PATH", help="path to file, or - for stdin")
-    parser.add_argument("-c", "--force-color", dest="force_color", action="store_true", default=None, help="force color for non-terminals")
+    parser.add_argument("-c", "--force-color", dest="force_color", action="store_true", default=False, help="force color for non-terminals")
     parser.add_argument("-e", "--encoding", dest="encoding", type=str, default="utf-8", help="encoding for file (default: utf-8)")
     parser.add_argument("-w", "--width", type=int, dest="width", default=None, help="width of output (default will auto-detect)")
     parser.add_argument("-hw", "--html-width", type=str, dest="html_width", default="1675px", help="width of html output (default: 1675px)")
