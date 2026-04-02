@@ -11,6 +11,8 @@ from html.parser import HTMLParser
 from typing import Optional, Union
 
 # Imports from docutils package for the parsing
+import docutils.core
+import docutils.frontend
 import docutils.io
 import docutils.nodes
 import docutils.parsers.rst
@@ -283,6 +285,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.renderables.append(Text(node.astext().replace("\n", " "), end="", style=style))
 
     def visit_comment(self, node):
+        raise docutils.nodes.SkipChildren()
+
+    def visit_substitution_definition(self, node):
         raise docutils.nodes.SkipChildren()
 
     def _render_admonition_body(self, children):
@@ -563,7 +568,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_system_message(self, node):
         self.errors.append(
             Panel(
-                self.console.render(Text(node.astext())),
+                Text(node.astext()),
                 title=f"System Message: {node.attributes.get('type', '?')}/{node.attributes.get('level', '?')} ({node.attributes.get('source', '?')}, line {node.attributes.get('line', '?')});",
                 border_style={None: "none", "INFO": "bold cyan", "WARNING": "bold yellow", "ERROR": "bold red", "SEVERE": "bold magenta", "DEBUG": "bold white"}.get(
                     node.attributes.get("type"), "bold red"
@@ -818,9 +823,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_math_block(self, node):
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append(Text(node.astext(), end=" "))
+            self.renderables[-1].append_text(Text(node.astext(), end=" "))
             raise docutils.nodes.SkipChildren()
-        self.renderables.append_text(Text(node.astext()))
+        self.renderables.append(Text(node.astext()))
         raise docutils.nodes.SkipChildren()
 
     def visit_citation(self, node):
@@ -999,26 +1004,14 @@ class RestructuredText(JupyterMixin):
         if self.sphinx_compat:
             _register_sphinx_roles()
 
-        # Docutils version compatability; from https://stackoverflow.com/a/75996218
-        if hasattr(docutils.frontend, 'get_default_settings'):
-            # docutils >= 0.18
-            settings = docutils.frontend.get_default_settings(docutils.parsers.rst.Parser)
-        else:
-            # docutils < 0.18
-            settings = docutils.frontend.OptionParser(components=(docutils.parsers.rst.Parser,)).get_default_values()
-        settings.report_level = 69
-        source = docutils.io.StringInput(self.markup)
-        document = docutils.utils.new_document(self.filename, settings)
-        rst_parser = docutils.parsers.rst.Parser()
-        rst_parser.parse(source.read(), document)
-        document.transformer.apply_transforms()
-
-        # Apply bibliographic-field transforms so that recognised metadata
-        # fields (:Author:, :Date:, :Version: …) are converted from a plain
-        # field_list into typed docinfo child nodes (author, date, version …).
-        from docutils.transforms import frontmatter
-        document.transformer.add_transforms([frontmatter.DocTitle, frontmatter.DocInfo])
-        document.transformer.apply_transforms()
+        # Use the full docutils publish pipeline so that all standard transforms
+        # (substitution resolution, hyperlink resolution, footnote numbering,
+        # bibliographic-field promotion, …) are applied before we walk the tree.
+        document = docutils.core.publish_doctree(
+            self.markup,
+            source_path=self.filename,
+            settings_overrides={"report_level": 69, "halt_level": 69},
+        )
 
         # Render the RST `document` using Rich.
         visitor = RSTVisitor(
