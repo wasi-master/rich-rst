@@ -563,7 +563,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_system_message(self, node):
         self.errors.append(
             Panel(
-                self.console.render(Text(node.astext())),
+                Text(node.astext()),
                 title=f"System Message: {node.attributes.get('type', '?')}/{node.attributes.get('level', '?')} ({node.attributes.get('source', '?')}, line {node.attributes.get('line', '?')});",
                 border_style={None: "none", "INFO": "bold cyan", "WARNING": "bold yellow", "ERROR": "bold red", "SEVERE": "bold magenta", "DEBUG": "bold white"}.get(
                     node.attributes.get("type"), "bold red"
@@ -818,9 +818,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_math_block(self, node):
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append(Text(node.astext(), end=" "))
+            self.renderables[-1].append_text(Text(node.astext(), end=" "))
             raise docutils.nodes.SkipChildren()
-        self.renderables.append_text(Text(node.astext()))
+        self.renderables.append(Text(node.astext()))
         raise docutils.nodes.SkipChildren()
 
     def visit_citation(self, node):
