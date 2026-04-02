@@ -430,8 +430,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_acronym(self, node):
         self._render_inline_with_explanation(node, "restructuredtext.acronym")
-        
-        
+
+
     def visit_image(self, node):
         self.renderables.append(self._make_image_text(node))
         raise docutils.nodes.SkipChildren()
@@ -855,11 +855,11 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_footnote(self, node):
-        self.footer.append(Align(node.astext(), "center"))
+        self.footer.append(Align(node.astext(), "left"))
         raise docutils.nodes.SkipChildren()
 
     def visit_generated(self, node):
-        self.footer.append(Align(node.astext(), "center"))
+        self.footer.append(Align(node.astext(), "left"))
         raise docutils.nodes.SkipChildren()
 
     def visit_pending(self, node):
