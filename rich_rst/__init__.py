@@ -511,34 +511,23 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         classifier_style = self.console.get_style("restructuredtext.classifier_style", default="cyan")
         definitions_style = self.console.get_style("restructuredtext.definitions_style", default="none")
         for child in node.children:
-            try:
-                term, classifier, definitions = child.children
-            except ValueError:
-                term, classifier = child.children[0], child.children[1]
-                if len(child.children) > 2:
-                    for children in child.children[2:]:
-                        if isinstance(children, docutils.nodes.bullet_list):
-                            self.visit_bullet_list(children)
-                        elif isinstance(children, docutils.nodes.literal_block):
-                            self.visit_literal_block(children)
-                        elif isinstance(children, docutils.nodes.literal):
-                            self.visit_literal(children)
-                        elif isinstance(children, docutils.nodes.block_quote):
-                            self.visit_block_quote(children)
-                else:
-
-                    self.renderables.append(
-                        Text(term.astext(), style=classifier_style)
-                        + Text("\n    ", end="")
-                        + Text(classifier.astext().replace("\n", " "), style=definitions_style)
-                        + Text("\n      ", end="")
-                    )
+            if len(child.children) == 2:
+                term, definitions = child.children
+                self.renderables.append(
+                    Text(term.astext(), style=term_style)
+                    + Text("\n    ", end="")
+                    + Text(definitions.astext().replace("\n", " "), style=definitions_style)
+                    + Text("\n      ", end="")
+                )
             else:
+                term = child.children[0]
+                classifiers = child.children[1:-1]
+                definitions = child.children[-1]
                 self.renderables.append(
                     Text("    ")
                     + Text(term.astext(), style=term_style, end="")
                     + Text(" : ", end="")
-                    + Text(classifier.astext(), style=classifier_style)
+                    + Text(" : ".join(classifier.astext() for classifier in classifiers), style=classifier_style)
                     + Text("\n      ", end="")
                     + Text(definitions.astext().replace("\n", " "), style=definitions_style)
                     + Text("\n", end="")
@@ -593,19 +582,20 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             "restructuredtext.blockquote_attribution_marker", default="bright_magenta"
         )
         author_style = self.console.get_style("restructuredtext.blockquote_attribution_text", default="grey89")
-        try:
-            paragraph, attribution = node.children
-        except ValueError:
-            paragraph = node.children[0]
-            self.renderables.append(
-                Text("    ")
-                + Text(paragraph.astext().replace('\n', ' '), style=text_style)
-                + Text("\n\n")
-            )
+        children = list(node.children)
+        attribution = None
+        if children and isinstance(children[-1], docutils.nodes.attribution):
+            attribution = children.pop()
+
+        paragraphs = [Text(child.astext().replace("\n", " "), style=text_style) for child in children]
+        block_quote = Text("\n\n").join(paragraphs) if paragraphs else Text()
+
+        if attribution is None:
+            self.renderables.append(Text("    ") + block_quote + Text("\n\n"))
         else:
             self.renderables.append(
                 Text("▌ ", style=marker_style)
-                + Text(paragraph.astext(), style=text_style)
+                + block_quote
                 + Text("\n")
                 + Text("  - " + attribution.astext(), style=author_style)
             )
@@ -684,6 +674,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 border_style="bold red",
             ),
         )
+        raise docutils.nodes.SkipChildren()
 
     def visit_raw(self, node):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
