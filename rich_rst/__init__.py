@@ -852,7 +852,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_footnote_reference(self, node):
         style = self.console.get_style("restructuredtext.footnote_reference", default="grey74")
-        text = f"[{node.astext().replace('\n', ' ')}]"
+        newline = '\n'
+        text = f"[{node.astext().replace(newline, ' ')}]"
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].append(text, style=style)
             raise docutils.nodes.SkipChildren()
