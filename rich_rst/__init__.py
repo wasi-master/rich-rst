@@ -486,7 +486,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 else:
 
                     self.renderables.append(
-                        Text.from_markup(f"[{classifier_style}]{term.astext()}[/{classifier_style}]")
+                        Text(term.astext(), style=classifier_style)
                         + Text("\n    ", end="")
                         + Text(classifier.astext().replace("\n", " "), style=definitions_style)
                         + Text("\n      ", end="")
