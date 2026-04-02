@@ -157,7 +157,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.code_theme = code_theme
         self.show_line_numbers = show_line_numbers
         self.renderables = []
-        self.supercript = str.maketrans(
+        self.superscript = str.maketrans(
             "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷",
             "¹²³⁴⁵⁶⁷⁸⁹⁰ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᑫʳˢᵗᵘᵛʷˣʸᶻᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ⁼⁺⁻*/×÷",
         )
@@ -377,9 +377,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_superscript(self, node):
         style = self.console.get_style("restructuredtext.superscript", default="none")
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(node.astext().translate(self.supercript), style=style, end=" "))
+            self.renderables[-1].append_text(Text(node.astext().translate(self.superscript), style=style, end=" "))
             raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(node.astext().translate(self.supercript), end="", style=style))
+        self.renderables.append(Text(node.astext().translate(self.superscript), end="", style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_emphasis(self, node):
