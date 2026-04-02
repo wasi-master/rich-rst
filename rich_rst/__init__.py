@@ -576,14 +576,18 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_sidebar(self, node):
-        if len(node.children) > 2:
-            title, subtitle, paragraph = node.children
-        else:
-            title, subtitle, paragraph = node.children[0], "", node.children[1]
+        children = list(node.children)
+        title = children[0] if children else ""
+        subtitle = ""
+        body_children = children[1:]
 
-        self.renderables.append(
-            Panel(paragraph.astext(), title=title.astext(), subtitle=subtitle.astext(), expand=False)
-        )
+        if body_children and isinstance(body_children[0], docutils.nodes.subtitle):
+            subtitle = body_children[0].astext()
+            body_children = body_children[1:]
+
+        paragraph = "\n\n".join(child.astext() for child in body_children)
+
+        self.renderables.append(Panel(paragraph, title=title.astext(), subtitle=subtitle, expand=False))
 
         raise docutils.nodes.SkipChildren()
 
