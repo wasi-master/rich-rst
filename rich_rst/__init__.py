@@ -608,9 +608,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             )
         raise docutils.nodes.SkipChildren()
 
+    def _render_line_block(self, node, indent=0):
+        """Recursively render a line_block node, preserving nested indentation."""
+        prefix = "    " * indent
+        for child in node.children:
+            if isinstance(child, docutils.nodes.line_block):
+                self._render_line_block(child, indent + 1)
+            elif isinstance(child, docutils.nodes.line):
+                self.renderables.append(Text(prefix + child.astext()))
+
     def visit_line_block(self, node):
-        for line in node.children:
-            self.renderables.append(Text(line.astext()))
+        self._render_line_block(node)
         raise docutils.nodes.SkipChildren()
 
     def visit_sidebar(self, node):
