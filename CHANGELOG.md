@@ -123,3 +123,19 @@
 - Refactor __main__.py
 - Fix too many arguments to unpack when visiting block quote
 
+## [1.3.0]
+
+- Fix docutils/optparse deprecation warnings
+- No trailing newline by
+- Add initial unit testing infrastructure
+
+## [1.3.1]
+
+- Remove trailing empty Text() objects that get displayed as newlines.
+
+## [1.3.2]
+
+- Convert to pyproject.toml, use setuptools_scm to manage version.
+- Add support for common sphinx roles.
+[maintenance] update expected test vectors
+- Update the test expectations for Docutils 0.22
