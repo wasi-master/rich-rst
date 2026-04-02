@@ -70,17 +70,21 @@ def main():
             rgb(255, 255, 255),
         ],
     )
-    CONSOLE_HTML_FORMAT = f"""\
+    # NOTE: CSS braces must be doubled ({{ / }}) so that Rich's internal
+    # code_format.format(...) call treats them as literal characters.
+    # args.html_width is spliced in with a plain str.replace to avoid
+    # adding a third round of brace escaping.
+    CONSOLE_HTML_FORMAT = """\
     <!DOCTYPE html>
     <html>
     <head>
     <meta charset="UTF-8">
     <style>
-    {{stylesheet}}
+    {stylesheet}
     body {{
-        color: {{foreground}};
-        background-color: {{background}};
-        max-width: {args.html_width}
+        color: {foreground};
+        background-color: {background};
+        max-width: HTML_WIDTH_PLACEHOLDER
     }}
     pre {{
         white-space: pre-wrap;       /* Since CSS 2.1 */
@@ -89,7 +93,7 @@ def main():
         white-space: -o-pre-wrap;    /* Opera 7 */
         word-wrap: break-word;       /* Internet Explorer 5.5+ */
     }}
-    ::-moz-selection {{ /* Code for Firefox */
+    ::-moz-selection {{
       background: #44475a;
     }}
     ::selection {{
@@ -98,10 +102,10 @@ def main():
     </style>
     </head>
     <body>
-        <pre style="font-family:ui-monospace,'Fira Code',Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code>{{code}}</code></pre>
+        <pre style="font-family:ui-monospace,'Fira Code',Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code>{code}</code></pre>
     </body>
     </html>
-    """
+    """.replace("HTML_WIDTH_PLACEHOLDER", args.html_width)
     console = Console(force_terminal=args.force_color, width=args.width, record=bool(args.html_filename))
     if args.path == "-":
         code = sys.stdin.read()
