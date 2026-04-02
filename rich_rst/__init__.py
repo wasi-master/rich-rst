@@ -613,6 +613,48 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.renderables.append(Text(line.astext()))
         raise docutils.nodes.SkipChildren()
 
+    def _collect_body_renderables(self, children):
+        """Render a list of body nodes into renderables, returning the collected list.
+
+        Handles bullet_list, enumerated_list, and paragraph nodes explicitly;
+        other node types fall back to plain text via ``astext()``.
+        """
+        saved = self.renderables
+        self.renderables = []
+        for child in children:
+            if isinstance(child, docutils.nodes.bullet_list):
+                self._render_bullet_list(child, level=0)
+            elif isinstance(child, docutils.nodes.enumerated_list):
+                self._render_enumerated_list(child, level=0)
+            elif isinstance(child, docutils.nodes.paragraph):
+                self.renderables.append(Text(child.astext().replace("\n", " ")))
+            else:
+                text = child.astext().replace("\n", " ")
+                if text:
+                    self.renderables.append(Text(text))
+        body = self.renderables
+        self.renderables = saved
+        return body
+
+    def visit_topic(self, node):
+        style = self.console.get_style("restructuredtext.topic", default="bold cyan")
+        children = list(node.children)
+        title = ""
+        body_start = 0
+        if children and isinstance(children[0], docutils.nodes.title):
+            title = children[0].astext()
+            body_start = 1
+
+        body_renderables = self._collect_body_renderables(children[body_start:])
+
+        if body_renderables:
+            self.renderables.append(
+                Panel(Group(*body_renderables), title=title, style=style, border_style=style)
+            )
+        else:
+            self.renderables.append(Panel("", title=title, style=style, border_style=style))
+        raise docutils.nodes.SkipChildren()
+
     def visit_sidebar(self, node):
         children = list(node.children)
         title = children[0] if children else ""
@@ -818,6 +860,7 @@ class RestructuredText(JupyterMixin):
         document = docutils.utils.new_document(self.filename, settings)
         rst_parser = docutils.parsers.rst.Parser()
         rst_parser.parse(source.read(), document)
+        document.transformer.apply_transforms()
 
         # Render the RST `document` using Rich.
         visitor = RSTVisitor(
