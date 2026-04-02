@@ -183,6 +183,33 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             return lexer
         return lexer
 
+    def _section_level(self, node):
+        level = -1
+        parent = getattr(node, "parent", None)
+        while parent is not None:
+            if isinstance(parent, docutils.nodes.section):
+                level += 1
+            parent = getattr(parent, "parent", None)
+        return level
+
+    def _render_heading(self, text, level):
+        heading_levels = [
+            ("restructuredtext.title.level.1", "bold", box.DOUBLE),
+            ("restructuredtext.title.level.2", "bold", box.ROUNDED),
+            ("restructuredtext.title.level.3", "bold underline", None),
+            ("restructuredtext.title.level.4", "bold", None),
+            ("restructuredtext.title.level.5", "underline", None),
+            ("restructuredtext.title.level.6", "italic", None),
+        ]
+        index = min(level, len(heading_levels) - 1)
+        style_name, default_style, panel_box = heading_levels[index]
+        style = self.console.get_style(style_name, default=default_style)
+        if panel_box is None:
+            self.renderables.append(Align(Text(text, style=style), "center"))
+            self.renderables.append(NewLine())
+        else:
+            self.renderables.append(Panel(Align(text, "center"), box=panel_box, style=style, border_style=style))
+
     def visit_reference(self, node):
         refuri = node.attributes.get("refuri")
         style = self.console.get_style("restructuredtext.reference", default="blue underline on default")
@@ -228,8 +255,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 self.renderables[-1].append("\n\n")
 
     def visit_title(self, node):
-        style = self.console.get_style("restructuredtext.title", default="bold")
-        self.renderables.append(Panel(Align(node.astext(), "center"), box=box.DOUBLE, style=style))
+        level = self._section_level(node)
+        self._render_heading(node.astext(), level)
+        raise docutils.nodes.SkipChildren()
+
+    def visit_rubric(self, node):
+        style = self.console.get_style("restructuredtext.rubric", default="italic dim")
+        self.renderables.append(Panel(Align(node.astext(), "center"), box=box.ROUNDED, style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_Text(self, node):
@@ -600,9 +632,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_transition(self, node):
         style = self.console.get_style("restructuredtext.hr", default="yellow")
         self.renderables.append(Rule(style=style))
-
-    def visit_rubric(self, node):
-        self.visit_title(node)
 
     def visit_math_block(self, node):
         if self.renderables and isinstance(self.renderables[-1], Text):
