@@ -72,6 +72,7 @@ def main():
     )
     CONSOLE_HTML_FORMAT = f"""\
     <!DOCTYPE html>
+    <html>
     <head>
     <meta charset="UTF-8">
     <style>
@@ -96,11 +97,8 @@ def main():
     }}
     </style>
     </head>
-    <html>
     <body>
-        <code>
-            <pre style="font-family:ui-monospace,'Fira Code',Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">{{code}}</pre>
-        </code>
+        <pre style="font-family:ui-monospace,'Fira Code',Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code>{{code}}</code></pre>
     </body>
     </html>
     """
