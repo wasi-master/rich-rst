@@ -339,33 +339,74 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         )
         raise docutils.nodes.SkipChildren()
 
-    def visit_bullet_list(self, node):
-        # Currently as it stands, this isn't gonna work with more than 3 nested levels
-        # TODO: I need to figure out some way to handle nested lists recursively
+    _BULLET_LIST_MARKERS = [" • ", " ∘ ", " ▪ "]
+
+    def _render_bullet_list(self, node, level=0):
+        """Recursively render a bullet list with support for unlimited nesting and any child elements."""
         marker_style = self.console.get_style("restructuredtext.bullet_list_marker", default="bold yellow")
         text_style = self.console.get_style("restructuredtext.bullet_list_text", default="none")
+        indent = "  " * level
+        marker = self._BULLET_LIST_MARKERS[min(level, len(self._BULLET_LIST_MARKERS) - 1)]
         for list_item in node.children:
-            nested_list = [i for i in list_item.children if isinstance(i, docutils.nodes.bullet_list)]
-            if nested_list:
-                for list_item in list_item.children:
-                    self.renderables.append(Text("  ", end="") + Text(" ∘ ", end="", style=marker_style))
-                    self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
-                    if isinstance(list_item, docutils.nodes.bullet_list):
-                        for list_item in list_item.children:
-                            self.renderables.append(Text("    ", end="") + Text(" ▪ ", end="", style=marker_style))
-                            self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
-            self.renderables.append(Text(" • ", end="", style=marker_style))
-            self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
+            first_content = True
+            for child in list_item.children:
+                if isinstance(child, docutils.nodes.bullet_list):
+                    self._render_bullet_list(child, level + 1)
+                elif isinstance(child, docutils.nodes.enumerated_list):
+                    self._render_enumerated_list(child, level + 1)
+                elif isinstance(child, docutils.nodes.literal_block):
+                    if first_content:
+                        self.renderables.append(Text(indent + marker, end="", style=marker_style))
+                        first_content = False
+                    try:
+                        self.visit_literal_block(child)
+                    except docutils.nodes.SkipChildren:
+                        pass
+                else:
+                    text = child.astext().replace("\n", " ")
+                    if first_content:
+                        self.renderables.append(Text(indent + marker, end="", style=marker_style))
+                        self.renderables.append(Text(text, style=text_style))
+                        first_content = False
+                    else:
+                        self.renderables.append(Text(indent + "  " + text, style=text_style))
+
+    def visit_bullet_list(self, node):
+        self._render_bullet_list(node, level=0)
         self.renderables.append(NewLine())
         raise docutils.nodes.SkipChildren()
 
-    def visit_enumerated_list(self, node):
+    def _render_enumerated_list(self, node, level=0):
+        """Recursively render an enumerated list with support for unlimited nesting and any child elements."""
         marker_style = self.console.get_style("restructuredtext.enumerated_list_marker", default="bold yellow")
         text_style = self.console.get_style("restructuredtext.enumerated_text", default="none")
+        indent = "  " * level
         for i, list_item in enumerate(node.children, 1):
-            self.renderables.append(Text(f" {i}", end=" ", style=marker_style))
-            self.renderables.append(Text(list_item.astext().replace("\n", " "), style=text_style))
+            first_content = True
+            for child in list_item.children:
+                if isinstance(child, docutils.nodes.bullet_list):
+                    self._render_bullet_list(child, level + 1)
+                elif isinstance(child, docutils.nodes.enumerated_list):
+                    self._render_enumerated_list(child, level + 1)
+                elif isinstance(child, docutils.nodes.literal_block):
+                    if first_content:
+                        self.renderables.append(Text(f"{indent} {i}", end=" ", style=marker_style))
+                        first_content = False
+                    try:
+                        self.visit_literal_block(child)
+                    except docutils.nodes.SkipChildren:
+                        pass
+                else:
+                    text = child.astext().replace("\n", " ")
+                    if first_content:
+                        self.renderables.append(Text(f"{indent} {i}", end=" ", style=marker_style))
+                        self.renderables.append(Text(text, style=text_style))
+                        first_content = False
+                    else:
+                        self.renderables.append(Text(indent + "  " + text, style=text_style))
 
+    def visit_enumerated_list(self, node):
+        self._render_enumerated_list(node, level=0)
         self.renderables.append(NewLine())
         raise docutils.nodes.SkipChildren()
 
