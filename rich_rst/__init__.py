@@ -275,54 +275,85 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_comment(self, node):
         raise docutils.nodes.SkipChildren()
 
+    def _render_admonition_body(self, children):
+        """Render admonition body children using a sub-visitor to preserve inline markup."""
+        sub_visitor = RSTVisitor(
+            self.document,
+            console=self.console,
+            code_theme=self.code_theme,
+            show_line_numbers=self.show_line_numbers,
+            guess_lexer=self.guess_lexer,
+            default_lexer=self.default_lexer,
+        )
+        for child in children:
+            child.walkabout(sub_visitor)
+        return sub_visitor.renderables
+
     def visit_admonition(self, node):
         style = self.console.get_style("restructuredtext.admonition", default="bold white")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Admonition: ", style=style, border_style=style))
+        # Generic admonition: first child is the user-supplied title node
+        if node.children and isinstance(node.children[0], docutils.nodes.title):
+            title = "Admonition: " + node.children[0].astext()
+            body_children = node.children[1:]
+        else:
+            title = "Admonition: "
+            body_children = node.children
+        body = self._render_admonition_body(body_children)
+        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_attention(self, node):
         style = self.console.get_style("restructuredtext.attention", default="bold black on yellow")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Attention: ", style=style, border_style=style))
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="Attention: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_caution(self, node):
         style = self.console.get_style("restructuredtext.caution", default="red")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Caution: ", style=style, border_style=style))
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="Caution: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_danger(self, node):
         style = self.console.get_style("restructuredtext.danger", default="bold white on red")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="DANGER: ", style=style, border_style=style))
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="DANGER: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_error(self, node):
         style = self.console.get_style("restructuredtext.error", default="bold red")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="ERROR: ", style=style, border_style=style))
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="ERROR: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_hint(self, node):
         style = self.console.get_style("restructuredtext.hint", default="yellow")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Hint: ", style=style, border_style=style))
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="Hint: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_important(self, node):
         style = self.console.get_style("restructuredtext.important", default="bold blue")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="IMPORTANT: ", style=style, border_style=style))
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="IMPORTANT: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_note(self, node):
         style = self.console.get_style("restructuredtext.note", default="bold white")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Note: ", style=style, border_style=style))
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="Note: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_tip(self, node):
         style = self.console.get_style("restructuredtext.tip", default="bold green")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Tip: ", style=style, border_style=style))
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="Tip: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_warning(self, node):
         style = self.console.get_style("restructuredtext.warning", default="bold yellow")
-        self.renderables.append(Panel(node.astext().replace("\n", " "), title="Warning: ", style=style, border_style=style))
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="Warning: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_subscript(self, node):
