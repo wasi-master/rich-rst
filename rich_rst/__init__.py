@@ -20,7 +20,7 @@ import docutils.utils
 import rich
 from rich import box
 from rich.align import Align
-from rich.console import Console, ConsoleOptions, RenderResult, NewLine
+from rich.console import Console, ConsoleOptions, RenderResult, NewLine, Group
 from rich.jupyter import JupyterMixin
 from rich.panel import Panel
 from rich.style import Style
@@ -851,12 +851,9 @@ class RestructuredText(JupyterMixin):
                 yield from console.render(error, options)
         style = console.get_style("restructuredtext.footer", default="none")
         border_style = console.get_style("restructuredtext.footer_border", default="grey74")
-        footer_text = ""
-        for element in visitor.footer:
-            footer_text += element
-        if footer_text:
+        if visitor.footer:
             yield from console.render(
-                Panel(footer_text, title="Footer", box=box.SQUARE, border_style=border_style, style=style)
+                Panel(Group(*visitor.footer), title="Footer", box=box.SQUARE, border_style=border_style, style=style)
             )
 
 
