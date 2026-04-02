@@ -539,26 +539,65 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         )
         raise docutils.nodes.SkipChildren()
 
-    def visit_field(self, node):
+    def _add_to_field_table(self, field_name, field_value):
+        """Add a row to the shared field table, creating it if necessary."""
         field_name_style = self.console.get_style("restructuredtext.field_name", default="bold")
         field_value_style = self.console.get_style("restructuredtext.field_value", default="none")
-        previous_table = None
         if self.renderables and isinstance(self.renderables[-1], Table):
             possible_table = self.renderables[-1]
             if (possible_table.columns[0].header == "Field Name") and (possible_table.columns[1].header == "Field Value"):
-                table = possible_table
-                previous_table = True
-            else:
-                table = Table("Field Name", "Field Value", show_lines=True)
-                previous_table = False
-        else:
-            previous_table = False
-        if previous_table is False:
-            table = Table("Field Name", "Field Value", show_lines=True)
-            table.add_row(Text(node.children[0].astext(), style=field_name_style), Text(node.children[1].astext(), style=field_value_style))
-            self.renderables.append(table)
-        else:
-            table.add_row(Text(node.children[0].astext(), style=field_name_style), Text(node.children[1].astext(), style=field_value_style))
+                possible_table.add_row(Text(field_name, style=field_name_style), Text(field_value, style=field_value_style))
+                return
+        table = Table("Field Name", "Field Value", show_lines=True)
+        table.add_row(Text(field_name, style=field_name_style), Text(field_value, style=field_value_style))
+        self.renderables.append(table)
+
+    def visit_field(self, node):
+        self._add_to_field_table(node.children[0].astext(), node.children[1].astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_docinfo(self, node):
+        pass  # let the visitor descend into child docinfo nodes
+
+    def visit_author(self, node):
+        self._add_to_field_table("Author", node.astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_authors(self, node):
+        for author in node.children:
+            self._add_to_field_table("Author", author.astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_organization(self, node):
+        self._add_to_field_table("Organization", node.astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_address(self, node):
+        self._add_to_field_table("Address", node.astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_contact(self, node):
+        self._add_to_field_table("Contact", node.astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_version(self, node):
+        self._add_to_field_table("Version", node.astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_revision(self, node):
+        self._add_to_field_table("Revision", node.astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_status(self, node):
+        self._add_to_field_table("Status", node.astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_date(self, node):
+        self._add_to_field_table("Date", node.astext())
+        raise docutils.nodes.SkipChildren()
+
+    def visit_copyright(self, node):
+        self._add_to_field_table("Copyright", node.astext())
         raise docutils.nodes.SkipChildren()
 
     def visit_definition_list(self, node):
@@ -939,6 +978,13 @@ class RestructuredText(JupyterMixin):
         document = docutils.utils.new_document(self.filename, settings)
         rst_parser = docutils.parsers.rst.Parser()
         rst_parser.parse(source.read(), document)
+        document.transformer.apply_transforms()
+
+        # Apply bibliographic-field transforms so that recognised metadata
+        # fields (:Author:, :Date:, :Version: …) are converted from a plain
+        # field_list into typed docinfo child nodes (author, date, version …).
+        from docutils.transforms import frontmatter
+        document.transformer.add_transforms([frontmatter.DocTitle, frontmatter.DocInfo])
         document.transformer.apply_transforms()
 
         # Render the RST `document` using Rich.
