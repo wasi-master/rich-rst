@@ -248,6 +248,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_paragraph(self, node):
         if hasattr(node, "parent") and isinstance(node.parent, docutils.nodes.system_message):
             self.visit_system_message(node.parent)
+            raise docutils.nodes.SkipChildren()
 
     def depart_paragraph(self, node):  # pylint: disable=unused-argument
         if self.renderables and isinstance(self.renderables[-1], Text):
