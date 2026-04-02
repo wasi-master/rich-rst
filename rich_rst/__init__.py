@@ -211,6 +211,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.renderables.append(Panel(Align(text, "center"), box=panel_box, style=style, border_style=style))
 
     def visit_reference(self, node):
+        if len(node.children) == 1 and isinstance(node.children[0], docutils.nodes.image):
+            return
         refuri = node.attributes.get("refuri")
         style = self.console.get_style("restructuredtext.reference", default="blue underline on default")
         if refuri:
@@ -358,17 +360,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_image(self, node):
-        alt, target = None, None
-        if ":target:" in node.rawsource:
-            target = node.rawsource.split(":target:")[-1].strip()
-        if ":alt:" in node.rawsource:
-            alt = node.rawsource.split(":alt:")[-1].strip()
+        alt = node.get("alt")
+        target = node.get("target")
+        parent = getattr(node, "parent", None)
+        if isinstance(parent, docutils.nodes.reference):
+            target = parent.get("refuri", target)
         self.renderables.append(
             Text("🌆 ")
             + Text(
-                node.get("alt", alt or "Image"),
+                alt or "Image",
                 style=Style(
-                    link=node.get("target", target or "Image") or node.get("uri"),
+                    link=target or node.get("uri"),
                     color="#6088ff",
                 ),
             )
