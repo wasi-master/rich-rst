@@ -454,6 +454,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
+    def visit_title_reference(self, node):
+        style = self.console.get_style("restructuredtext.title_reference", default="italic")
+        if self.renderables and isinstance(self.renderables[-1], Text):
+            self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
+            raise docutils.nodes.SkipChildren()
+        self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
+        raise docutils.nodes.SkipChildren()
+
     def visit_literal_block(self, node):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         if self.renderables and isinstance(self.renderables[-1], Text):
