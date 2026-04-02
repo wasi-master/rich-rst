@@ -33,6 +33,7 @@ def parse_arguments():
     parser.add_argument("-w", "--width", type=int, dest="width", default=None, help="width of output (default will auto-detect)")
     parser.add_argument("-hw", "--html-width", type=str, dest="html_width", default="1675px", help="width of html output (default: 1675px)")
     parser.add_argument("-t", "--code-theme", dest="code_theme", type=str, default="monokai", help="pygments code theme")
+    parser.add_argument("--show-line-numbers", action="store_true", dest="show_line_numbers", default=False, help="show line numbers for syntax-highlighted code blocks")
     parser.add_argument("-html", "--save-html", type=str, dest="html_filename", default=False, help="save to html")
     parser.add_argument("-r", "--wrap", dest="word_wrap", action="store_true", default=False, help="word wrap long lines")
     parser.add_argument("-s", "--soft-wrap", action="store_true", dest="soft_wrap", default=False, help="enable soft wrapping mode")
@@ -111,6 +112,7 @@ def main():
     rst = RestructuredText(
         code,
         code_theme=args.code_theme,
+        show_line_numbers=args.show_line_numbers,
         guess_lexer=args.guess_lexer,
         default_lexer=args.default_lexer,
         show_errors=not args.hide_errors,

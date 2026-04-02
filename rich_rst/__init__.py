@@ -140,12 +140,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         document: docutils.nodes.document,
         console: Console,
         code_theme: Union[str, SyntaxTheme] = "monokai",
+        show_line_numbers: Optional[bool] = False,
         guess_lexer: Optional[bool] = True,
         default_lexer: Optional[str] = "python",
     ) -> None:
         super().__init__(document)
         self.console = console
         self.code_theme = code_theme
+        self.show_line_numbers = show_line_numbers
         self.renderables = []
         self.supercript = str.maketrans(
             "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷",
@@ -426,7 +428,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.renderables[-1].append_text(Text("\n"))
         lexer = self._find_lexer(node)
         self.renderables.append(
-            Panel(Syntax(node.astext(), lexer, theme=self.code_theme), border_style=style, box=box.SQUARE, title=lexer)
+            Panel(
+                Syntax(node.astext(), lexer, theme=self.code_theme, line_numbers=self.show_line_numbers),
+                border_style=style,
+                box=box.SQUARE,
+                title=lexer,
+            )
         )
         raise docutils.nodes.SkipChildren()
 
@@ -538,7 +545,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         self.renderables.append(
             Panel(
-                Syntax(node.astext(), "pycon", theme=self.code_theme),
+                Syntax(node.astext(), "pycon", theme=self.code_theme, line_numbers=self.show_line_numbers),
                 border_style=style,
                 box=box.SQUARE,
             )
@@ -657,7 +664,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             lexer = self._guess_lexer_name(text) if self.guess_lexer else self.default_lexer
 
         self.renderables.append(
-            Panel(Syntax(text, lexer, theme=self.code_theme), border_style=style, box=box.SQUARE, title=title)
+            Panel(
+                Syntax(text, lexer, theme=self.code_theme, line_numbers=self.show_line_numbers),
+                border_style=style,
+                box=box.SQUARE,
+                title=title,
+            )
         )
         raise docutils.nodes.SkipChildren()
 
@@ -671,6 +683,8 @@ class RestructuredText(JupyterMixin):
         A string containing reStructuredText markup.
     code_theme : Optional[Union[str, SyntaxTheme]]
         Pygments theme for code blocks. Defaults to "monokai".
+    show_line_numbers : Optional[bool]
+        Whether to display line numbers for syntax-highlighted code blocks.
     show_errors : Optional[bool]
         Whether to show system_messages aka errors and warnings.
     guess_lexer : Optional[bool]
@@ -689,6 +703,7 @@ class RestructuredText(JupyterMixin):
         self,
         markup: str,
         code_theme: Optional[Union[str, SyntaxTheme]] = "monokai",
+        show_line_numbers: Optional[bool] = False,
         show_errors: Optional[bool] = True,
         guess_lexer: Optional[bool] = False,
         default_lexer: Optional[str] = "python",
@@ -697,6 +712,7 @@ class RestructuredText(JupyterMixin):
     ) -> None:
         self.markup = markup
         self.code_theme = code_theme
+        self.show_line_numbers = show_line_numbers
         self.log_errors = show_errors
         self.guess_lexer = guess_lexer
         self.default_lexer = default_lexer
@@ -725,6 +741,7 @@ class RestructuredText(JupyterMixin):
             document,
             console=console,
             code_theme=self.code_theme,
+            show_line_numbers=self.show_line_numbers,
             guess_lexer=self.guess_lexer,
             default_lexer=self.default_lexer,
         )
