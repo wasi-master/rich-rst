@@ -650,7 +650,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         lexer = self._find_lexer(node)
         text = node.astext()
-        title = "raw " + ("stripped raw html" if lexer == "html" else lexer)
+        title = ("stripped raw html" if lexer == "html" else "raw " + lexer)
 
         if lexer == "html":
             text = strip_tags(text)
