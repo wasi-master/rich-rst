@@ -640,7 +640,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].append(Text(node.astext(), end=" "))
             raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(node.astext()))
+        self.renderables.append_text(Text(node.astext()))
         raise docutils.nodes.SkipChildren()
 
     def visit_citation(self, node):
