@@ -445,7 +445,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         field_name_style = self.console.get_style("restructuredtext.field_name", default="bold")
         field_value_style = self.console.get_style("restructuredtext.field_value", default="none")
         previous_table = None
-        if isinstance(self.renderables[-1], Table):
+        if self.renderables and isinstance(self.renderables[-1], Table):
             possible_table = self.renderables[-1]
             if (possible_table.columns[0].header == "Field Name") and (possible_table.columns[1].header == "Field Value"):
                 table = possible_table
