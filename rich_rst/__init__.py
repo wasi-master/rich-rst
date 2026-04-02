@@ -356,22 +356,41 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
-    def visit_image(self, node):
+    def _make_image_text(self, node, link_override=None):
         alt, target = None, None
         if ":target:" in node.rawsource:
             target = node.rawsource.split(":target:")[-1].strip()
         if ":alt:" in node.rawsource:
             alt = node.rawsource.split(":alt:")[-1].strip()
-        self.renderables.append(
-            Text("🌆 ")
-            + Text(
-                node.get("alt", alt or "Image"),
-                style=Style(
-                    link=node.get("target", target or "Image") or node.get("uri"),
-                    color="#6088ff",
-                ),
-            )
+        link = link_override or node.get("target", target or "Image") or node.get("uri")
+        return Text("🌆 ") + Text(
+            node.get("alt", alt or "Image"),
+            style=Style(link=link, color="#6088ff"),
         )
+
+    def visit_image(self, node):
+        self.renderables.append(self._make_image_text(node))
+        raise docutils.nodes.SkipChildren()
+
+    def visit_figure(self, node):
+        # When :target: is given, docutils wraps the image in a reference node
+        ref_node = next((c for c in node.children if isinstance(c, docutils.nodes.reference)), None)
+        image_node = next((c for c in node.children if isinstance(c, docutils.nodes.image)), None)
+        if image_node is None and ref_node is not None:
+            image_node = next((c for c in ref_node.children if isinstance(c, docutils.nodes.image)), None)
+        caption_node = next((c for c in node.children if isinstance(c, docutils.nodes.caption)), None)
+        legend_node = next((c for c in node.children if isinstance(c, docutils.nodes.legend)), None)
+
+        if image_node is not None:
+            link_override = ref_node.get("refuri") if ref_node is not None else None
+            image_text = self._make_image_text(image_node, link_override=link_override)
+        else:
+            image_text = Text("🌆 Image")
+        caption = caption_node.astext() if caption_node is not None else None
+        subtitle = legend_node.astext().replace("\n", " ") if legend_node is not None else None
+
+        border_style = self.console.get_style("restructuredtext.figure_border", default="blue")
+        self.renderables.append(Panel(image_text, title=caption, subtitle=subtitle, border_style=border_style, expand=False))
         raise docutils.nodes.SkipChildren()
 
     _BULLET_LIST_MARKERS = [" • ", " ∘ ", " ▪ "]
