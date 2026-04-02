@@ -3,6 +3,7 @@ import sys
 from rich.console import Console
 from rich_rst import RestructuredText
 from rich.terminal_theme import TerminalTheme
+from rich.traceback import install
 
 def rgb(r, g, b):
     """
@@ -123,4 +124,5 @@ def main():
         console.save_html(args.html_filename, theme=DRACULA_TERMINAL_THEME, code_format=CONSOLE_HTML_FORMAT)
 
 if __name__ == "__main__":
+    install()
     main()

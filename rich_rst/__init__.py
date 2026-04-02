@@ -27,7 +27,6 @@ from rich.style import Style
 from rich.syntax import Syntax, SyntaxTheme
 from rich.text import Text
 from rich.table import Table
-from rich.traceback import install
 from rich.rule import Rule
 
 from pygments.lexers import guess_lexer
@@ -37,7 +36,6 @@ __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = "1.3.2"
 
-install()
 
 
 class MLStripper(HTMLParser):
