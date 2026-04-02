@@ -393,9 +393,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             Panel(
                 self.console.render_str(node.astext()),
                 title=f"System Message: {node.attributes.get('type', '?')}/{node.attributes.get('level', '?')} ({node.attributes.get('source', '?')}, line {node.attributes.get('line', '?')});",
-                border_style={None: "none", "INFO": "bold cyan", "WARNING": "bold yellow", "ERROR": "bold red"}[
-                    node.attributes.get("type")
-                ],
+                border_style={None: "none", "INFO": "bold cyan", "WARNING": "bold yellow", "ERROR": "bold red", "SEVERE": "bold magenta", "DEBUG": "bold white"}.get(
+                    node.attributes.get("type"), "bold red"
+                )
             ),
         )
         raise docutils.nodes.SkipChildren()
