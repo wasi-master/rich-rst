@@ -187,3 +187,10 @@
 - Fix malformed HTML output: moved `<html>` before `<head>`, and replaced `<code><pre>` with the correct `<pre><code>` nesting
 - Fix file handle leak: the input file is now opened with a `with` statement
 - Move Rich traceback installation to the CLI entry point only — importing the library no longer installs the global traceback handler
+- Fix `--save-html` KeyError in `__main__.py` (f-string left bare CSS braces that broke Rich's internal `format()` call)
+
+### Documentation
+
+- Rewrite docs/source/index.rst — clean description, standard Installation / Quick start / CLI / Contributing sections
+- Rewrite docs/source/documentation.rst — single autoclass, aliases table, full CLI options table
+- Rewrite docs/source/demonstration.rst — cleaner structure, consolidated sources table
