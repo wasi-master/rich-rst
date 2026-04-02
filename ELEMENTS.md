@@ -14,7 +14,7 @@
 
 | Index | Item                                                                                                     |     Supported?     |
 | :---: | :------------------------------------------------------------------------------------------------------- | :----------------: |
-|   1   | [abbreviation](https://docutils.sourceforge.io/docs/ref/doctree.html#abbreviation)                       | ⛔ Not Possible[^1] |
+|   1   | [abbreviation](https://docutils.sourceforge.io/docs/ref/doctree.html#abbreviation)                       |       ✅ Yes        |
 |   2   | [acronym](https://docutils.sourceforge.io/docs/ref/doctree.html#acronym)                                 |       ✅ Yes        |
 |   3   | [address](https://docutils.sourceforge.io/docs/ref/doctree.html#address)                                 |       ✅ Yes        |
 |   4   | [admonition](https://docutils.sourceforge.io/docs/ref/doctree.html#admonition)                           |       ✅ Yes        |
@@ -113,7 +113,6 @@
 |  97   | [version](https://docutils.sourceforge.io/docs/ref/doctree.html#version)                                 |       ✅ Yes        |
 |  98   | [warning](https://docutils.sourceforge.io/docs/ref/doctree.html#warning)                                 |       ✅ Yes        |
 
-[^1]: Abbreviation and acronym elements work when hovering over some text, since in a terminal we can't change the hover text (as far as I know), those are not supported
 [^2]: Bullet lists are supported for up to 3 levels of nesting
 [^3]: Enumerated lists are supported without nesting
 [^4]: Currently the document is rendered top to bottom and I don't really know any method of adding a element at the end or at the beginning and keeping that order, any suggestions appreciated

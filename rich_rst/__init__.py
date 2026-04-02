@@ -388,6 +388,24 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
+    def _render_inline_with_explanation(self, node, style_name):
+        style = self.console.get_style(style_name, default="underline")
+        explanation = node.get("explanation", "")
+        text = node.astext().replace("\n", " ")
+        if explanation:
+            text = f"{text} ({explanation})"
+        if self.renderables and isinstance(self.renderables[-1], Text):
+            self.renderables[-1].append_text(Text(text, style=style, end=" "))
+            raise docutils.nodes.SkipChildren()
+        self.renderables.append(Text(text, style=style, end=""))
+        raise docutils.nodes.SkipChildren()
+
+    def visit_abbreviation(self, node):
+        self._render_inline_with_explanation(node, "restructuredtext.abbreviation")
+
+    def visit_acronym(self, node):
+        self._render_inline_with_explanation(node, "restructuredtext.acronym")
+
     def visit_image(self, node):
         alt = node.get("alt")
         target = node.get("target")
