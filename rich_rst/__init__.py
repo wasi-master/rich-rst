@@ -37,6 +37,9 @@ __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = "1.3.2"
 
 
+_sphinx_roles_registered = False
+
+
 
 class MLStripper(HTMLParser):
     """Utility class to strip out html for raw html source"""
@@ -67,6 +70,11 @@ def _register_sphinx_roles():
     but are not available in standard docutils. This function registers them to
     render as inline code/literal text instead of showing errors.
     """
+    global _sphinx_roles_registered
+
+    if _sphinx_roles_registered:
+        return
+
     import docutils.parsers.rst.roles
     import docutils.parsers.rst.languages.en
 
@@ -127,6 +135,8 @@ def _register_sphinx_roles():
         # Also register in language module to avoid INFO messages
         if hasattr(docutils.parsers.rst.languages.en, 'roles'):
             docutils.parsers.rst.languages.en.roles[role] = role
+
+    _sphinx_roles_registered = True
 
 
 # pylama:ignore=D,C0116
