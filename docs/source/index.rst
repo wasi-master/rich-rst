@@ -1,60 +1,75 @@
-.. rich-rst documentation master file, created by
-   sphinx-quickstart on Mon Feb  7 21:28:35 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 rich-rst
-=========================
+========
+
+**rich-rst** is a `reStructuredText`_ renderer for the `Rich`_ library.
+It lets you render RST documents beautifully in the terminal, with full
+support for headings, code blocks, tables, admonitions, footnotes, and
+`79 other RST elements <https://github.com/wasi-master/rich-rst/blob/main/ELEMENTS.md>`_.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents
 
-   demonstration.rst
-   documentation.rst
-
-Firstly, I'd like to thank you for using rich-rst.
+   demonstration
+   documentation
 
 Installation
-~~~~~~~~~~~~
+------------
 
-Run the following command to install
+Install the latest stable release from PyPI:
 
 .. code-block:: bash
 
    python -m pip install rich-rst
 
-If you want to live on the edge and install from master branch that may be unstable, run the following command.
+To install the development version directly from the ``main`` branch:
 
 .. code-block:: bash
 
    python -m pip install "git+https://github.com/wasi-master/rich-rst"
 
-Here, you may need to replace ``python`` with ``python3`` on Linux and Mac and with ``py`` on Windows
+.. note::
 
-Usage
-~~~~~
-If you want to print a RST document then you can use the following code
+   On Linux and macOS you may need to use ``python3`` instead of ``python``.
+   On Windows you can use ``py`` as a shorthand.
+
+Quick start
+-----------
+
+Pass any RST string to :class:`~rich_rst.RestructuredText` and print it with
+Rich:
 
 .. code-block:: python
 
-   import rich
+   from rich import print
    from rich_rst import RestructuredText
 
-   rst_text = "Hello *World!*"
+   print(RestructuredText("Hello *World!*"))
 
-   rich.print(RestructuredText(rst_text, code_theme="dracula", show_errors=False))
+For a full list of constructor parameters see the :doc:`API reference <documentation>`.
 
-Here rst_text is just a example and you should change it to your desired RST text.
-The parameters for the constructor are documented in :doc:`documentation <./documentation>`
+Command-line interface
+----------------------
+
+Render a file directly from the terminal:
+
+.. code-block:: bash
+
+   python -m rich_rst README.rst
+
+Read from standard input:
+
+.. code-block:: bash
+
+   cat README.rst | python -m rich_rst -
+
+Run ``python -m rich_rst --help`` for the full list of options.
 
 Contributing
-~~~~~~~~~~~~
+------------
 
-Since the project is open source and `The source code is available on github`_
-so you can easily see the repository `issues page`_ and help in that way. I
-am open to new pull requests and issues and will look into each and every
-one of them
+rich-rst is open source. The `source code`_ is hosted on GitHub. Bug reports
+and pull requests are welcome on the `issue tracker`_.
 
 
 Indices and tables
@@ -63,9 +78,9 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-* :doc:`./documentation`
-* :doc:`./demonstration`
 
 
-.. _The source code is available on github: https://github.com/wasi-master/rich-rst
-.. _issues page: https://github.com/wasi-master/rich-rst/issues
+.. _reStructuredText: https://docutils.sourceforge.io/rst.html
+.. _Rich: https://rich.readthedocs.io/en/latest/
+.. _source code: https://github.com/wasi-master/rich-rst
+.. _issue tracker: https://github.com/wasi-master/rich-rst/issues
