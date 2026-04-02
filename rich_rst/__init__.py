@@ -578,6 +578,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 Syntax(node.astext(), "pycon", theme=self.code_theme, line_numbers=self.show_line_numbers),
                 border_style=style,
                 box=box.SQUARE,
+                title="doctest block",
             )
         )
         raise docutils.nodes.SkipChildren()
