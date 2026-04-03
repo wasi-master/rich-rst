@@ -1,31 +1,3 @@
-## [2.0.1]
-
-### Bug Fixes
-
-- Fixed `visit_raw`: `_guess_lexer_name` returns a tuple but was previously assigned as a scalar after stripping HTML tags, causing a `TypeError` with `Syntax`.
-- Fixed `visit_definition_list`: the `len == 3` branch now uses a sub-visitor to render the definition body, preserving inline markup (bold, italic, links, etc.) instead of flattening it via `astext()`.
-- Fixed `visit_definition_list` (≥ 4 children): extra classifiers and paragraph-type definition content were silently dropped; they are now rendered correctly.  Existing direct-call visitor invocations are also wrapped to prevent spurious `SkipChildren` propagation.
-- Fixed `visit_definition_list`: the variable holding `child_children[1]` in the two-child branch was misleadingly named `classifier`; renamed to `definition` to match its actual role.
-- Fixed `visit_block_quote` and `_collect_body_renderables`: both previously called `astext()` on child nodes, losing all inline markup.  They now use a sub-visitor so bold, italic, links, and inline code are preserved inside block quotes, topics, and sidebars.
-- Fixed `visit_sidebar`: used `astext()` across body children; replaced with `_collect_body_renderables` for full inline-markup fidelity.
-- Fixed `_sphinx_registration_guard`: the inner wrapper function lacked `@functools.wraps`, making the wrapped function lose its `__name__`, `__doc__`, and other introspectable attributes.
-
-### New Features / Quality of Life
-
-- Added `RestructuredText.render_to_string(width=None, *, force_terminal=False)` convenience method that renders the markup and returns the result as a plain string without needing a `Console` instance.
-- `.. literalinclude::` now reads and renders the referenced file (resolved relative to the RST source file) as a syntax-highlighted code block.  The `:lines:`, `:language:`, `:linenos:`, and `:encoding:` options are supported.  When the file cannot be found a graceful placeholder panel is shown as before.
-- Added `RSTVisitor.register_visitor(node_class, visit_fn=None, depart_fn=None)` class method and corresponding `dispatch_visit` / `dispatch_departure` overrides, providing a clean mechanism for third-party code to render custom docutils nodes without subclassing.
-- `.. toctree::` now renders entries with path-depth indentation (entries containing `/` are visually indented relative to root-level entries), respects `:maxdepth:` to omit overly deep entries, and displays explicit `Title <docname>` labels.
-- `RSTVisitor` is now exported in `__all__` so it is part of the public API.
-- Renamed internal attribute `RestructuredText.log_errors` → `RestructuredText.show_errors` to match the constructor parameter name.
-
-### Tests
-
-- Updated `test_api.py`: fixed two assertions that referred to the old `log_errors` attribute; added tests for `render_to_string` and `register_visitor`.
-- Updated `test_definition_list.py`: relaxed over-specified structural assertions to content-presence checks after the definition-list rendering improvements.
-- Updated `test_block_elements.py`: added tests verifying that bold and italic inline markup inside block quotes produces the correct `Span` objects.
-- Updated `test_new_sphinx_directives.py`: added tests for toctree hierarchy / maxdepth / explicit titles, and for `literalinclude` reading an actual file.
-
 ### [0.1.0]
 
 - Initial Release
@@ -188,13 +160,21 @@
 ### Stability and Rendering Fixes
 
 - Fixed multiple visitor edge cases and crashes (system messages, pending/problematic nodes, sidebar subtitle handling, option/field guards, raw lexer resolution, and paragraph recursion behavior).
+- Fixed block and quote rendering to preserve inline markup: `visit_block_quote`, `_collect_body_renderables`, and `visit_sidebar` now use sub-visitor rendering instead of `astext()`, preserving bold, italic, links, and inline code.
 - Fixed list rendering comprehensively: nested bullet/enumerated lists, custom numbering styles, proper indentation, and preserved inline markup.
-- Fixed block and quote rendering issues, including dropped paragraphs, line-block indentation, and quote spacing.
 - Fixed footnote/generated alignment and footer rendering so all collected footer elements are preserved.
 - Fixed markup safety issue in definition-list classifier rendering (avoids unintended Rich markup interpretation).
 - Fixed image target-link resolution in figure/reference contexts.
-- Fixed subscript/superscript rendering silenty dropping characters not in the translation table
-- Made Sphinx registration thread-safe
+- Fixed subscript/superscript rendering silently dropping characters not in the translation table.
+
+### API and Convenience
+
+- Added `RestructuredText.render_to_string(width=None, *, force_terminal=False)`: convenience method that renders markup and returns a plain string without requiring a `Console` instance.
+- Added `RSTVisitor.register_visitor(node_class, visit_fn=None, depart_fn=None)` class method with `dispatch_visit`/`dispatch_departure` overrides to allow third-party code to render custom docutils nodes without subclassing.
+- Added support for `.. literalinclude::` directive: reads and renders the referenced file (resolved relative to the RST source) as a syntax-highlighted code block, with support for `:lines:`, `:language:`, `:linenos:`, and `:encoding:` options.
+- Enhanced `.. toctree::` rendering: entries now display with path-depth indentation, respect `:maxdepth:` for depth limiting, and show explicit `Title <docname>` labels.
+- Exported `RSTVisitor` in `__all__` to make it part of the public API.
+- Renamed internal attribute `RestructuredText.log_errors` → `RestructuredText.show_errors` to match the constructor parameter name.
 
 ### CLI
 
@@ -207,4 +187,8 @@
 ### Documentation and Tests
 
 - Rewrote key docs pages (`index.rst`, `documentation.rst`, `demonstration.rst`) for clearer onboarding and reference flow.
+- Updated `test_api.py`: fixed assertions for renamed `log_errors` attribute; added tests for `render_to_string()` and `register_visitor()`.
+- Updated `test_definition_list.py`: relaxed over-specified structural assertions to content-presence checks after definition-list rendering improvements.
+- Updated `test_block_elements.py`: added tests verifying that bold and italic inline markup inside block quotes produces correct `Span` objects.
+- Updated `test_new_sphinx_directives.py`: added tests for toctree hierarchy/maxdepth/explicit titles and `literalinclude` file-reading functionality.
 - Reworked tests to improve granular coverage of individual features.
