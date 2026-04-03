@@ -16,6 +16,7 @@ import docutils.frontend
 import docutils.io
 import docutils.nodes
 import docutils.parsers.rst
+import docutils.parsers.rst.directives
 import docutils.utils
 
 # Imports from the rich package for the printing
@@ -37,6 +38,80 @@ from pygments.util import ClassNotFound
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = "1.3.2"
+
+
+# ── Custom nodes for Sphinx directives ───────────────────────────────────────
+
+class versionmodified(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node produced by the versionadded, versionchanged, and deprecated directives."""
+    pass
+
+
+class seealso(docutils.nodes.Admonition, docutils.nodes.Element):
+    """Node produced by the seealso directive."""
+    pass
+
+
+# ── Docutils directive classes for Sphinx-specific directives ─────────────────
+
+class _VersionDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. versionadded::``, ``.. versionchanged::``, and ``.. deprecated::``."""
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = True
+    option_spec = {}
+    has_content = True
+
+    def run(self):
+        node = versionmodified(type=self.name, version=self.arguments[0])
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
+
+
+class _SeeAlsoDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. seealso::``."""
+
+    required_arguments = 0
+    optional_arguments = 1
+    final_argument_whitespace = True
+    option_spec = {}
+    has_content = True
+
+    def run(self):
+        node = seealso()
+        if self.arguments:
+            node += docutils.nodes.paragraph('', self.arguments[0])
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
+
+
+_sphinx_directives_registered = False
+
+
+def _register_sphinx_directives():
+    """Register Sphinx-specific directives so they render properly instead of as errors.
+
+    Registers the following directives when ``sphinx_compat=True``:
+
+    * ``.. versionadded:: X`` — renders as a "New in version X" panel.
+    * ``.. versionchanged:: X`` — renders as a "Changed in version X" panel.
+    * ``.. deprecated:: X`` — renders as a "Deprecated since version X" panel.
+    * ``.. seealso::`` — renders as a "See Also" panel (like a note admonition).
+    """
+    global _sphinx_directives_registered
+
+    if _sphinx_directives_registered:
+        return
+
+    docutils.parsers.rst.directives.register_directive('versionadded', _VersionDirective)
+    docutils.parsers.rst.directives.register_directive('versionchanged', _VersionDirective)
+    docutils.parsers.rst.directives.register_directive('deprecated', _VersionDirective)
+    docutils.parsers.rst.directives.register_directive('seealso', _SeeAlsoDirective)
+
+    _sphinx_directives_registered = True
 
 
 _sphinx_roles_registered = False
@@ -370,6 +445,38 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         body = self._render_admonition_body(node.children)
         self.renderables.append(Panel(Group(*body) if body else "", title="Warning: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
+
+    def visit_versionmodified(self, node):
+        type_ = node.get("type", "versionadded")
+        version = node.get("version", "")
+        style_map = {
+            "versionadded": ("restructuredtext.versionadded", "bold green"),
+            "versionchanged": ("restructuredtext.versionchanged", "bold cyan"),
+            "deprecated": ("restructuredtext.deprecated", "bold yellow"),
+        }
+        title_map = {
+            "versionadded": f"New in version {version}",
+            "versionchanged": f"Changed in version {version}",
+            "deprecated": f"Deprecated since version {version}",
+        }
+        style_name, default_style = style_map.get(type_, ("restructuredtext.versionadded", "bold green"))
+        title = title_map.get(type_, f"{type_} {version}")
+        style = self.console.get_style(style_name, default=default_style)
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
+        raise docutils.nodes.SkipChildren()
+
+    def depart_versionmodified(self, node):
+        pass
+
+    def visit_seealso(self, node):
+        style = self.console.get_style("restructuredtext.seealso", default="bold white")
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="See Also", style=style, border_style=style))
+        raise docutils.nodes.SkipChildren()
+
+    def depart_seealso(self, node):
+        pass
 
     def visit_subscript(self, node):
         style = self.console.get_style("restructuredtext.subscript", default="none")
@@ -1013,6 +1120,7 @@ class RestructuredText(JupyterMixin):
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
         if self.sphinx_compat:
             _register_sphinx_roles()
+            _register_sphinx_directives()
 
         # Use the full docutils publish pipeline so that all standard transforms
         # (substitution resolution, hyperlink resolution, footnote numbering,
