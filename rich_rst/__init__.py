@@ -675,7 +675,7 @@ def _register_sphinx_roles():
         if hasattr(docutils.parsers.rst.languages.en, 'roles'):
             docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
 
-    # `:pep:` → bold text with clickable PEP link
+    # `:pep:` → clickable PEP link
     def _pep_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         parts = text.split('#', 1)
         pep_num_str = parts[0].strip()
@@ -685,7 +685,7 @@ def _register_sphinx_roles():
             url = f"https://peps.python.org/pep-{pep_num:04d}/{anchor}"
         except ValueError:
             url = "https://peps.python.org/"
-        display = f"PEP {pep_num_str} <{url}>"
+        display = f"PEP {pep_num_str}"
         ref = docutils.nodes.reference(rawtext, display, refuri=url)
         return [ref], []
 
@@ -693,7 +693,7 @@ def _register_sphinx_roles():
     if hasattr(docutils.parsers.rst.languages.en, 'roles'):
         docutils.parsers.rst.languages.en.roles['pep'] = 'pep'
 
-    # `:rfc:` → bold text with clickable RFC link
+    # `:rfc:` → clickable RFC link
     def _rfc_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         parts = text.split('#', 1)
         rfc_num_str = parts[0].strip()
@@ -703,7 +703,7 @@ def _register_sphinx_roles():
             url = f"https://datatracker.ietf.org/doc/html/rfc{rfc_num}{anchor}"
         except ValueError:
             url = "https://datatracker.ietf.org/"
-        display = f"RFC {rfc_num_str} <{url}>"
+        display = f"RFC {rfc_num_str}"
         ref = docutils.nodes.reference(rawtext, display, refuri=url)
         return [ref], []
 

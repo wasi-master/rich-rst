@@ -22,14 +22,14 @@ def test_pep_role_text_in_output(render_text):
     assert "PEP 484" in out
 
 
-def test_pep_role_url_in_output(render_text):
+def test_pep_role_url_not_in_output(render_text):
     out = _render(render_text, "See :pep:`484`.")
-    assert "peps.python.org" in out
+    assert "peps.python.org" not in out
 
 
-def test_pep_role_zero_padded_url(render_text):
+def test_pep_role_zero_padded_url_not_in_output(render_text):
     out = _render(render_text, "See :pep:`8`.")
-    assert "pep-0008" in out
+    assert "pep-0008" not in out
 
 
 # ── :rfc: ─────────────────────────────────────────────────────────────────────
@@ -39,9 +39,9 @@ def test_rfc_role_text_in_output(render_text):
     assert "RFC 2822" in out
 
 
-def test_rfc_role_url_in_output(render_text):
+def test_rfc_role_url_not_in_output(render_text):
     out = _render(render_text, "See :rfc:`2822`.")
-    assert "datatracker.ietf.org" in out
+    assert "datatracker.ietf.org" not in out
 
 
 # ── :command: / :program: ─────────────────────────────────────────────────────
