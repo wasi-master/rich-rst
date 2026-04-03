@@ -21,6 +21,11 @@ Formatting contract
 from rich.panel import Panel
 from rich.syntax import Syntax
 from rich.text import Text
+from rich.console import Console
+
+from rich_rst import RSTVisitor
+from rich_rst._vendor import docutils
+import rich_rst._vendor.docutils.core
 
 
 # ── Literal blocks ────────────────────────────────────────────────────────────
@@ -49,6 +54,14 @@ def test_literal_block_default_lexer_is_python(make_visitor):
     )
 
 
+def test_literal_block_panel_title_marks_default_lexer(make_visitor):
+    visitor = make_visitor("Example::\n\n    x = 1\n")
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels[0].title == "python (default)", (
+        f"Literal block without explicit language should show default label; got {panels[0].title!r}"
+    )
+
+
 def test_literal_block_content_preserved(render_text):
     out = render_text("Example::\n\n    x = 1\n    y = 2\n")
     assert "x = 1" in out
@@ -64,6 +77,36 @@ def test_code_block_directive_with_python_language(make_visitor):
     assert isinstance(syn, Syntax)
     assert "python" in syn.lexer.aliases, (
         f".. code-block:: python must use Python lexer; aliases: {syn.lexer.aliases}"
+    )
+
+
+def test_code_block_directive_panel_title_stays_explicit(make_visitor):
+    visitor = make_visitor(".. code-block:: python\n\n   print('hello')\n")
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels[0].title == "python", (
+        f"Explicit code-block language should stay unqualified; got {panels[0].title!r}"
+    )
+
+
+def test_literal_block_panel_title_marks_guessed_lexer(make_visitor, monkeypatch):
+    monkeypatch.setattr(RSTVisitor, "_guess_lexer_name", lambda self, text: ("python", True))
+    document = docutils.core.publish_doctree(
+        "Example::\n\n    some code\n",
+        settings_overrides={"report_level": 69, "halt_level": 69},
+    )
+    console = Console(force_terminal=True, width=120, record=True)
+    visitor = RSTVisitor(
+        document,
+        console=console,
+        code_theme="monokai",
+        show_line_numbers=False,
+        guess_lexer=True,
+        default_lexer="python",
+    )
+    document.walkabout(visitor)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels[0].title == "python (guessed)", (
+        f"Guessed language should be clearly labeled; got {panels[0].title!r}"
     )
 
 

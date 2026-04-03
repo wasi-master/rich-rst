@@ -740,22 +740,22 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         try:
             lexer = guess_lexer(text)
         except ClassNotFound:
-            return self.default_lexer
-        return lexer.aliases[0] if lexer.aliases else self.default_lexer
+            return self.default_lexer, False
+        guessed = lexer.aliases[0] if lexer.aliases else None
+        if guessed == "text" or guessed is None:
+            return self.default_lexer, False
+        return guessed, True
 
     def _find_lexer(self, node):
         lexer = (
             node["classes"][1] if len(node.get("classes")) >= 2 else (node["format"] if node.get("format") else None)
         )
-        if lexer is None and self.guess_lexer:
-            lexer = self._guess_lexer_name(node.astext())
-            if lexer == "text":
-                return self.default_lexer
-            return lexer
-        elif lexer is None and not self.guess_lexer:
-            lexer = self.default_lexer
-            return lexer
-        return lexer
+        if lexer is not None:
+            return lexer, "explicit"
+        if self.guess_lexer:
+            guessed_lexer, was_guessed = self._guess_lexer_name(node.astext())
+            return guessed_lexer, "guessed" if was_guessed else "default"
+        return self.default_lexer, "default"
 
     def _section_level(self, node):
         level = -1
@@ -1222,13 +1222,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].rstrip()
             self.renderables[-1].append_text(Text("\n"))
-        lexer = self._find_lexer(node)
+        lexer, lexer_source = self._find_lexer(node)
+        title = lexer if lexer_source == "explicit" else f"{lexer} ({lexer_source})"
         self.renderables.append(
             Panel(
                 Syntax(node.astext(), lexer, theme=self.code_theme, line_numbers=self.show_line_numbers),
                 border_style=style,
                 box=box.SQUARE,
-                title=lexer,
+                title=title,
             )
         )
         raise docutils.nodes.SkipChildren()
@@ -1560,7 +1561,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_raw(self, node):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
-        lexer = self._find_lexer(node)
+        lexer, _ = self._find_lexer(node)
         text = node.astext()
         title = ("stripped raw html" if lexer == "html" else "raw " + lexer)
 
