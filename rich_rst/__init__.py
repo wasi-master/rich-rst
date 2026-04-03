@@ -73,6 +73,11 @@ class literalinclude_stub(docutils.nodes.General, docutils.nodes.Body, docutils.
     pass
 
 
+class glossary_block(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node for .. glossary:: directive."""
+    pass
+
+
 # ── Docutils directive classes for Sphinx-specific directives ─────────────────
 
 class _VersionDirective(docutils.parsers.rst.Directive):
@@ -323,10 +328,10 @@ class _GlossaryDirective(docutils.parsers.rst.Directive):
     }
 
     def run(self):
-        container = docutils.nodes.container()
+        container = glossary_block()
         if self.content:
             self.state.nested_parse(self.content, self.content_offset, container)
-        return container.children
+        return [container]
 
 
 class _DeprecatedRemovedDirective(docutils.parsers.rst.Directive):
@@ -1042,6 +1047,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def depart_literalinclude_stub(self, node):
+        pass
+
+    def visit_glossary_block(self, node):
+        style = self.console.get_style("restructuredtext.glossary", default="bold")
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(
+            Panel(Group(*body) if body else "", title="Glossary", style=style, border_style=style)
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def depart_glossary_block(self, node):
         pass
 
     def visit_subscript(self, node):

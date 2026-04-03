@@ -241,6 +241,12 @@ def test_glossary_content_appears(render_text):
     assert "term1" in out
 
 
+def test_glossary_produces_panel_titled_glossary(make_visitor):
+    rst = ".. glossary::\n\n   term1\n      Definition of term1.\n"
+    panel = _first_panel(make_visitor, rst)
+    assert panel.title == "Glossary"
+
+
 def test_glossary_no_crash(make_visitor):
     rst = ".. glossary::\n\n   myterm\n      The definition.\n"
     visitor = make_visitor(rst)
