@@ -1819,7 +1819,7 @@ class RestructuredText(JupyterMixin):
         markup: str,
         code_theme: Optional[Union[str, SyntaxTheme]] = "monokai",
         show_line_numbers: Optional[bool] = False,
-        show_errors: Optional[bool] = True,
+        show_errors: Optional[bool] = False,
         guess_lexer: Optional[bool] = False,
         default_lexer: Optional[str] = "python",
         sphinx_compat: Optional[bool] = True,
