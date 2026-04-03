@@ -526,7 +526,7 @@ def _register_sphinx_roles():
     import rich_rst._vendor.docutils.parsers.rst.roles
     import rich_rst._vendor.docutils.parsers.rst.languages.en
 
-    def sphinx_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    def sphinx_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         """
         Generic Sphinx role handler that renders as inline literal text.
 
@@ -605,7 +605,7 @@ def _register_sphinx_roles():
     import re as _re
 
     # `:command:` and `:program:` → bold literal
-    def _bold_literal_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    def _bold_literal_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         display_text = text
         if '<' in text and text.endswith('>'):
             bracket_pos = text.rfind('<')
@@ -621,7 +621,7 @@ def _register_sphinx_roles():
             docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
 
     # `:dfn:` → emphasis (italic)
-    def _dfn_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    def _dfn_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         node = docutils.nodes.emphasis(rawtext, text)
         return [node], []
 
@@ -632,7 +632,7 @@ def _register_sphinx_roles():
     # `:abbr:` → abbreviation node with explanation
     _abbr_re = _re.compile(r'\((.*)\)$', _re.DOTALL)
 
-    def _abbr_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    def _abbr_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         matched = _abbr_re.search(text)
         if matched:
             abbr_text = text[:matched.start()].strip()
@@ -648,7 +648,7 @@ def _register_sphinx_roles():
         docutils.parsers.rst.languages.en.roles['abbr'] = 'abbr'
 
     # `:menuselection:` → replace `-->` with ` ▶ `
-    def _menuselection_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    def _menuselection_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         text = text.replace('-->', '\u25b6')
         node = docutils.nodes.literal(rawtext, text)
         return [node], []
@@ -660,7 +660,7 @@ def _register_sphinx_roles():
     # `:samp:` and `:file:` → literal with {} stripped
     _braces_re = _re.compile(r'\{([^}]*)\}')
 
-    def _samp_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    def _samp_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         clean = _braces_re.sub(r'\1', text)
         node = docutils.nodes.literal(rawtext, clean)
         return [node], []
@@ -671,7 +671,7 @@ def _register_sphinx_roles():
             docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
 
     # `:pep:` → bold text with clickable PEP link
-    def _pep_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    def _pep_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         parts = text.split('#', 1)
         pep_num_str = parts[0].strip()
         anchor = ('#' + parts[1]) if len(parts) > 1 else ''
@@ -689,7 +689,7 @@ def _register_sphinx_roles():
         docutils.parsers.rst.languages.en.roles['pep'] = 'pep'
 
     # `:rfc:` → bold text with clickable RFC link
-    def _rfc_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    def _rfc_role(name, rawtext, text, lineno, inliner, options=None, content=None):
         parts = text.split('#', 1)
         rfc_num_str = parts[0].strip()
         anchor = ('#' + parts[1]) if len(parts) > 1 else ''

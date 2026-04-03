@@ -196,6 +196,7 @@
 - Fix image link resolution when `:target:` is set
 - Fix enumerated list formatting: support custom start index, enumeration types (arabic/letter/roman), and prefix/suffix
 - Fix bullet list and enumerated list items losing inline markup — now use sub-visitor rendering to preserve bold, italic, links, and inline code instead of stripping to plain text via `.astext()`
+- Fix incorrect double-newline for single-paragraph quotes in `visit_block_quote`
 
 ### CLI
 
