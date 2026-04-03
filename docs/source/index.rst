@@ -14,6 +14,7 @@ support for headings, code blocks, tables, admonitions, footnotes, and
    elements
    limitations
    styling
+   include_directive
    documentation
 
 Installation

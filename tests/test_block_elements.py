@@ -137,8 +137,8 @@ def test_block_quote_body_text_has_white_span(make_visitor):
 def test_block_quote_attribution_has_grey89_style(make_visitor):
     visitor = make_visitor("    Good quote.\n\n    -- The Author\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    attr_texts = [t for t in texts if t.plain.startswith("  - ")]
-    assert attr_texts, "Attribution must produce a Text starting with '  - '"
+    attr_texts = [t for t in texts if "\u2014" in t.plain]
+    assert attr_texts, "Attribution must produce a Text containing an em-dash (—)"
     assert str(attr_texts[0].style) == "grey89", (
         f"Attribution style must be 'grey89', got {attr_texts[0].style!r}"
     )
@@ -147,7 +147,7 @@ def test_block_quote_attribution_has_grey89_style(make_visitor):
 def test_block_quote_attribution_plain_text_has_author(make_visitor):
     visitor = make_visitor("    Quote body.\n\n    -- The Author\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    attr_texts = [t for t in texts if t.plain.startswith("  - ")]
+    attr_texts = [t for t in texts if "\u2014" in t.plain]
     assert attr_texts
     assert "The Author" in attr_texts[0].plain
 

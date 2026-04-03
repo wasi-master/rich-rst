@@ -131,7 +131,8 @@ Save this as ``my_theme.json``, then load it in your code:
 Customizable Style Names
 ------------------------
 
-Below is a comprehensive list of all style names that rich-rst uses. You can customize any of these by defining them in your console's theme.
+Below is a comprehensive list of **all** style names that rich-rst uses.
+You can customize any of these by defining them in your console's theme.
 
 Headings
 ~~~~~~~~
@@ -147,25 +148,10 @@ Headings are organized by level, and rich-rst supports up to 6 levels:
    restructuredtext.title.level.5  (default: "underline")
    restructuredtext.title.level.6  (default: "italic")
 
-Example of customizing all heading levels:
-
-.. code-block:: python
-
-   from rich.theme import Theme
-   
-   custom_theme = Theme({
-       "restructuredtext.title.level.1": "bold bright_magenta",
-       "restructuredtext.title.level.2": "bold bright_cyan",
-       "restructuredtext.title.level.3": "bold bright_green",
-       "restructuredtext.title.level.4": "bold bright_yellow",
-       "restructuredtext.title.level.5": "bright_blue",
-       "restructuredtext.title.level.6": "italic bright_white",
-   })
-
 Admonitions
 ~~~~~~~~~~~
 
-Admonitions are special note boxes for warnings, tips, and other important information:
+Admonition boxes (``.. note::``, ``.. warning::``, etc.):
 
 .. code-block:: text
 
@@ -180,39 +166,126 @@ Admonitions are special note boxes for warnings, tips, and other important infor
    restructuredtext.attention  (default: "bold black on yellow")
    restructuredtext.admonition (default: "bold white")
 
-Example of customizing admonitions:
+Inline text
+~~~~~~~~~~~
 
-.. code-block:: python
+Styles applied to inline elements:
 
-   from rich.theme import Theme
-   
-   custom_theme = Theme({
-       "restructuredtext.note": "bold cyan on dark_blue",
-       "restructuredtext.warning": "bold yellow on dark_red",
-       "restructuredtext.error": "bold white on red",
-       "restructuredtext.tip": "bold green on dark_green",
-       "restructuredtext.important": "bold bright_blue",
-   })
+.. code-block:: text
 
-Special Elements
-~~~~~~~~~~~~~~~~
+   restructuredtext.text                 (default: "default on default not underline")
+   restructuredtext.emphasis             (default: "italic")
+   restructuredtext.strong               (default: "bold")
+   restructuredtext.title_reference      (default: "italic")
+   restructuredtext.inline_codeblock     (default: "grey78 on grey7")
+   restructuredtext.subscript            (default: "none")
+   restructuredtext.superscript          (default: "none")
+   restructuredtext.abbreviation         (default: "none")
+   restructuredtext.acronym              (default: "none")
+   restructuredtext.math                 (default: "italic")
+   restructuredtext.inline               (default: "none")
 
-Styles for other special elements:
+References
+~~~~~~~~~~
+
+Hyperlinks, citations, footnotes, and substitution references:
 
 .. code-block:: text
 
    restructuredtext.reference            (default: "blue underline on default")
-   restructuredtext.rubric               (default: "italic dim")
-   restructuredtext.text                 (default: "default on default not underline")
-   restructuredtext.seealso              (default: "bold white")
-   restructuredtext.centered             (default: "bold")
-   restructuredtext.py_desc              (default: "bold blue")
-   restructuredtext.toctree              (default: "bold cyan")
+   restructuredtext.citation_border      (default: "grey74")
+   restructuredtext.citation_reference   (default: "grey74")
+   restructuredtext.footnote_reference   (default: "grey74")
+   restructuredtext.substitution_reference (default: "none")
+
+Block elements
+~~~~~~~~~~~~~~
+
+Block quotes, code blocks, figures, and horizontal rules:
+
+.. code-block:: text
+
+   restructuredtext.blockquote_text               (default: "white")
+   restructuredtext.blockquote_attribution_marker (default: "bright_magenta")
+   restructuredtext.blockquote_attribution_text   (default: "grey89")
+   restructuredtext.literal_block_border          (default: "grey58")
+   restructuredtext.figure_border                 (default: "blue")
+   restructuredtext.hr                            (default: "yellow")
+   restructuredtext.caption                       (default: "bold")
+
+Lists
+~~~~~
+
+Bullet lists and enumerated lists:
+
+.. code-block:: text
+
    restructuredtext.bullet_list_marker   (default: "bold yellow")
-   restructuredtext.literalinclude       (default: "grey58")
-   restructuredtext.subscript            (default: "none")
-   restructuredtext.superscript          (default: "none")
-   restructuredtext.problematic          (default: "none")
+   restructuredtext.bullet_list_text     (default: "none")
+   restructuredtext.enumerated_list_marker (default: "bold yellow")
+   restructuredtext.enumerated_text      (default: "none")
+
+Tables
+~~~~~~
+
+Table headers and cell text:
+
+.. code-block:: text
+
+   restructuredtext.table_header  (default: "bold")
+   restructuredtext.table_cell    (default: "none")
+
+Definition lists and field lists
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: text
+
+   restructuredtext.term_style          (default: "none")
+   restructuredtext.classifier_style   (default: "cyan")
+   restructuredtext.definitions_style  (default: "none")
+   restructuredtext.field_name         (default: "bold")
+   restructuredtext.field_value        (default: "none")
+
+Option lists
+~~~~~~~~~~~~
+
+Command-line option descriptions:
+
+.. code-block:: text
+
+   restructuredtext.option_string               (default: "none")
+   restructuredtext.option_argument             (default: "none")
+   restructuredtext.option_child_text_separator (default: "none")
+   restructuredtext.option_description          (default: "none")
+
+Sphinx-specific elements
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Styles used when ``sphinx_compat=True`` is set:
+
+.. code-block:: text
+
+   restructuredtext.seealso          (default: "bold white")
+   restructuredtext.centered         (default: "bold")
+   restructuredtext.py_desc          (default: "bold blue")
+   restructuredtext.toctree          (default: "bold cyan")
+   restructuredtext.literalinclude   (default: "grey58")
+   restructuredtext.versionadded    (default: "bold green")
+   restructuredtext.versionchanged  (default: "bold cyan")
+   restructuredtext.deprecated      (default: "bold yellow")
+   restructuredtext.deprecated_removed (default: "bold red")
+   restructuredtext.glossary        (default: "bold")
+
+Other elements
+~~~~~~~~~~~~~~
+
+.. code-block:: text
+
+   restructuredtext.rubric           (default: "italic dim")
+   restructuredtext.problematic      (default: "none")
+   restructuredtext.topic            (default: "bold cyan")
+   restructuredtext.footer           (default: "none")
+   restructuredtext.footer_border    (default: "grey74")
 
 Full Customization Example
 ---------------------------

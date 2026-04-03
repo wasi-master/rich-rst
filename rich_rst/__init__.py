@@ -10,6 +10,7 @@ from io import StringIO
 from html.parser import HTMLParser
 import functools
 import os
+import re
 import threading
 from typing import Optional, Union
 
@@ -91,6 +92,11 @@ class literalinclude_stub(docutils.nodes.General, docutils.nodes.Body, docutils.
 
 class glossary_block(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
     """Node for .. glossary:: directive."""
+    pass
+
+
+class hlist_block(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node for .. hlist:: directive carrying column-count metadata."""
     pass
 
 
@@ -231,7 +237,7 @@ class _CenteredDirective(docutils.parsers.rst.Directive):
 
 
 class _HlistDirective(docutils.parsers.rst.Directive):
-    """Handles ``.. hlist::`` — renders as plain bullet list."""
+    """Handles ``.. hlist::`` — renders as a multi-column table."""
 
     required_arguments = 0
     optional_arguments = 0
@@ -242,10 +248,11 @@ class _HlistDirective(docutils.parsers.rst.Directive):
     }
 
     def run(self):
-        container = docutils.nodes.container()
+        columns = self.options.get('columns', 2) or 2
+        node = hlist_block(columns=columns)
         if self.content:
-            self.state.nested_parse(self.content, self.content_offset, container)
-        return container.children
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
 
 
 class _ToctreeDirective(docutils.parsers.rst.Directive):
@@ -374,6 +381,78 @@ class _ProductionListDirective(docutils.parsers.rst.Directive):
         return [node]
 
 
+class _IncludeDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. include::`` — reads an external RST file and inlines it.
+
+    Paths are resolved relative to the source document.  When ``safe_include``
+    is ``True`` (the default), path traversal outside the source directory is
+    rejected.  If the file cannot be read the directive emits a warning
+    admonition instead of raising an error.
+    """
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = False
+    has_content = False
+    option_spec = {
+        'encoding': docutils.parsers.rst.directives.unchanged,
+        'start-line': docutils.parsers.rst.directives.nonnegative_int,
+        'end-line': docutils.parsers.rst.directives.nonnegative_int,
+    }
+
+    def run(self):
+        rel_path = self.arguments[0]
+        source_file = self.state_machine.get_source(self.lineno)
+        if source_file and source_file not in ('<string>', '<stdin>', '<rst-document>'):
+            base_dir = os.path.dirname(os.path.abspath(source_file))
+        else:
+            base_dir = os.getcwd()
+
+        abs_path = os.path.normpath(os.path.join(base_dir, rel_path))
+
+        # Safety: reject path traversal outside the base directory.
+        try:
+            common = os.path.commonpath([abs_path, base_dir])
+        except ValueError:
+            # commonpath raises ValueError on Windows when paths are on
+            # different drives — treat that as a traversal attempt.
+            common = None
+        if common != base_dir:
+            stub = docutils.nodes.warning()
+            stub += docutils.nodes.paragraph(
+                text=f"Rejected include path outside source directory: {rel_path!r}"
+            )
+            return [stub]
+
+        encoding = self.options.get('encoding', 'utf-8')
+        start_line = self.options.get('start-line', None)
+        end_line = self.options.get('end-line', None)
+
+        try:
+            with open(abs_path, encoding=encoding) as fh:
+                content = fh.read()
+
+            if start_line is not None or end_line is not None:
+                lines = content.splitlines()
+                content = '\n'.join(lines[start_line or 0:end_line])
+
+            # Parse the included RST content as a nested document.
+            import rich_rst._vendor.docutils.statemachine as _sm
+            content_lines = _sm.StringList(
+                content.splitlines(), source=abs_path
+            )
+            container = docutils.nodes.container()
+            self.state.nested_parse(content_lines, 0, container)
+            return container.children
+
+        except (OSError, UnicodeDecodeError):
+            stub = docutils.nodes.warning()
+            stub += docutils.nodes.paragraph(
+                text=f"Could not include file: {rel_path!r}"
+            )
+            return [stub]
+
+
 class _GlossaryDirective(docutils.parsers.rst.Directive):
     """Handles ``.. glossary::``."""
 
@@ -474,6 +553,10 @@ class _AutodocDirective(docutils.parsers.rst.Directive):
 
 
 _sphinx_directives_registered = False
+# This lock serialises one-time directive and role registration within a
+# single Python process.  Each worker process in a multi-process build gets
+# its own GIL, its own module state, and therefore its own lock — registration
+# happens independently (and correctly) in every process.
 _sphinx_registration_lock = threading.Lock()
 
 
@@ -526,6 +609,12 @@ def _register_sphinx_directives():
         docutils.parsers.rst.directives.register_directive('glossary', _GlossaryDirective)
         # deprecated-removed
         docutils.parsers.rst.directives.register_directive('deprecated-removed', _DeprecatedRemovedDirective)
+        # include (safe custom implementation with path-traversal guard)
+        docutils.parsers.rst.directives.register_directive('include', _IncludeDirective)
+        # class and role: no visual output in terminal rendering; register as no-ops
+        # to prevent "Unknown directive" errors in Sphinx-style documents.
+        for name in ('class', 'role'):
+            docutils.parsers.rst.directives.register_directive(name, _SilentDirective)
         # Python domain object descriptions
         for name in (
             'py:function', 'py:class', 'py:method', 'py:attribute', 'py:data',
@@ -557,6 +646,183 @@ def _register_sphinx_directives():
 _sphinx_roles_registered = False
 
 
+def _register_sphinx_roles():
+    """Register common Sphinx roles to gracefully handle Sphinx-specific markup.
+
+    Sphinx roles like :func:, :class:, :meth: are very common in Python
+    docstrings but are not available in standard docutils.  This function
+    registers them to render as inline code/literal text instead of errors.
+
+    Thread safety: protected by ``_sphinx_registration_lock``, identical to
+    :func:`_register_sphinx_directives`.  Per-process state only — each
+    worker in a multi-process build registers independently, which is correct.
+    """
+    global _sphinx_roles_registered
+
+    with _sphinx_registration_lock:
+        if _sphinx_roles_registered:
+            return
+
+        from rich_rst._vendor import docutils
+        import rich_rst._vendor.docutils.parsers.rst.roles
+        import rich_rst._vendor.docutils.parsers.rst.languages.en
+
+        def sphinx_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+            """Generic Sphinx role handler that renders as inline literal text."""
+            display_text = text
+            if '<' in text and text.endswith('>'):
+                bracket_pos = text.rfind('<')
+                potential_display = text[:bracket_pos].strip()
+                if potential_display:
+                    display_text = potential_display
+
+            node = docutils.nodes.literal(rawtext, display_text)
+            return [node], []
+
+        sphinx_roles = [
+            'func', 'function',
+            'meth', 'method',
+            'class',
+            'mod', 'module',
+            'attr', 'attribute',
+            'obj', 'object',
+            'data',
+            'const', 'constant',
+            'exc', 'exception',
+            'var', 'variable',
+            'type',
+            'py:func', 'py:meth', 'py:class', 'py:mod', 'py:attr',
+            'py:obj', 'py:data', 'py:const', 'py:exc',
+            # Standard domain cross-reference roles
+            'envvar', 'token', 'option', 'term', 'ref', 'doc', 'any', 'numref', 'download',
+            # Misc
+            'mailheader', 'mimetype', 'newsgroup', 'makevar', 'regexp',
+            # Keyboard/GUI
+            'kbd', 'guilabel',
+            # Unix man pages
+            'manpage',
+            # Python domain additional
+            'py:variable', 'py:type', 'py:property', 'py:parameter', 'py:typevar',
+            # C domain
+            'c:func', 'c:type', 'c:struct', 'c:union', 'c:enum', 'c:enumerator',
+            'c:member', 'c:var', 'c:macro', 'c:expr', 'c:texpr',
+            # C++ domain
+            'cpp:func', 'cpp:class', 'cpp:type', 'cpp:member', 'cpp:var',
+            'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:expr', 'cpp:texpr',
+            # JavaScript domain
+            'js:mod', 'js:func', 'js:data', 'js:attr', 'js:class', 'js:meth',
+        ]
+
+        for role in sphinx_roles:
+            docutils.parsers.rst.roles.register_canonical_role(role, sphinx_role)
+            # Also register in language module to avoid INFO messages
+            if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+                docutils.parsers.rst.languages.en.roles[role] = role
+
+        # `:command:` and `:program:` → bold literal
+        def _bold_literal_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+            display_text = text
+            if '<' in text and text.endswith('>'):
+                bracket_pos = text.rfind('<')
+                potential_display = text[:bracket_pos].strip()
+                if potential_display:
+                    display_text = potential_display
+            node = docutils.nodes.strong(rawtext, display_text)
+            return [node], []
+
+        for _role_name in ('command', 'program'):
+            docutils.parsers.rst.roles.register_canonical_role(_role_name, _bold_literal_role)
+            if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+                docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
+
+        # `:dfn:` → emphasis (italic)
+        def _dfn_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+            node = docutils.nodes.emphasis(rawtext, text)
+            return [node], []
+
+        docutils.parsers.rst.roles.register_canonical_role('dfn', _dfn_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['dfn'] = 'dfn'
+
+        # `:abbr:` → abbreviation node with explanation
+        _abbr_re = re.compile(r'\((.*)\)$', re.DOTALL)
+
+        def _abbr_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+            matched = _abbr_re.search(text)
+            if matched:
+                abbr_text = text[:matched.start()].strip()
+                explanation = matched.group(1)
+            else:
+                abbr_text = text
+                explanation = ''
+            node = docutils.nodes.abbreviation(rawtext, abbr_text, explanation=explanation)
+            return [node], []
+
+        docutils.parsers.rst.roles.register_canonical_role('abbr', _abbr_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['abbr'] = 'abbr'
+
+        # `:menuselection:` → replace `-->` with ` ▶ `
+        def _menuselection_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+            text = text.replace('-->', '\u25b6')
+            node = docutils.nodes.literal(rawtext, text)
+            return [node], []
+
+        docutils.parsers.rst.roles.register_canonical_role('menuselection', _menuselection_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['menuselection'] = 'menuselection'
+
+        # `:samp:` and `:file:` → literal with {} stripped
+        _braces_re = re.compile(r'\{([^}]*)\}')
+
+        def _samp_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+            clean = _braces_re.sub(r'\1', text)
+            node = docutils.nodes.literal(rawtext, clean)
+            return [node], []
+
+        for _role_name in ('samp', 'file'):
+            docutils.parsers.rst.roles.register_canonical_role(_role_name, _samp_role)
+            if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+                docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
+
+        # `:pep:` → clickable PEP link
+        def _pep_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+            parts = text.split('#', 1)
+            pep_num_str = parts[0].strip()
+            anchor = ('#' + parts[1]) if len(parts) > 1 else ''
+            try:
+                pep_num = int(pep_num_str)
+                url = f"https://peps.python.org/pep-{pep_num:04d}/{anchor}"
+            except ValueError:
+                url = "https://peps.python.org/"
+            display = f"PEP {pep_num_str}"
+            ref = docutils.nodes.reference(rawtext, display, refuri=url)
+            return [ref], []
+
+        docutils.parsers.rst.roles.register_canonical_role('pep', _pep_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['pep'] = 'pep'
+
+        # `:rfc:` → clickable RFC link
+        def _rfc_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+            parts = text.split('#', 1)
+            rfc_num_str = parts[0].strip()
+            anchor = ('#' + parts[1]) if len(parts) > 1 else ''
+            try:
+                rfc_num = int(rfc_num_str)
+                url = f"https://datatracker.ietf.org/doc/html/rfc{rfc_num}{anchor}"
+            except ValueError:
+                url = "https://datatracker.ietf.org/"
+            display = f"RFC {rfc_num_str}"
+            ref = docutils.nodes.reference(rawtext, display, refuri=url)
+            return [ref], []
+
+        docutils.parsers.rst.roles.register_canonical_role('rfc', _rfc_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['rfc'] = 'rfc'
+
+        _sphinx_roles_registered = True
+
 
 class MLStripper(HTMLParser):
     """Utility class to strip out html for raw html source"""
@@ -583,205 +849,89 @@ def strip_tags(html):
     return s.get_data()
 
 
-@_sphinx_registration_guard
-def _register_sphinx_roles():
+# ---------------------------------------------------------------------------
+# LaTeX-to-Unicode math conversion
+# ---------------------------------------------------------------------------
+
+_LATEX_TO_UNICODE = {
+    # Greek lowercase
+    r'\alpha': 'α', r'\beta': 'β', r'\gamma': 'γ', r'\delta': 'δ',
+    r'\epsilon': 'ε', r'\varepsilon': 'ε', r'\zeta': 'ζ', r'\eta': 'η',
+    r'\theta': 'θ', r'\vartheta': 'ϑ', r'\iota': 'ι', r'\kappa': 'κ',
+    r'\lambda': 'λ', r'\mu': 'μ', r'\nu': 'ν', r'\xi': 'ξ',
+    r'\pi': 'π', r'\varpi': 'ϖ', r'\rho': 'ρ', r'\varrho': 'ϱ',
+    r'\sigma': 'σ', r'\varsigma': 'ς', r'\tau': 'τ', r'\upsilon': 'υ',
+    r'\phi': 'φ', r'\varphi': 'φ', r'\chi': 'χ', r'\psi': 'ψ',
+    r'\omega': 'ω',
+    # Greek uppercase
+    r'\Gamma': 'Γ', r'\Delta': 'Δ', r'\Theta': 'Θ', r'\Lambda': 'Λ',
+    r'\Xi': 'Ξ', r'\Pi': 'Π', r'\Sigma': 'Σ', r'\Upsilon': 'Υ',
+    r'\Phi': 'Φ', r'\Psi': 'Ψ', r'\Omega': 'Ω',
+    # Operators and punctuation
+    r'\times': '×', r'\div': '÷', r'\pm': '±', r'\mp': '∓',
+    r'\cdot': '·', r'\ldots': '…', r'\cdots': '⋯',
+    r'\vdots': '⋮', r'\ddots': '⋱',
+    # Comparison
+    r'\leq': '≤', r'\le': '≤', r'\geq': '≥', r'\ge': '≥',
+    r'\neq': '≠', r'\ne': '≠', r'\approx': '≈', r'\equiv': '≡',
+    r'\sim': '∼', r'\simeq': '≃', r'\cong': '≅', r'\propto': '∝',
+    # Set operations
+    r'\subset': '⊂', r'\supset': '⊃', r'\subseteq': '⊆', r'\supseteq': '⊇',
+    r'\in': '∈', r'\notin': '∉', r'\cup': '∪', r'\cap': '∩',
+    r'\emptyset': '∅', r'\varnothing': '∅',
+    # Logic
+    r'\neg': '¬', r'\wedge': '∧', r'\vee': '∨', r'\oplus': '⊕',
+    r'\forall': '∀', r'\exists': '∃', r'\nexists': '∄',
+    # Arrows
+    r'\to': '→', r'\rightarrow': '→', r'\leftarrow': '←', r'\gets': '←',
+    r'\leftrightarrow': '↔', r'\Rightarrow': '⇒', r'\Leftarrow': '⇐',
+    r'\Leftrightarrow': '⇔', r'\uparrow': '↑', r'\downarrow': '↓',
+    r'\updownarrow': '↕', r'\Uparrow': '⇑', r'\Downarrow': '⇓',
+    r'\mapsto': '↦',
+    # Miscellaneous
+    r'\infty': '∞', r'\partial': '∂', r'\nabla': '∇',
+    r'\sum': '∑', r'\prod': '∏', r'\int': '∫', r'\oint': '∮',
+    r'\hbar': 'ℏ', r'\ell': 'ℓ', r'\wp': '℘', r'\Re': 'ℜ', r'\Im': 'ℑ',
+    r'\aleph': 'ℵ', r'\angle': '∠', r'\perp': '⊥', r'\parallel': '∥',
+    r'\prime': '′', r'\dagger': '†', r'\ddagger': '‡',
+    r'\langle': '⟨', r'\rangle': '⟩',
+    # Whitespace
+    r'\quad': '  ', r'\qquad': '    ', r'\ ': ' ',
+}
+
+
+def _convert_math_to_unicode(text: str) -> str:
+    """Convert common LaTeX math notation to Unicode approximations.
+
+    Handles the most common cases (Greek letters, operators, arrows, etc.)
+    for improved readability in the terminal.  Unknown commands are left as-is.
     """
-    Register common Sphinx roles to gracefully handle Sphinx-specific markup.
+    result = text
 
-    Sphinx roles like :func:, :class:, :meth: are very common in Python docstrings
-    but are not available in standard docutils. This function registers them to
-    render as inline code/literal text instead of showing errors.
-    """
-    global _sphinx_roles_registered
+    # Strip \\left / \\right size modifiers (no terminal equivalent)
+    result = re.sub(r'\\left\s*', '', result)
+    result = re.sub(r'\\right\s*', '', result)
 
-    if _sphinx_roles_registered:
-        return
+    # \\frac{a}{b} → (a/b)
+    result = re.sub(r'\\frac\{([^{}]*)\}\{([^{}]*)\}', r'(\1/\2)', result)
 
-    from rich_rst._vendor import docutils
-    import rich_rst._vendor.docutils.parsers.rst.roles
-    import rich_rst._vendor.docutils.parsers.rst.languages.en
+    # \\sqrt{x} → √(x)
+    result = re.sub(r'\\sqrt\{([^{}]*)\}', r'√(\1)', result)
 
-    def sphinx_role(name, rawtext, text, lineno, inliner, options=None, content=None):
-        """
-        Generic Sphinx role handler that renders as inline literal text.
+    # ^{...} → keep exponent inline
+    result = re.sub(r'\^\{([^{}]*)\}', r'^\1', result)
 
-        Parameters
-        ----------
-        name : str
-            The role name
-        rawtext : str
-            The entire role text including role markup
-        text : str
-            The interpreted text content
-        lineno : int
-            The line number where the interpreted text begins
-        inliner : Inliner
-            The inliner instance that called this role function
-        options : dict
-            Directive options for customization
-        content : list
-            The directive content for customization
+    # _{...} → keep subscript inline
+    result = re.sub(r'_\{([^{}]*)\}', r'_\1', result)
 
-        Returns
-        -------
-        tuple
-            A tuple of (nodes, messages)
-        """
-        display_text = text
-        if '<' in text and text.endswith('>'):
-            bracket_pos = text.rfind('<')
-            potential_display = text[:bracket_pos].strip()
-            if potential_display:
-                display_text = potential_display
+    # Remove remaining braces
+    result = result.replace('{', '').replace('}', '')
 
-        node = docutils.nodes.literal(rawtext, display_text)
-        return [node], []
+    # Apply symbol substitutions (longest first to avoid partial replacements)
+    for latex, uni in sorted(_LATEX_TO_UNICODE.items(), key=lambda x: -len(x[0])):
+        result = result.replace(latex, uni)
 
-    sphinx_roles = [
-        'func', 'function',
-        'meth', 'method',
-        'class',
-        'mod', 'module',
-        'attr', 'attribute',
-        'obj', 'object',
-        'data',
-        'const', 'constant',
-        'exc', 'exception',
-        'var', 'variable',
-        'type',
-        'py:func', 'py:meth', 'py:class', 'py:mod', 'py:attr',
-        'py:obj', 'py:data', 'py:const', 'py:exc',
-        # Standard domain cross-reference roles
-        'envvar', 'token', 'option', 'term', 'ref', 'doc', 'any', 'numref', 'download',
-        # Misc
-        'mailheader', 'mimetype', 'newsgroup', 'makevar', 'regexp',
-        # Keyboard/GUI
-        'kbd', 'guilabel',
-        # Unix man pages
-        'manpage',
-        # Python domain additional
-        'py:variable', 'py:type', 'py:property', 'py:parameter', 'py:typevar',
-        # C domain
-        'c:func', 'c:type', 'c:struct', 'c:union', 'c:enum', 'c:enumerator',
-        'c:member', 'c:var', 'c:macro', 'c:expr', 'c:texpr',
-        # C++ domain
-        'cpp:func', 'cpp:class', 'cpp:type', 'cpp:member', 'cpp:var',
-        'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:expr', 'cpp:texpr',
-        # JavaScript domain
-        'js:mod', 'js:func', 'js:data', 'js:attr', 'js:class', 'js:meth',
-    ]
-
-    for role in sphinx_roles:
-        docutils.parsers.rst.roles.register_canonical_role(role, sphinx_role)
-        # Also register in language module to avoid INFO messages
-        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-            docutils.parsers.rst.languages.en.roles[role] = role
-
-    import re as _re
-
-    # `:command:` and `:program:` → bold literal
-    def _bold_literal_role(name, rawtext, text, lineno, inliner, options=None, content=None):
-        display_text = text
-        if '<' in text and text.endswith('>'):
-            bracket_pos = text.rfind('<')
-            potential_display = text[:bracket_pos].strip()
-            if potential_display:
-                display_text = potential_display
-        node = docutils.nodes.strong(rawtext, display_text)
-        return [node], []
-
-    for _role_name in ('command', 'program'):
-        docutils.parsers.rst.roles.register_canonical_role(_role_name, _bold_literal_role)
-        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-            docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
-
-    # `:dfn:` → emphasis (italic)
-    def _dfn_role(name, rawtext, text, lineno, inliner, options=None, content=None):
-        node = docutils.nodes.emphasis(rawtext, text)
-        return [node], []
-
-    docutils.parsers.rst.roles.register_canonical_role('dfn', _dfn_role)
-    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-        docutils.parsers.rst.languages.en.roles['dfn'] = 'dfn'
-
-    # `:abbr:` → abbreviation node with explanation
-    _abbr_re = _re.compile(r'\((.*)\)$', _re.DOTALL)
-
-    def _abbr_role(name, rawtext, text, lineno, inliner, options=None, content=None):
-        matched = _abbr_re.search(text)
-        if matched:
-            abbr_text = text[:matched.start()].strip()
-            explanation = matched.group(1)
-        else:
-            abbr_text = text
-            explanation = ''
-        node = docutils.nodes.abbreviation(rawtext, abbr_text, explanation=explanation)
-        return [node], []
-
-    docutils.parsers.rst.roles.register_canonical_role('abbr', _abbr_role)
-    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-        docutils.parsers.rst.languages.en.roles['abbr'] = 'abbr'
-
-    # `:menuselection:` → replace `-->` with ` ▶ `
-    def _menuselection_role(name, rawtext, text, lineno, inliner, options=None, content=None):
-        text = text.replace('-->', '\u25b6')
-        node = docutils.nodes.literal(rawtext, text)
-        return [node], []
-
-    docutils.parsers.rst.roles.register_canonical_role('menuselection', _menuselection_role)
-    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-        docutils.parsers.rst.languages.en.roles['menuselection'] = 'menuselection'
-
-    # `:samp:` and `:file:` → literal with {} stripped
-    _braces_re = _re.compile(r'\{([^}]*)\}')
-
-    def _samp_role(name, rawtext, text, lineno, inliner, options=None, content=None):
-        clean = _braces_re.sub(r'\1', text)
-        node = docutils.nodes.literal(rawtext, clean)
-        return [node], []
-
-    for _role_name in ('samp', 'file'):
-        docutils.parsers.rst.roles.register_canonical_role(_role_name, _samp_role)
-        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-            docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
-
-    # `:pep:` → clickable PEP link
-    def _pep_role(name, rawtext, text, lineno, inliner, options=None, content=None):
-        parts = text.split('#', 1)
-        pep_num_str = parts[0].strip()
-        anchor = ('#' + parts[1]) if len(parts) > 1 else ''
-        try:
-            pep_num = int(pep_num_str)
-            url = f"https://peps.python.org/pep-{pep_num:04d}/{anchor}"
-        except ValueError:
-            url = "https://peps.python.org/"
-        display = f"PEP {pep_num_str}"
-        ref = docutils.nodes.reference(rawtext, display, refuri=url)
-        return [ref], []
-
-    docutils.parsers.rst.roles.register_canonical_role('pep', _pep_role)
-    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-        docutils.parsers.rst.languages.en.roles['pep'] = 'pep'
-
-    # `:rfc:` → clickable RFC link
-    def _rfc_role(name, rawtext, text, lineno, inliner, options=None, content=None):
-        parts = text.split('#', 1)
-        rfc_num_str = parts[0].strip()
-        anchor = ('#' + parts[1]) if len(parts) > 1 else ''
-        try:
-            rfc_num = int(rfc_num_str)
-            url = f"https://datatracker.ietf.org/doc/html/rfc{rfc_num}{anchor}"
-        except ValueError:
-            url = "https://datatracker.ietf.org/"
-        display = f"RFC {rfc_num_str}"
-        ref = docutils.nodes.reference(rawtext, display, refuri=url)
-        return [ref], []
-
-    docutils.parsers.rst.roles.register_canonical_role('rfc', _rfc_role)
-    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-        docutils.parsers.rst.languages.en.roles['rfc'] = 'rfc'
-
-    _sphinx_roles_registered = True
+    return result
 
 
 # pylama:ignore=D,C0116
@@ -813,6 +963,21 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         The registration is class-wide: it applies to every instance of this
         class (and subclasses that do not provide their own registry).
 
+        Can be used in two ways:
+
+        **Direct form** (original API)::
+
+            RSTVisitor.register_visitor(MyNode, visit_fn=my_visit)
+
+        **Decorator form** (when ``visit_fn`` and ``depart_fn`` are both
+        ``None``, a single-argument call returns a decorator that registers
+        the decorated function as the visit handler)::
+
+            @RSTVisitor.register_visitor(MyNode)
+            def visit_my_node(visitor, node):
+                visitor.renderables.append(Text(node.astext()))
+                raise docutils.nodes.SkipChildren()
+
         Parameters
         ----------
         node_class : type
@@ -824,12 +989,53 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         depart_fn : callable or None
             Called as ``depart_fn(visitor, node)`` when the node is exited.
             Pass ``None`` to use a no-op departure.
+
+        Returns
+        -------
+        callable or None
+            When used as a decorator (no ``visit_fn`` / ``depart_fn``
+            provided), returns a decorator.  Otherwise returns ``None``.
         """
+        if visit_fn is None and depart_fn is None:
+            # Decorator form: @RSTVisitor.register_visitor(MyNodeClass)
+            def _decorator(fn):
+                cls.register_visitor(node_class, visit_fn=fn)
+                return fn
+            return _decorator
+
         if '_custom_visitors' not in cls.__dict__:
             # Give subclasses their own dict so parent registrations are not
             # accidentally modified.
             cls._custom_visitors = {}
         cls._custom_visitors[node_class] = (visit_fn, depart_fn)
+        return None
+
+    @classmethod
+    def unregister_visitor(cls, node_class):
+        """Remove a previously registered custom visitor for *node_class*.
+
+        If no registration exists for *node_class* the call is silently
+        ignored.  Useful in test teardown to restore the original state.
+
+        Parameters
+        ----------
+        node_class : type
+            The docutils node class whose custom handlers should be removed.
+        """
+        if '_custom_visitors' in cls.__dict__:
+            cls._custom_visitors.pop(node_class, None)
+
+    @classmethod
+    def list_registered_visitors(cls):
+        """Return a snapshot of the current custom-visitor registry.
+
+        Returns
+        -------
+        dict
+            A ``{node_class: (visit_fn, depart_fn)}`` mapping.  The dict is
+            a shallow copy; modifying it does not affect the registry.
+        """
+        return dict(cls._custom_visitors)
 
     def dispatch_visit(self, node):
         entry = self._custom_visitors.get(type(node))
@@ -1010,6 +1216,26 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_substitution_definition(self, node):
+        raise docutils.nodes.SkipChildren()
+
+    def visit_compound(self, node):
+        pass  # transparent container; let the visitor descend into children
+
+    def depart_compound(self, node):  # pylint: disable=unused-argument
+        pass
+
+    def visit_inline(self, node):
+        """Render a generic inline span, applying any ``classes`` as a style name."""
+        classes = node.get('classes', [])
+        style_name = (
+            f"restructuredtext.inline.{classes[0]}" if classes else "restructuredtext.inline"
+        )
+        style = self.console.get_style(style_name, default="none")
+        text = node.astext().replace("\n", " ")
+        if self.renderables and isinstance(self.renderables[-1], Text):
+            self.renderables[-1].append_text(Text(text, style=style, end=" "))
+        else:
+            self.renderables.append(Text(text, style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
     def _render_admonition_body(self, children):
@@ -1245,6 +1471,43 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def depart_glossary_block(self, node):
+        pass
+
+    def visit_hlist_block(self, node):
+        """Render an hlist node as a borderless multi-column table."""
+        columns = node.get('columns', 2) or 2
+
+        # Collect all list items from the nested bullet_list
+        items = []
+        for child in node.children:
+            if isinstance(child, docutils.nodes.bullet_list):
+                for item in child.children:
+                    item_renderables = self._render_admonition_body(item.children)
+                    if not item_renderables:
+                        items.append(Text(""))
+                    elif len(item_renderables) == 1:
+                        items.append(item_renderables[0])
+                    else:
+                        items.append(Group(*item_renderables))
+
+        if not items:
+            raise docutils.nodes.SkipChildren()
+
+        hlist_table = Table(show_header=False, box=None, padding=(0, 1))
+        for _ in range(columns):
+            hlist_table.add_column("")
+
+        # Distribute items row-major
+        for row_start in range(0, len(items), columns):
+            row = list(items[row_start:row_start + columns])
+            while len(row) < columns:
+                row.append(Text(""))
+            hlist_table.add_row(*row)
+
+        self.renderables.append(hlist_table)
+        raise docutils.nodes.SkipChildren()
+
+    def depart_hlist_block(self, node):
         pass
 
     def visit_subscript(self, node):
@@ -1723,14 +1986,25 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 combined = Text("▌ ", style=marker_style)
                 combined.append_text(first)
                 self.renderables.append(combined)
-                self.renderables.extend(para_renderables[1:])
+                # Prepend the same `▌ ` marker to every subsequent Text so
+                # that deeply nested block quotes accumulate the correct number
+                # of markers at every nesting level.
+                for r in para_renderables[1:]:
+                    if isinstance(r, Text):
+                        combined_r = Text("▌ ", style=marker_style)
+                        combined_r.append_text(r)
+                        self.renderables.append(combined_r)
+                    else:
+                        self.renderables.append(r)
             else:
                 self.renderables.append(Text("▌ ", style=marker_style))
                 self.renderables.extend(para_renderables)
 
         if attribution:
             self.renderables.append(NewLine())
-            self.renderables.append(Text("  - " + attribution.astext(), style=author_style))
+            self.renderables.append(
+                Text("  \u2014 " + attribution.astext(), style=author_style)
+            )
         else:
             self.renderables.append(NewLine())
 
@@ -1810,14 +2084,25 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].rstrip()
             self.renderables[-1].append_text(Text("\n"))
+        converted = _convert_math_to_unicode(node.astext())
         self.renderables.append(
             Panel(
-                Text(node.astext()),
+                Text(converted),
                 border_style=style,
                 box=box.SQUARE,
                 title="math",
             )
         )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_math(self, node):
+        """Render inline math with Unicode approximations where possible."""
+        style = self.console.get_style("restructuredtext.math", default="italic")
+        converted = _convert_math_to_unicode(node.astext().replace("\n", " "))
+        if self.renderables and isinstance(self.renderables[-1], Text):
+            self.renderables[-1].append_text(Text(converted, style=style, end=" "))
+            raise docutils.nodes.SkipChildren()
+        self.renderables.append(Text(converted, style=style, end=""))
         raise docutils.nodes.SkipChildren()
 
     def visit_citation(self, node):
@@ -2147,6 +2432,56 @@ class RestructuredText(JupyterMixin):
         )
         console.print(self)
         return console.export_text()
+
+    def render_to_html(
+        self,
+        width: Optional[int] = None,
+        *,
+        theme=None,
+    ) -> str:
+        """Render the RST markup to an HTML string.
+
+        Parameters
+        ----------
+        width : int, optional
+            Output width in columns.  Defaults to 80.
+        theme : rich.terminal_theme.TerminalTheme, optional
+            The colour theme to use for the HTML export.  Defaults to
+            ``DEFAULT_TERMINAL_THEME`` from :mod:`rich.terminal_theme`.
+
+        Returns
+        -------
+        str
+            A self-contained HTML document.
+        """
+        from rich.terminal_theme import DEFAULT_TERMINAL_THEME
+        console = Console(width=width or 80, force_terminal=True, record=True)
+        console.print(self)
+        return console.export_html(theme=theme or DEFAULT_TERMINAL_THEME)
+
+    def render_to_svg(
+        self,
+        width: Optional[int] = None,
+        *,
+        title: str = "",
+    ) -> str:
+        """Render the RST markup to an SVG string.
+
+        Parameters
+        ----------
+        width : int, optional
+            Output width in columns.  Defaults to 80.
+        title : str, optional
+            Title shown in the SVG image header.  Defaults to an empty string.
+
+        Returns
+        -------
+        str
+            An SVG document as a string.
+        """
+        console = Console(width=width or 80, force_terminal=True, record=True)
+        console.print(self)
+        return console.export_svg(title=title)
 
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
         if self.sphinx_compat:
