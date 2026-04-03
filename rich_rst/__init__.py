@@ -16,6 +16,7 @@ import docutils.frontend
 import docutils.io
 import docutils.nodes
 import docutils.parsers.rst
+import docutils.parsers.rst.directives
 import docutils.utils
 
 # Imports from the rich package for the printing
@@ -37,6 +38,445 @@ from pygments.util import ClassNotFound
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = "1.3.2"
+
+
+# ── Custom nodes for Sphinx directives ───────────────────────────────────────
+
+class versionmodified(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node produced by the versionadded, versionchanged, and deprecated directives."""
+    pass
+
+
+class seealso(docutils.nodes.Admonition, docutils.nodes.Element):
+    """Node produced by the seealso directive."""
+    pass
+
+
+class centered_block(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node for .. centered:: directive."""
+    pass
+
+
+class py_desc(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node for Python/C/C++/JS domain object-description directives."""
+    pass
+
+
+class toctree_stub(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node for .. toctree:: directive."""
+    pass
+
+
+class literalinclude_stub(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node for .. literalinclude:: directive."""
+    pass
+
+
+# ── Docutils directive classes for Sphinx-specific directives ─────────────────
+
+class _VersionDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. versionadded::``, ``.. versionchanged::``, and ``.. deprecated::``."""
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = True
+    option_spec = {}
+    has_content = True
+
+    def run(self):
+        node = versionmodified(type=self.name, version=self.arguments[0])
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
+
+
+class _SeeAlsoDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. seealso::``."""
+
+    required_arguments = 0
+    optional_arguments = 1
+    final_argument_whitespace = True
+    option_spec = {}
+    has_content = True
+
+    def run(self):
+        node = seealso()
+        if self.arguments:
+            node += docutils.nodes.paragraph(self.arguments[0], self.arguments[0])
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
+
+
+class _CodeBlockDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. code-block::``, ``.. sourcecode::``, ``.. code::``."""
+
+    required_arguments = 0
+    optional_arguments = 1
+    final_argument_whitespace = False
+    has_content = True
+    option_spec = {
+        'linenos': docutils.parsers.rst.directives.flag,
+        'emphasize-lines': docutils.parsers.rst.directives.unchanged,
+        'caption': docutils.parsers.rst.directives.unchanged,
+        'name': docutils.parsers.rst.directives.unchanged,
+        'dedent': docutils.parsers.rst.directives.unchanged,
+        'force': docutils.parsers.rst.directives.flag,
+        'class': docutils.parsers.rst.directives.unchanged,
+        'number-lines': docutils.parsers.rst.directives.nonnegative_int,
+    }
+
+    def run(self):
+        language = self.arguments[0] if self.arguments else None
+        code = '\n'.join(self.content)
+        node = docutils.nodes.literal_block(code, code)
+        if language:
+            node['classes'] = ['code', language]
+        else:
+            node['classes'] = ['code']
+        return [node]
+
+
+class _HighlightDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. highlight::``."""
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = False
+    has_content = False
+    option_spec = {
+        'linenothreshold': docutils.parsers.rst.directives.nonnegative_int,
+        'force': docutils.parsers.rst.directives.flag,
+    }
+
+    def run(self):
+        return []
+
+
+class _SilentDirective(docutils.parsers.rst.Directive):
+    """No-op directive for index, tabularcolumns, etc."""
+
+    required_arguments = 0
+    optional_arguments = 1
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {}
+
+    def run(self):
+        return []
+
+
+class _CurrentModuleDirective(docutils.parsers.rst.Directive):
+    """No-op directive for currentmodule, py:currentmodule."""
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = False
+    has_content = False
+    option_spec = {}
+
+    def run(self):
+        return []
+
+
+class _OnlyDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. only::`` — always renders content."""
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {}
+
+    def run(self):
+        container = docutils.nodes.container()
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, container)
+        return container.children
+
+
+class _CenteredDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. centered::``."""
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = True
+    has_content = False
+    option_spec = {}
+
+    def run(self):
+        return [centered_block(text=self.arguments[0])]
+
+
+class _HlistDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. hlist::`` — renders as plain bullet list."""
+
+    required_arguments = 0
+    optional_arguments = 0
+    final_argument_whitespace = False
+    has_content = True
+    option_spec = {
+        'columns': docutils.parsers.rst.directives.nonnegative_int,
+    }
+
+    def run(self):
+        container = docutils.nodes.container()
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, container)
+        return container.children
+
+
+class _ToctreeDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. toctree::``."""
+
+    required_arguments = 0
+    optional_arguments = 0
+    final_argument_whitespace = False
+    has_content = True
+    option_spec = {
+        'maxdepth': docutils.parsers.rst.directives.nonnegative_int,
+        'caption': docutils.parsers.rst.directives.unchanged,
+        'name': docutils.parsers.rst.directives.unchanged,
+        'titlesonly': docutils.parsers.rst.directives.flag,
+        'glob': docutils.parsers.rst.directives.flag,
+        'hidden': docutils.parsers.rst.directives.flag,
+        'includehidden': docutils.parsers.rst.directives.flag,
+        'reversed': docutils.parsers.rst.directives.flag,
+        'numbered': docutils.parsers.rst.directives.nonnegative_int,
+    }
+
+    def run(self):
+        caption = self.options.get('caption', 'Contents')
+        entries = [
+            line.strip() for line in self.content
+            if line.strip() and not line.strip().startswith(':')
+        ]
+        node = toctree_stub()
+        node['caption'] = caption
+        node['entries'] = entries
+        return [node]
+
+
+class _LiteralIncludeDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. literalinclude::``."""
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = False
+    has_content = False
+    option_spec = {
+        'language': docutils.parsers.rst.directives.unchanged,
+        'linenos': docutils.parsers.rst.directives.flag,
+        'lines': docutils.parsers.rst.directives.unchanged,
+        'start-after': docutils.parsers.rst.directives.unchanged,
+        'end-before': docutils.parsers.rst.directives.unchanged,
+        'encoding': docutils.parsers.rst.directives.unchanged,
+        'dedent': docutils.parsers.rst.directives.unchanged,
+        'tab-width': docutils.parsers.rst.directives.nonnegative_int,
+        'caption': docutils.parsers.rst.directives.unchanged,
+        'name': docutils.parsers.rst.directives.unchanged,
+        'start-at': docutils.parsers.rst.directives.unchanged,
+        'end-at': docutils.parsers.rst.directives.unchanged,
+        'prepend': docutils.parsers.rst.directives.unchanged,
+        'append': docutils.parsers.rst.directives.unchanged,
+        'force': docutils.parsers.rst.directives.flag,
+        'diff': docutils.parsers.rst.directives.unchanged,
+    }
+
+    def run(self):
+        node = literalinclude_stub()
+        node['filename'] = self.arguments[0]
+        return [node]
+
+
+class _ProductionListDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. productionlist::``."""
+
+    required_arguments = 0
+    optional_arguments = 1
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {}
+
+    def run(self):
+        if self.content:
+            code = '\n'.join(self.content)
+        elif self.arguments:
+            code = self.arguments[0]
+        else:
+            code = ''
+        node = docutils.nodes.literal_block(code, code)
+        node['classes'] = ['code', 'text']
+        return [node]
+
+
+class _GlossaryDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. glossary::``."""
+
+    required_arguments = 0
+    optional_arguments = 0
+    final_argument_whitespace = False
+    has_content = True
+    option_spec = {
+        'sorted': docutils.parsers.rst.directives.flag,
+    }
+
+    def run(self):
+        container = docutils.nodes.container()
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, container)
+        return container.children
+
+
+class _DeprecatedRemovedDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. deprecated-removed::``."""
+
+    required_arguments = 2
+    optional_arguments = 0
+    final_argument_whitespace = False
+    has_content = True
+    option_spec = {}
+
+    def run(self):
+        version_str = f"{self.arguments[0]} (removed in {self.arguments[1]})"
+        node = versionmodified(type='deprecated-removed', version=version_str)
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
+
+
+class _PyObjectDirective(docutils.parsers.rst.Directive):
+    """Handles Python/C/C++/JS domain object-description directives."""
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {
+        'no-index': docutils.parsers.rst.directives.flag,
+        'noindex': docutils.parsers.rst.directives.flag,
+        'module': docutils.parsers.rst.directives.unchanged,
+        'annotation': docutils.parsers.rst.directives.unchanged,
+        'type': docutils.parsers.rst.directives.unchanged,
+        'value': docutils.parsers.rst.directives.unchanged,
+        'async': docutils.parsers.rst.directives.flag,
+        'classmethod': docutils.parsers.rst.directives.flag,
+        'staticmethod': docutils.parsers.rst.directives.flag,
+        'abstract': docutils.parsers.rst.directives.flag,
+        'final': docutils.parsers.rst.directives.flag,
+        'canonical': docutils.parsers.rst.directives.unchanged,
+        'platform': docutils.parsers.rst.directives.unchanged,
+        'synopsis': docutils.parsers.rst.directives.unchanged,
+        'deprecated': docutils.parsers.rst.directives.flag,
+    }
+
+    def run(self):
+        if ':' in self.name:
+            _, _, objtype = self.name.partition(':')
+        else:
+            objtype = self.name
+        node = py_desc(objtype=objtype, sig=self.arguments[0])
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
+
+
+class _AutodocDirective(docutils.parsers.rst.Directive):
+    """Handles autodoc directives (automodule, autoclass, etc.)."""
+
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {
+        'members': docutils.parsers.rst.directives.unchanged,
+        'undoc-members': docutils.parsers.rst.directives.flag,
+        'show-inheritance': docutils.parsers.rst.directives.flag,
+        'member-order': docutils.parsers.rst.directives.unchanged,
+        'exclude-members': docutils.parsers.rst.directives.unchanged,
+        'private-members': docutils.parsers.rst.directives.unchanged,
+        'special-members': docutils.parsers.rst.directives.unchanged,
+        'inherited-members': docutils.parsers.rst.directives.unchanged,
+        'no-index': docutils.parsers.rst.directives.flag,
+        'noindex': docutils.parsers.rst.directives.flag,
+        'synopsis': docutils.parsers.rst.directives.unchanged,
+        'platform': docutils.parsers.rst.directives.unchanged,
+        'deprecated': docutils.parsers.rst.directives.flag,
+        'ignore-module-all': docutils.parsers.rst.directives.flag,
+    }
+
+    def run(self):
+        return []
+
+
+_sphinx_directives_registered = False
+
+
+def _register_sphinx_directives():
+    """Register Sphinx-specific directives so they render properly instead of as errors."""
+    global _sphinx_directives_registered
+
+    if _sphinx_directives_registered:
+        return
+
+    docutils.parsers.rst.directives.register_directive('versionadded', _VersionDirective)
+    docutils.parsers.rst.directives.register_directive('versionchanged', _VersionDirective)
+    docutils.parsers.rst.directives.register_directive('deprecated', _VersionDirective)
+    docutils.parsers.rst.directives.register_directive('seealso', _SeeAlsoDirective)
+
+    # code-block
+    for name in ('code-block', 'sourcecode', 'code'):
+        docutils.parsers.rst.directives.register_directive(name, _CodeBlockDirective)
+    # highlight
+    docutils.parsers.rst.directives.register_directive('highlight', _HighlightDirective)
+    # silent no-op
+    for name in ('index', 'tabularcolumns'):
+        docutils.parsers.rst.directives.register_directive(name, _SilentDirective)
+    # current module
+    for name in ('currentmodule', 'py:currentmodule'):
+        docutils.parsers.rst.directives.register_directive(name, _CurrentModuleDirective)
+    # only
+    docutils.parsers.rst.directives.register_directive('only', _OnlyDirective)
+    # centered
+    docutils.parsers.rst.directives.register_directive('centered', _CenteredDirective)
+    # hlist
+    docutils.parsers.rst.directives.register_directive('hlist', _HlistDirective)
+    # toctree
+    docutils.parsers.rst.directives.register_directive('toctree', _ToctreeDirective)
+    # literalinclude
+    docutils.parsers.rst.directives.register_directive('literalinclude', _LiteralIncludeDirective)
+    # productionlist
+    docutils.parsers.rst.directives.register_directive('productionlist', _ProductionListDirective)
+    # glossary
+    docutils.parsers.rst.directives.register_directive('glossary', _GlossaryDirective)
+    # deprecated-removed
+    docutils.parsers.rst.directives.register_directive('deprecated-removed', _DeprecatedRemovedDirective)
+    # Python domain object descriptions
+    for name in (
+        'py:function', 'py:class', 'py:method', 'py:attribute', 'py:data',
+        'py:exception', 'py:module', 'py:property', 'py:decorator',
+        'py:classmethod', 'py:staticmethod', 'py:variable', 'py:type',
+        'py:typevar', 'py:typealias',
+        # C domain
+        'c:function', 'c:type', 'c:struct', 'c:union', 'c:enum',
+        'c:enumerator', 'c:member', 'c:var', 'c:macro',
+        # C++ domain
+        'cpp:function', 'cpp:class', 'cpp:type', 'cpp:member', 'cpp:var',
+        'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:alias',
+        # JavaScript domain
+        'js:function', 'js:class', 'js:method', 'js:attribute', 'js:data',
+        'js:module',
+    ):
+        docutils.parsers.rst.directives.register_directive(name, _PyObjectDirective)
+    # autodoc
+    for name in (
+        'automodule', 'autoclass', 'autofunction', 'automethod',
+        'autoattribute', 'autoexception', 'autodata', 'autoproperty',
+        'autodecorator', 'autoclassmethod', 'autostaticmethod',
+    ):
+        docutils.parsers.rst.directives.register_directive(name, _AutodocDirective)
+
+    _sphinx_directives_registered = True
 
 
 _sphinx_roles_registered = False
@@ -130,6 +570,24 @@ def _register_sphinx_roles():
         'type',
         'py:func', 'py:meth', 'py:class', 'py:mod', 'py:attr',
         'py:obj', 'py:data', 'py:const', 'py:exc',
+        # Standard domain cross-reference roles
+        'envvar', 'token', 'option', 'term', 'ref', 'doc', 'any', 'numref', 'download',
+        # Misc
+        'mailheader', 'mimetype', 'newsgroup', 'makevar', 'regexp',
+        # Keyboard/GUI
+        'kbd', 'guilabel',
+        # Unix man pages
+        'manpage',
+        # Python domain additional
+        'py:variable', 'py:type', 'py:property', 'py:parameter', 'py:typevar',
+        # C domain
+        'c:func', 'c:type', 'c:struct', 'c:union', 'c:enum', 'c:enumerator',
+        'c:member', 'c:var', 'c:macro', 'c:expr', 'c:texpr',
+        # C++ domain
+        'cpp:func', 'cpp:class', 'cpp:type', 'cpp:member', 'cpp:var',
+        'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:expr', 'cpp:texpr',
+        # JavaScript domain
+        'js:mod', 'js:func', 'js:data', 'js:attr', 'js:class', 'js:meth',
     ]
 
     for role in sphinx_roles:
@@ -137,6 +595,110 @@ def _register_sphinx_roles():
         # Also register in language module to avoid INFO messages
         if hasattr(docutils.parsers.rst.languages.en, 'roles'):
             docutils.parsers.rst.languages.en.roles[role] = role
+
+    import re as _re
+
+    # `:command:` and `:program:` → bold literal
+    def _bold_literal_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        display_text = text
+        if '<' in text and text.endswith('>'):
+            bracket_pos = text.rfind('<')
+            potential_display = text[:bracket_pos].strip()
+            if potential_display:
+                display_text = potential_display
+        node = docutils.nodes.strong(rawtext, display_text)
+        return [node], []
+
+    for _role_name in ('command', 'program'):
+        docutils.parsers.rst.roles.register_canonical_role(_role_name, _bold_literal_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
+
+    # `:dfn:` → emphasis (italic)
+    def _dfn_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        node = docutils.nodes.emphasis(rawtext, text)
+        return [node], []
+
+    docutils.parsers.rst.roles.register_canonical_role('dfn', _dfn_role)
+    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+        docutils.parsers.rst.languages.en.roles['dfn'] = 'dfn'
+
+    # `:abbr:` → abbreviation node with explanation
+    _abbr_re = _re.compile(r'\((.*)\)$', _re.DOTALL)
+
+    def _abbr_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        matched = _abbr_re.search(text)
+        if matched:
+            abbr_text = text[:matched.start()].strip()
+            explanation = matched.group(1)
+        else:
+            abbr_text = text
+            explanation = ''
+        node = docutils.nodes.abbreviation(rawtext, abbr_text, explanation=explanation)
+        return [node], []
+
+    docutils.parsers.rst.roles.register_canonical_role('abbr', _abbr_role)
+    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+        docutils.parsers.rst.languages.en.roles['abbr'] = 'abbr'
+
+    # `:menuselection:` → replace `-->` with ` ▶ `
+    def _menuselection_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        text = text.replace('-->', '\u25b6')
+        node = docutils.nodes.literal(rawtext, text)
+        return [node], []
+
+    docutils.parsers.rst.roles.register_canonical_role('menuselection', _menuselection_role)
+    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+        docutils.parsers.rst.languages.en.roles['menuselection'] = 'menuselection'
+
+    # `:samp:` and `:file:` → literal with {} stripped
+    _braces_re = _re.compile(r'\{([^}]*)\}')
+
+    def _samp_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        clean = _braces_re.sub(r'\1', text)
+        node = docutils.nodes.literal(rawtext, clean)
+        return [node], []
+
+    for _role_name in ('samp', 'file'):
+        docutils.parsers.rst.roles.register_canonical_role(_role_name, _samp_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
+
+    # `:pep:` → bold text with clickable PEP link
+    def _pep_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        parts = text.split('#', 1)
+        pep_num_str = parts[0].strip()
+        anchor = ('#' + parts[1]) if len(parts) > 1 else ''
+        try:
+            pep_num = int(pep_num_str)
+            url = f"https://peps.python.org/pep-{pep_num:04d}/{anchor}"
+        except ValueError:
+            url = "https://peps.python.org/"
+        display = f"PEP {pep_num_str} <{url}>"
+        ref = docutils.nodes.reference(rawtext, display, refuri=url)
+        return [ref], []
+
+    docutils.parsers.rst.roles.register_canonical_role('pep', _pep_role)
+    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+        docutils.parsers.rst.languages.en.roles['pep'] = 'pep'
+
+    # `:rfc:` → bold text with clickable RFC link
+    def _rfc_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        parts = text.split('#', 1)
+        rfc_num_str = parts[0].strip()
+        anchor = ('#' + parts[1]) if len(parts) > 1 else ''
+        try:
+            rfc_num = int(rfc_num_str)
+            url = f"https://datatracker.ietf.org/doc/html/rfc{rfc_num}{anchor}"
+        except ValueError:
+            url = "https://datatracker.ietf.org/"
+        display = f"RFC {rfc_num_str} <{url}>"
+        ref = docutils.nodes.reference(rawtext, display, refuri=url)
+        return [ref], []
+
+    docutils.parsers.rst.roles.register_canonical_role('rfc', _rfc_role)
+    if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+        docutils.parsers.rst.languages.en.roles['rfc'] = 'rfc'
 
     _sphinx_roles_registered = True
 
@@ -370,6 +932,89 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         body = self._render_admonition_body(node.children)
         self.renderables.append(Panel(Group(*body) if body else "", title="Warning: ", style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
+
+    def visit_versionmodified(self, node):
+        type_ = node.get("type", "versionadded")
+        version = node.get("version", "")
+        style_map = {
+            "versionadded": ("restructuredtext.versionadded", "bold green"),
+            "versionchanged": ("restructuredtext.versionchanged", "bold cyan"),
+            "deprecated": ("restructuredtext.deprecated", "bold yellow"),
+            "deprecated-removed": ("restructuredtext.deprecated_removed", "bold red"),
+        }
+        title_map = {
+            "versionadded": f"New in version {version}",
+            "versionchanged": f"Changed in version {version}",
+            "deprecated": f"Deprecated since version {version}",
+            "deprecated-removed": f"Deprecated since version {version}",
+        }
+        style_name, default_style = style_map.get(type_, ("restructuredtext.versionadded", "bold green"))
+        title = title_map.get(type_, f"{type_} {version}")
+        style = self.console.get_style(style_name, default=default_style)
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
+        raise docutils.nodes.SkipChildren()
+
+    def depart_versionmodified(self, node):
+        pass
+
+    def visit_seealso(self, node):
+        style = self.console.get_style("restructuredtext.seealso", default="bold white")
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="See Also", style=style, border_style=style))
+        raise docutils.nodes.SkipChildren()
+
+    def depart_seealso(self, node):
+        pass
+
+    def visit_centered_block(self, node):
+        style = self.console.get_style("restructuredtext.centered", default="bold")
+        text = node.get('text', '')
+        self.renderables.append(Align(Text(text, style=style), "center"))
+        raise docutils.nodes.SkipChildren()
+
+    def depart_centered_block(self, node):
+        pass
+
+    def visit_py_desc(self, node):
+        objtype = node.get('objtype', 'object')
+        sig = node.get('sig', '')
+        style = self.console.get_style("restructuredtext.py_desc", default="bold blue")
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(
+            Panel(Group(*body) if body else "", title=f"[{objtype}] {sig}",
+                  style=style, border_style=style)
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def depart_py_desc(self, node):
+        pass
+
+    def visit_toctree_stub(self, node):
+        style = self.console.get_style("restructuredtext.toctree", default="bold cyan")
+        caption = node.get('caption', 'Contents')
+        entries = node.get('entries', [])
+        marker_style = self.console.get_style("restructuredtext.bullet_list_marker", default="bold yellow")
+        renderables = [Text(" • " + e, style=marker_style) for e in entries if e]
+        self.renderables.append(
+            Panel(Group(*renderables) if renderables else "", title=caption,
+                  style=style, border_style=style)
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def depart_toctree_stub(self, node):
+        pass
+
+    def visit_literalinclude_stub(self, node):
+        style = self.console.get_style("restructuredtext.literalinclude", default="grey58")
+        filename = node.get('filename', '<unknown file>')
+        self.renderables.append(
+            Panel(Text(filename), title="literalinclude", border_style=style)
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def depart_literalinclude_stub(self, node):
+        pass
 
     def visit_subscript(self, node):
         style = self.console.get_style("restructuredtext.subscript", default="none")
@@ -1013,6 +1658,7 @@ class RestructuredText(JupyterMixin):
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
         if self.sphinx_compat:
             _register_sphinx_roles()
+            _register_sphinx_directives()
 
         # Use the full docutils publish pipeline so that all standard transforms
         # (substitution resolution, hyperlink resolution, footnote numbering,
