@@ -75,5 +75,5 @@ Options
    * - ``-dl``, ``--default-lexer``
      - Fallback language for code blocks when none is detected
        (default: ``python``).
-   * - ``-he``, ``--hide-errors``
-     - Suppress RST parse errors and warnings.
+   * - ``-se``, ``--show-errors``
+     - Show RST parse errors and warnings.

@@ -42,7 +42,6 @@ On Linux/macOS:
         --code-theme dracula \
         --default-lexer rst  \
         --soft-wrap \
-        --hide-errors
 
 On Windows:
 
@@ -53,7 +52,6 @@ On Windows:
         --code-theme dracula ^
         --default-lexer rst  ^
         --soft-wrap ^
-        --hide-errors
 
 .. note::
 

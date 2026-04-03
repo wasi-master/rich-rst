@@ -62,7 +62,7 @@ View all available options:
 python -m rich_rst --help
 ```
 
-Useful flags include `--code-theme`, `--show-line-numbers`, `--guess-lexer`, `--hide-errors`, and `--save-html`.
+Useful flags include `--code-theme`, `--show-line-numbers`, `--guess-lexer`, `--show-errors`, and `--save-html`.
 
 ## Compatibility
 

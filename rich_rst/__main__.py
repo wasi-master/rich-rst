@@ -40,7 +40,7 @@ def parse_arguments():
     parser.add_argument("-s", "--soft-wrap", action="store_true", dest="soft_wrap", default=False, help="enable soft wrapping mode")
     parser.add_argument("-gl", "--guess-lexer", action="store_true", dest="guess_lexer", default=False, help="Whether to guess the lexer for code blocks without specified language")
     parser.add_argument("-dl", "--default-lexer", type=str, dest="default_lexer", default="python", help="The default lexer for code blocks without specified language if no lexer could be guessed or found")
-    parser.add_argument("-he", "--hide-errors", action="store_true", dest="hide_errors", default=False, help="Whether to hide errors or not")
+    parser.add_argument("-se", "--show-errors", action="store_true", dest="show_errors", default=False, help="Whether to show errors or not")
     return parser.parse_args()
 
 def main():
@@ -118,7 +118,7 @@ def main():
         show_line_numbers=args.show_line_numbers,
         guess_lexer=args.guess_lexer,
         default_lexer=args.default_lexer,
-        show_errors=not args.hide_errors,
+        show_errors=args.show_errors,
         filename=args.path if args.path != "-" else "<stdin>",
     )
     console.print(rst, soft_wrap=args.soft_wrap)

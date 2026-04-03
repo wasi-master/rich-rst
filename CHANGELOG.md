@@ -144,6 +144,7 @@
 
 ### New Features
 
+- Change `hide_errors` to `show_errors` and the CLI flag `--hide-errors` to `--show-errors` to make hiding errors the default behaviour.
 - Add `show_line_numbers` parameter to `RestructuredText` and the CLI (`--show-line-numbers`); applies to all syntax-highlighted blocks (literal, doctest, raw)
 - Add six-level heading hierarchy: level 1 uses a double-box panel, level 2 a rounded-box panel, levels 3–6 use progressively lighter text styles (bold+underline → bold → underline → italic)
 - Add `visit_figure` handler for the `.. figure::` directive; renders image, caption and legend inside a panel, with correct link when `:target:` is given
