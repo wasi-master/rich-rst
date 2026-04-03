@@ -166,6 +166,7 @@
 - Fixed markup safety issue in definition-list classifier rendering (avoids unintended Rich markup interpretation).
 - Fixed image target-link resolution in figure/reference contexts.
 - Fixed subscript/superscript rendering silenty dropping characters not in the translation table
+- Made Sphinx registration thread-safe
 
 ### CLI
 

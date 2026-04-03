@@ -4,6 +4,8 @@ Covers: class instantiation, default options, all alias names,
 custom options (code_theme, show_line_numbers, filename, sphinx_compat,
 show_errors), and end-to-end rendering without exceptions.
 """
+import pytest
+
 from rich.console import Console
 from rich_rst import (
     RST,
@@ -12,6 +14,8 @@ from rich_rst import (
     RSTVisitor,
     reStructuredText,
 )
+from rich_rst._vendor import docutils
+import rich_rst._vendor.docutils.core
 
 
 # ── Alias names ───────────────────────────────────────────────────────────────
@@ -93,6 +97,29 @@ def test_custom_default_lexer():
 def test_guess_lexer_enabled():
     rst = RestructuredText("text", guess_lexer=True)
     assert rst.guess_lexer is True
+
+
+def test_invalid_default_lexer_raises_on_restructuredtext_init():
+    with pytest.raises(ValueError, match="Unknown Pygments lexer name"):
+        RestructuredText("text", default_lexer="definitely-not-a-real-lexer")
+
+
+def test_invalid_default_lexer_raises_on_visitor_init():
+    document = docutils.core.publish_doctree(
+        "text",
+        settings_overrides={"report_level": 69, "halt_level": 69},
+    )
+    console = Console(force_terminal=True, width=120, record=True)
+
+    with pytest.raises(ValueError, match="Unknown Pygments lexer name"):
+        RSTVisitor(
+            document,
+            console=console,
+            code_theme="monokai",
+            show_line_numbers=False,
+            guess_lexer=False,
+            default_lexer="definitely-not-a-real-lexer",
+        )
 
 
 # ── End-to-end rendering ──────────────────────────────────────────────────────

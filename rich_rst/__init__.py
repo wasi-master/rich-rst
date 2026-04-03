@@ -34,12 +34,23 @@ from rich.text import Text
 from rich.table import Table
 from rich.rule import Rule
 
-from pygments.lexers import guess_lexer
+from pygments.lexers import guess_lexer, get_lexer_by_name
 from pygments.util import ClassNotFound
 
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = "1.3.2"
+
+
+def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
+    """Validate that ``default_lexer`` is a known Pygments lexer alias."""
+    if default_lexer is None:
+        return default_lexer
+    try:
+        get_lexer_by_name(default_lexer)
+    except ClassNotFound as error:
+        raise ValueError(f"Unknown Pygments lexer name: {default_lexer!r}") from error
+    return default_lexer
 
 
 # ── Custom nodes for Sphinx directives ───────────────────────────────────────
@@ -754,7 +765,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.errors = []
         self.footer = []
         self.guess_lexer = guess_lexer
-        self.default_lexer = default_lexer
+        self.default_lexer = _validate_default_lexer_name(default_lexer)
         self.refname_to_renderable = {}
 
     def _translate_with_fallback(self, text, table):
@@ -1894,7 +1905,7 @@ class RestructuredText(JupyterMixin):
         self.show_line_numbers = show_line_numbers
         self.log_errors = show_errors
         self.guess_lexer = guess_lexer
-        self.default_lexer = default_lexer
+        self.default_lexer = _validate_default_lexer_name(default_lexer)
         self.sphinx_compat = sphinx_compat
         self.filename = filename
 
