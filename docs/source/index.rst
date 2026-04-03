@@ -11,6 +11,8 @@ support for headings, code blocks, tables, admonitions, footnotes, and
    :caption: Contents
 
    demonstration
+   elements
+   limitations
    styling
    documentation
 
