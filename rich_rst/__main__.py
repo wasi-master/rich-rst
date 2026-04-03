@@ -102,7 +102,11 @@ def parse_arguments():
         default=None,
         help="write rendered plain-text output to FILE instead of stdout",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    # PATH is only optional when --list-html-themes is used.
+    if not args.list_html_themes and args.path is None:
+        parser.error("the following arguments are required: PATH")
+    return args
 
 def main():
     """The main function."""
@@ -113,12 +117,7 @@ def main():
             print(name)
         return 0
 
-    if args.path is None:
-        # Require path when not listing themes
-        import argparse as _ap
-        _ap.ArgumentParser(description="Render reStructuredText to the console with rich-rst").error(
-            "the following arguments are required: PATH"
-        )
+    # PATH is required at this point (parse_arguments already validated it)
 
     # NOTE: CSS braces must be doubled ({{ / }}) so that Rich's internal
     # code_format.format(...) call treats them as literal characters.

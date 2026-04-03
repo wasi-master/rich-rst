@@ -411,7 +411,13 @@ class _IncludeDirective(docutils.parsers.rst.Directive):
         abs_path = os.path.normpath(os.path.join(base_dir, rel_path))
 
         # Safety: reject path traversal outside the base directory.
-        if not abs_path.startswith(base_dir + os.sep) and abs_path != base_dir:
+        try:
+            common = os.path.commonpath([abs_path, base_dir])
+        except ValueError:
+            # commonpath raises ValueError on Windows when paths are on
+            # different drives — treat that as a traversal attempt.
+            common = None
+        if common != base_dir:
             stub = docutils.nodes.warning()
             stub += docutils.nodes.paragraph(
                 text=f"Rejected include path outside source directory: {rel_path!r}"
@@ -428,7 +434,7 @@ class _IncludeDirective(docutils.parsers.rst.Directive):
 
             if start_line is not None or end_line is not None:
                 lines = content.splitlines()
-                content = '\n'.join(lines[start_line:end_line])
+                content = '\n'.join(lines[start_line or 0:end_line])
 
             # Parse the included RST content as a nested document.
             import rich_rst._vendor.docutils.statemachine as _sm

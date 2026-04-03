@@ -114,7 +114,8 @@ def test_output_flag_error_on_bad_path(monkeypatch, capsys):
 
     def selective_open(path, *args, **kwargs):
         # fail only for the output file write (mode 'w')
-        if args and args[0] == "w":
+        mode = args[0] if args else kwargs.get('mode', 'r')
+        if mode == 'w':
             raise OSError("no space left")
         return _real_open(path, *args, **kwargs)
 
