@@ -1443,7 +1443,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.renderables.append(Text("  - " + attribution.astext(), style=author_style))
         else:
             self.renderables.append(NewLine())
-            self.renderables.append(NewLine())
 
         raise docutils.nodes.SkipChildren()
 

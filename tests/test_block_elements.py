@@ -142,6 +142,12 @@ def test_block_quote_attribution_plain_text_has_author(make_visitor):
     assert "The Author" in attr_texts[0].plain
 
 
+def test_block_quote_without_attribution_ends_with_single_newline(make_visitor):
+    visitor = make_visitor("    Single paragraph quote.\n")
+    newline_count = sum(isinstance(r, NewLine) for r in visitor.renderables)
+    assert newline_count == 1
+
+
 def test_block_quote_multi_paragraph_both_rendered(render_text):
     rst = "    First paragraph.\n\n    Second paragraph.\n"
     out = render_text(rst)
