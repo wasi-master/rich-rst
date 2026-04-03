@@ -963,7 +963,6 @@ More content.
 
 def test_multiple_transitions(make_visitor):
     """Test multiple transitions render as Rule renderables."""
-    from rich.rule import Rule
     rst = """\
 First block.
 
@@ -1054,10 +1053,10 @@ def test_math_block_display(render_text):
 
 def test_math_standalone(render_text):
     """Test math directive standalone."""
-    rst = r"""
+    rst = """\
 .. math::
 
-   \frac{a}{b}
+   \\frac{a}{b}
 """
     out = render_text(rst)
     assert "frac" in out, "Math directive content must be visible in the output"
