@@ -1052,14 +1052,15 @@ def test_math_block_display(render_text):
 
 
 def test_math_standalone(render_text):
-    """Test math directive standalone."""
+    """Test math directive standalone — frac converts to Unicode (a/b)."""
     rst = """\
 .. math::
 
    \\frac{a}{b}
 """
     out = render_text(rst)
-    assert "frac" in out, "Math directive content must be visible in the output"
+    # \\frac{a}{b} is now converted to the Unicode approximation (a/b)
+    assert "a/b" in out, "Math directive must render \\frac{a}{b} as (a/b)"
 
 
 # ══════════════════════════════════════════════════════════════════════════════

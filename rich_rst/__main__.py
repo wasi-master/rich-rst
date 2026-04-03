@@ -3,7 +3,7 @@ import sys
 from rich.panel import Panel
 from rich.console import Console
 from rich_rst import RestructuredText, __version__
-from rich.terminal_theme import TerminalTheme
+from rich.terminal_theme import TerminalTheme, DEFAULT_TERMINAL_THEME, MONOKAI, NIGHT_OWLISH, DIMMED_MONOKAI
 from rich.traceback import install
 from rich.text import Text
 
@@ -27,11 +27,47 @@ def rgb(r, g, b):
     """
     return (r, g, b)
 
+
+# Named HTML export themes available via --html-theme
+_DRACULA_TERMINAL_THEME = TerminalTheme(
+    rgb(40, 42, 54),
+    rgb(248, 248, 242),
+    [
+        rgb(40, 42, 54),
+        rgb(255, 85, 85),
+        rgb(80, 250, 123),
+        rgb(241, 250, 140),
+        rgb(189, 147, 249),
+        rgb(255, 121, 198),
+        rgb(139, 233, 253),
+        rgb(255, 255, 255),
+    ],
+    [
+        rgb(40, 42, 54),
+        rgb(255, 85, 85),
+        rgb(80, 250, 123),
+        rgb(241, 250, 140),
+        rgb(189, 147, 249),
+        rgb(255, 121, 198),
+        rgb(139, 233, 253),
+        rgb(255, 255, 255),
+    ],
+)
+
+_HTML_THEMES = {
+    "dracula": _DRACULA_TERMINAL_THEME,
+    "monokai": MONOKAI,
+    "night-owl": NIGHT_OWLISH,
+    "dimmed-monokai": DIMMED_MONOKAI,
+    "default": DEFAULT_TERMINAL_THEME,
+}
+
+
 def parse_arguments():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description="Render reStructuredText to the console with rich-rst")
     parser.add_argument("--version", action="version", version=__version__)
-    parser.add_argument("path", metavar="PATH", help="path to file, or - for stdin")
+    parser.add_argument("path", metavar="PATH", nargs="?", default=None, help="path to file, or - for stdin")
     parser.add_argument("-c", "--force-color", dest="force_color", action="store_true", default=None, help="force color for non-terminals")
     parser.add_argument("-e", "--encoding", dest="encoding", type=str, default="utf-8", help="encoding for file (default: utf-8)")
     parser.add_argument("-w", "--width", type=int, dest="width", default=None, help="width of output (default will auto-detect)")
@@ -44,35 +80,46 @@ def parse_arguments():
     parser.add_argument("-gl", "--guess-lexer", action="store_true", dest="guess_lexer", default=False, help="Whether to guess the lexer for code blocks without specified language")
     parser.add_argument("-dl", "--default-lexer", type=str, dest="default_lexer", default="python", help="The default lexer for code blocks without specified language if no lexer could be guessed or found")
     parser.add_argument("-se", "--show-errors", action="store_true", dest="show_errors", default=False, help="Whether to show errors or not")
+    parser.add_argument(
+        "--html-theme",
+        dest="html_theme",
+        type=str,
+        default="dracula",
+        choices=list(_HTML_THEMES),
+        help="colour theme for --save-html output (default: dracula)",
+    )
+    parser.add_argument(
+        "--list-html-themes",
+        action="store_true",
+        dest="list_html_themes",
+        default=False,
+        help="list available HTML export themes and exit",
+    )
+    parser.add_argument(
+        "-o", "--output",
+        dest="output",
+        type=str,
+        default=None,
+        help="write rendered plain-text output to FILE instead of stdout",
+    )
     return parser.parse_args()
 
 def main():
     """The main function."""
     args = parse_arguments()
-    DRACULA_TERMINAL_THEME = TerminalTheme(
-        rgb(40, 42, 54),
-        rgb(248, 248, 242),
-        [
-            rgb(40, 42, 54),
-            rgb(255, 85, 85),
-            rgb(80, 250, 123),
-            rgb(241, 250, 140),
-            rgb(189, 147, 249),
-            rgb(255, 121, 198),
-            rgb(139, 233, 253),
-            rgb(255, 255, 255),
-        ],
-        [
-            rgb(40, 42, 54),
-            rgb(255, 85, 85),
-            rgb(80, 250, 123),
-            rgb(241, 250, 140),
-            rgb(189, 147, 249),
-            rgb(255, 121, 198),
-            rgb(139, 233, 253),
-            rgb(255, 255, 255),
-        ],
-    )
+
+    if args.list_html_themes:
+        for name in sorted(_HTML_THEMES):
+            print(name)
+        return 0
+
+    if args.path is None:
+        # Require path when not listing themes
+        import argparse as _ap
+        _ap.ArgumentParser(description="Render reStructuredText to the console with rich-rst").error(
+            "the following arguments are required: PATH"
+        )
+
     # NOTE: CSS braces must be doubled ({{ / }}) so that Rich's internal
     # code_format.format(...) call treats them as literal characters.
     # args.html_width is spliced in with a plain str.replace to avoid
@@ -109,7 +156,9 @@ def main():
     </body>
     </html>
     """.replace("HTML_WIDTH_PLACEHOLDER", args.html_width)
-    console = Console(force_terminal=args.force_color, width=args.width, record=bool(args.html_filename))
+
+    record = bool(args.html_filename) or bool(args.output)
+    console = Console(force_terminal=args.force_color, width=args.width, record=record)
     if args.path == "-":
         code = sys.stdin.read()
     else:
@@ -137,9 +186,27 @@ def main():
         show_errors=args.show_errors,
         filename=args.path if args.path != "-" else "<stdin>",
     )
-    console.print(rst, soft_wrap=args.soft_wrap)
+    if args.output:
+        # Render to a file instead of stdout.
+        console.print(rst, soft_wrap=args.soft_wrap)
+        text_output = console.export_text()
+        try:
+            with open(args.output, "w", encoding="utf-8") as out_fh:
+                out_fh.write(text_output)
+        except OSError as error:
+            Console().print(
+                Panel(
+                    Text(f"Could not write to {args.output!r}.\n{error}"),
+                    title="Output File Error",
+                )
+            )
+            return 1
+    else:
+        console.print(rst, soft_wrap=args.soft_wrap)
+
     if args.html_filename:
-        console.save_html(args.html_filename, theme=DRACULA_TERMINAL_THEME, code_format=CONSOLE_HTML_FORMAT)
+        html_theme = _HTML_THEMES.get(args.html_theme, _DRACULA_TERMINAL_THEME)
+        console.save_html(args.html_filename, theme=html_theme, code_format=CONSOLE_HTML_FORMAT)
     return 0
 
 if __name__ == "__main__":

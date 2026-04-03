@@ -1,6 +1,8 @@
 # $Id: __init__.py 10275 2025-12-18 18:44:54Z grubert $
 # Author: David Goodger <goodger@python.org>
 # Copyright: This module has been placed in the public domain.
+# VENDORED: This file is vendored from Docutils 0.22.4 (upstream release).
+# See rich_rst/_vendor/LICENSES.txt and VENDORED.md for details.
 
 """
 This is the Docutils (Python Documentation Utilities) package.

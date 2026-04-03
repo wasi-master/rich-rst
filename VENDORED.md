@@ -99,7 +99,8 @@ When upgrading the vendored copy to a newer Docutils release:
 2. Run `python tools/vendor_docutils.py` (see `tools/` directory) to re-copy and
    rewrite imports.
 3. Run the test suite to confirm nothing broke.
-4. Update the version number in this file and in `_vendor/LICENSES.txt`.
+4. Update the version number in **this file**, in `_vendor/LICENSES.txt`, and in
+   the `# VENDORED:` comment at the top of `rich_rst/_vendor/docutils/__init__.py`.
 5. Commit the updated `rich_rst/_vendor/docutils/` tree and both docs.
 
 The internal import rewriting performed by the vendor script is the only modification
