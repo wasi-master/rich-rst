@@ -10,7 +10,8 @@ Shared pytest fixtures for the rich-rst test suite.
     Renders RST markup through the public :class:`RestructuredText` API and
     returns the exported plain text.  Use this for content / output assertions.
 """
-import docutils.core
+from rich_rst._vendor import docutils
+import rich_rst._vendor.docutils.core
 import pytest
 from rich.console import Console
 

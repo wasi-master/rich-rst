@@ -10,14 +10,15 @@ from io import StringIO
 from html.parser import HTMLParser
 from typing import Optional, Union
 
-# Imports from docutils package for the parsing
-import docutils.core
-import docutils.frontend
-import docutils.io
-import docutils.nodes
-import docutils.parsers.rst
-import docutils.parsers.rst.directives
-import docutils.utils
+# Imports from rich_rst._vendor.docutils package for the parsing
+from rich_rst._vendor import docutils
+import rich_rst._vendor.docutils.core
+import rich_rst._vendor.docutils.frontend
+import rich_rst._vendor.docutils.io
+import rich_rst._vendor.docutils.nodes
+import rich_rst._vendor.docutils.parsers.rst
+import rich_rst._vendor.docutils.parsers.rst.directives
+import rich_rst._vendor.docutils.utils
 
 # Imports from the rich package for the printing
 import rich
@@ -517,8 +518,9 @@ def _register_sphinx_roles():
     if _sphinx_roles_registered:
         return
 
-    import docutils.parsers.rst.roles
-    import docutils.parsers.rst.languages.en
+    from rich_rst._vendor import docutils
+    import rich_rst._vendor.docutils.parsers.rst.roles
+    import rich_rst._vendor.docutils.parsers.rst.languages.en
 
     def sphinx_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
         """

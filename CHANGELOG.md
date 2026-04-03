@@ -144,6 +144,7 @@
 
 ### New Features
 
+- Change `hide_errors` to `show_errors` and the CLI flag `--hide-errors` to `--show-errors` to make hiding errors the default behaviour.
 - Add `show_line_numbers` parameter to `RestructuredText` and the CLI (`--show-line-numbers`); applies to all syntax-highlighted blocks (literal, doctest, raw)
 - Add six-level heading hierarchy: level 1 uses a double-box panel, level 2 a rounded-box panel, levels 3–6 use progressively lighter text styles (bold+underline → bold → underline → italic)
 - Add `visit_figure` handler for the `.. figure::` directive; renders image, caption and legend inside a panel, with correct link when `:target:` is given
@@ -168,6 +169,7 @@
 - Add role rendering support when `sphinx_compat=True`: `:command:` and `:program:` render bold text; `:dfn:` renders italic/emphasis; `:abbr:` with expansion reuses `visit_abbreviation`
 - Add role rendering support when `sphinx_compat=True`: `:menuselection:` renders as inline literal and converts `-->` to `▶`; `:samp:` and `:file:` render as inline literal with `{placeholder}` markers stripped
 - Add inline-literal cross-reference role support when `sphinx_compat=True` for all `c:*`, `cpp:*`, and `js:*` roles plus `:envvar:`, `:kbd:`, `:guilabel:`, `:manpage:`, `:ref:`, `:doc:`, `:term:`, `:any:`, and related Sphinx cross-reference roles
+- Vendor `docutils` into `rich_rst` to avoid licensing issues and drop `docutils` as a dependency to solve licensing issues
 
 ### Bug Fixes
 

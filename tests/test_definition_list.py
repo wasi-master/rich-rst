@@ -1,4 +1,5 @@
-import docutils.core
+from rich_rst._vendor import docutils
+import rich_rst._vendor.docutils.core
 from rich.console import Console
 from rich.text import Text
 
