@@ -94,8 +94,8 @@ def test_versionchanged_border_style(make_visitor):
 
 
 def test_versionchanged_body_content_visible(render_text):
-    rst = ".. versionchanged:: 2.0\n\n   Behaviour changed significantly.\n"
-    assert "Behaviour changed significantly." in render_text(rst, sphinx_compat=True)
+    rst = ".. versionchanged:: 2.0\n\n   Behavior changed significantly.\n"
+    assert "Behavior changed significantly." in render_text(rst, sphinx_compat=True)
 
 
 def test_versionchanged_version_in_output(render_text):

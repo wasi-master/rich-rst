@@ -82,7 +82,7 @@ class _SeeAlsoDirective(docutils.parsers.rst.Directive):
     def run(self):
         node = seealso()
         if self.arguments:
-            node += docutils.nodes.paragraph('', self.arguments[0])
+            node += docutils.nodes.paragraph(self.arguments[0], self.arguments[0])
         if self.content:
             self.state.nested_parse(self.content, self.content_offset, node)
         return [node]
