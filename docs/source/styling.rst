@@ -212,6 +212,7 @@ Styles for other special elements:
    restructuredtext.literalinclude       (default: "grey58")
    restructuredtext.subscript            (default: "none")
    restructuredtext.superscript          (default: "none")
+   restructuredtext.problematic          (default: "none")
 
 Full Customization Example
 ---------------------------

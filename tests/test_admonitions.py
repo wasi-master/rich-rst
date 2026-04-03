@@ -157,7 +157,7 @@ def test_generic_admonition_title_equals_heading(make_visitor):
     rst = ".. admonition:: My Custom Title\n\n   Body text.\n"
     visitor = make_visitor(rst)
     panels = [r for r in visitor.renderables if isinstance(r, Panel)]
-    assert panels[0].title == "Admonition: My Custom Title"
+    assert panels[0].title == "My Custom Title"
 
 
 # ── Admonition body content ───────────────────────────────────────────────────

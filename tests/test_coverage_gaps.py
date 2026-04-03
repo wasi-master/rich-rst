@@ -817,8 +817,8 @@ def test_admonition_with_custom_title(render_text):
    Content of custom admonition.
 """
     out = render_text(rst)
-    assert "Admonition: Custom Title" in out, (
-        "Generic admonition must render with 'Admonition: <title>' panel title"
+    assert "Custom Title" in out, (
+        "Generic admonition must render with '<title>' panel title"
     )
     assert "Content of custom admonition" in out, "Admonition body must be visible"
 

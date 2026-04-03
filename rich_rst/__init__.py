@@ -1296,6 +1296,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 )
             ),
         )
+
+        # Preserve the offending source snippet in normal output so invalid
+        # markup does not silently disappear when show_errors=False.
+        for child in node.children:
+            if isinstance(child, docutils.nodes.literal_block):
+                snippet = child.astext().replace("\n", " ")
+                if snippet:
+                    if self.renderables and isinstance(self.renderables[-1], Text):
+                        self.renderables[-1].append_text(Text(snippet, end=" "))
+                    else:
+                        self.renderables.append(Text(snippet, end=""))
         raise docutils.nodes.SkipChildren()
 
     def _add_to_field_table(self, field_name, field_value):
@@ -1614,6 +1625,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_problematic(self, node):
+        # Keep problematic inline source visible in the main render output.
+        problematic_style = self.console.get_style("restructuredtext.problematic", default="none")
+        problematic_text = node.astext().replace("\n", " ")
+        if problematic_text:
+            if self.renderables and isinstance(self.renderables[-1], Text):
+                self.renderables[-1].append(problematic_text, style=problematic_style)
+            else:
+                self.renderables.append(Text(problematic_text, style=problematic_style, end=""))
+
         self.errors.append(
             Panel(
                 Syntax(node.astext(), lexer="rst", theme=self.code_theme),

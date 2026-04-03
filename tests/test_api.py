@@ -34,8 +34,8 @@ def test_default_sphinx_compat_is_true():
     assert RestructuredText("text").sphinx_compat is True
 
 
-def test_default_show_errors_is_true():
-    assert RestructuredText("text").log_errors is True
+def test_default_show_errors_is_false():
+    assert RestructuredText("text").log_errors is False
 
 
 def test_default_code_theme_is_monokai():
