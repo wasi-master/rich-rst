@@ -1377,7 +1377,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                             self.visit_block_quote(children)
                 else:
                     self.renderables.append(
-                        Text(term.astext(), style=classifier_style)
+                        Text(term.astext(), style=term_style)
                         + Text("\n    ", end="")
                         + Text(classifier.astext().replace("\n", " "), style=definitions_style)
                         + Text("\n      ", end="")

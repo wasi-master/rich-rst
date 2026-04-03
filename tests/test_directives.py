@@ -307,13 +307,15 @@ def test_definition_list_definition_visible(render_text):
     assert "A fruit." in render_text("apple\n    A fruit.\n")
 
 
-def test_definition_list_term_style_is_cyan(make_visitor):
+def test_definition_list_term_style_uses_term_style(make_visitor):
     visitor = make_visitor("apple\n    A fruit.\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    # The definition-list item renders as a single Text with cyan base style
-    cyan_texts = [t for t in texts if t.style and str(t.style) == "cyan"]
-    assert cyan_texts, "Definition list term must have a 'cyan' base style"
-    assert "apple" in cyan_texts[0].plain
+    definition_texts = [t for t in texts if "apple" in t.plain]
+    assert definition_texts, "Definition list output must contain the term text"
+
+    term_offset = definition_texts[0].plain.index("apple")
+    term_style = definition_texts[0].get_style_at_offset(visitor.console, term_offset)
+    assert term_style.color is None, "Definition list term must use the default term_style"
 
 
 def test_definition_list_multiple_items(render_text):
