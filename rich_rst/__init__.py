@@ -8,6 +8,8 @@ There are a lot of improvements are added by me
 """
 from io import StringIO
 from html.parser import HTMLParser
+import functools
+import os
 import threading
 from typing import Optional, Union
 
@@ -39,7 +41,7 @@ from pygments.util import ClassNotFound
 
 import importlib.metadata
 
-__all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
+__all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "RSTVisitor")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
 
@@ -267,6 +269,7 @@ class _ToctreeDirective(docutils.parsers.rst.Directive):
 
     def run(self):
         caption = self.options.get('caption', 'Contents')
+        maxdepth = self.options.get('maxdepth', 0)
         entries = [
             line.strip() for line in self.content
             if line.strip() and not line.strip().startswith(':')
@@ -274,6 +277,7 @@ class _ToctreeDirective(docutils.parsers.rst.Directive):
         node = toctree_stub()
         node['caption'] = caption
         node['entries'] = entries
+        node['maxdepth'] = maxdepth
         return [node]
 
 
@@ -306,6 +310,46 @@ class _LiteralIncludeDirective(docutils.parsers.rst.Directive):
     def run(self):
         node = literalinclude_stub()
         node['filename'] = self.arguments[0]
+
+        # Attempt to resolve and read the referenced file so the visitor can
+        # render real content instead of a mere placeholder.
+        rel_path = self.arguments[0]
+        source_file = self.state_machine.get_source(self.lineno)
+        if source_file and source_file not in ('<string>', '<stdin>', '<rst-document>'):
+            base_dir = os.path.dirname(os.path.abspath(source_file))
+            abs_path = os.path.join(base_dir, rel_path)
+        else:
+            abs_path = os.path.abspath(rel_path)
+
+        language = self.options.get('language', '')
+        encoding = self.options.get('encoding', 'utf-8')
+        lines_opt = self.options.get('lines', '')
+        linenos = 'linenos' in self.options
+
+        try:
+            with open(abs_path, encoding=encoding) as fh:
+                content = fh.read()
+
+            # Apply the ``lines`` option if provided (e.g., "1-5,8,10-20").
+            if lines_opt:
+                all_lines = content.splitlines(keepends=True)
+                selected = []
+                for part in lines_opt.split(','):
+                    part = part.strip()
+                    if '-' in part:
+                        start_s, end_s = part.split('-', 1)
+                        selected.extend(all_lines[int(start_s) - 1 : int(end_s)])
+                    elif part:
+                        selected.append(all_lines[int(part) - 1])
+                content = ''.join(selected)
+
+            node['content'] = content
+            node['language'] = language
+            node['linenos'] = linenos
+        except (OSError, ValueError, IndexError):
+            # File not found or unreadable — fall back to placeholder rendering.
+            pass
+
         return [node]
 
 
@@ -434,6 +478,7 @@ _sphinx_registration_lock = threading.Lock()
 
 
 def _sphinx_registration_guard(function):
+    @functools.wraps(function)
     def wrapper(*args, **kwargs):
         with _sphinx_registration_lock:
             return function(*args, **kwargs)
@@ -741,7 +786,62 @@ def _register_sphinx_roles():
 
 # pylama:ignore=D,C0116
 class RSTVisitor(docutils.nodes.SparseNodeVisitor):
-    """A visitor that produces rich renderables"""
+    """A visitor that produces rich renderables.
+
+    Custom visitors for third-party node types can be registered via
+    :meth:`register_visitor`.  Registered functions take ``(visitor, node)``
+    as arguments and should follow the same conventions as the built-in
+    ``visit_*`` / ``depart_*`` methods (e.g. raise
+    ``docutils.nodes.SkipChildren`` to suppress child processing).
+    """
+
+    # Class-level registry mapping node_class → (visit_fn, depart_fn).
+    # Entries are consulted by dispatch_visit / dispatch_departure before
+    # falling through to the normal method-name lookup.
+    _custom_visitors: dict = {}
+
+    @classmethod
+    def register_visitor(cls, node_class, visit_fn=None, depart_fn=None):
+        """Register custom visit/depart functions for *node_class*.
+
+        The registration is class-wide: it applies to every instance of this
+        class (and subclasses that do not provide their own registry).
+
+        Parameters
+        ----------
+        node_class : type
+            The docutils node class to handle.
+        visit_fn : callable or None
+            Called as ``visit_fn(visitor, node)`` when the node is entered.
+            May raise ``docutils.nodes.SkipChildren`` to suppress child
+            traversal.  Pass ``None`` to use a no-op visit.
+        depart_fn : callable or None
+            Called as ``depart_fn(visitor, node)`` when the node is exited.
+            Pass ``None`` to use a no-op departure.
+        """
+        if '_custom_visitors' not in cls.__dict__:
+            # Give subclasses their own dict so parent registrations are not
+            # accidentally modified.
+            cls._custom_visitors = {}
+        cls._custom_visitors[node_class] = (visit_fn, depart_fn)
+
+    def dispatch_visit(self, node):
+        entry = self._custom_visitors.get(type(node))
+        if entry is not None:
+            visit_fn, _ = entry
+            if visit_fn is not None:
+                return visit_fn(self, node)
+            return
+        return super().dispatch_visit(node)
+
+    def dispatch_departure(self, node):
+        entry = self._custom_visitors.get(type(node))
+        if entry is not None:
+            _, depart_fn = entry
+            if depart_fn is not None:
+                return depart_fn(self, node)
+            return
+        return super().dispatch_departure(node)
 
     def __init__(
         self,
@@ -1066,8 +1166,32 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.toctree", default="bold cyan")
         caption = node.get('caption', 'Contents')
         entries = node.get('entries', [])
+        maxdepth = node.get('maxdepth', 0)  # 0 means unlimited
         marker_style = self.console.get_style("restructuredtext.bullet_list_marker", default="bold yellow")
-        renderables = [Text(" • " + e, style=marker_style) for e in entries if e]
+
+        renderables = []
+        for entry in entries:
+            if not entry:
+                continue
+            # Parse the optional "Display Title <docname>" format.
+            if entry.endswith('>') and '<' in entry:
+                display = entry[:entry.rfind('<')].strip()
+                docname = entry[entry.rfind('<') + 1:-1].strip()
+            else:
+                display = entry
+                docname = entry
+
+            # Derive visual depth from the number of '/' separators in the
+            # document name so that entries like "guide/installation" appear
+            # indented under their parent path group.
+            depth = docname.count('/')
+            if maxdepth > 0 and depth >= maxdepth:
+                continue  # Omit entries beyond the configured maxdepth.
+
+            markers = [" • ", " ∘ ", " ▪ "]
+            marker = "  " * depth + markers[min(depth, len(markers) - 1)]
+            renderables.append(Text(marker + display, style=marker_style))
+
         self.renderables.append(
             Panel(Group(*renderables) if renderables else "", title=caption,
                   style=style, border_style=style)
@@ -1080,9 +1204,27 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_literalinclude_stub(self, node):
         style = self.console.get_style("restructuredtext.literalinclude", default="grey58")
         filename = node.get('filename', '<unknown file>')
-        self.renderables.append(
-            Panel(Text(filename), title="literalinclude", border_style=style)
-        )
+        content = node.get('content', None)
+
+        if content is not None:
+            # File was successfully read by the directive — render as a syntax-
+            # highlighted code block with the filename as the panel title.
+            language = node.get('language') or self.default_lexer
+            linenos = node.get('linenos', self.show_line_numbers)
+            self.renderables.append(
+                Panel(
+                    Syntax(content, language, theme=self.code_theme, line_numbers=linenos),
+                    title=filename,
+                    border_style=style,
+                    box=box.SQUARE,
+                )
+            )
+        else:
+            # File was not available (wrong path, no source file, …): show a
+            # placeholder panel so the document still renders without crashing.
+            self.renderables.append(
+                Panel(Text(filename), title="literalinclude", border_style=style)
+            )
         raise docutils.nodes.SkipChildren()
 
     def depart_literalinclude_stub(self, node):
@@ -1421,33 +1563,83 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 continue
 
             if len(child_children) == 3:
+                # term + one classifier + definition
                 term, classifier, definitions = child_children[:3]
-                self.renderables.append(
+                header = (
                     Text("    ")
                     + Text(term.astext(), style=term_style, end="")
                     + Text(" : ", end="")
                     + Text(classifier.astext(), style=classifier_style)
                     + Text("\n      ", end="")
-                    + Text(definitions.astext().replace("\n", " "), style=definitions_style)
-                    + Text("\n", end="")
                 )
+                self.renderables.append(header)
+                # Use a sub-visitor so inline markup inside the definition body
+                # (bold, italic, links, etc.) is preserved rather than flattened.
+                def_renderables = self._render_admonition_body(
+                    definitions.children if hasattr(definitions, 'children') else []
+                )
+                self.renderables.extend(def_renderables)
+                self.renderables.append(Text("\n", end=""))
             elif len(child_children) >= 2:
-                term, classifier = child_children[0], child_children[1]
+                term = child_children[0]
+                # The last child is always the definition; everything between
+                # term and definition are additional classifiers.
+                definition = child_children[-1]
                 if len(child_children) > 2:
-                    for children in child_children[2:]:
-                        if isinstance(children, docutils.nodes.bullet_list):
-                            self.visit_bullet_list(children)
-                        elif isinstance(children, docutils.nodes.literal_block):
-                            self.visit_literal_block(children)
-                        elif isinstance(children, docutils.nodes.literal):
-                            self.visit_literal(children)
-                        elif isinstance(children, docutils.nodes.block_quote):
-                            self.visit_block_quote(children)
+                    # Render the first classifier (child_children[1]) as part of
+                    # the term header, and handle any extra classifiers plus the
+                    # definition body.
+                    first_classifier = child_children[1]
+                    header = (
+                        Text("    ")
+                        + Text(term.astext(), style=term_style, end="")
+                        + Text(" : ", end="")
+                        + Text(first_classifier.astext(), style=classifier_style)
+                    )
+                    self.renderables.append(header)
+                    for ch in child_children[2:]:
+                        if isinstance(ch, docutils.nodes.classifier):
+                            self.renderables.append(
+                                Text(" : " + ch.astext(), style=classifier_style)
+                            )
+                        elif isinstance(ch, docutils.nodes.definition):
+                            def_renderables = self._render_admonition_body(ch.children)
+                            self.renderables.extend(def_renderables)
+                        elif isinstance(ch, docutils.nodes.paragraph):
+                            self.renderables.extend(self._render_child_inline(ch))
+                        elif isinstance(ch, docutils.nodes.bullet_list):
+                            try:
+                                self.visit_bullet_list(ch)
+                            except docutils.nodes.SkipChildren:
+                                pass
+                        elif isinstance(ch, docutils.nodes.enumerated_list):
+                            try:
+                                self.visit_enumerated_list(ch)
+                            except docutils.nodes.SkipChildren:
+                                pass
+                        elif isinstance(ch, docutils.nodes.literal_block):
+                            try:
+                                self.visit_literal_block(ch)
+                            except docutils.nodes.SkipChildren:
+                                pass
+                        elif isinstance(ch, docutils.nodes.literal):
+                            try:
+                                self.visit_literal(ch)
+                            except docutils.nodes.SkipChildren:
+                                pass
+                        elif isinstance(ch, docutils.nodes.block_quote):
+                            try:
+                                self.visit_block_quote(ch)
+                            except docutils.nodes.SkipChildren:
+                                pass
                 else:
+                    # len == 2: term + definition (no classifier).
+                    # Rename clarity: `definition` is child_children[1], NOT a
+                    # classifier — the old variable name was misleading.
                     self.renderables.append(
                         Text(term.astext(), style=term_style)
                         + Text("\n    ", end="")
-                        + Text(classifier.astext().replace("\n", " "), style=definitions_style)
+                        + Text(definition.astext().replace("\n", " "), style=definitions_style)
                         + Text("\n      ", end="")
                     )
             else:
@@ -1509,11 +1701,26 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         paragraphs = children[:-1] if attribution else children
 
         for index, paragraph in enumerate(paragraphs):
-            paragraph_text = paragraph.astext().replace("\n", " ")
             if index:
                 self.renderables.append(NewLine())
                 self.renderables.append(NewLine())
-            self.renderables.append(Text("▌ ", style=marker_style) + Text(paragraph_text, style=text_style))
+            # Use a sub-visitor so inline markup (bold, italic, links, …)
+            # inside the paragraph is preserved instead of being flattened by
+            # astext().
+            para_renderables = self._render_child_inline(paragraph)
+            if para_renderables and isinstance(para_renderables[0], Text):
+                first = para_renderables[0]
+                first.rstrip()
+                # Apply the block-quote body style so tests that check for a
+                # white span still find one.
+                first.stylize(text_style, 0, len(first))
+                combined = Text("▌ ", style=marker_style)
+                combined.append_text(first)
+                self.renderables.append(combined)
+                self.renderables.extend(para_renderables[1:])
+            else:
+                self.renderables.append(Text("▌ ", style=marker_style))
+                self.renderables.extend(para_renderables)
 
         if attribution:
             self.renderables.append(NewLine())
@@ -1539,25 +1746,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def _collect_body_renderables(self, children):
         """Render a list of body nodes into renderables, returning the collected list.
 
-        Handles bullet_list, enumerated_list, and paragraph nodes explicitly;
-        other node types fall back to plain text via ``astext()``.
+        Uses a sub-visitor for each child so that inline markup (bold, italic,
+        links, inline code, etc.) is preserved throughout.
         """
-        saved = self.renderables
-        self.renderables = []
+        result = []
         for child in children:
-            if isinstance(child, docutils.nodes.bullet_list):
-                self._render_bullet_list(child, level=0)
-            elif isinstance(child, docutils.nodes.enumerated_list):
-                self._render_enumerated_list(child, level=0)
-            elif isinstance(child, docutils.nodes.paragraph):
-                self.renderables.append(Text(child.astext().replace("\n", " ")))
-            else:
-                text = child.astext().replace("\n", " ")
-                if text:
-                    self.renderables.append(Text(text))
-        body = self.renderables
-        self.renderables = saved
-        return body
+            result.extend(self._render_child_inline(child))
+        return result
 
     def visit_topic(self, node):
         style = self.console.get_style("restructuredtext.topic", default="bold cyan")
@@ -1580,17 +1775,23 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_sidebar(self, node):
         children = list(node.children)
-        title = children[0] if children else ""
-        subtitle = ""
-        body_children = children[1:]
+        title = ""
+        body_children = children
 
+        if body_children and isinstance(body_children[0], docutils.nodes.title):
+            title = body_children[0].astext()
+            body_children = body_children[1:]
+
+        subtitle = ""
         if body_children and isinstance(body_children[0], docutils.nodes.subtitle):
             subtitle = body_children[0].astext()
             body_children = body_children[1:]
 
-        paragraph = "\n\n".join(child.astext() for child in body_children)
-
-        self.renderables.append(Panel(paragraph, title=title.astext(), subtitle=subtitle, expand=False))
+        # Use _collect_body_renderables so inline markup in the sidebar body is
+        # preserved instead of being flattened by astext().
+        body_renderables = self._collect_body_renderables(body_children)
+        content = Group(*body_renderables) if body_renderables else ""
+        self.renderables.append(Panel(content, title=title, subtitle=subtitle, expand=False))
 
         raise docutils.nodes.SkipChildren()
 
@@ -1692,7 +1893,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         if lexer == "html":
             text = strip_tags(text)
-            lexer = self._guess_lexer_name(text) if self.guess_lexer else self.default_lexer
+            # _guess_lexer_name returns (name, was_guessed); unpack correctly.
+            lexer, _ = self._guess_lexer_name(text) if self.guess_lexer else (self.default_lexer, "default")
 
         self.renderables.append(
             Panel(
@@ -1905,11 +2107,40 @@ class RestructuredText(JupyterMixin):
         self.markup = markup
         self.code_theme = code_theme
         self.show_line_numbers = show_line_numbers
-        self.log_errors = show_errors
+        self.show_errors = show_errors
         self.guess_lexer = guess_lexer
         self.default_lexer = _validate_default_lexer_name(default_lexer)
         self.sphinx_compat = sphinx_compat
         self.filename = filename
+
+    def render_to_string(self, width: Optional[int] = None, *, force_terminal: bool = False) -> str:
+        """Render the RST markup to a plain string.
+
+        This is a convenience wrapper around the full rich rendering pipeline.
+        All options passed to the constructor (code theme, show_errors, etc.)
+        are respected.
+
+        Parameters
+        ----------
+        width : int, optional
+            Output width in columns.  Defaults to 80 when not specified.
+        force_terminal : bool, optional
+            When ``True`` the console is created with ``force_terminal=True``,
+            which enables ANSI styles in the exported text.  Defaults to
+            ``False`` so that the plain-text output is style-free by default.
+
+        Returns
+        -------
+        str
+            The rendered markup as a plain string.
+        """
+        console = Console(
+            width=width or 80,
+            force_terminal=force_terminal,
+            record=True,
+        )
+        console.print(self)
+        return console.export_text()
 
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
         if self.sphinx_compat:
@@ -1952,7 +2183,7 @@ class RestructuredText(JupyterMixin):
 
         for renderable in visitor.renderables:
             yield from console.render(renderable, options)
-        if self.log_errors and visitor.errors:
+        if self.show_errors and visitor.errors:
             for error in visitor.errors:
                 yield from console.render(error, options)
         style = console.get_style("restructuredtext.footer", default="none")

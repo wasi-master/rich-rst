@@ -199,6 +199,55 @@ def test_toctree_default_caption(make_visitor):
     assert panel.title == "Contents"
 
 
+def test_toctree_nested_entries_indented(render_text):
+    """Entries with path separators must be visually indented relative to root entries."""
+    rst = (
+        ".. toctree::\n\n"
+        "   intro\n"
+        "   guide/installation\n"
+        "   guide/usage\n"
+    )
+    out = _render(render_text, rst)
+    # Root entry has no indentation; sub-entries are indented.
+    lines = [l for l in out.splitlines() if "intro" in l or "installation" in l or "usage" in l]
+    intro_lines = [l for l in lines if "intro" in l]
+    sub_lines = [l for l in lines if "installation" in l or "usage" in l]
+    assert intro_lines, "Root entry 'intro' must appear in output"
+    assert sub_lines, "Sub-entries 'installation' / 'usage' must appear in output"
+    # Compare the column where the entry text starts inside the line.
+    # Panel border chars (│) are non-whitespace so we measure from the first
+    # space character after the border.
+    def entry_text_col(line, text):
+        idx = line.find(text)
+        return idx if idx >= 0 else len(line)
+
+    intro_col = entry_text_col(intro_lines[0], "intro")
+    sub_col = entry_text_col(sub_lines[0], "installation")
+    assert sub_col > intro_col, (
+        f"Sub-entry column ({sub_col}) must be greater than root entry column ({intro_col})"
+    )
+
+
+def test_toctree_maxdepth_hides_deep_entries(render_text):
+    """Entries deeper than maxdepth must be omitted from the rendered output."""
+    rst = (
+        ".. toctree::\n"
+        "   :maxdepth: 1\n\n"
+        "   intro\n"
+        "   guide/installation\n"
+    )
+    out = _render(render_text, rst)
+    assert "intro" in out, "Root entry must be visible"
+    assert "installation" not in out, "Entry at depth 1 must be hidden when maxdepth=1"
+
+
+def test_toctree_explicit_title_used(render_text):
+    """Entries in 'Title <docname>' format must show the explicit title."""
+    rst = ".. toctree::\n\n   My Guide <guide/intro>\n"
+    out = _render(render_text, rst)
+    assert "My Guide" in out, "Explicit title must be shown"
+
+
 # ── literalinclude ────────────────────────────────────────────────────────────
 
 def test_literalinclude_renders_as_panel(make_visitor):
@@ -217,6 +266,63 @@ def test_literalinclude_panel_title(make_visitor):
     rst = ".. literalinclude:: example.py\n"
     panel = _first_panel(make_visitor, rst)
     assert panel.title == "literalinclude"
+
+
+def test_literalinclude_reads_actual_file(tmp_path, render_text):
+    """When the file exists, its content must appear in the rendered output."""
+    src = tmp_path / "sample.py"
+    src.write_text("x = 42\ny = 'hello'\n")
+
+    # Write an RST document whose source_path is inside tmp_path so that
+    # the directive can resolve the relative filename.
+    rst_file = tmp_path / "doc.rst"
+    rst_file.write_text(".. literalinclude:: sample.py\n")
+
+    from rich.console import Console
+    from rich_rst import RestructuredText
+    console = Console(force_terminal=True, width=120, record=True)
+    console.print(
+        RestructuredText(
+            rst_file.read_text(),
+            sphinx_compat=True,
+            filename=str(rst_file),
+        )
+    )
+    out = console.export_text()
+    assert "x = 42" in out, "File content must appear in the output"
+    assert "y = 'hello'" in out, "File content must appear in the output"
+
+
+def test_literalinclude_missing_file_shows_placeholder(render_text):
+    """When the file does not exist, a placeholder panel must still appear."""
+    rst = ".. literalinclude:: does_not_exist_xyz.py\n"
+    out = _render(render_text, rst)
+    # Either the filename or the 'literalinclude' title must be visible.
+    assert "does_not_exist_xyz.py" in out or "literalinclude" in out
+
+
+def test_literalinclude_lines_option(tmp_path):
+    """The :lines: option must restrict the displayed content to chosen lines."""
+    src = tmp_path / "multi.py"
+    src.write_text("line1\nline2\nline3\nline4\nline5\n")
+    rst_file = tmp_path / "doc.rst"
+    rst_file.write_text(".. literalinclude:: multi.py\n   :lines: 2-3\n")
+
+    from rich.console import Console
+    from rich_rst import RestructuredText
+    console = Console(force_terminal=True, width=120, record=True)
+    console.print(
+        RestructuredText(
+            rst_file.read_text(),
+            sphinx_compat=True,
+            filename=str(rst_file),
+        )
+    )
+    out = console.export_text()
+    assert "line2" in out
+    assert "line3" in out
+    assert "line1" not in out
+    assert "line4" not in out
 
 
 # ── productionlist ────────────────────────────────────────────────────────────
