@@ -1,9 +1,11 @@
 import argparse
 import sys
+from rich.panel import Panel
 from rich.console import Console
 from rich_rst import RestructuredText, __version__
 from rich.terminal_theme import TerminalTheme
 from rich.traceback import install
+from rich.text import Text
 
 def rgb(r, g, b):
     """
@@ -111,8 +113,21 @@ def main():
     if args.path == "-":
         code = sys.stdin.read()
     else:
-        with open(args.path, "rt", encoding=args.encoding) as file_handle:
-            code = file_handle.read()
+        try:
+            with open(args.path, "rt", encoding=args.encoding) as file_handle:
+                code = file_handle.read()
+        except OSError as error:
+            console.print(
+                Panel(
+                    Text(
+                        f"Could not read {args.path!r}.\n\n"
+                        "Check that the file exists and that you have permission to read it.\n"
+                        f"{error}",
+                    ),
+                    title="Input File Error",
+                )
+            )
+            return 1
     rst = RestructuredText(
         code,
         code_theme=args.code_theme,
@@ -125,7 +140,8 @@ def main():
     console.print(rst, soft_wrap=args.soft_wrap)
     if args.html_filename:
         console.save_html(args.html_filename, theme=DRACULA_TERMINAL_THEME, code_format=CONSOLE_HTML_FORMAT)
+    return 0
 
 if __name__ == "__main__":
     install()
-    main()
+    raise SystemExit(main())
