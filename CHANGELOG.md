@@ -192,6 +192,7 @@
 - Fix `visit_footnote` and `visit_generated` output being centre-aligned — changed to left-aligned
 - Fix footer only retaining the last element — all collected footer renderables are now wrapped in `Group`
 - Fix image link resolution when `:target:` is set
+- Fix enumerated list formatting: support custom start index, enumeration types (arabic/letter/roman), and prefix/suffix
 
 ### CLI
 
