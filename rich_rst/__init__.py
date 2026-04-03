@@ -1573,6 +1573,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if tgroup is None:
             raise docutils.nodes.SkipChildren()
 
+        # Count total columns from colspec elements (authoritative column count)
+        num_cols = sum(1 for c in tgroup.children if isinstance(c, docutils.nodes.colspec))
+
         # Find thead and tbody within tgroup
         thead = None
         tbody = None
@@ -1585,6 +1588,84 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if tbody is None:
             raise docutils.nodes.SkipChildren()
 
+        # Fallback column count when colspec elements are absent
+        if num_cols == 0:
+            if thead is not None and thead.children:
+                num_cols = sum(1 + e.get("morecols", 0) for e in thead.children[0].children)
+            elif tbody.children:
+                num_cols = sum(1 + e.get("morecols", 0) for e in tbody.children[0].children)
+
+        def _render_entry_content(entry):
+            """Render an entry node with a sub-visitor to preserve inline RST markup."""
+            sub_visitor = RSTVisitor(
+                self.document,
+                console=self.console,
+                code_theme=self.code_theme,
+                show_line_numbers=self.show_line_numbers,
+                guess_lexer=self.guess_lexer,
+                default_lexer=self.default_lexer,
+            )
+            for child in entry.children:
+                child.walkabout(sub_visitor)
+            renderables = sub_visitor.renderables
+            if not renderables:
+                return Text("", style=cell_style)
+            # depart_paragraph appends "\n\n" to trailing Text renderables; strip
+            # it so cells don't carry extra vertical whitespace.  Other renderable
+            # types (Panel, Table, …) manage their own spacing.
+            for r in renderables:
+                if isinstance(r, Text):
+                    r.rstrip()
+            if len(renderables) == 1:
+                return renderables[0]
+            return Group(*renderables)
+
+        def _build_row_cells(row, occupied_cols):
+            """Build cell renderables for one body row.
+
+            Accounts for columns already occupied by rowspans from earlier rows
+            and for cells that span multiple columns (morecols).  Returns a tuple
+            of (cells, new_rowspans) where new_rowspans maps col_idx to the
+            morerows value for any spanning cells introduced by this row.
+            """
+            cells = []
+            new_rowspans = {}
+            col_idx = 0
+            entry_iter = iter(row.children)
+
+            while col_idx < num_cols:
+                if col_idx in occupied_cols:
+                    # Column is covered by a rowspan from a previous row
+                    cells.append(Text("", style=cell_style))
+                    col_idx += 1
+                    continue
+
+                entry = next(entry_iter, None)
+                if entry is None:
+                    # All entries for this row have been consumed; pad remaining
+                    # columns with empty cells (can happen with complex spanning).
+                    cells.append(Text("", style=cell_style))
+                    col_idx += 1
+                    continue
+
+                morecols = entry.get("morecols", 0)
+                morerows = entry.get("morerows", 0)
+
+                cells.append(_render_entry_content(entry))
+
+                # Record any new rowspan introduced by this cell
+                if morerows > 0:
+                    for span_col in range(col_idx, col_idx + 1 + morecols):
+                        new_rowspans[span_col] = morerows
+
+                # Pad empty cells for additional spanned columns (colspan)
+                for _ in range(morecols):
+                    cells.append(Text("", style=cell_style))
+
+                col_idx += 1 + morecols
+
+            return cells, new_rowspans
+
         # Build the rich Table
         has_header = thead is not None and bool(thead.children)
         rich_table = Table(
@@ -1594,19 +1675,45 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             show_lines=True,
         )
 
-        # Add columns, using header-row entries as column labels when thead exists
+        # Add columns, using header-row entries as column labels when thead exists.
+        # Cells with morecols > 0 produce morecols extra unnamed columns so that
+        # the total column count matches the table definition.
         if thead is not None and thead.children:
-            for entry in thead.children[0].children:
+            header_row = thead.children[0]
+            col_idx = 0
+            for entry in header_row.children:
+                morecols = entry.get("morecols", 0)
                 rich_table.add_column(entry.astext().replace("\n", " "), style=cell_style)
-        elif tbody.children:
-            for _ in tbody.children[0].children:
+                for _ in range(morecols):
+                    rich_table.add_column("", style=cell_style)
+                col_idx += 1 + morecols
+            # Ensure column count matches colspec (guards against malformed tables)
+            while col_idx < num_cols:
+                rich_table.add_column("", style=cell_style)
+                col_idx += 1
+        else:
+            for _ in range(num_cols):
                 rich_table.add_column("", style=cell_style)
 
-        # Add body rows
+        # rowspan_remaining tracks how many more body rows each column is still
+        # spanned over: {col_idx: remaining_row_count}.
+        rowspan_remaining = {}
+
+        # Add body rows, correctly handling rowspan and colspan
         for row in tbody.children:
-            rich_table.add_row(
-                *[Text(entry.astext().replace("\n", " "), style=cell_style) for entry in row.children]
-            )
+            occupied = {col for col, rem in rowspan_remaining.items() if rem > 0}
+            cells, new_rowspans = _build_row_cells(row, occupied)
+
+            # Decrement counters for columns that were occupied this row
+            for col in list(occupied):
+                rowspan_remaining[col] -= 1
+                if rowspan_remaining[col] <= 0:
+                    del rowspan_remaining[col]
+
+            # Register new rowspans introduced by cells in this row
+            rowspan_remaining.update(new_rowspans)
+
+            rich_table.add_row(*cells)
 
         self.renderables.append(rich_table)
         raise docutils.nodes.SkipChildren()
