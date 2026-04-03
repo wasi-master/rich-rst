@@ -1,7 +1,7 @@
 import argparse
 import sys
 from rich.console import Console
-from rich_rst import RestructuredText
+from rich_rst import RestructuredText, __version__
 from rich.terminal_theme import TerminalTheme
 from rich.traceback import install
 
@@ -28,6 +28,7 @@ def rgb(r, g, b):
 def parse_arguments():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description="Render reStructuredText to the console with rich-rst")
+    parser.add_argument("--version", action="version", version=__version__)
     parser.add_argument("path", metavar="PATH", help="path to file, or - for stdin")
     parser.add_argument("-c", "--force-color", dest="force_color", action="store_true", default=None, help="force color for non-terminals")
     parser.add_argument("-e", "--encoding", dest="encoding", type=str, default="utf-8", help="encoding for file (default: utf-8)")
