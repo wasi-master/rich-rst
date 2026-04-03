@@ -170,6 +170,8 @@
 - Add role rendering support when `sphinx_compat=True`: `:menuselection:` renders as inline literal and converts `-->` to `▶`; `:samp:` and `:file:` render as inline literal with `{placeholder}` markers stripped
 - Add inline-literal cross-reference role support when `sphinx_compat=True` for all `c:*`, `cpp:*`, and `js:*` roles plus `:envvar:`, `:kbd:`, `:guilabel:`, `:manpage:`, `:ref:`, `:doc:`, `:term:`, `:any:`, and related Sphinx cross-reference roles
 - Vendor `docutils` into `rich_rst` to avoid licensing issues and drop `docutils` as a dependency to solve licensing issues
+- Make literal block panel title indicate whether the language was inferred or fallback-defaulted.
+- Make math block render inside a Panel with a "math" label
 
 ### Bug Fixes
 

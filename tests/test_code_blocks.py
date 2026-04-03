@@ -220,8 +220,9 @@ def test_math_block_directive_content_visible(render_text):
     assert "x^2 + y^2 = r^2" in render_text(".. math::\n\n   x^2 + y^2 = r^2\n")
 
 
-def test_math_block_produces_text_renderable(make_visitor):
+def test_math_block_produces_math_panel(make_visitor):
     visitor = make_visitor(".. math::\n\n   a^2 + b^2 = c^2\n")
-    texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    combined = "".join(t.plain for t in texts)
-    assert "a^2" in combined
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels, ".. math:: must produce a Panel"
+    assert panels[0].title == "math"
+    assert "a^2" in str(panels[0].renderable)

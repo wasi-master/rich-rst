@@ -1491,10 +1491,18 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.renderables.append(Rule(style=style))
 
     def visit_math_block(self, node):
+        style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(node.astext(), end=" "))
-            raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(node.astext()))
+            self.renderables[-1].rstrip()
+            self.renderables[-1].append_text(Text("\n"))
+        self.renderables.append(
+            Panel(
+                Text(node.astext()),
+                border_style=style,
+                box=box.SQUARE,
+                title="math",
+            )
+        )
         raise docutils.nodes.SkipChildren()
 
     def visit_citation(self, node):
