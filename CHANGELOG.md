@@ -195,6 +195,7 @@
 - Fix footer only retaining the last element — all collected footer renderables are now wrapped in `Group`
 - Fix image link resolution when `:target:` is set
 - Fix enumerated list formatting: support custom start index, enumeration types (arabic/letter/roman), and prefix/suffix
+- Fix bullet list and enumerated list items losing inline markup — now use sub-visitor rendering to preserve bold, italic, links, and inline code instead of stripping to plain text via `.astext()`
 
 ### CLI
 

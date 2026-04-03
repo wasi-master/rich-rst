@@ -868,6 +868,24 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             child.walkabout(sub_visitor)
         return sub_visitor.renderables
 
+    def _render_child_inline(self, child):
+        """Render a single child node using a sub-visitor to preserve inline markup.
+        
+        This is used for list items and other contexts where we want to preserve
+        bold, italic, links, inline code, and other inline markup instead of
+        stripping to plain text via astext().
+        """
+        sub_visitor = RSTVisitor(
+            self.document,
+            console=self.console,
+            code_theme=self.code_theme,
+            show_line_numbers=self.show_line_numbers,
+            guess_lexer=self.guess_lexer,
+            default_lexer=self.default_lexer,
+        )
+        child.walkabout(sub_visitor)
+        return sub_visitor.renderables
+
     def visit_admonition(self, node):
         style = self.console.get_style("restructuredtext.admonition", default="bold white")
         # Generic admonition: first child is the user-supplied title node
@@ -1133,13 +1151,18 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     except docutils.nodes.SkipChildren:
                         pass
                 else:
-                    text = child.astext().replace("\n", " ")
+                    # Use sub-visitor to preserve inline markup (bold, italic, links, etc.)
+                    child_renderables = self._render_child_inline(child)
                     if first_content:
                         self.renderables.append(Text(indent + marker, end="", style=marker_style))
-                        self.renderables.append(Text(text, style=text_style))
+                        self.renderables.extend(child_renderables)
                         first_content = False
                     else:
-                        self.renderables.append(Text(indent + "  " + text, style=text_style))
+                        # Prepend continuation indent to first renderable if it's text
+                        if child_renderables:
+                            if isinstance(child_renderables[0], Text):
+                                child_renderables[0].stylize(text_style)
+                            self.renderables.extend(child_renderables)
 
     def visit_bullet_list(self, node):
         self._render_bullet_list(node, level=0)
@@ -1188,13 +1211,18 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     except docutils.nodes.SkipChildren:
                         pass
                 else:
-                    text = child.astext().replace("\n", " ")
+                    # Use sub-visitor to preserve inline markup (bold, italic, links, etc.)
+                    child_renderables = self._render_child_inline(child)
                     if first_content:
                         self.renderables.append(Text(marker, end=" ", style=marker_style))
-                        self.renderables.append(Text(text, style=text_style))
+                        self.renderables.extend(child_renderables)
                         first_content = False
                     else:
-                        self.renderables.append(Text(indent + "  " + text, style=text_style))
+                        # Prepend continuation indent to first renderable if it's text
+                        if child_renderables:
+                            if isinstance(child_renderables[0], Text):
+                                child_renderables[0].stylize(text_style)
+                            self.renderables.extend(child_renderables)
 
     def visit_enumerated_list(self, node):
         self._render_enumerated_list(node, level=0)
