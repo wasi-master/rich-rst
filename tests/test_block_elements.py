@@ -170,6 +170,30 @@ def test_block_quote_attribution_appears_exactly_once(render_text):
     assert render_text(rst).count("The Author") == 1
 
 
+def test_block_quote_preserves_bold_inline_markup(make_visitor):
+    """Bold markup inside a block quote must produce a bold span, not be flattened."""
+    visitor = make_visitor("    Text with **bold** word.\n")
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    bq_texts = [t for t in texts if t.plain.startswith("▌")]
+    assert bq_texts, "Block quote must start with ▌ marker"
+    bq = bq_texts[0]
+    bold_spans = [s for s in bq._spans if s.style.bold]
+    assert bold_spans, "Bold inline markup in a block quote must produce a bold span"
+    marked = bq.plain[bold_spans[0].start:bold_spans[0].end]
+    assert "bold" in marked, f"Bold span must cover the word 'bold', got {marked!r}"
+
+
+def test_block_quote_preserves_italic_inline_markup(make_visitor):
+    """Italic markup inside a block quote must produce an italic span."""
+    visitor = make_visitor("    Text with *italic* word.\n")
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    bq_texts = [t for t in texts if t.plain.startswith("▌")]
+    assert bq_texts
+    bq = bq_texts[0]
+    italic_spans = [s for s in bq._spans if s.style.italic]
+    assert italic_spans, "Italic inline markup in a block quote must produce an italic span"
+
+
 # ── Line blocks ───────────────────────────────────────────────────────────────
 
 def test_line_block_each_line_is_separate_text(make_visitor):
