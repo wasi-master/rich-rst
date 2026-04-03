@@ -946,7 +946,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             "versionadded": f"New in version {version}",
             "versionchanged": f"Changed in version {version}",
             "deprecated": f"Deprecated since version {version}",
-            "deprecated-removed": f"Deprecated since version {version} (will be removed)",
+            "deprecated-removed": f"Deprecated since version {version}",
         }
         style_name, default_style = style_map.get(type_, ("restructuredtext.versionadded", "bold green"))
         title = title_map.get(type_, f"{type_} {version}")
