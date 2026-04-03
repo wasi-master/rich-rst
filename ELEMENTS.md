@@ -1,6 +1,6 @@
 # Supported elements
 
-## Details
+## Standard docutils elements
 
 | Type               | Amount | Meaning                                        |
 | ------------------ | ------ | ---------------------------------------------- |
@@ -117,3 +117,185 @@
 [^5]: Images show an emoji and the alt text or title text (aka hover text) and they are clickable, if the image has a target link then it opens that target link when clicked, otherwise it opens the image url
 [^6]: Math elements are usually written in latex. This makes it hard to show them properly in the terminal, A tool called [formulador](https://github.com/stylewarning/formulador) exists but it's written in [Common Lisp](https://common-lisp.net/ "Common Lisp is the modern, multi-paradigm, high-performance, compiled, ANSI-standardized, most prominent (along with Scheme) descendant of the long-running Lisp language"), And another tool called [cl4py](https://github.com/marcoheisig/cl4py) also exists that allows lisp and python interoperability but it requires some form of lisp to be installed, it will be a hassle to make people install lisp and formulador and the general public that uses sphinx probably doesn't use math much
 [^7]: Due to the way decoration works, this doesn't have any purpose inside a terminal, so decoration is skipped
+
+---
+
+## Sphinx extensions (`sphinx_compat=True`)
+
+All items in this section are active only when `sphinx_compat=True` (the default).
+They are registered at parse time via `_register_sphinx_directives()` and
+`_register_sphinx_roles()`.
+
+### Sphinx directives
+
+#### Version / change annotations
+
+| Directive | Renders as |
+| --------- | ---------- |
+| `.. versionadded:: <ver>` | "New in version \<ver\>" panel (bold green border) |
+| `.. versionchanged:: <ver>` | "Changed in version \<ver\>" panel (bold cyan border) |
+| `.. deprecated:: <ver>` | "Deprecated since version \<ver\>" panel (bold yellow border) |
+| `.. deprecated-removed:: <ver> <removed>` | "Deprecated since version \<ver\>" panel (bold red border) |
+| `.. seealso::` | "See Also" panel (bold white border) |
+
+#### Code blocks
+
+| Directive | Renders as |
+| --------- | ---------- |
+| `.. code-block:: <lang>` | Syntax-highlighted code block (same as a `::` block with explicit language)[^cb] |
+| `.. sourcecode:: <lang>` | Alias for `code-block` |
+| `.. code:: <lang>` | Alias for `code-block` |
+| `.. highlight:: <lang>` | Sets default language for subsequent `::` blocks — no visual output |
+| `.. literalinclude:: <file>` | Panel showing the referenced filename[^li] |
+
+[^cb]: Supports `:linenos:`, `:emphasize-lines:`, `:caption:`, `:name:`, `:dedent:`, `:force:` options (options are parsed and accepted; linenos is forwarded to the Syntax renderer).
+[^li]: The file is not read at render time (no filesystem access is performed). A stub panel with the filename is shown instead.
+
+#### Document structure
+
+| Directive | Renders as |
+| --------- | ---------- |
+| `.. toctree::` | Panel titled with `:caption:` (default "Contents") containing a bullet list of entries |
+| `.. glossary::` | Definition list (content is parsed normally via nested parse) |
+| `.. hlist::` | Bullet list (`:columns:` option is accepted but columns are not split in terminal output) |
+| `.. centered:: <text>` | Centred bold text |
+| `.. productionlist::` | Literal code block (`text` language) |
+| `.. only:: <expr>` | Always renders content (expression is accepted but not evaluated) |
+
+#### No-output / silent directives
+
+These directives are recognised and silently consumed so they do not produce
+system-message errors.  They produce no visual output.
+
+| Directive | Notes |
+| --------- | ----- |
+| `.. index::` | Index entries (no terminal equivalent) |
+| `.. tabularcolumns::` | LaTeX column specification hint |
+| `.. currentmodule:: <mod>` | Context-setting only |
+| `.. py:currentmodule:: <mod>` | Context-setting only |
+
+#### Python domain object descriptions
+
+All produce a panel with the object's signature as the title and the
+docstring body as the panel content.  The border uses the
+`restructuredtext.py_desc` console style (default: bold blue).
+
+| Directive | Object type |
+| --------- | ----------- |
+| `.. py:function:: <sig>` | Function |
+| `.. py:class:: <sig>` | Class |
+| `.. py:method:: <sig>` | Method |
+| `.. py:classmethod:: <sig>` | Class method |
+| `.. py:staticmethod:: <sig>` | Static method |
+| `.. py:attribute:: <sig>` | Attribute |
+| `.. py:property:: <sig>` | Property |
+| `.. py:data:: <sig>` | Module-level data |
+| `.. py:exception:: <sig>` | Exception class |
+| `.. py:module:: <name>` | Module |
+| `.. py:decorator:: <sig>` | Decorator |
+| `.. py:variable:: <sig>` | Variable |
+| `.. py:type:: <sig>` | Type alias (older spelling) |
+| `.. py:typevar:: <sig>` | TypeVar |
+| `.. py:typealias:: <sig>` | Type alias (PEP 695 spelling) |
+
+#### C domain object descriptions
+
+| Directive | Object type |
+| --------- | ----------- |
+| `.. c:function:: <sig>` | C function |
+| `.. c:type:: <sig>` | C type |
+| `.. c:struct:: <sig>` | C struct |
+| `.. c:union:: <sig>` | C union |
+| `.. c:enum:: <sig>` | C enum |
+| `.. c:enumerator:: <sig>` | C enumerator |
+| `.. c:member:: <sig>` | C struct/union member |
+| `.. c:var:: <sig>` | C variable |
+| `.. c:macro:: <sig>` | C macro |
+
+#### C++ domain object descriptions
+
+| Directive | Object type |
+| --------- | ----------- |
+| `.. cpp:function:: <sig>` | C++ function |
+| `.. cpp:class:: <sig>` | C++ class |
+| `.. cpp:type:: <sig>` | C++ type |
+| `.. cpp:member:: <sig>` | C++ member |
+| `.. cpp:var:: <sig>` | C++ variable |
+| `.. cpp:enum:: <sig>` | C++ enum |
+| `.. cpp:enumerator:: <sig>` | C++ enumerator |
+| `.. cpp:concept:: <sig>` | C++ concept |
+| `.. cpp:alias:: <sig>` | C++ alias |
+
+#### JavaScript domain object descriptions
+
+| Directive | Object type |
+| --------- | ----------- |
+| `.. js:function:: <sig>` | JS function |
+| `.. js:class:: <sig>` | JS class |
+| `.. js:method:: <sig>` | JS method |
+| `.. js:attribute:: <sig>` | JS attribute |
+| `.. js:data:: <sig>` | JS data |
+| `.. js:module:: <name>` | JS module |
+
+#### Autodoc directives (silent)
+
+These are recognised and silently consumed so that docstrings that contain
+them (uncommon but possible) do not produce errors.
+
+`automodule`, `autoclass`, `autofunction`, `automethod`, `autoattribute`,
+`autoexception`, `autodata`, `autoproperty`, `autodecorator`,
+`autoclassmethod`, `autostaticmethod`
+
+---
+
+### Sphinx roles (interpreted text)
+
+All roles below are available inline, e.g. `` :func:`os.path.join` ``.
+The `display name <target>` syntax is supported for all roles: only the
+display name is shown; the target identifier is omitted from output.
+
+#### Python domain cross-references — rendered as inline code
+
+| Role(s) | Notes |
+| ------- | ----- |
+| `:func:` / `:function:` | Python function |
+| `:meth:` / `:method:` | Python method |
+| `:class:` | Python class |
+| `:mod:` / `:module:` | Python module |
+| `:attr:` / `:attribute:` | Python attribute |
+| `:obj:` / `:object:` | Any Python object |
+| `:data:` | Module-level data |
+| `:const:` / `:constant:` | Constant |
+| `:exc:` / `:exception:` | Exception |
+| `:var:` / `:variable:` | Variable |
+| `:type:` | Type |
+| `:py:func:` `:py:meth:` `:py:class:` `:py:mod:` `:py:attr:` `:py:obj:` `:py:data:` `:py:const:` `:py:exc:` | Domain-prefixed variants of all of the above |
+| `:py:variable:` `:py:type:` `:py:property:` `:py:parameter:` `:py:typevar:` | Additional Python domain roles |
+
+#### C / C++ / JavaScript domain cross-references — rendered as inline code
+
+| Role(s) | Domain |
+| ------- | ------ |
+| `:c:func:` `:c:type:` `:c:struct:` `:c:union:` `:c:enum:` `:c:enumerator:` `:c:member:` `:c:var:` `:c:macro:` `:c:expr:` `:c:texpr:` | C |
+| `:cpp:func:` `:cpp:class:` `:cpp:type:` `:cpp:member:` `:cpp:var:` `:cpp:enum:` `:cpp:enumerator:` `:cpp:concept:` `:cpp:expr:` `:cpp:texpr:` | C++ |
+| `:js:mod:` `:js:func:` `:js:data:` `:js:attr:` `:js:class:` `:js:meth:` | JavaScript |
+
+#### Standard domain / general cross-references — rendered as inline code
+
+`:envvar:`, `:token:`, `:option:`, `:term:`, `:ref:`, `:doc:`, `:any:`,
+`:numref:`, `:download:`, `:mailheader:`, `:mimetype:`, `:newsgroup:`,
+`:makevar:`, `:regexp:`, `:kbd:`, `:guilabel:`, `:manpage:`
+
+#### Roles with special rendering
+
+| Role | Renders as |
+| ---- | ---------- |
+| `:pep:\`NNN\`` | "PEP NNN" as a clickable hyperlink to `https://peps.python.org/pep-NNNN/` |
+| `:rfc:\`NNN\`` | "RFC NNN" as a clickable hyperlink to `https://datatracker.ietf.org/doc/html/rfcNNN` |
+| `:command:\`cmd\`` | Bold text |
+| `:program:\`name\`` | Bold text |
+| `:dfn:\`term\`` | Italic (emphasis) — marks a term being defined |
+| `:abbr:\`ABBR (explanation)\`` | Abbreviation text with the expansion shown in parentheses; reuses the `abbreviation` node |
+| `:menuselection:\`File --> Save\`` | Inline literal with `-->` replaced by `▶` |
+| `:samp:\`print {x}\`` | Inline literal; `{placeholder}` markers are stripped (placeholder text is kept) |
+| `:file:\`/etc/{name}.conf\`` | Inline literal; `{placeholder}` markers are stripped |
