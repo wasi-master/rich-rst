@@ -8,6 +8,7 @@ There are a lot of improvements are added by me
 """
 from io import StringIO
 from html.parser import HTMLParser
+import threading
 from typing import Optional, Union
 
 # Imports from rich_rst._vendor.docutils package for the parsing
@@ -416,73 +417,83 @@ class _AutodocDirective(docutils.parsers.rst.Directive):
 
 
 _sphinx_directives_registered = False
+_sphinx_registration_lock = threading.Lock()
+
+
+def _sphinx_registration_guard(function):
+    def wrapper(*args, **kwargs):
+        with _sphinx_registration_lock:
+            return function(*args, **kwargs)
+
+    return wrapper
 
 
 def _register_sphinx_directives():
     """Register Sphinx-specific directives so they render properly instead of as errors."""
     global _sphinx_directives_registered
 
-    if _sphinx_directives_registered:
-        return
+    with _sphinx_registration_lock:
+        if _sphinx_directives_registered:
+            return
 
-    docutils.parsers.rst.directives.register_directive('versionadded', _VersionDirective)
-    docutils.parsers.rst.directives.register_directive('versionchanged', _VersionDirective)
-    docutils.parsers.rst.directives.register_directive('deprecated', _VersionDirective)
-    docutils.parsers.rst.directives.register_directive('seealso', _SeeAlsoDirective)
+        docutils.parsers.rst.directives.register_directive('versionadded', _VersionDirective)
+        docutils.parsers.rst.directives.register_directive('versionchanged', _VersionDirective)
+        docutils.parsers.rst.directives.register_directive('deprecated', _VersionDirective)
+        docutils.parsers.rst.directives.register_directive('seealso', _SeeAlsoDirective)
 
-    # code-block
-    for name in ('code-block', 'sourcecode', 'code'):
-        docutils.parsers.rst.directives.register_directive(name, _CodeBlockDirective)
-    # highlight
-    docutils.parsers.rst.directives.register_directive('highlight', _HighlightDirective)
-    # silent no-op
-    for name in ('index', 'tabularcolumns'):
-        docutils.parsers.rst.directives.register_directive(name, _SilentDirective)
-    # current module
-    for name in ('currentmodule', 'py:currentmodule'):
-        docutils.parsers.rst.directives.register_directive(name, _CurrentModuleDirective)
-    # only
-    docutils.parsers.rst.directives.register_directive('only', _OnlyDirective)
-    # centered
-    docutils.parsers.rst.directives.register_directive('centered', _CenteredDirective)
-    # hlist
-    docutils.parsers.rst.directives.register_directive('hlist', _HlistDirective)
-    # toctree
-    docutils.parsers.rst.directives.register_directive('toctree', _ToctreeDirective)
-    # literalinclude
-    docutils.parsers.rst.directives.register_directive('literalinclude', _LiteralIncludeDirective)
-    # productionlist
-    docutils.parsers.rst.directives.register_directive('productionlist', _ProductionListDirective)
-    # glossary
-    docutils.parsers.rst.directives.register_directive('glossary', _GlossaryDirective)
-    # deprecated-removed
-    docutils.parsers.rst.directives.register_directive('deprecated-removed', _DeprecatedRemovedDirective)
-    # Python domain object descriptions
-    for name in (
-        'py:function', 'py:class', 'py:method', 'py:attribute', 'py:data',
-        'py:exception', 'py:module', 'py:property', 'py:decorator',
-        'py:classmethod', 'py:staticmethod', 'py:variable', 'py:type',
-        'py:typevar', 'py:typealias',
-        # C domain
-        'c:function', 'c:type', 'c:struct', 'c:union', 'c:enum',
-        'c:enumerator', 'c:member', 'c:var', 'c:macro',
-        # C++ domain
-        'cpp:function', 'cpp:class', 'cpp:type', 'cpp:member', 'cpp:var',
-        'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:alias',
-        # JavaScript domain
-        'js:function', 'js:class', 'js:method', 'js:attribute', 'js:data',
-        'js:module',
-    ):
-        docutils.parsers.rst.directives.register_directive(name, _PyObjectDirective)
-    # autodoc
-    for name in (
-        'automodule', 'autoclass', 'autofunction', 'automethod',
-        'autoattribute', 'autoexception', 'autodata', 'autoproperty',
-        'autodecorator', 'autoclassmethod', 'autostaticmethod',
-    ):
-        docutils.parsers.rst.directives.register_directive(name, _AutodocDirective)
+        # code-block
+        for name in ('code-block', 'sourcecode', 'code'):
+            docutils.parsers.rst.directives.register_directive(name, _CodeBlockDirective)
+        # highlight
+        docutils.parsers.rst.directives.register_directive('highlight', _HighlightDirective)
+        # silent no-op
+        for name in ('index', 'tabularcolumns'):
+            docutils.parsers.rst.directives.register_directive(name, _SilentDirective)
+        # current module
+        for name in ('currentmodule', 'py:currentmodule'):
+            docutils.parsers.rst.directives.register_directive(name, _CurrentModuleDirective)
+        # only
+        docutils.parsers.rst.directives.register_directive('only', _OnlyDirective)
+        # centered
+        docutils.parsers.rst.directives.register_directive('centered', _CenteredDirective)
+        # hlist
+        docutils.parsers.rst.directives.register_directive('hlist', _HlistDirective)
+        # toctree
+        docutils.parsers.rst.directives.register_directive('toctree', _ToctreeDirective)
+        # literalinclude
+        docutils.parsers.rst.directives.register_directive('literalinclude', _LiteralIncludeDirective)
+        # productionlist
+        docutils.parsers.rst.directives.register_directive('productionlist', _ProductionListDirective)
+        # glossary
+        docutils.parsers.rst.directives.register_directive('glossary', _GlossaryDirective)
+        # deprecated-removed
+        docutils.parsers.rst.directives.register_directive('deprecated-removed', _DeprecatedRemovedDirective)
+        # Python domain object descriptions
+        for name in (
+            'py:function', 'py:class', 'py:method', 'py:attribute', 'py:data',
+            'py:exception', 'py:module', 'py:property', 'py:decorator',
+            'py:classmethod', 'py:staticmethod', 'py:variable', 'py:type',
+            'py:typevar', 'py:typealias',
+            # C domain
+            'c:function', 'c:type', 'c:struct', 'c:union', 'c:enum',
+            'c:enumerator', 'c:member', 'c:var', 'c:macro',
+            # C++ domain
+            'cpp:function', 'cpp:class', 'cpp:type', 'cpp:member', 'cpp:var',
+            'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:alias',
+            # JavaScript domain
+            'js:function', 'js:class', 'js:method', 'js:attribute', 'js:data',
+            'js:module',
+        ):
+            docutils.parsers.rst.directives.register_directive(name, _PyObjectDirective)
+        # autodoc
+        for name in (
+            'automodule', 'autoclass', 'autofunction', 'automethod',
+            'autoattribute', 'autoexception', 'autodata', 'autoproperty',
+            'autodecorator', 'autoclassmethod', 'autostaticmethod',
+        ):
+            docutils.parsers.rst.directives.register_directive(name, _AutodocDirective)
 
-    _sphinx_directives_registered = True
+        _sphinx_directives_registered = True
 
 
 _sphinx_roles_registered = False
@@ -514,6 +525,7 @@ def strip_tags(html):
     return s.get_data()
 
 
+@_sphinx_registration_guard
 def _register_sphinx_roles():
     """
     Register common Sphinx roles to gracefully handle Sphinx-specific markup.
