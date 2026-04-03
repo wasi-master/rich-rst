@@ -883,7 +883,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _render_child_inline(self, child):
         """Render a single child node using a sub-visitor to preserve inline markup.
-        
+
         This is used for list items and other contexts where we want to preserve
         bold, italic, links, inline code, and other inline markup instead of
         stripping to plain text via astext().
@@ -903,7 +903,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.admonition", default="bold white")
         # Generic admonition: first child is the user-supplied title node
         if node.children and isinstance(node.children[0], docutils.nodes.title):
-            title = "Admonition: " + node.children[0].astext()
+            title = node.children[0].astext()
             body_children = node.children[1:]
         else:
             title = "Admonition: "
