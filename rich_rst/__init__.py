@@ -1348,29 +1348,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         classifier_style = self.console.get_style("restructuredtext.classifier_style", default="cyan")
         definitions_style = self.console.get_style("restructuredtext.definitions_style", default="none")
         for child in node.children:
-            try:
-                term, classifier, definitions = child.children
-            except ValueError:
-                term, classifier = child.children[0], child.children[1]
-                if len(child.children) > 2:
-                    for children in child.children[2:]:
-                        if isinstance(children, docutils.nodes.bullet_list):
-                            self.visit_bullet_list(children)
-                        elif isinstance(children, docutils.nodes.literal_block):
-                            self.visit_literal_block(children)
-                        elif isinstance(children, docutils.nodes.literal):
-                            self.visit_literal(children)
-                        elif isinstance(children, docutils.nodes.block_quote):
-                            self.visit_block_quote(children)
-                else:
+            child_children = child.children
+            if not child_children:
+                continue
 
-                    self.renderables.append(
-                        Text(term.astext(), style=classifier_style)
-                        + Text("\n    ", end="")
-                        + Text(classifier.astext().replace("\n", " "), style=definitions_style)
-                        + Text("\n      ", end="")
-                    )
-            else:
+            if len(child_children) == 3:
+                term, classifier, definitions = child_children[:3]
                 self.renderables.append(
                     Text("    ")
                     + Text(term.astext(), style=term_style, end="")
@@ -1380,6 +1363,28 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     + Text(definitions.astext().replace("\n", " "), style=definitions_style)
                     + Text("\n", end="")
                 )
+            elif len(child_children) >= 2:
+                term, classifier = child_children[0], child_children[1]
+                if len(child_children) > 2:
+                    for children in child_children[2:]:
+                        if isinstance(children, docutils.nodes.bullet_list):
+                            self.visit_bullet_list(children)
+                        elif isinstance(children, docutils.nodes.literal_block):
+                            self.visit_literal_block(children)
+                        elif isinstance(children, docutils.nodes.literal):
+                            self.visit_literal(children)
+                        elif isinstance(children, docutils.nodes.block_quote):
+                            self.visit_block_quote(children)
+                else:
+                    self.renderables.append(
+                        Text(term.astext(), style=classifier_style)
+                        + Text("\n    ", end="")
+                        + Text(classifier.astext().replace("\n", " "), style=definitions_style)
+                        + Text("\n      ", end="")
+                    )
+            else:
+                term = child_children[0]
+                self.renderables.append(Text(term.astext(), style=term_style) + Text("\n", end=""))
         raise docutils.nodes.SkipChildren()
 
     def visit_option_list(self, node):

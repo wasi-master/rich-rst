@@ -24,3 +24,28 @@ def test_plain_definition_list_uses_term_style_branch():
     assert isinstance(renderable, Text)
     assert renderable.plain == "term\n    definition\n      "
     assert renderable.spans == []
+
+
+def test_definition_list_item_with_only_term_child_does_not_crash():
+    document = docutils.core.publish_doctree("")
+    definition_list = docutils.nodes.definition_list()
+    definition_list_item = docutils.nodes.definition_list_item()
+    definition_list_item += docutils.nodes.term(text="term-only")
+    definition_list += definition_list_item
+    document += definition_list
+
+    visitor = RSTVisitor(
+        document,
+        console=Console(force_terminal=True, record=True),
+        code_theme="monokai",
+        show_line_numbers=False,
+        guess_lexer=True,
+        default_lexer="python",
+    )
+
+    document.walkabout(visitor)
+
+    assert len(visitor.renderables) == 1
+    renderable = visitor.renderables[0]
+    assert isinstance(renderable, Text)
+    assert renderable.plain == "term-only\n"
