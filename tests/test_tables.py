@@ -186,7 +186,13 @@ def test_table_without_header_row_still_produces_table(make_visitor):
 # ── Rowspan ───────────────────────────────────────────────────────────────────
 
 def test_rowspan_second_row_cell_in_correct_column(render_text):
-    """A cell with morerows=1 occupies col 0 for two rows; 'b' must appear in col 1."""
+    """Cell 'b' must appear in the second column, not the first.
+
+    The first column contains a cell that spans 2 rows ('spans / 2 / rows').
+    Because that column is occupied in the second row, 'b' (the only entry in
+    that row) must be placed in column index 1 (the second column), not
+    displaced to column index 0.
+    """
     rst = (
         "+-------+-------+\n"
         "| spans | a     |\n"
@@ -216,7 +222,12 @@ def test_rowspan_produces_correct_row_count(make_visitor):
 
 
 def test_rowspan_occupied_cell_is_empty(render_text):
-    """The cell position occupied by a rowspan renders as blank, not displaced content."""
+    """Both 'a' and 'b' are present; the column-1 cell of row 2 is empty.
+
+    Verifies that the content in the second column ('a' in row 1, 'b' in
+    row 2) is rendered and that the first column of row 2 renders as blank
+    (occupied by the rowspan from row 1, not shifted content).
+    """
     rst = (
         "+-------+-------+\n"
         "| spans | a     |\n"

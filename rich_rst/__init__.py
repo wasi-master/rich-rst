@@ -1610,7 +1610,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             renderables = sub_visitor.renderables
             if not renderables:
                 return Text("", style=cell_style)
-            # Strip trailing whitespace/newlines added by depart_paragraph
+            # depart_paragraph appends "\n\n" to trailing Text renderables; strip
+            # it so cells don't carry extra vertical whitespace.  Other renderable
+            # types (Panel, Table, …) manage their own spacing.
             for r in renderables:
                 if isinstance(r, Text):
                     r.rstrip()
@@ -1640,7 +1642,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
                 entry = next(entry_iter, None)
                 if entry is None:
-                    # Fewer entries than expected; pad with empty cells
+                    # All entries for this row have been consumed; pad remaining
+                    # columns with empty cells (can happen with complex spanning).
                     cells.append(Text("", style=cell_style))
                     col_idx += 1
                     continue
