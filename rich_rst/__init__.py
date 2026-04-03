@@ -799,11 +799,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if self.renderables and isinstance(self.renderables[-1], Text):
             renderable.end = " "
             start = len(self.renderables[-1])
+            # Calculate end based on what we're appending to avoid stale counter after merge.
+            # Account for both the renderable text and its trailing space character.
+            end = start + len(renderable) + len(renderable.end)
             self.renderables[-1].append_text(renderable)
         else:
             start = 0
+            # Account for the trailing space character in the renderable.
+            end = len(renderable) + len(renderable.end)
             self.renderables.append(renderable)
-        end = len(self.renderables[-1])
 
         if not refuri:
             # We'll get the URL reference later in visit_target.
