@@ -226,7 +226,8 @@ def test_enumerated_list_custom_start_content_visible(render_text):
 def test_enumerated_list_loweralpha_markers(make_visitor):
     visitor = make_visitor("a. alpha\nb. beta\nc. gamma\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    marker_plains = [t.plain.strip() for t in texts if len(t.plain.strip()) >= 2 and t.plain.strip()[-1] == "."]
+    stripped = [t.plain.strip() for t in texts]
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
     labels = [p.rstrip(".") for p in marker_plains]
     assert labels == ["a", "b", "c"], f"Lowercase alpha markers must be a, b, c; got {labels}"
 
@@ -234,7 +235,8 @@ def test_enumerated_list_loweralpha_markers(make_visitor):
 def test_enumerated_list_upperalpha_markers(make_visitor):
     visitor = make_visitor("A. Alpha\nB. Beta\nC. Gamma\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    marker_plains = [t.plain.strip() for t in texts if len(t.plain.strip()) >= 2 and t.plain.strip()[-1] == "."]
+    stripped = [t.plain.strip() for t in texts]
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
     labels = [p.rstrip(".") for p in marker_plains]
     assert labels == ["A", "B", "C"], f"Uppercase alpha markers must be A, B, C; got {labels}"
 
@@ -242,7 +244,8 @@ def test_enumerated_list_upperalpha_markers(make_visitor):
 def test_enumerated_list_lowerroman_markers(make_visitor):
     visitor = make_visitor("i. one\nii. two\niii. three\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    marker_plains = [t.plain.strip() for t in texts if len(t.plain.strip()) >= 2 and t.plain.strip()[-1] == "."]
+    stripped = [t.plain.strip() for t in texts]
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
     labels = [p.rstrip(".") for p in marker_plains]
     assert labels == ["i", "ii", "iii"], f"Lowercase roman markers must be i, ii, iii; got {labels}"
 
@@ -250,7 +253,8 @@ def test_enumerated_list_lowerroman_markers(make_visitor):
 def test_enumerated_list_upperroman_markers(make_visitor):
     visitor = make_visitor("I. ONE\nII. TWO\nIII. THREE\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    marker_plains = [t.plain.strip() for t in texts if len(t.plain.strip()) >= 2 and t.plain.strip()[-1] == "."]
+    stripped = [t.plain.strip() for t in texts]
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
     labels = [p.rstrip(".") for p in marker_plains]
     assert labels == ["I", "II", "III"], f"Uppercase roman markers must be I, II, III; got {labels}"
 
