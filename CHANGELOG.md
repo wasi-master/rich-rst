@@ -144,7 +144,6 @@
 
 ### New Features
 
-- Change `hide_errors` to `show_errors` and the CLI flag `--hide-errors` to `--show-errors` to make hiding errors the default behaviour.
 - Add `show_line_numbers` parameter to `RestructuredText` and the CLI (`--show-line-numbers`); applies to all syntax-highlighted blocks (literal, doctest, raw)
 - Add six-level heading hierarchy: level 1 uses a double-box panel, level 2 a rounded-box panel, levels 3–6 use progressively lighter text styles (bold+underline → bold → underline → italic)
 - Add `visit_figure` handler for the `.. figure::` directive; renders image, caption and legend inside a panel, with correct link when `:target:` is given
@@ -160,6 +159,15 @@
 - Add `visit_rubric` as a distinct handler with an italic-dim rounded-box panel (previously delegated to `visit_title`)
 - Add `_make_image_text` helper; images wrapped in a `reference` node (e.g. inside a figure) correctly use the outer link URI
 - Footer now renders all elements (not just the last one) via `Group(*visitor.footer)`
+- Register new Sphinx directives when `sphinx_compat=True`: `versionadded`, `versionchanged`, `deprecated` (styled status panels in green/cyan/yellow), `deprecated-removed <added> <removed>` (bold red panel), and `seealso` (bold white panel)
+- Add Sphinx code directive support when `sphinx_compat=True`: `code-block`, `sourcecode`, and `code` now forward to `visit_literal_block` with option passthrough (`:linenos:`, `:caption:`, `:dedent:`, etc.); `highlight` is consumed silently
+- Add document-structure directives when `sphinx_compat=True`: `toctree` (panel with optional `:caption:` title and bullet entries), `glossary` (nested-parsed definition list), `hlist` (terminal bullet list), `centered` (centred bold text), `productionlist` (literal block), and `only` (always render content; expression ignored)
+- Add silent no-op directives to prevent spurious errors when `sphinx_compat=True`: `index`, `tabularcolumns`, `currentmodule`, `py:currentmodule`, and all `auto*` autodoc directives
+- Add domain object description directives when `sphinx_compat=True`: Python (`py:function`, `py:class`, `py:method`, `py:attribute`, `py:data`, `py:exception`, `py:module`, `py:property`, `py:decorator`, `py:classmethod`, `py:staticmethod`, `py:variable`, `py:type`, `py:typevar`, `py:typealias`), C (`c:function`, `c:type`, `c:struct`, `c:union`, `c:enum`, `c:enumerator`, `c:member`, `c:var`, `c:macro`), C++ (`cpp:function`, `cpp:class`, `cpp:type`, `cpp:member`, `cpp:var`, `cpp:enum`, `cpp:enumerator`, `cpp:concept`, `cpp:alias`), and JavaScript (`js:function`, `js:class`, `js:method`, `js:attribute`, `js:data`, `js:module`) — each rendered as a panel with the signature as title and docstring body as content
+- Register new Sphinx roles when `sphinx_compat=True`: `:pep:` renders `PEP <n>` as a clickable link to peps.python.org, `:rfc:` renders `RFC <n>` as a clickable link to datatracker.ietf.org
+- Add role rendering support when `sphinx_compat=True`: `:command:` and `:program:` render bold text; `:dfn:` renders italic/emphasis; `:abbr:` with expansion reuses `visit_abbreviation`
+- Add role rendering support when `sphinx_compat=True`: `:menuselection:` renders as inline literal and converts `-->` to `▶`; `:samp:` and `:file:` render as inline literal with `{placeholder}` markers stripped
+- Add inline-literal cross-reference role support when `sphinx_compat=True` for all `c:*`, `cpp:*`, and `js:*` roles plus `:envvar:`, `:kbd:`, `:guilabel:`, `:manpage:`, `:ref:`, `:doc:`, `:term:`, `:any:`, and related Sphinx cross-reference roles
 
 ### Bug Fixes
 
