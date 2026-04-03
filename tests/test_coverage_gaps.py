@@ -1178,6 +1178,20 @@ def test_subscript_first_element(render_text):
     assert "at the beginning" in out, "Surrounding text must be visible"
 
 
+def test_subscript_preserves_untranslatable_characters(render_text):
+    """Unsupported subscript chars must fall back to plain text instead of disappearing."""
+    rst = "x\\ :sub:`A?#`\\ y\n"
+    out = render_text(rst)
+    assert "A?#" in out, "Untranslatable subscript chars must remain visible"
+
+
+def test_superscript_preserves_untranslatable_characters(render_text):
+    """Unsupported superscript chars must fall back to plain text instead of disappearing."""
+    rst = "x\\ :sup:`@_#`\\ y\n"
+    out = render_text(rst)
+    assert "@_#" in out, "Untranslatable superscript chars must remain visible"
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # LISTS: BULLET AND ENUMERATED
 # ══════════════════════════════════════════════════════════════════════════════

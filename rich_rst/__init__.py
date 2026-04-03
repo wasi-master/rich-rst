@@ -745,6 +745,20 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.default_lexer = default_lexer
         self.refname_to_renderable = {}
 
+    def _translate_with_fallback(self, text, table):
+        """Translate characters using `table` while preserving unmapped/deleted chars."""
+        translated_chars = []
+        for ch in text:
+            mapped = table.get(ord(ch), ch)
+            # str.translate deletes chars when mapping value is None; keep original instead.
+            if mapped is None:
+                translated_chars.append(ch)
+            elif isinstance(mapped, int):
+                translated_chars.append(chr(mapped))
+            else:
+                translated_chars.append(mapped)
+        return "".join(translated_chars)
+
     def _guess_lexer_name(self, text):
         try:
             lexer = guess_lexer(text)
@@ -1062,18 +1076,20 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_subscript(self, node):
         style = self.console.get_style("restructuredtext.subscript", default="none")
+        translated = self._translate_with_fallback(node.astext(), self.subscript)
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(node.astext().translate(self.subscript), style=style, end=" "))
+            self.renderables[-1].append_text(Text(translated, style=style, end=" "))
             raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(node.astext().translate(self.subscript), end="", style=style))
+        self.renderables.append(Text(translated, end="", style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_superscript(self, node):
         style = self.console.get_style("restructuredtext.superscript", default="none")
+        translated = self._translate_with_fallback(node.astext(), self.superscript)
         if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(node.astext().translate(self.superscript), style=style, end=" "))
+            self.renderables[-1].append_text(Text(translated, style=style, end=" "))
             raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(node.astext().translate(self.superscript), end="", style=style))
+        self.renderables.append(Text(translated, end="", style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_emphasis(self, node):

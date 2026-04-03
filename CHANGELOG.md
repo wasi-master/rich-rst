@@ -165,6 +165,7 @@
 - Fixed footnote/generated alignment and footer rendering so all collected footer elements are preserved.
 - Fixed markup safety issue in definition-list classifier rendering (avoids unintended Rich markup interpretation).
 - Fixed image target-link resolution in figure/reference contexts.
+- Fixed subscript/superscript rendering silenty dropping characters not in the translation table
 
 ### CLI
 
