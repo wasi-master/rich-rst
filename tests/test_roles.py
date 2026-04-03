@@ -123,21 +123,25 @@ def test_role_math_in_sentence_content_visible(render_text):
 # ── :pep-reference: / :PEP: ──────────────────────────────────────────────────
 
 def test_role_pep_number_in_output(render_text):
-    assert "8" in render_text(":PEP:`8`")
+    out = render_text(":PEP:`8`")
+    assert "PEP 8" in out, f":PEP: must render as 'PEP 8', got {out!r}"
 
 
 def test_role_pep_reference_long_form_number(render_text):
-    assert "287" in render_text(":pep-reference:`287`")
+    out = render_text(":pep-reference:`287`")
+    assert "PEP 287" in out, f":pep-reference: must render as 'PEP 287', got {out!r}"
 
 
 # ── :rfc-reference: / :RFC: ──────────────────────────────────────────────────
 
 def test_role_rfc_number_in_output(render_text):
-    assert "2822" in render_text(":RFC:`2822`")
+    out = render_text(":RFC:`2822`")
+    assert "RFC 2822" in out, f":RFC: must render as 'RFC 2822', got {out!r}"
 
 
 def test_role_rfc_reference_long_form_number(render_text):
-    assert "1945" in render_text(":rfc-reference:`1945`")
+    out = render_text(":rfc-reference:`1945`")
+    assert "RFC 1945" in out, f":rfc-reference: must render as 'RFC 1945', got {out!r}"
 
 
 # ── :sub: / :subscript: ──────────────────────────────────────────────────────

@@ -218,17 +218,27 @@ def test_field_list_multiple_consecutive_fields_share_one_table(make_visitor):
 # ── Option lists ──────────────────────────────────────────────────────────────
 
 def test_option_list_short_option_visible(render_text):
-    assert "-v" in render_text("-v  Enable verbose output.\n")
+    out = render_text("-v  Enable verbose output.\n")
+    assert "-v" in out
+    assert "Enable verbose output" in out, (
+        "Option list must render the option description alongside the flag"
+    )
 
 
 def test_option_list_long_option_visible(render_text):
-    assert "--output" in render_text("--output FILE  Write output to FILE.\n")
+    out = render_text("--output FILE  Write output to FILE.\n")
+    assert "--output" in out
+    assert "Write output to FILE" in out, (
+        "Option list must render the option description alongside the long flag"
+    )
 
 
 def test_option_list_multiple_options_all_visible(render_text):
     out = render_text("-v  Verbose.\n-q  Quiet.\n")
     assert "-v" in out
+    assert "Verbose" in out, "Option -v description must be rendered"
     assert "-q" in out
+    assert "Quiet" in out, "Option -q description must be rendered"
 
 
 # ── Citations ─────────────────────────────────────────────────────────────────
