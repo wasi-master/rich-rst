@@ -24,6 +24,10 @@ Focus areas:
 """
 import pytest
 from rich.console import Console
+from rich.panel import Panel
+from rich.rule import Rule
+from rich.table import Table
+from rich.text import Text
 from rich_rst import RestructuredText, RSTVisitor
 
 
@@ -80,15 +84,19 @@ def test_code_block_with_class_syntax(render_text):
     assert "fn main" in out
 
 
-def test_lexer_with_aliases(render_text):
+def test_lexer_with_aliases(make_visitor):
     """Test lexer that has aliases (normal case)."""
     rst = """\
 .. code-block:: python3
 
    x = 1
 """
-    out = render_text(rst, guess_lexer=False)
-    assert len(out) > 0
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels, "code-block must produce a Panel renderable"
+    assert panels[0].title == "python3", (
+        f"Panel title must be the lexer alias 'python3', got {panels[0].title!r}"
+    )
 
 
 def test_render_with_line_numbers(render_text):
@@ -100,18 +108,21 @@ def test_render_with_line_numbers(render_text):
        return "world"
 """
     out = render_text(rst, show_line_numbers=True)
-    assert len(out) > 0
+    assert "python" in out, "Panel title must show the lexer name 'python'"
+    assert "def hello" in out, "Code content must be visible in line-numbered output"
+    assert "1" in out, "Line number '1' must appear when show_line_numbers=True"
 
 
 def test_render_with_custom_code_theme(render_text):
-    """Test rendering with different code theme."""
+    """Test rendering with different code theme — code content must still be visible."""
     rst = """\
 .. code-block:: python
 
    x = 42
 """
     out = render_text(rst, code_theme="github-dark")
-    assert len(out) > 0
+    assert "x = 42" in out, "Code content must be visible regardless of the chosen code_theme"
+    assert "python" in out, "Lexer panel title must be visible with a custom code_theme"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -185,7 +196,8 @@ def test_reference_with_inline_image(render_text):
    :target: http://example.com
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "Link with image" in out, "Reference display text must be visible"
+    assert "🌆" in out, "Image must render with the 🌆 emoji"
 
 
 def test_reference_resolution_via_target(render_text):
@@ -240,7 +252,9 @@ Check `link1`_ and `link2`_ and `link3`_.
 .. _link3: http://example.com/3
 """
     out = render_text(rst)
-    assert "link" in out
+    assert "link1" in out, "First reference label must be visible"
+    assert "link2" in out, "Second reference label must be visible"
+    assert "link3" in out, "Third reference label must be visible"
 
 
 def test_title_reference_appended_to_text(render_text):
@@ -263,7 +277,8 @@ def test_image_with_alt_attribute(render_text):
    :alt: Alternative text
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "🌆" in out, "Image must render with the 🌆 emoji"
+    assert "Alternative text" in out, "Image alt text must be visible in the output"
 
 
 def test_image_with_target_attribute(render_text):
@@ -273,7 +288,7 @@ def test_image_with_target_attribute(render_text):
    :target: http://example.com
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "🌆" in out, "Image must render with the 🌆 emoji"
 
 
 def test_image_with_alt_and_target(render_text):
@@ -284,46 +299,53 @@ def test_image_with_alt_and_target(render_text):
    :target: http://example.com
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "🌆" in out, "Image must render with the 🌆 emoji"
+    assert "Image description" in out, "Alt text must be visible alongside the emoji"
 
 
 def test_figure_without_image(render_text):
-    """Test figure element without image (unusual case)."""
+    """Test figure directive without a valid image argument (invalid RST — no crash expected)."""
     rst = """\
 .. figure::
 
    Just a caption, no image.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert isinstance(out, str), "Rendering must return a string and not raise"
 
 
-def test_figure_with_reference_target(render_text):
+def test_figure_with_reference_target(make_visitor):
     """Test figure with target inside reference."""
     rst = """\
 .. figure:: /path/image.png
    :target: http://example.com
 
    Caption text
-   Legend line 1
-   Legend line 2
 """
-    out = render_text(rst)
-    assert len(out) > 0
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels, ".. figure:: must produce a Panel renderable"
+    assert panels[0].title == "Caption text", (
+        f"Figure panel title must equal the caption, got {panels[0].title!r}"
+    )
 
 
-def test_figure_with_caption(render_text):
+def test_figure_with_caption(make_visitor):
     """Test figure with caption."""
     rst = """\
 .. figure:: /path/to/image.png
 
    This is the caption.
 """
-    out = render_text(rst)
-    assert len(out) > 0
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels, ".. figure:: must produce a Panel renderable"
+    assert panels[0].title == "This is the caption.", (
+        f"Figure panel title must equal the caption, got {panels[0].title!r}"
+    )
 
 
-def test_figure_with_caption_and_legend(render_text):
+def test_figure_with_caption_and_legend(make_visitor):
     """Test figure with caption and legend."""
     rst = """\
 .. figure:: /path/to/image.png
@@ -333,8 +355,13 @@ def test_figure_with_caption_and_legend(render_text):
    Legend text
    more legend.
 """
-    out = render_text(rst)
-    assert len(out) > 0
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels, ".. figure:: must produce a Panel renderable"
+    assert panels[0].title == "Figure caption text.", (
+        f"Figure panel title must equal the caption, got {panels[0].title!r}"
+    )
+    assert panels[0].subtitle is not None, "Figure with legend must have a non-None subtitle"
 
 
 def test_linked_image_with_complex_attributes(render_text):
@@ -349,7 +376,8 @@ def test_linked_image_with_complex_attributes(render_text):
    :height: 100
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "🌆" in out, "Image must render with the 🌆 emoji"
+    assert "Image description" in out, "Alt text must be visible in the output"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -426,7 +454,8 @@ def test_address_docinfo(render_text):
 :Contact: info@example.com
 """
     out = render_text(rst)
-    assert "Address" in out or "123" in out
+    assert "Address" in out, "Address field name must appear in the table"
+    assert "123" in out, "Address field value must appear in the table"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -441,8 +470,8 @@ term
    The definition.
 """
     out = render_text(rst)
-    assert "term" in out
-    assert "definition" in out or "classified" in out
+    assert "term" in out, "Definition list term must be visible"
+    assert "classified" in out, "Definition list body must be visible"
 
 
 def test_definition_list_without_classifier(render_text):
@@ -455,8 +484,9 @@ another
    Another definition.
 """
     out = render_text(rst)
-    assert "term" in out
-    assert "definition" in out
+    assert "term" in out, "First definition list term must be visible"
+    assert "The definition without classifier" in out, "Definition body must be visible"
+    assert "another" in out, "Second definition list term must be visible"
 
 
 def test_definition_list_with_nested_content(render_text):
@@ -486,8 +516,8 @@ item
    Third line of definition.
 """
     out = render_text(rst)
-    assert "item" in out
-    assert "definition" in out
+    assert "item" in out, "Definition list term must be visible"
+    assert "First line of definition" in out, "Definition body must be visible"
 
 
 def test_definition_list_three_parts(render_text):
@@ -497,7 +527,11 @@ term : classifier
    The definition of the term with classifier.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "term" in out, "Term must be visible"
+    assert "classifier" in out, "Classifier must be visible"
+    assert "The definition of the term with classifier" in out, (
+        "Definition body must be visible"
+    )
 
 
 def test_complex_definition_list_mixed(render_text):
@@ -514,7 +548,10 @@ term3
    def line 2
 """
     out = render_text(rst)
-    assert "term1" in out or "definition" in out
+    assert "term1" in out, "First term must be visible"
+    assert "definition1" in out, "First definition must be visible"
+    assert "term2" in out, "Second term must be visible"
+    assert "term3" in out, "Third term must be visible"
 
 
 def test_definition_list_nested_lists_and_code(render_text):
@@ -536,7 +573,8 @@ Term with complex definition
    Final note about this term.
 """
     out = render_text(rst)
-    assert "Term" in out or "definition" in out
+    assert "Term with complex definition" in out, "Definition list term must be visible"
+    assert "First related" in out, "Nested list items must be visible"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -554,7 +592,10 @@ def test_option_list_with_arguments(render_text):
    Boolean flag
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "-a" in out, "Option -a must be visible"
+    assert "Description of -a option" in out, "Option -a description must be rendered"
+    assert "-c" in out, "Option -c must be visible"
+    assert "Boolean flag" in out, "Option -c description must be rendered"
 
 
 def test_option_list_single_option(render_text):
@@ -564,7 +605,8 @@ def test_option_list_single_option(render_text):
    Enable verbose output
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "--verbose" in out, "Option flag --verbose must be visible"
+    assert "Enable verbose output" in out, "Option description must be rendered"
 
 
 def test_complex_option_list(render_text):
@@ -585,7 +627,11 @@ Command Options
    Use configuration from FILE
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "-h" in out, "Option -h must be visible"
+    assert "Show this help message" in out, "Option -h description must be rendered"
+    assert "--verbose" in out, "Option --verbose must be visible"
+    assert "Enable verbose output" in out, "Option --verbose description must be rendered"
+    assert "--quiet" in out, "Option --quiet must be visible"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -601,7 +647,9 @@ def test_block_quote_with_attribution(render_text):
    — Famous Person
 """
     out = render_text(rst)
-    assert "quote" in out
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "great quote" in out, "Block quote text must be visible"
+    assert "Famous Person" in out, "Attribution must be visible"
 
 
 def test_block_quote_multiple_paragraphs(render_text):
@@ -614,7 +662,9 @@ def test_block_quote_multiple_paragraphs(render_text):
    Third paragraph concludes.
 """
     out = render_text(rst)
-    assert "paragraph" in out or "quote" in out
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "First paragraph of quote" in out, "First paragraph must be visible"
+    assert "Second paragraph continues" in out, "Second paragraph must be visible"
 
 
 def test_block_quote_no_attribution(render_text):
@@ -624,7 +674,8 @@ def test_block_quote_no_attribution(render_text):
    No attribution here.
 """
     out = render_text(rst)
-    assert "quote" in out
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "A simple quote" in out, "Block quote text must be visible"
 
 
 def test_block_quote_single_paragraph(render_text):
@@ -633,7 +684,8 @@ def test_block_quote_single_paragraph(render_text):
    Single paragraph quote.
 """
     out = render_text(rst)
-    assert "quote" in out or "paragraph" in out
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "Single paragraph quote" in out, "Block quote text must be visible"
 
 
 def test_block_quote_many_paragraphs(render_text):
@@ -650,7 +702,9 @@ def test_block_quote_many_paragraphs(render_text):
    Para 5
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "Para 1" in out, "First paragraph must be visible"
+    assert "Para 5" in out, "Last paragraph must be visible"
 
 
 def test_nested_content_in_block_quote(render_text):
@@ -665,7 +719,9 @@ def test_nested_content_in_block_quote(render_text):
    — Attribution
 """
     out = render_text(rst)
-    assert "quote" in out or "paragraph" in out
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "Block quote with multiple paragraphs" in out, "Block quote text must be visible"
+    assert "Attribution" in out, "Attribution must be visible"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -742,14 +798,15 @@ def test_line_block_many_levels(render_text):
 # ══════════════════════════════════════════════════════════════════════════════
 
 def test_empty_body_rendering(render_text):
-    """Test that empty body lists render without crashing."""
+    """Test that note admonitions render with their panel title."""
     rst = """\
 .. note::
 
    Minimal content.
 """
     out = render_text(rst)
-    assert "Note" in out or "Minimal" in out
+    assert "Note:" in out, "Note admonition must render with 'Note:' panel title"
+    assert "Minimal content" in out, "Admonition body must be visible"
 
 
 def test_admonition_with_custom_title(render_text):
@@ -760,7 +817,10 @@ def test_admonition_with_custom_title(render_text):
    Content of custom admonition.
 """
     out = render_text(rst)
-    assert "Custom Title" in out
+    assert "Admonition: Custom Title" in out, (
+        "Generic admonition must render with 'Admonition: <title>' panel title"
+    )
+    assert "Content of custom admonition" in out, "Admonition body must be visible"
 
 
 def test_admonition_with_nested_lists_and_code(render_text):
@@ -784,7 +844,8 @@ def test_admonition_with_nested_lists_and_code(render_text):
       safe_function()
 """
     out = render_text(rst)
-    assert "warning" in out.lower() or "Warning" in out
+    assert "Warning:" in out, "Warning admonition must render with 'Warning:' panel title"
+    assert "important information" in out, "Warning body must be visible"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -811,7 +872,7 @@ def test_topic_no_title(render_text):
    Content here.
 """
     out = render_text(rst)
-    assert "Content" in out
+    assert "Content here" in out, "Topic body must be visible in the output"
 
 
 def test_sidebar_with_title_and_subtitle(render_text):
@@ -823,7 +884,8 @@ def test_sidebar_with_title_and_subtitle(render_text):
    Sidebar content goes here.
 """
     out = render_text(rst)
-    assert "Sidebar" in out
+    assert "Sidebar Title" in out, "Sidebar title must be visible"
+    assert "Subtitle" in out, "Sidebar subtitle must be visible"
 
 
 def test_sidebar_title_only(render_text):
@@ -834,7 +896,8 @@ def test_sidebar_title_only(render_text):
    Just the content.
 """
     out = render_text(rst)
-    assert "Sidebar" in out or "content" in out
+    assert "My Sidebar" in out, "Sidebar title must be visible"
+    assert "Just the content" in out, "Sidebar body must be visible"
 
 
 def test_sidebar_with_subtitle_and_lists(render_text):
@@ -850,7 +913,8 @@ def test_sidebar_with_subtitle_and_lists(render_text):
    * Item 3
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "Sidebar Title" in out, "Sidebar panel title must be visible"
+    assert "Interesting Subtitle" in out, "Sidebar subtitle must be visible"
 
 
 def test_topic_with_lists_and_code(render_text):
@@ -868,7 +932,8 @@ def test_topic_with_lists_and_code(render_text):
       example_code()
 """
     out = render_text(rst)
-    assert "topic" in out.lower() or "Topic" in out
+    assert "Important Topic" in out, "Topic title must be visible as the panel title"
+    assert "First concept" in out, "Topic body content must be visible"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -891,12 +956,14 @@ Section 2
 More content.
 """
     out = render_text(rst)
-    assert "Section 1" in out
-    assert "Section 2" in out
+    assert "Section 1" in out, "First section must be visible"
+    assert "Section 2" in out, "Second section must be visible"
+    assert "─" in out, "Transition must render as a horizontal rule (─)"
 
 
-def test_multiple_transitions(render_text):
-    """Test multiple transitions."""
+def test_multiple_transitions(make_visitor):
+    """Test multiple transitions render as Rule renderables."""
+    from rich.rule import Rule
     rst = """\
 First block.
 
@@ -908,9 +975,15 @@ Second block.
 
 Third block.
 """
-    out = render_text(rst)
-    assert "First" in out
-    assert "Second" in out
+    visitor = make_visitor(rst)
+    rules = [r for r in visitor.renderables if isinstance(r, Rule)]
+    assert len(rules) >= 2, (
+        f"Two '----' transitions must produce at least two Rule renderables, got {len(rules)}"
+    )
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    text_content = " ".join(t.plain for t in texts)
+    assert "First" in text_content, "Text before transitions must be visible"
+    assert "Second" in text_content, "Text between transitions must be visible"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -918,42 +991,45 @@ Third block.
 # ══════════════════════════════════════════════════════════════════════════════
 
 def test_doctest_block(render_text):
-    """Test doctest block rendering."""
+    """Test doctest block rendering (inline >>> syntax)."""
     rst = """\
-.. doctest::
-
-   >>> x = 1 + 2
-   >>> print(x)
-   3
+>>> x = 1 + 2
+>>> print(x)
+3
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "doctest block" in out, (
+        "Doctest block must render as a Panel with title 'doctest block'"
+    )
+    assert "x = 1 + 2" in out, "Doctest code content must be visible"
 
 
 def test_doctest_multiple_examples(render_text):
     """Test multiple doctest examples."""
     rst = """\
-.. doctest::
-
-   >>> list(range(3))
-   [0, 1, 2]
-   >>> dict(a=1, b=2)
-   {'a': 1, 'b': 2}
+>>> list(range(3))
+[0, 1, 2]
+>>> dict(a=1, b=2)
+{'a': 1, 'b': 2}
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "doctest block" in out, (
+        "Doctest block must render as a Panel with title 'doctest block'"
+    )
+    assert "list(range(3))" in out, "Doctest code must be visible"
 
 
 def test_doctest_standalone(render_text):
     """Test doctest directive standalone."""
     rst = """\
-.. doctest::
-
-   >>> print("test")
-   test
+>>> print("test")
+test
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "doctest block" in out, (
+        "Doctest block must render as a Panel with title 'doctest block'"
+    )
+    assert 'print("test")' in out, "Doctest code must be visible"
 
 
 def test_math_block_inline(render_text):
@@ -962,7 +1038,7 @@ def test_math_block_inline(render_text):
 Some text :math:`E = mc^2` more text.
 """
     out = render_text(rst)
-    assert "text" in out
+    assert "E = mc^2" in out, "Inline math formula content must be visible in the output"
 
 
 def test_math_block_display(render_text):
@@ -973,18 +1049,18 @@ def test_math_block_display(render_text):
    E = mc^2
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "E = mc^2" in out, "Display math formula content must be visible in the output"
 
 
 def test_math_standalone(render_text):
     """Test math directive standalone."""
-    rst = """\
+    rst = r"""
 .. math::
 
-   \\frac{a}{b}
+   \frac{a}{b}
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "frac" in out, "Math directive content must be visible in the output"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -999,7 +1075,7 @@ The |abbr| (abbreviation) is common.
 .. |abbr| abbreviation:: An abbreviation
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "abbreviation" in out, "Abbreviation substitution text must be visible"
 
 
 def test_acronym_with_explanation(render_text):
@@ -1010,7 +1086,7 @@ The |acr| (acronym) is used here.
 .. |acr| acronym:: An Acronym Code
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "acronym" in out, "Acronym substitution text must be visible"
 
 
 def test_abbreviation_inline_full_markup(render_text):
@@ -1021,40 +1097,57 @@ Use |HTML| in markup.
 .. |HTML| abbreviation:: HyperText Markup Language
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "HTML" in out, "Abbreviation label must be visible in the output"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # EMPHASIS AND STRONG TEXT
 # ══════════════════════════════════════════════════════════════════════════════
 
-def test_emphasis_appended_to_previous_text(render_text):
-    """Test emphasis appended to previous text element."""
+def test_emphasis_appended_to_previous_text(make_visitor):
+    """Test emphasis appended to previous text element has an italic span."""
     rst = """\
 This is regular text *and this is emphasized*.
 """
-    out = render_text(rst)
-    assert "regular text" in out
-    assert "emphasized" in out
+    visitor = make_visitor(rst)
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    assert texts, "Paragraph must produce a Text renderable"
+    combined = " ".join(t.plain for t in texts)
+    assert "regular text" in combined, "Surrounding plain text must be visible"
+    assert "and this is emphasized" in combined, "Emphasized text must be visible"
+    italic_spans = [s for t in texts for s in t._spans if s.style.italic]
+    assert italic_spans, "*...* must produce an italic span"
 
 
-def test_strong_appended_to_previous_text(render_text):
-    """Test strong emphasis appended to previous text."""
+def test_strong_appended_to_previous_text(make_visitor):
+    """Test strong emphasis appended to previous text has a bold span."""
     rst = """\
 Regular **and this is bold**.
 """
-    out = render_text(rst)
-    assert "Regular" in out
-    assert "bold" in out
+    visitor = make_visitor(rst)
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    assert texts, "Paragraph must produce a Text renderable"
+    combined = " ".join(t.plain for t in texts)
+    assert "Regular" in combined, "Surrounding plain text must be visible"
+    assert "and this is bold" in combined, "Bold text must be visible"
+    bold_spans = [s for t in texts for s in t._spans if s.style.bold]
+    assert bold_spans, "**...** must produce a bold span"
 
 
-def test_emphasis_first_element(render_text):
-    """Test emphasis as first element."""
+def test_emphasis_first_element(make_visitor):
+    """Test emphasis as first element has an italic span."""
     rst = """\
 *Starts with emphasis* in a paragraph.
 """
-    out = render_text(rst)
-    assert "emphasis" in out
+    visitor = make_visitor(rst)
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    assert texts, "Paragraph must produce a Text renderable"
+    combined = " ".join(t.plain for t in texts)
+    assert "emphasis" in combined, "Emphasized text must be visible"
+    # The emphasis is at the start; check for italic base style or italic span
+    italic_base = any(t.style.italic is True for t in texts)
+    italic_span = any(s.style.italic for t in texts for s in t._spans)
+    assert italic_base or italic_span, "*...* at start of paragraph must produce italic formatting"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1062,30 +1155,28 @@ def test_emphasis_first_element(render_text):
 # ══════════════════════════════════════════════════════════════════════════════
 
 def test_subscript_appended_to_text(render_text):
-    """Test subscript appended to existing text."""
-    rst = """\
-H\ :sub:`2`\ O is water.
-"""
+    """Test subscript appended to existing text renders as Unicode subscript characters."""
+    rst = "H\\ :sub:`2`\\ O is water.\n"
     out = render_text(rst)
-    assert len(out) > 0
+    assert "₂" in out, ":sub:`2` must render as Unicode subscript '₂'"
+    assert "O is water" in out, "Surrounding text must be visible"
 
 
 def test_superscript_appended_to_text(render_text):
-    """Test superscript appended to existing text."""
-    rst = """\
-E=mc\ :sup:`2`\ is Einstein's formula.
-"""
+    """Test superscript appended to existing text renders as Unicode superscript characters."""
+    rst = "E=mc\\ :sup:`2`\\ is Einstein's formula.\n"
     out = render_text(rst)
-    assert len(out) > 0
+    assert "²" in out, ":sup:`2` must render as Unicode superscript '²'"
 
 
 def test_subscript_first_element(render_text):
-    """Test subscript as first element."""
+    """Test subscript as first element renders as Unicode subscript characters."""
     rst = """\
 :sub:`subscript` at the beginning.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "ₛ" in out, ":sub:`subscript` must render starting with Unicode subscript 'ₛ'"
+    assert "at the beginning" in out, "Surrounding text must be visible"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1140,7 +1231,9 @@ def test_triple_nested_lists(render_text):
 * Level 1-2
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "Level 1-1" in out, "First-level list item must be visible"
+    assert "Level 2-1" in out, "Second-level nested list item must be visible"
+    assert "Level 3-1" in out, "Third-level nested list item must be visible"
 
 
 def test_list_with_code_block(render_text):
@@ -1155,7 +1248,8 @@ def test_list_with_code_block(render_text):
 * Third item
 """
     out = render_text(rst)
-    assert "Second" in out or "hello" in out
+    assert "Second item with code" in out, "List item text must be visible"
+    assert "def hello" in out, "Code block content inside list item must be visible"
 
 
 def test_bullet_list_with_only_code_blocks(render_text):
@@ -1170,7 +1264,8 @@ def test_bullet_list_with_only_code_blocks(render_text):
      code block 2
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "code block 1" in out, "First code block content must be visible"
+    assert "code block 2" in out, "Second code block content must be visible"
 
 
 def test_enumerated_list_with_only_code_blocks(render_text):
@@ -1185,7 +1280,8 @@ def test_enumerated_list_with_only_code_blocks(render_text):
       another code block
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "code block here" in out, "First code block content must be visible"
+    assert "another code block" in out, "Second code block content must be visible"
 
 
 def test_very_deep_enumerated_list_nesting(render_text):
@@ -1215,7 +1311,8 @@ Some text [CIT2024]_.
 .. [CIT2024] A citation.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "citation" in out, "Citation must render as a Panel with title 'citation'"
+    assert "A citation" in out, "Citation body text must be visible"
 
 
 def test_footnote_reference(render_text):
@@ -1226,7 +1323,7 @@ Some text [#]_.
 .. [#] A footnote.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "A footnote" in out, "Footnote body text must appear in the Footer panel"
 
 
 def test_multiple_footnotes(render_text):
@@ -1238,7 +1335,8 @@ First [1]_ and second [2]_.
 .. [2] Second note.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "First note" in out, "First footnote body must be visible"
+    assert "Second note" in out, "Second footnote body must be visible"
 
 
 def test_citation_reference_appended_to_text(render_text):
@@ -1249,7 +1347,8 @@ See the cited work [Ref2024]_.
 .. [Ref2024] A citation.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "citation" in out, "Citation must render as a Panel with title 'citation'"
+    assert "A citation" in out, "Citation body text must be visible"
 
 
 def test_footnote_reference_appended_to_text(render_text):
@@ -1260,7 +1359,7 @@ This is text [1]_ with a footnote.
 .. [1] Footnote text.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "Footnote text" in out, "Footnote body must appear in the Footer panel"
 
 
 def test_numbered_footnote(render_text):
@@ -1271,7 +1370,7 @@ Text [1]_.
 .. [1] First footnote.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "First footnote" in out, "Footnote body must appear in the Footer panel"
 
 
 def test_auto_numbered_footnote(render_text):
@@ -1282,7 +1381,7 @@ Text [#]_.
 .. [#] Auto-numbered footnote.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "Auto-numbered footnote" in out, "Footnote body must appear in the Footer panel"
 
 
 def test_labeled_footnote(render_text):
@@ -1293,7 +1392,7 @@ Text [note]_.
 .. [note] A labeled footnote.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "A labeled footnote" in out, "Footnote body must appear in the Footer panel"
 
 
 def test_citation_block(render_text):
@@ -1304,7 +1403,8 @@ Reference [Book2024]_.
 .. [Book2024] A Book Title. Published 2024.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "citation" in out, "Citation must render as a Panel with title 'citation'"
+    assert "A Book Title" in out, "Citation body text must be visible"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1312,51 +1412,62 @@ Reference [Book2024]_.
 # ══════════════════════════════════════════════════════════════════════════════
 
 def test_raw_html_element(render_text):
-    """Test raw HTML element."""
+    """Test raw HTML element strips tags and renders as 'stripped raw html' Panel."""
     rst = """\
 .. raw:: html
 
    <div>This is raw HTML</div>
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "stripped raw html" in out, (
+        "Raw HTML must render as a Panel with title 'stripped raw html'"
+    )
+    assert "This is raw HTML" in out, "Stripped HTML text content must be visible"
 
 
 def test_raw_latex_element(render_text):
-    """Test raw LaTeX element."""
+    """Test raw LaTeX element renders as 'raw latex' Panel."""
     rst = """\
 .. raw:: latex
 
    \\textbf{Bold text}
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "raw latex" in out, (
+        "Raw LaTeX must render as a Panel with title 'raw latex'"
+    )
+    assert "textbf" in out, "Raw LaTeX content must be visible inside the panel"
 
 
 def test_raw_text_format(render_text):
-    """Test raw text format."""
+    """Test raw text format renders as 'raw text' Panel."""
     rst = """\
 .. raw:: text
 
    This is raw text content.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "raw text" in out, (
+        "Raw text must render as a Panel with title 'raw text'"
+    )
+    assert "This is raw text content" in out, "Raw text content must be visible"
 
 
 def test_raw_with_special_chars(render_text):
-    """Test raw content with special characters."""
+    """Test raw HTML content with special characters strips tags."""
     rst = """\
 .. raw:: html
 
    <span class="special">&nbsp;&copy;&reg;</span>
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "stripped raw html" in out, (
+        "Raw HTML must render as a Panel with title 'stripped raw html'"
+    )
 
 
 def test_raw_content_all_formats(render_text):
-    """Test raw directive with different formats."""
+    """Test raw directive with different formats all produce labelled Panels."""
     rst = """\
 .. raw:: html
 
@@ -1371,7 +1482,8 @@ def test_raw_content_all_formats(render_text):
    **Restructured** text
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "stripped raw html" in out, "Raw HTML must produce 'stripped raw html' panel"
+    assert "raw latex" in out, "Raw LaTeX must produce 'raw latex' panel"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1389,7 +1501,9 @@ C      D
 =====  =====
 """
     out = render_text(rst)
-    assert "Col1" in out or "A" in out
+    assert "Col1" in out, "First header column must be visible"
+    assert "Col2" in out, "Second header column must be visible"
+    assert "A" in out and "B" in out, "Table body cells must be visible"
 
 
 def test_table_complex(render_text):
@@ -1404,7 +1518,8 @@ def test_table_complex(render_text):
 +-------+-------+
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "A" in out and "B" in out, "Table header cells must be visible"
+    assert "1" in out and "2" in out, "Table body cells must be visible"
 
 
 def test_table_with_cell_content(render_text):
@@ -1417,7 +1532,10 @@ def test_table_with_cell_content(render_text):
 +----------+----------+
 """
     out = render_text(rst)
-    assert "Cell" in out or "Content" in out
+    assert "Cell 1" in out, "First header cell must be visible"
+    assert "Cell 2" in out, "Second header cell must be visible"
+    assert "Content1" in out, "First body cell must be visible"
+    assert "Content2" in out, "Second body cell must be visible"
 
 
 def test_table_with_multiple_rows_and_columns(render_text):
@@ -1434,7 +1552,11 @@ def test_table_with_multiple_rows_and_columns(render_text):
 +---------+---------+---------+
 """
     out = render_text(rst)
-    assert "Header" in out or "Cell" in out
+    assert "Header1" in out, "First column header must be visible"
+    assert "Header2" in out, "Second column header must be visible"
+    assert "Header3" in out, "Third column header must be visible"
+    assert "Cell11" in out, "First body cell must be visible"
+    assert "Cell33" in out, "Last body cell must be visible"
 
 
 def test_simple_table_format(render_text):
@@ -1448,7 +1570,12 @@ Simple Table
 ============  ============  ============
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "A" in out and "B" in out and "C" in out, (
+        "All simple-table column headers must be visible"
+    )
+    assert "1" in out and "2" in out and "3" in out, (
+        "All simple-table body cells must be visible"
+    )
 
 
 def test_grid_table(render_text):
@@ -1461,20 +1588,31 @@ def test_grid_table(render_text):
 +---+---+
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "A" in out and "B" in out, "Grid table header cells must be visible"
+    assert "1" in out and "2" in out, "Grid table body cells must be visible"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # INLINE CODE AND LITERALS
 # ══════════════════════════════════════════════════════════════════════════════
 
-def test_inline_literal_appended_to_text(render_text):
-    """Test inline code appended to text."""
+def test_inline_literal_appended_to_text(make_visitor):
+    """Test inline code appended to text renders with grey78-on-grey7 style."""
     rst = """\
 Use the ``code`` variable in your script.
 """
-    out = render_text(rst)
-    assert "code" in out or "Use" in out
+    visitor = make_visitor(rst)
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    assert texts, "Paragraph must produce a Text renderable"
+    combined_plain = " ".join(t.plain for t in texts)
+    assert "Use" in combined_plain, "Surrounding text must be visible"
+    assert "code" in combined_plain, "Inline code content must be visible"
+    # Inline literals must carry the grey78-on-grey7 formatting span
+    code_spans = [
+        s for t in texts for s in t._spans
+        if "grey78" in str(s.style) or "grey7" in str(s.style)
+    ]
+    assert code_spans, "Inline ``code`` must produce a span with grey78-on-grey7 style"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1482,21 +1620,21 @@ Use the ``code`` variable in your script.
 # ══════════════════════════════════════════════════════════════════════════════
 
 def test_header_element(render_text):
-    """Test document header element."""
+    """Test document header directive (unsupported in vendored docutils — no crash expected)."""
     rst = """\
 .. header:: This is a header
 """
     out = render_text(rst)
-    assert len(out) >= 0
+    assert isinstance(out, str), "Rendering must return a string and not raise an exception"
 
 
 def test_footer_element(render_text):
-    """Test document footer element."""
+    """Test document footer directive (unsupported in vendored docutils — no crash expected)."""
     rst = """\
 .. footer:: Page ###
 """
     out = render_text(rst)
-    assert len(out) >= 0
+    assert isinstance(out, str), "Rendering must return a string and not raise an exception"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1815,7 +1953,7 @@ def test_rendering_without_sphinx_compat(render_text):
 Normal RST content.
 """
     out = render_text(rst, sphinx_compat=False)
-    assert len(out) > 0
+    assert "Normal RST content" in out, "Plain text content must be visible without sphinx_compat"
 
 
 def test_render_all_rst_roles(render_text):
@@ -1826,7 +1964,9 @@ Text with :emphasis:`emphasis`, :strong:`strong`, and :literal:`literal`.
 Also :ref:`reference` and :doc:`document`.
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "emphasis" in out, ":emphasis: role content must be visible"
+    assert "strong" in out, ":strong: role content must be visible"
+    assert "literal" in out, ":literal: role content must be visible"
 
 
 def test_render_with_syntax_error(render_text):
@@ -1837,7 +1977,7 @@ Unclosed ``literal
 This should still render.
 """
     out = render_text(rst, show_errors=True)
-    assert len(out) > 0
+    assert "still render" in out, "Content after syntax error must still be visible"
 
 
 def test_very_long_line(render_text):
@@ -1845,7 +1985,8 @@ def test_very_long_line(render_text):
     long_text = "word " * 100
     rst = f"This is a very long line:\n\n{long_text}"
     out = render_text(rst)
-    assert len(out) > 0
+    assert "This is a very long line" in out, "Leading text must be visible"
+    assert "word" in out, "Long-line body words must be visible"
 
 
 def test_many_nested_elements(render_text):
@@ -1872,14 +2013,17 @@ Nested lists:
    b. B
 """
     out = render_text(rst)
-    assert len(out) > 0
+    assert "Title" in out, "Section title must be visible"
+    assert "One" in out, "Enumerated list item must be visible"
+    assert "Two" in out, "Second enumerated list item must be visible"
+    assert "Alpha" in out, "Nested bullet item must be visible"
 
 
 def test_empty_document(render_text):
-    """Test rendering completely empty document."""
+    """Test rendering completely empty document produces a string without raising."""
     rst = ""
     out = render_text(rst)
-    assert len(out) >= 0
+    assert isinstance(out, str), "Rendering an empty document must return a string"
 
 
 def test_minimal_valid_document(render_text):
@@ -1912,4 +2056,4 @@ def test_generated_node_handling(render_text):
     """Test generated nodes (typically auto-generated content)."""
     rst = "Some regular content."
     out = render_text(rst)
-    assert "content" in out
+    assert "Some regular content" in out, "Regular paragraph text must be visible"
