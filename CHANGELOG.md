@@ -150,12 +150,16 @@
 - Expanded core rendering support for major RST structures: tables, figures, topics, rubric, footnote references, title references, and richer `docinfo` metadata handling.
 - Improved heading styling with a clear six-level visual hierarchy.
 - Improved code and math rendering: clearer literal block language labels and math blocks rendered in a dedicated panel.
+- Added generic handlers for `compound` and `inline` nodes to improve compatibility and style-aware inline rendering.
+- Added Unicode math symbol conversion for inline (`:math:`) and block (`.. math::`) expressions.
 
 ### Sphinx Compatibility
 
 - Added support for key Sphinx directives under `sphinx_compat=True`, including version/deprecation blocks, code directives, document-structure directives (`toctree`, `glossary`, `hlist`, `only`, etc.), and domain object directives (Python/C/C++/JS).
 - Added broad Sphinx role coverage, including `:pep:`, `:rfc:`, cross-reference roles, and improved handling for roles such as `:command:`, `:program:`, `:dfn:`, `:menuselection:`, `:samp:`, and `:file:`.
 - Added silent no-op handling for directives such as `index`, `tabularcolumns`, `currentmodule`, and `auto*` autodoc directives to avoid noisy parsing errors.
+- Added silent no-op registration for `.. class::` and `.. role::` in `sphinx_compat` mode.
+- Improved `.. hlist::` rendering to use borderless multi-column tables honoring `:columns:`.
 
 ### Stability and Rendering Fixes
 
@@ -166,6 +170,10 @@
 - Fixed markup safety issue in definition-list classifier rendering (avoids unintended Rich markup interpretation).
 - Fixed image target-link resolution in figure/reference contexts.
 - Fixed subscript/superscript rendering silently dropping characters not in the translation table.
+- Added safer `.. include::` handling with path traversal protection, `encoding` and line-range options, and graceful admonition-style errors.
+- Fixed nested blockquote depth rendering so quote markers are applied consistently across paragraph renderables.
+- Updated blockquote attribution marker to use an em dash for clearer output.
+- Refactored Sphinx role registration locking to use inline lock scope for thread-safe, per-process registration.
 
 ### API and Convenience
 
@@ -175,6 +183,8 @@
 - Enhanced `.. toctree::` rendering: entries now display with path-depth indentation, respect `:maxdepth:` for depth limiting, and show explicit `Title <docname>` labels.
 - Exported `RSTVisitor` in `__all__` to make it part of the public API.
 - Renamed internal attribute `RestructuredText.log_errors` → `RestructuredText.show_errors` to match the constructor parameter name.
+- Added `RestructuredText.render_to_html(...)` and `RestructuredText.render_to_svg(...)` helpers for direct export.
+- Extended `RSTVisitor.register_visitor(...)` with decorator usage and added `unregister_visitor(...)` and `list_registered_visitors()` class methods.
 
 ### CLI
 
@@ -183,6 +193,8 @@
 - Fixed file-handle leak when reading input files.
 - Moved Rich traceback installation to CLI entry only (importing library no longer changes global traceback behavior).
 - Fixed `--save-html` format-string `KeyError` caused by bare CSS braces.
+- Added `-o`/`--output` to write rendered text output to a file.
+- Added `--html-theme` and `--list-html-themes` for HTML export theme selection and discovery.
 
 ### Documentation and Tests
 
@@ -192,3 +204,5 @@
 - Updated `test_block_elements.py`: added tests verifying that bold and italic inline markup inside block quotes produces correct `Span` objects.
 - Updated `test_new_sphinx_directives.py`: added tests for toctree hierarchy/maxdepth/explicit titles and `literalinclude` file-reading functionality.
 - Reworked tests to improve granular coverage of individual features.
+- Expanded documentation for style keys and include directive behavior/security (`styling.rst`, `include_directive.rst`, vendoring notes).
+- Added tests for CSV/list tables, HTML/SVG rendering, visitor decorator APIs, and new CLI flags/error paths.
