@@ -286,8 +286,8 @@ def test_enumerated_list_first_marker_is_number_one(make_visitor):
 def test_enumerated_list_marker_style_is_bold_yellow(make_visitor):
     visitor = make_visitor("#. item\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    # Marker text is " 1" (leading space)
-    markers = [t for t in texts if t.plain.startswith(" ") and t.plain.strip().isdigit()]
+    # Marker text is " 1." (leading space, digit, suffix)
+    markers = [t for t in texts if t.plain.startswith(" ") and t.plain.strip().rstrip(".").isdigit()]
     assert markers
     assert str(markers[0].style) == "bold yellow", (
         f"Enum marker style must be 'bold yellow', got {markers[0].style!r}"

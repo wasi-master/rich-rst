@@ -1146,12 +1146,33 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.renderables.append(NewLine())
         raise docutils.nodes.SkipChildren()
 
+    @staticmethod
+    def _make_enum_marker(enumtype, i):
+        """Convert an integer *i* to the appropriate enumeration label."""
+        from rich_rst._vendor.docutils.utils._roman_numerals import RomanNumeral
+        if enumtype == "loweralpha":
+            return chr(ord("a") + i - 1)
+        elif enumtype == "upperalpha":
+            return chr(ord("A") + i - 1)
+        elif enumtype == "lowerroman":
+            return str(RomanNumeral(i)).lower()
+        elif enumtype == "upperroman":
+            return str(RomanNumeral(i))
+        else:  # arabic (default)
+            return str(i)
+
     def _render_enumerated_list(self, node, level=0):
         """Recursively render an enumerated list with support for unlimited nesting and any child elements."""
         marker_style = self.console.get_style("restructuredtext.enumerated_list_marker", default="bold yellow")
         text_style = self.console.get_style("restructuredtext.enumerated_text", default="none")
         indent = "  " * level
-        for i, list_item in enumerate(node.children, 1):
+        enumtype = node.get("enumtype", "arabic")
+        prefix = node.get("prefix", "")
+        suffix = node.get("suffix", ".")
+        start = node.get("start", 1)
+        for idx, list_item in enumerate(node.children):
+            i = start + idx
+            marker = f"{indent} {prefix}{self._make_enum_marker(enumtype, i)}{suffix}"
             first_content = True
             for child in list_item.children:
                 if isinstance(child, docutils.nodes.bullet_list):
@@ -1160,7 +1181,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     self._render_enumerated_list(child, level + 1)
                 elif isinstance(child, docutils.nodes.literal_block):
                     if first_content:
-                        self.renderables.append(Text(f"{indent} {i}", end=" ", style=marker_style))
+                        self.renderables.append(Text(marker, end=" ", style=marker_style))
                         first_content = False
                     try:
                         self.visit_literal_block(child)
@@ -1169,7 +1190,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 else:
                     text = child.astext().replace("\n", " ")
                     if first_content:
-                        self.renderables.append(Text(f"{indent} {i}", end=" ", style=marker_style))
+                        self.renderables.append(Text(marker, end=" ", style=marker_style))
                         self.renderables.append(Text(text, style=text_style))
                         first_content = False
                     else:

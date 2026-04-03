@@ -84,15 +84,15 @@ def test_enumerated_list_multiple_items_all_visible(render_text):
 def test_enumerated_list_first_marker_plain_text(make_visitor):
     visitor = make_visitor("#. item\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    # Marker is " 1" (space + digit, no trailing space unlike bullet)
-    markers = [t for t in texts if t.plain.strip() == "1"]
-    assert markers, "First enumerated marker must contain '1'"
+    # Marker is " 1." (space + digit + suffix)
+    markers = [t for t in texts if t.plain.strip() == "1."]
+    assert markers, "First enumerated marker must contain '1.'"
 
 
 def test_enumerated_list_marker_style_is_bold_yellow(make_visitor):
     visitor = make_visitor("#. item\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain.strip().isdigit()]
+    markers = [t for t in texts if t.plain.strip().rstrip(".").isdigit()]
     assert markers
     assert str(markers[0].style) == "bold yellow", (
         f"Enumerated marker style must be 'bold yellow', got {markers[0].style!r}"
@@ -102,8 +102,8 @@ def test_enumerated_list_marker_style_is_bold_yellow(make_visitor):
 def test_enumerated_list_multiple_markers_increment(make_visitor):
     visitor = make_visitor("#. one\n#. two\n#. three\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain.strip().isdigit()]
-    nums = [int(t.plain.strip()) for t in markers]
+    markers = [t for t in texts if t.plain.strip().rstrip(".").isdigit()]
+    nums = [int(t.plain.strip().rstrip(".")) for t in markers]
     assert sorted(nums) == [1, 2, 3], f"Markers must be 1, 2, 3; got {nums}"
 
 
@@ -175,7 +175,7 @@ def test_nested_enumerated_inner_marker_is_number_one(make_visitor):
     visitor = make_visitor("#. outer\n\n   #. inner\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
     # Both outer and inner start from 1
-    markers_1 = [t for t in texts if t.plain.strip() == "1"]
+    markers_1 = [t for t in texts if t.plain.strip() == "1."]
     assert len(markers_1) == 2, "Each enumerated level starts at 1"
 
 
@@ -203,3 +203,69 @@ def test_bullet_list_item_with_code_block(render_text):
 
 def test_enumerated_list_item_with_code_block(render_text):
     assert "x = 1" in render_text("#. step one::\n\n    x = 1\n")
+
+
+# ── Start index ───────────────────────────────────────────────────────────────
+
+def test_enumerated_list_custom_start_index(make_visitor):
+    visitor = make_visitor("3. three\n4. four\n5. five\n")
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    markers = [t for t in texts if t.plain.strip().rstrip(".").isdigit()]
+    nums = [int(t.plain.strip().rstrip(".")) for t in markers]
+    assert nums == [3, 4, 5], f"List starting at 3 must render markers 3, 4, 5; got {nums}"
+
+
+def test_enumerated_list_custom_start_content_visible(render_text):
+    out = render_text("3. three\n4. four\n")
+    assert "three" in out
+    assert "four" in out
+
+
+# ── Non-Arabic numerals ───────────────────────────────────────────────────────
+
+def test_enumerated_list_loweralpha_markers(make_visitor):
+    visitor = make_visitor("a. alpha\nb. beta\nc. gamma\n")
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    stripped = [t.plain.strip() for t in texts]
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
+    labels = [p.rstrip(".") for p in marker_plains]
+    assert labels == ["a", "b", "c"], f"Lowercase alpha markers must be a, b, c; got {labels}"
+
+
+def test_enumerated_list_upperalpha_markers(make_visitor):
+    visitor = make_visitor("A. Alpha\nB. Beta\nC. Gamma\n")
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    stripped = [t.plain.strip() for t in texts]
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
+    labels = [p.rstrip(".") for p in marker_plains]
+    assert labels == ["A", "B", "C"], f"Uppercase alpha markers must be A, B, C; got {labels}"
+
+
+def test_enumerated_list_lowerroman_markers(make_visitor):
+    visitor = make_visitor("i. one\nii. two\niii. three\n")
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    stripped = [t.plain.strip() for t in texts]
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
+    labels = [p.rstrip(".") for p in marker_plains]
+    assert labels == ["i", "ii", "iii"], f"Lowercase roman markers must be i, ii, iii; got {labels}"
+
+
+def test_enumerated_list_upperroman_markers(make_visitor):
+    visitor = make_visitor("I. ONE\nII. TWO\nIII. THREE\n")
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    stripped = [t.plain.strip() for t in texts]
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
+    labels = [p.rstrip(".") for p in marker_plains]
+    assert labels == ["I", "II", "III"], f"Uppercase roman markers must be I, II, III; got {labels}"
+
+
+def test_enumerated_list_loweralpha_content_visible(render_text):
+    out = render_text("a. first\nb. second\n")
+    assert "first" in out
+    assert "second" in out
+
+
+def test_enumerated_list_lowerroman_content_visible(render_text):
+    out = render_text("i. one\nii. two\n")
+    assert "one" in out
+    assert "two" in out
