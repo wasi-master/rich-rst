@@ -798,6 +798,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     # Class-level registry mapping node_class → (visit_fn, depart_fn).
     # Entries are consulted by dispatch_visit / dispatch_departure before
     # falling through to the normal method-name lookup.
+    #
+    # Design note: the base class owns an empty dict.  When register_visitor is
+    # called on a *subclass*, the guard below ensures the subclass gets its own
+    # dict so that base-class registrations are never accidentally polluted by
+    # subclass registrations (and vice-versa).  Registrations on RSTVisitor
+    # itself are truly global and apply to every instance.
     _custom_visitors: dict = {}
 
     @classmethod
@@ -1894,7 +1900,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if lexer == "html":
             text = strip_tags(text)
             # _guess_lexer_name returns (name, was_guessed); unpack correctly.
-            lexer, _ = self._guess_lexer_name(text) if self.guess_lexer else (self.default_lexer, "default")
+            lexer, _ = self._guess_lexer_name(text) if self.guess_lexer else (self.default_lexer, False)
 
         self.renderables.append(
             Panel(
