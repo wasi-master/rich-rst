@@ -836,7 +836,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def depart_paragraph(self, node):  # pylint: disable=unused-argument
         if self.renderables and isinstance(self.renderables[-1], Text):
-            if len(self.renderables[-1].end) == 0:
+            if self.renderables[-1]:
                 self.renderables[-1].append("\n\n")
 
     def visit_title(self, node):

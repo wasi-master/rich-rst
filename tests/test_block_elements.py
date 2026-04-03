@@ -52,6 +52,16 @@ def test_multiple_paragraphs_produce_multiple_texts(make_visitor):
     assert "Second." in combined
 
 
+def test_depart_paragraph_ignores_empty_text_renderable(make_visitor):
+    visitor = make_visitor("Hello world.\n")
+    empty_text = Text("", end="")
+
+    visitor.renderables = [empty_text]
+    visitor.depart_paragraph(None)
+
+    assert empty_text.plain == ""
+
+
 # ── Headings / Titles ─────────────────────────────────────────────────────────
 
 def test_heading_level1_produces_centered_align(make_visitor):
