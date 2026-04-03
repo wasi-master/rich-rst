@@ -37,9 +37,11 @@ from rich.rule import Rule
 from pygments.lexers import guess_lexer, get_lexer_by_name
 from pygments.util import ClassNotFound
 
+import importlib.metadata
+
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
-__version__ = "1.3.2"
+__version__ = importlib.metadata.version(__package__ or __name__)
 
 
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
