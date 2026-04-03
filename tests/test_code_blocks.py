@@ -192,6 +192,15 @@ def test_raw_html_tags_stripped_content_visible(render_text):
     assert "Hello" in render_text(".. raw:: html\n\n   <p>Hello</p>\n")
 
 
+def test_raw_html_falls_back_when_tag_stripping_fails(render_text, monkeypatch):
+    monkeypatch.setattr("rich_rst.MLStripper.feed", lambda self, html: (_ for _ in ()).throw(ValueError("boom")))
+
+    out = render_text(".. raw:: html\n\n   <b>bold</b>\n")
+
+    assert "stripped raw html" in out
+    assert "<b>bold</b>" in out
+
+
 def test_raw_latex_produces_panel(make_visitor):
     visitor = make_visitor(".. raw:: latex\n\n   \\textbf{bold}\n")
     panels = [r for r in visitor.renderables if isinstance(r, Panel)]

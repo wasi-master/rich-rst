@@ -501,7 +501,11 @@ class MLStripper(HTMLParser):
 
 def strip_tags(html):
     s = MLStripper()
-    s.feed(html)
+    try:
+        s.feed(html)
+        s.close()
+    except Exception:
+        return html
     return s.get_data()
 
 
