@@ -10,7 +10,7 @@ support for headings, code blocks, tables, admonitions, footnotes, and
    :maxdepth: 2
    :caption: Contents
 
-   demonstration
+   demo
    elements
    limitations
    styling
