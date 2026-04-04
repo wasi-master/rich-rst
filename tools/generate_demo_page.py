@@ -1292,11 +1292,7 @@ DEMOS = [
                     .. seealso::
 
                        :func:`os.path.join`, :class:`pathlib.Path`"""),
-            },
-            {
-                "name": "seealso with inline argument",
-                "rst": ".. seealso:: :mod:`json` for serialization.",
-            },
+            }
         ],
     },
     # ── 21. toctree (Sphinx) ──────────────────────────────────────────────────

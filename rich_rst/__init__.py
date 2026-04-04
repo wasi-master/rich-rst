@@ -519,6 +519,8 @@ class _PyObjectDirective(docutils.parsers.rst.Directive):
         else:
             objtype = self.name
         node = py_desc(objtype=objtype, sig=self.arguments[0])
+        if self.options:
+            node['options'] = dict(self.options)
         if self.content:
             self.state.nested_parse(self.content, self.content_offset, node)
         return [node]
@@ -1412,11 +1414,179 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def depart_centered_block(self, node):
         pass
 
+    @staticmethod
+    def _parse_py_field_name(field_name):
+        """Classify a Python-domain field-list name.
+
+        Returns a tuple ``(kind, arg)`` where ``kind`` is one of:
+        ``param``, ``type``, ``returns``, ``rtype``, ``raises``, ``unknown``.
+        """
+        name = field_name.strip()
+        lowered = name.lower()
+
+        if lowered in ("returns", "return"):
+            return "returns", ""
+        if lowered == "rtype":
+            return "rtype", ""
+
+        for prefix in ("param", "parameter", "arg", "argument"):
+            token = prefix + " "
+            if lowered.startswith(token):
+                return "param", name[len(token):].strip()
+
+        if lowered.startswith("type "):
+            return "type", name[5:].strip()
+
+        for prefix in ("raises", "raise", "except", "exception"):
+            token = prefix + " "
+            if lowered.startswith(token):
+                return "raises", name[len(token):].strip()
+
+        return "unknown", name
+
+    def _render_py_field_list(self, field_list_node):
+        """Render a Sphinx-style Python field list as API sections."""
+        params = {}
+        param_order = []
+        returns_desc = ""
+        returns_type = ""
+        raises_items = []
+        unknown_items = []
+
+        for field in field_list_node.children:
+            if len(field.children) < 2:
+                continue
+            raw_name = field.children[0].astext().strip()
+            raw_value = field.children[1].astext().replace("\n", " ").strip()
+            kind, arg = self._parse_py_field_name(raw_name)
+
+            if kind == "param":
+                param_name = arg or "<unnamed>"
+                if param_name not in params:
+                    params[param_name] = {"type": "", "desc": ""}
+                    param_order.append(param_name)
+                params[param_name]["desc"] = raw_value
+            elif kind == "type":
+                param_name = arg or "<unnamed>"
+                if param_name not in params:
+                    params[param_name] = {"type": "", "desc": ""}
+                    param_order.append(param_name)
+                params[param_name]["type"] = raw_value
+            elif kind == "returns":
+                returns_desc = raw_value
+            elif kind == "rtype":
+                returns_type = raw_value
+            elif kind == "raises":
+                raises_items.append((arg or "Exception", raw_value))
+            else:
+                unknown_items.append((raw_name, raw_value))
+
+        if not (param_order or returns_desc or returns_type or raises_items or unknown_items):
+            return self._render_admonition_body([field_list_node])
+
+        section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
+        param_name_style = self.console.get_style("restructuredtext.py_desc.param_name", default="bold")
+        param_type_style = self.console.get_style("restructuredtext.py_desc.param_type", default="cyan")
+        return_style = self.console.get_style("restructuredtext.py_desc.returns", default="none")
+
+        renderables = []
+
+        if param_order:
+            renderables.append(Text("Parameters", style=section_style))
+            param_table = Table("Name", "Type", "Description", show_lines=True)
+            for param_name in param_order:
+                entry = params[param_name]
+                param_table.add_row(
+                    Text(param_name, style=param_name_style),
+                    Text(entry["type"] or "-", style=param_type_style),
+                    Text(entry["desc"]),
+                )
+            renderables.append(param_table)
+            renderables.append(NewLine())
+
+        if returns_desc or returns_type:
+            renderables.append(Text("Returns", style=section_style))
+            if returns_type and returns_desc:
+                returns_text = f"{returns_type}: {returns_desc}"
+            else:
+                returns_text = returns_type or returns_desc
+            renderables.append(Text(returns_text, style=return_style))
+            renderables.append(NewLine())
+
+        if raises_items:
+            renderables.append(Text("Raises", style=section_style))
+            raises_table = Table("Exception", "Description", show_lines=True)
+            for exc_name, exc_desc in raises_items:
+                raises_table.add_row(Text(exc_name, style=param_name_style), Text(exc_desc))
+            renderables.append(raises_table)
+            renderables.append(NewLine())
+
+        if unknown_items:
+            renderables.append(Text("Other", style=section_style))
+            other_table = Table("Field", "Value", show_lines=True)
+            for key, value in unknown_items:
+                other_table.add_row(Text(key, style=param_name_style), Text(value))
+            renderables.append(other_table)
+
+        return renderables
+
+    def _render_py_desc_options(self, node):
+        """Render ``py:*`` directive options as structured metadata."""
+        options = node.get('options', {}) or {}
+        if not options:
+            return []
+
+        label_map = {
+            'value': 'Value',
+            'type': 'Type',
+            'module': 'Module',
+            'annotation': 'Annotation',
+            'canonical': 'Canonical',
+            'platform': 'Platform',
+            'synopsis': 'Synopsis',
+        }
+        flag_order = (
+            'async', 'classmethod', 'staticmethod', 'abstract',
+            'final', 'deprecated', 'noindex', 'no-index',
+        )
+
+        rows = []
+        for key, label in label_map.items():
+            value = options.get(key)
+            if value is not None and value != '':
+                rows.append((label, str(value)))
+
+        flags = []
+        for key in flag_order:
+            if key in options:
+                flags.append(key.replace('-', ' '))
+        if flags:
+            rows.append(('Flags', ', '.join(flags)))
+
+        if not rows:
+            return []
+
+        section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
+        meta_name_style = self.console.get_style("restructuredtext.py_desc.meta_name", default="bold")
+        meta_value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
+
+        table = Table("Property", "Value", show_lines=True)
+        for property_name, property_value in rows:
+            table.add_row(Text(property_name, style=meta_name_style), Text(property_value, style=meta_value_style))
+
+        return [Text("Details", style=section_style), table, NewLine()]
+
     def visit_py_desc(self, node):
         objtype = node.get('objtype', 'object')
         sig = node.get('sig', '')
         style = self.console.get_style("restructuredtext.py_desc", default="bold blue")
-        body = self._render_admonition_body(node.children)
+        body = []
+        body.extend(self._render_py_desc_options(node))
+        for child in node.children:
+            if isinstance(child, docutils.nodes.field_list):
+                body.extend(self._render_py_field_list(child))
+            else:
+                body.extend(self._render_admonition_body([child]))
         self.renderables.append(
             Panel(Group(*body) if body else "", title=f"[{objtype}] {sig}",
                   style=style, border_style=style)

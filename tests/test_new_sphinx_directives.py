@@ -425,6 +425,81 @@ def test_py_attribute_produces_panel(make_visitor):
     assert panels
 
 
+def test_py_function_field_list_renders_api_sections(render_text):
+    rst = (
+        ".. py:function:: greet(name: str) -> str\n\n"
+        "   Return a greeting for *name*.\n\n"
+        "   :param name: The name to greet.\n"
+        "   :type name: str\n"
+        "   :returns: A greeting string.\n"
+        "   :rtype: str\n"
+    )
+    out = _render(render_text, rst)
+    assert "Parameters" in out
+    assert "Name" in out and "Type" in out and "Description" in out
+    assert "name" in out and "The name to greet." in out
+    assert "Returns" in out and "str: A greeting string." in out
+    assert "Field Name" not in out and "Field Value" not in out
+
+
+def test_py_method_field_list_uses_same_format(render_text):
+    rst = (
+        ".. py:method:: Greeter.greet(name: str) -> str\n\n"
+        "   Greet a person.\n\n"
+        "   :param name: Person name.\n"
+        "   :type name: str\n"
+        "   :returns: Greeting text.\n"
+        "   :rtype: str\n"
+    )
+    out = _render(render_text, rst)
+    assert "Parameters" in out
+    assert "Returns" in out
+    assert "name" in out and "Person name." in out
+    assert "str: Greeting text." in out
+
+
+def test_py_data_value_option_is_visible(render_text):
+    rst = (
+        ".. py:data:: MAX_RETRIES\n"
+        "   :value: 3\n\n"
+        "   Maximum number of retry attempts.\n"
+    )
+    out = _render(render_text, rst)
+    assert "Details" in out
+    assert "Value" in out
+    assert "3" in out
+    assert "Maximum number of retry attempts." in out
+
+
+def test_py_attribute_type_option_is_visible(render_text):
+    rst = (
+        ".. py:attribute:: MyClass.value\n"
+        "   :type: int\n\n"
+        "   The current value.\n"
+    )
+    out = _render(render_text, rst)
+    assert "Details" in out
+    assert "Type" in out
+    assert "int" in out
+    assert "The current value." in out
+
+
+def test_py_function_additional_options_are_visible(render_text):
+    rst = (
+        ".. py:function:: pkg.compute(x)\n"
+        "   :module: pkg.core\n"
+        "   :annotation: static\n"
+        "   :canonical: pkg.core.compute\n"
+        "   :deprecated:\n\n"
+        "   Compute something.\n"
+    )
+    out = _render(render_text, rst)
+    assert "Module" in out and "pkg.core" in out
+    assert "Annotation" in out and "static" in out
+    assert "Canonical" in out and "pkg.core.compute" in out
+    assert "Flags" in out and "deprecated" in out
+
+
 # ── C domain directives ───────────────────────────────────────────────────────
 
 def test_c_function_produces_panel(make_visitor):
