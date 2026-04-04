@@ -1,8 +1,10 @@
 """Tests for new Sphinx-specific interpreted-text roles."""
 import pytest
+from rich.console import Console
 from rich.text import Text
 
 from rich_rst import _register_sphinx_directives, _register_sphinx_roles
+from rich_rst import RestructuredText
 
 
 @pytest.fixture(autouse=True)
@@ -54,6 +56,14 @@ def test_command_role_text_in_output(render_text):
 def test_program_role_text_in_output(render_text):
     out = _render(render_text, "Use :program:`python`.")
     assert "python" in out
+
+
+def test_program_role_does_not_bold_following_text():
+    console = Console(force_terminal=True, width=120, record=True)
+    console.print(RestructuredText(":program:`git` is a distributed version control system.", sphinx_compat=True))
+    out = console.export_text(styles=True)
+    assert "\x1b[1mgit\x1b[0m" in out
+    assert "\x1b[1;39;49m is a distributed version control system." not in out
 
 
 # ── :dfn: ─────────────────────────────────────────────────────────────────────

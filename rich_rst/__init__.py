@@ -1206,7 +1206,10 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_Text(self, node):
-        style = self.console.get_style("restructuredtext.text", default="default on default not underline")
+        style = self.console.get_style(
+            "restructuredtext.text",
+            default="default on default not bold not italic not underline",
+        )
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
             return
