@@ -1400,12 +1400,19 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
         return "<pre><!-- render failed --></pre>"
     pre_block = match.group(0)
 
-    # ── Fix 1: replace <code> with <span> ────────────────────────────────────
+    # ── Fix 1: replace <code> with <span style="color:…"> ───────────────────
     # The RTD theme targets `code` elements with CSS rules that break Rich's
     # inline styling (wrong font size, unwanted background/padding, whitespace
     # changes).  Swapping the tag name to <span> sidesteps all of that because
     # the theme has no special rules for <span> inside <pre>.
-    pre_block = re.sub(r'<code[^>]*>', '<span>', pre_block)
+    #
+    # Critically, we also set the Dracula foreground colour on the wrapper span
+    # so that every raw text node inside it (definition list terms, table cell
+    # values, line block text, option list entries, math content, footnote text,
+    # etc.) inherits the correct colour instead of falling back to the RTD body
+    # colour (#404040 on a white page, which is invisible on the dark terminal
+    # background).
+    pre_block = re.sub(r'<code[^>]*>', f'<span style="color:{_DRACULA_FG}">', pre_block)
     pre_block = pre_block.replace('</code>', '</span>')
 
     # ── Fix 2: pin white-space:pre on the <pre> element ──────────────────────
@@ -1434,28 +1441,48 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
 
     pre_block = re.sub(r'<span\s+style="([^"]*)">', _add_fg_color, pre_block)
 
-    # ── Fix 4: remove bold from spans that contain box-drawing characters ─────
-    # Rich renders panel borders (╭, │, ─, ╰, …) inside spans that carry
-    # font-weight: bold, making the border characters visually heavier in the
-    # browser.  Strip font-weight: bold from any leaf span (no child tags)
-    # whose text content contains at least one box-drawing character.
-    # The pattern covers the full Unicode Box Drawing block (U+2500–U+257F)
-    # which includes single-line, double-line, heavy, and dashed variants.
-    _BOX_RE = re.compile(r'[\u2500-\u257f]')
+    # ── Fix 4: split bold spans that mix box-drawing chars with regular text ──
+    # Rich renders panel borders (╭, │, ─, ╰, ╔, ═, ║, ╚, …) inside spans that
+    # carry font-weight: bold.  This makes pure border lines look heavier in the
+    # browser, but — more importantly — panel *title* spans such as
+    # "╭─── Warning:  ──╮" mix box chars with the label text "Warning:" in a
+    # single span.  A simple "strip bold from any span with box chars" approach
+    # would remove the intentional bold from the title text as well.
+    #
+    # The correct fix is to *split* each such span into alternating sub-spans:
+    #   • box-drawing character runs → style without font-weight: bold
+    #   • non-box-char runs          → original style (bold preserved)
+    #
+    # For spans whose entire content is box chars (e.g. a pure horizontal
+    # border) the split degenerates to a single no-bold span.
+    # For spans with no box chars the span is left unchanged.
+    _BOX_SPLIT_RE = re.compile(r'([\u2500-\u257f]+)')
 
-    def _strip_bold_from_box_span(m: re.Match) -> str:
+    def _fix_bold_in_box_span(m: re.Match) -> str:
         style, content = m.group(1), m.group(2)
-        if 'font-weight: bold' in style and _BOX_RE.search(content):
-            # Remove the bold declaration however it appears in the style string.
-            style = re.sub(r';\s*font-weight:\s*bold', '', style)
-            style = re.sub(r'font-weight:\s*bold\s*;?\s*', '', style)
-            style = style.strip('; ')
-            return f'<span style="{style}">{content}</span>'
-        return m.group(0)
+        if 'font-weight: bold' not in style or not _BOX_SPLIT_RE.search(content):
+            return m.group(0)
+        # Build a variant of the style without bold for box-char segments.
+        style_no_bold = re.sub(r';\s*font-weight:\s*bold', '', style)
+        style_no_bold = re.sub(r'font-weight:\s*bold\s*;?\s*', '', style_no_bold)
+        style_no_bold = style_no_bold.strip('; ')
+        # Split on runs of box-drawing chars.  With a capturing group,
+        # re.split gives alternating [non-box, BOX, non-box, BOX, …] where
+        # odd-indexed items are the captured box-char runs.
+        parts = _BOX_SPLIT_RE.split(content)
+        result = []
+        for i, part in enumerate(parts):
+            if not part:
+                continue
+            if i % 2 == 1:  # box-char run: drop bold
+                result.append(f'<span style="{style_no_bold}">{part}</span>')
+            else:            # text run: keep full style (bold intact)
+                result.append(f'<span style="{style}">{part}</span>')
+        return ''.join(result)
 
     pre_block = re.sub(
         r'<span\s+style="([^"]*)">([^<]*)</span>',
-        _strip_bold_from_box_span,
+        _fix_bold_in_box_span,
         pre_block,
     )
 
