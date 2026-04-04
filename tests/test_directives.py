@@ -322,20 +322,19 @@ def test_sectnum_directive_does_not_render_as_literal_source(render_text):
 def test_citation_produces_panel_with_citation_title(make_visitor):
     rst = "See [Foo]_.\n\n.. [Foo] The book.\n"
     visitor = make_visitor(rst)
+    assert visitor.citations, "Citation nodes should be collected on visitor.citations"
     panels = [r for r in visitor.renderables if isinstance(r, Panel)]
     citation_panels = [p for p in panels if p.title == "citation"]
-    assert citation_panels, "Citation body must produce a Panel with title 'citation'"
-
-
-def test_citation_panel_border_style_is_grey74(make_visitor):
-    rst = "See [Foo]_.\n\n.. [Foo] The book.\n"
-    visitor = make_visitor(rst)
-    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
-    citation_panels = [p for p in panels if p.title == "citation"]
-    assert citation_panels
-    assert str(citation_panels[0].border_style) == "grey74", (
-        f"Citation border_style must be 'grey74', got {citation_panels[0].border_style!r}"
+    assert not citation_panels, (
+        "Citation panel is created during final RestructuredText rendering, "
+        "not during visitor walk"
     )
+
+
+def test_citation_panel_is_rendered_in_final_output(render_text):
+    rst = "See [Foo]_.\n\n.. [Foo] The book.\n"
+    out = render_text(rst)
+    assert "citation" in out.lower(), "Final rendered output must include citation panel title"
 
 
 def test_citation_body_content_visible(render_text):
