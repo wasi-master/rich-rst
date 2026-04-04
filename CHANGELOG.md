@@ -144,65 +144,19 @@
 
 ### Highlights
 
-- Vendored `docutils` into `rich_rst` and removed it as an external dependency (licensing and packaging simplification).
-- Added `show_errors` (replacing `hide_errors`) and `show_line_numbers` in both API and CLI.
-- Added a `--version` flag to the cli
-- Expanded core rendering support for major RST structures: tables, figures, topics, rubric, footnote references, title references, and richer `docinfo` metadata handling.
-- Improved heading styling with a clear six-level visual hierarchy.
-- Improved code and math rendering: clearer literal block language labels and math blocks rendered in a dedicated panel.
-- Added generic handlers for `compound` and `inline` nodes to improve compatibility and style-aware inline rendering.
-- Added Unicode math symbol conversion for inline (`:math:`) and block (`.. math::`) expressions.
+- Vendored `docutils` into `rich_rst` and removed the external dependency.
+- Expanded reStructuredText coverage, including better handling of tables, figures, docinfo, lists, block quotes, footnotes, headings, and highlights.
+- Added stronger Sphinx compatibility (`sphinx_compat=True`) with broad directive/role support, including better Python domain directive handling.
+- Added and improved export/rendering helpers (`render_to_string`, `render_to_html`, `render_to_svg`) and visitor extension APIs (`register_visitor` decorator usage plus unregister/list helpers).
+- Improved include/literalinclude behavior with safer include handling and richer `literalinclude` options (`:lines:`, `:language:`, `:linenos:`, `:encoding:`).
 
-### Sphinx Compatibility
+### CLI and API
 
-- Added support for key Sphinx directives under `sphinx_compat=True`, including version/deprecation blocks, code directives, document-structure directives (`toctree`, `glossary`, `hlist`, `only`, etc.), and domain object directives (Python/C/C++/JS).
-- Added broad Sphinx role coverage, including `:pep:`, `:rfc:`, cross-reference roles, and improved handling for roles such as `:command:`, `:program:`, `:dfn:`, `:menuselection:`, `:samp:`, and `:file:`.
-- Added silent no-op handling for directives such as `index`, `tabularcolumns`, `currentmodule`, and `auto*` autodoc directives to avoid noisy parsing errors.
-- Added silent no-op registration for `.. class::` and `.. role::` in `sphinx_compat` mode.
-- Improved `.. hlist::` rendering to use borderless multi-column tables honoring `:columns:`.
+- Replaced `hide_errors` with `show_errors` and added line-number support for code rendering.
+- Added `--version`, `-o/--output`, `--html-theme`, and `--list-html-themes` CLI options.
+- Fixed HTML export structure and related `--save-html` formatting issues.
 
-### Stability and Rendering Fixes
+### Stability
 
-- Fixed multiple visitor edge cases and crashes (system messages, pending/problematic nodes, sidebar subtitle handling, option/field guards, raw lexer resolution, and paragraph recursion behavior).
-- Fixed block and quote rendering to preserve inline markup: `visit_block_quote`, `_collect_body_renderables`, and `visit_sidebar` now use sub-visitor rendering instead of `astext()`, preserving bold, italic, links, and inline code.
-- Fixed list rendering comprehensively: nested bullet/enumerated lists, custom numbering styles, proper indentation, and preserved inline markup.
-- Fixed footnote/generated alignment and footer rendering so all collected footer elements are preserved.
-- Fixed markup safety issue in definition-list classifier rendering (avoids unintended Rich markup interpretation).
-- Fixed image target-link resolution in figure/reference contexts.
-- Fixed subscript/superscript rendering silently dropping characters not in the translation table.
-- Added safer `.. include::` handling with path traversal protection, `encoding` and line-range options, and graceful admonition-style errors.
-- Fixed nested blockquote depth rendering so quote markers are applied consistently across paragraph renderables.
-- Updated blockquote attribution marker to use an em dash for clearer output.
-- Refactored Sphinx role registration locking to use inline lock scope for thread-safe, per-process registration.
-
-### API and Convenience
-
-- Added `RestructuredText.render_to_string(width=None, *, force_terminal=False)`: convenience method that renders markup and returns a plain string without requiring a `Console` instance.
-- Added `RSTVisitor.register_visitor(node_class, visit_fn=None, depart_fn=None)` class method with `dispatch_visit`/`dispatch_departure` overrides to allow third-party code to render custom docutils nodes without subclassing.
-- Added support for `.. literalinclude::` directive: reads and renders the referenced file (resolved relative to the RST source) as a syntax-highlighted code block, with support for `:lines:`, `:language:`, `:linenos:`, and `:encoding:` options.
-- Enhanced `.. toctree::` rendering: entries now display with path-depth indentation, respect `:maxdepth:` for depth limiting, and show explicit `Title <docname>` labels.
-- Exported `RSTVisitor` in `__all__` to make it part of the public API.
-- Renamed internal attribute `RestructuredText.log_errors` → `RestructuredText.show_errors` to match the constructor parameter name.
-- Added `RestructuredText.render_to_html(...)` and `RestructuredText.render_to_svg(...)` helpers for direct export.
-- Extended `RSTVisitor.register_visitor(...)` with decorator usage and added `unregister_visitor(...)` and `list_registered_visitors()` class methods.
-
-### CLI
-
-- Added `--show-line-numbers` support for syntax-highlighted code blocks.
-- Fixed HTML output structure (`<html>/<head>` order and `<pre><code>` nesting).
-- Fixed file-handle leak when reading input files.
-- Moved Rich traceback installation to CLI entry only (importing library no longer changes global traceback behavior).
-- Fixed `--save-html` format-string `KeyError` caused by bare CSS braces.
-- Added `-o`/`--output` to write rendered text output to a file.
-- Added `--html-theme` and `--list-html-themes` for HTML export theme selection and discovery.
-
-### Documentation and Tests
-
-- Rewrote key docs pages (`index.rst`, `documentation.rst`) for clearer onboarding and reference flow.
-- Updated `test_api.py`: fixed assertions for renamed `log_errors` attribute; added tests for `render_to_string()` and `register_visitor()`.
-- Updated `test_definition_list.py`: relaxed over-specified structural assertions to content-presence checks after definition-list rendering improvements.
-- Updated `test_block_elements.py`: added tests verifying that bold and italic inline markup inside block quotes produces correct `Span` objects.
-- Updated `test_new_sphinx_directives.py`: added tests for toctree hierarchy/maxdepth/explicit titles and `literalinclude` file-reading functionality.
-- Reworked tests to improve granular coverage of individual features.
-- Expanded documentation for style keys and include directive behavior/security (`styling.rst`, `include_directive.rst`, vendoring notes).
-- Added tests for CSV/list tables, HTML/SVG rendering, visitor decorator APIs, and new CLI flags/error paths.
+- Fixed multiple rendering edge cases and regressions in nested lists/quotes, definition-list classifiers, image links, and Sphinx role escaping.
+- Improved vendoring reliability and updated tests/documentation to match new behavior.
