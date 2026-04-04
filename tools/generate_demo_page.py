@@ -1157,55 +1157,55 @@ DEMOS = [
         "title": "Sphinx Cross-Reference Roles",
         "demos": [
             {
-                "name": ":func: role",
+                "name": "\:func\: role",
                 "rst": "Call :func:`os.path.join` to join paths.",
             },
             {
-                "name": ":class: role",
+                "name": "\:class\: role",
                 "rst": "Use :class:`pathlib.Path` for path handling.",
             },
             {
-                "name": ":meth: role",
+                "name": "\:meth\: role",
                 "rst": "Call :meth:`str.upper` to uppercase a string.",
             },
             {
-                "name": ":attr: role",
+                "name": "\:attr\: role",
                 "rst": "Access :attr:`os.sep` for the path separator.",
             },
             {
-                "name": ":mod: role",
+                "name": "\:mod\: role",
                 "rst": "The :mod:`os.path` module provides path utilities.",
             },
             {
-                "name": ":exc: role",
+                "name": "\:exc\: role",
                 "rst": "Raises :exc:`ValueError` when the input is invalid.",
             },
             {
-                "name": ":obj: role",
+                "name": "\:obj\: role",
                 "rst": "Set :obj:`sys.path` to control module lookup.",
             },
             {
-                "name": ":data: role",
+                "name": "\:data\: role",
                 "rst": "Read :data:`sys.version` for the Python version.",
             },
             {
-                "name": ":const: role",
+                "name": "\:const\: role",
                 "rst": "The value of :const:`math.pi` is approximately 3.14.",
             },
             {
-                "name": ":term: role",
+                "name": "\:term\: role",
                 "rst": "A :term:`decorator` wraps another function.",
             },
             {
-                "name": ":ref: role (cross-reference)",
+                "name": "\:ref\: role (cross-reference)",
                 "rst": "See :ref:`some-label` for details.",
             },
             {
-                "name": ":doc: role",
+                "name": "\:doc\: role",
                 "rst": "Refer to :doc:`installation` for setup instructions.",
             },
             {
-                "name": ":envvar: role",
+                "name": "\:envvar\: role",
                 "rst": "Set :envvar:`PYTHONPATH` before running.",
             },
         ],

@@ -2586,8 +2586,8 @@ deprecated-removed
 Sphinx Cross-Reference Roles
 ----------------------------
 
-:func: role
-~~~~~~~~~~~
+\:func\: role
+~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2600,8 +2600,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:class: role
-~~~~~~~~~~~~
+\:class\: role
+~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2614,8 +2614,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:meth: role
-~~~~~~~~~~~
+\:meth\: role
+~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2628,8 +2628,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:attr: role
-~~~~~~~~~~~
+\:attr\: role
+~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2642,8 +2642,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:mod: role
-~~~~~~~~~~
+\:mod\: role
+~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2656,8 +2656,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:exc: role
-~~~~~~~~~~
+\:exc\: role
+~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2670,8 +2670,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:obj: role
-~~~~~~~~~~
+\:obj\: role
+~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2684,8 +2684,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:data: role
-~~~~~~~~~~~
+\:data\: role
+~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2698,8 +2698,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:const: role
-~~~~~~~~~~~~
+\:const\: role
+~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2712,8 +2712,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:term: role
-~~~~~~~~~~~
+\:term\: role
+~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2726,8 +2726,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:ref: role (cross-reference)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\:ref\: role (cross-reference)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2740,8 +2740,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:doc: role
-~~~~~~~~~~
+\:doc\: role
+~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2754,8 +2754,8 @@ Sphinx Cross-Reference Roles
    </span></pre>
    </div>
 
-:envvar: role
-~~~~~~~~~~~~~
+\:envvar\: role
+~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
