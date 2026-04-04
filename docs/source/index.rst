@@ -71,6 +71,7 @@ and pull requests are welcome on the `issue tracker`_.
    documentation
    demo
    styling
+   extension_api
    include_directive
    limitations
 

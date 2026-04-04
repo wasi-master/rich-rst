@@ -4,6 +4,8 @@ API Reference
 Python API
 ----------
 
+For visitor and plugin-style customization, see :doc:`Extension API <extension_api>`.
+
 The main class is :class:`~rich_rst.RestructuredText`. Several aliases are
 provided for convenience; they are all identical:
 

@@ -71,6 +71,7 @@ The renderer is designed for terminal output, so not every docutils feature can 
 ## Documentation
 
 - [Project documentation](https://rich-rst.readthedocs.io/en/latest/)
+- [Extension API guide](https://rich-rst.readthedocs.io/en/latest/extension_api.html)
 - [Source code](https://github.com/wasi-master/rich-rst)
 - [Issue tracker](https://github.com/wasi-master/rich-rst/issues)
 
