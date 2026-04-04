@@ -1,0 +1,14 @@
+# CODEOWNERS
+
+* @wasi-master
+
+/rich_rst/ @wasi-master
+
+/tests/ @wasi-master
+/tools/ @wasi-master
+
+/docs/ @wasi-master
+/README.md @wasi-master
+/CHANGELOG.md @wasi-master
+/VENDORED.md @wasi-master
+/pyproject.toml @wasi-master
