@@ -8,6 +8,8 @@ on:
 
 jobs:
   test:
+    permissions:
+      contents: read
     timeout-minutes: 45
     defaults:
       run:
