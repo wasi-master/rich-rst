@@ -45,7 +45,12 @@ dependencies = [
 
 [project.optional-dependencies]
 docs = [
+    "docutils"
+    "rich"
+    "rich_rst"
     "sphinx"
+    "sphinx_copybutton"
+    "sphinx_rtd_theme"
 ]
 
 [tool.setuptools]
