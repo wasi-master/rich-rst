@@ -2125,9 +2125,10 @@ figure with legend
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭─ Caption text. ─╮</span>
-   <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span> 🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">Diagram</a></span>      <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
-   <span style="color: #bd93f9; text-decoration-color: #bd93f9">╰─ Legend text wi─╯</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭───────────────── Caption text. ─────────────────╮</span>
+   <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span> 🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">Diagram</a></span>                                      <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
+   <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span> <span style="color: #909194; text-decoration-color: #909194">Legend text with more details about the figure.</span> <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
+   <span style="color: #bd93f9; text-decoration-color: #bd93f9">╰─────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
 
@@ -2220,7 +2221,14 @@ contents directive (table of contents)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">.. contents:: Table of Contents    :depth: 2 <span style="color:#f8f8f2">╭──────────────────────────────</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭───────────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Table of Contents </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">────────────────────────────╮</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; font-weight: bold; text-decoration: underline">Section A</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                             </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                          </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; font-weight: bold; text-decoration: underline">Section B</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                             </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                          </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                          </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
    <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                Section A                                 </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content A.</span>
@@ -2248,11 +2256,11 @@ sectnum directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">.. sectnum:: <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────</span>
-   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                 Overview                                 </span><span style="color:#f8f8f2">│</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                               1   Overview                               </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
    <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
-   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                 Details                                  </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                               2   Details                                </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
@@ -2269,7 +2277,10 @@ header directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">.. header:: My Document Header <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔════════════════════════════════</span><span style="color:#f8f8f2;font-weight: bold"> caption </span><span style="color:#f8f8f2">═════════════════════════════════╗</span>
+   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                            My Document Header                            </span><span style="color:#f8f8f2">║</span>
+   <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
    </span></pre>
    </div>
 
@@ -2286,8 +2297,9 @@ footer directive
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
-
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.. footer:: Page |page|</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                               Page |page|                                <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
 

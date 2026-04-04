@@ -6,6 +6,14 @@ import docutils.parsers.rst.languages.en
 docutils.core.publish_doctree('Hello *world*')
 base = os.path.dirname(docutils.__file__)
 dpath = os.path.join(base, 'parsers/rst/directives')
+tpath = os.path.join(base, 'transforms')
+
+
+REQUIRED_DOCUTILS_RELATIVE_FILES = {
+  # Directive modules under parsers/rst/directives/parts.py import
+  # transforms.parts; keep this explicit so vendoring cannot regress.
+  'docutils/transforms/parts.py',
+}
 
 
 def rewrite_vendored_source(content):
@@ -117,7 +125,23 @@ for f in os.listdir(dpath):
         p = os.path.join(dpath, f)
         files.add(p)
 
+# Always vendor required transform modules used by vendored directives.
+for f in os.listdir(tpath):
+  if f.endswith('.py') and f == 'parts.py':
+    p = os.path.join(tpath, f)
+    files.add(p)
+
 files = sorted(files)
+
+# Fail fast if any explicitly required module was not selected.
+vendored_rel_files = {
+  os.path.relpath(path, os.path.dirname(base)).replace(os.sep, '/')
+  for path in files
+}
+missing_required = sorted(REQUIRED_DOCUTILS_RELATIVE_FILES - vendored_rel_files)
+if missing_required:
+  missing_msg = ', '.join(missing_required)
+  raise RuntimeError(f"Vendoring set is missing required modules: {missing_msg}")
 
 vendor_dir = './rich_rst/_vendor'
 os.makedirs(vendor_dir, exist_ok=True)

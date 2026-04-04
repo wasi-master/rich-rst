@@ -260,6 +260,41 @@ def test_option_list_multiple_options_all_visible(render_text):
     assert "Quiet" in out, "Option -q description must be rendered"
 
 
+# ── Built-in parts directives ───────────────────────────────────────────────
+
+def test_contents_directive_does_not_render_as_literal_source(render_text):
+    rst = (
+        ".. contents:: Table of Contents\n"
+        "   :depth: 2\n\n"
+        "Section A\n"
+        "---------\n\n"
+        "Content A.\n\n"
+        "Section B\n"
+        "---------\n\n"
+        "Content B.\n"
+    )
+    out = render_text(rst)
+    assert "Table of Contents" in out
+    assert ".. contents::" not in out
+    assert ":depth: 2" not in out
+
+
+def test_sectnum_directive_does_not_render_as_literal_source(render_text):
+    rst = (
+        ".. sectnum::\n"
+        "   :depth: 2\n"
+        "   :start: 3\n\n"
+        "Section A\n"
+        "---------\n\n"
+        "Content A.\n"
+    )
+    out = render_text(rst)
+    assert "Section A" in out
+    assert ".. sectnum::" not in out
+    assert ":depth: 2" not in out
+    assert ":start: 3" not in out
+
+
 # ── Citations ─────────────────────────────────────────────────────────────────
 
 def test_citation_produces_panel_with_citation_title(make_visitor):
