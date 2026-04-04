@@ -361,7 +361,12 @@ def test_figure_with_caption_and_legend(make_visitor):
     assert panels[0].title == "Figure caption text.", (
         f"Figure panel title must equal the caption, got {panels[0].title!r}"
     )
-    assert panels[0].subtitle is not None, "Figure with legend must have a non-None subtitle"
+    panel_console = Console(force_terminal=True, width=120, record=True)
+    panel_console.print(panels[0])
+    rendered = panel_console.export_text()
+    assert "Legend text" in rendered and "more legend." in rendered, (
+        "Figure legend text must be visible in rendered panel body"
+    )
 
 
 def test_linked_image_with_complex_attributes(render_text):

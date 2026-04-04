@@ -1629,10 +1629,18 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         else:
             image_text = Text("🌆 Image")
         caption = caption_node.astext() if caption_node is not None else None
-        subtitle = legend_node.astext().replace("\n", " ") if legend_node is not None else None
+        legend_text = legend_node.astext().replace("\n", " ") if legend_node is not None else None
 
         border_style = self.console.get_style("restructuredtext.figure_border", default="blue")
-        self.renderables.append(Panel(image_text, title=caption, subtitle=subtitle, border_style=border_style, expand=False))
+        legend_style = self.console.get_style("restructuredtext.figure_legend", default="dim")
+        body_renderable = (
+            Group(image_text, Text(legend_text, style=legend_style))
+            if legend_text is not None
+            else image_text
+        )
+        # Render legend inside the body so it can wrap naturally instead of
+        # being cropped in a one-line subtitle slot.
+        self.renderables.append(Panel(body_renderable, title=caption, border_style=border_style, expand=False))
         raise docutils.nodes.SkipChildren()
 
     _BULLET_LIST_MARKERS = [" • ", " ∘ ", " ▪ "]

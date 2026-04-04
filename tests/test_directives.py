@@ -9,8 +9,8 @@ Formatting contract
   alt text is supplied it follows the emoji with a ``#6088ff`` (link-style)
   coloured span.
 * **Figure** — rendered as a ``Panel`` with ``border_style='blue'``,
-  ``title`` equal to the caption text, and ``subtitle`` equal to the
-  legend text (or ``None`` when no legend is present).
+    ``title`` equal to the caption text; legend text is rendered in the
+    panel body so it wraps on narrow terminals.
 * **Topic** — rendered as a ``Panel`` whose ``title`` equals the topic
   heading.
 * **Sidebar** — rendered as a ``Panel`` whose ``title`` equals the
@@ -25,9 +25,11 @@ Formatting contract
   is rendered with a ``grey74`` coloured span.
 """
 from rich.align import Align
+from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
+from rich_rst import RestructuredText
 
 
 # ── Images ────────────────────────────────────────────────────────────────────
@@ -97,8 +99,8 @@ def test_figure_legend_sets_subtitle(make_visitor):
     rst = ".. figure:: img.png\n\n   Caption.\n\n   Legend text here.\n"
     visitor = make_visitor(rst)
     panels = [r for r in visitor.renderables if isinstance(r, Panel)]
-    assert panels[0].subtitle == "Legend text here.", (
-        f"Figure legend must set panel subtitle, got {panels[0].subtitle!r}"
+    assert panels[0].subtitle is None, (
+        f"Figure legend should not use panel subtitle, got {panels[0].subtitle!r}"
     )
 
 
@@ -106,7 +108,24 @@ def test_figure_legend_visible(make_visitor):
     rst = ".. figure:: img.png\n\n   Caption.\n\n   Legend text here.\n"
     visitor = make_visitor(rst)
     panels = [r for r in visitor.renderables if isinstance(r, Panel)]
-    assert panels[0].subtitle == "Legend text here."
+    panel_text = Console(width=120, force_terminal=True, record=True)
+    panel_text.print(panels[0])
+    assert "Legend text here." in panel_text.export_text()
+
+
+def test_figure_legend_wraps_without_truncation():
+    rst = (
+        ".. figure:: https://example.com/diagram.png\n"
+        "   :alt: Diagram\n\n"
+        "   Caption text.\n\n"
+        "   Legend text with more details about the figure.\n"
+    )
+    console = Console(force_terminal=True, width=24, record=True)
+    console.print(RestructuredText(rst))
+    output = console.export_text()
+    assert "Legend text with" in output
+    assert "more details about" in output
+    assert "the figure." in output
 
 
 # ── Topics ────────────────────────────────────────────────────────────────────
