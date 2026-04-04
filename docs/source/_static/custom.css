@@ -1,8 +1,455 @@
-.wy-nav-content {
-    max-width: 1200px !important;
+/* ==========================================================================
+   rich-rst docs — custom theme layer
+   Fonts: Google Sans (body) + JetBrains Mono (code)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Google Fonts import
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* --------------------------------------------------------------------------
+   Global typography
+   -------------------------------------------------------------------------- */
+body,
+.page,
+.content {
+  font-family: 'Google Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+/* Monospace elements */
+code,
+pre,
+kbd,
+samp,
+.highlight,
+.highlight pre {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace !important;
+  font-variant-ligatures: contextual;
+  font-feature-settings: 'calt' 1, 'liga' 1;
+}
+
+/* Heading weight & tracking */
+h1, h2, h3, h4, h5, h6,
+.page h1, .page h2, .page h3 {
+  font-family: 'Google Sans', 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* --------------------------------------------------------------------------
+   Page-entry animation — sections fade + slide up on load
+   -------------------------------------------------------------------------- */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(91, 79, 233, 0.0); }
+  50%       { box-shadow: 0 0 12px 4px rgba(91, 79, 233, 0.18); }
+}
+
+/* Animate the main article content */
+article.bd-article,
+article[role="main"],
+div[role="main"],
+.page-content {
+  animation: fadeSlideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger each section */
+section > section {
+  animation: fadeSlideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Sidebar fades in */
+.sidebar-tree,
+nav.bd-sidenav {
+  animation: fadeIn 0.5s ease both;
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar — subtle gradient background stripe
+   -------------------------------------------------------------------------- */
+.sidebar-drawer,
+nav.bd-sidenav,
+.bd-sidebar {
+  border-right: 1px solid var(--color-sidebar-background-border);
+}
+
+/* Active nav item pill */
+.sidebar-tree .current > .reference,
+.sidebar-tree .current-page > .reference {
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Sidebar section titles */
+.sidebar-tree .caption {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-top: 1.2rem;
+}
+
+/* Sidebar nav links — smooth hover transition */
+.sidebar-tree a {
+  transition: color 0.15s ease, background-color 0.15s ease;
+  border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Content area
+   -------------------------------------------------------------------------- */
+.page-content,
+article.bd-article {
+  max-width: 860px;
 }
 
 /* Preserve underline text decoration on links within demo code blocks */
 span[style*="text-decoration: underline"] a {
-    text-decoration: underline !important;
+  text-decoration: underline !important;
+}
+
+/* --------------------------------------------------------------------------
+   Headings — coloured left accent bar on h2/h3
+   -------------------------------------------------------------------------- */
+h2 {
+  padding-bottom: 0.35em;
+  border-bottom: 2px solid var(--color-brand-primary);
+  margin-top: 2rem;
+}
+
+h3 {
+  position: relative;
+  padding-left: 0.9em;
+}
+
+h3::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.1em;
+  width: 3px;
+  background: var(--color-brand-primary);
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+/* Heading anchor links — show on hover */
+a.headerlink {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  margin-left: 0.4em;
+  font-size: 0.8em;
+  color: var(--color-brand-primary) !important;
+  text-decoration: none !important;
+}
+
+h1:hover a.headerlink,
+h2:hover a.headerlink,
+h3:hover a.headerlink,
+h4:hover a.headerlink,
+h5:hover a.headerlink,
+h6:hover a.headerlink {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Code blocks — styled card with gradient header bar
+   -------------------------------------------------------------------------- */
+div.highlight,
+div.highlight-default,
+div.highlight-python,
+div.highlight-bash,
+div.highlight-text,
+div.highlight-json {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  margin: 1.25rem 0;
+  border: 1px solid var(--color-background-border, rgba(0,0,0,0.1));
+}
+
+div.highlight:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Colour-bar accent at the top of each code block */
+div.highlight::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, #5B4FE9 0%, #A78BFA 50%, #38bdf8 100%);
+  border-radius: 10px 10px 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+div.highlight pre {
+  border-radius: 0 0 10px 10px;
+  padding: 1.1rem 1.3rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  overflow-x: auto;
+}
+
+/* Inline code */
+code.docutils.literal.notranslate,
+p code,
+li code,
+td code {
+  border-radius: 5px;
+  padding: 0.15em 0.45em;
+  font-size: 0.875em;
+  font-weight: 500;
+  border: 1px solid var(--color-background-border, rgba(0,0,0,0.08));
+  background: var(--color-inline-code-background, rgba(91, 79, 233, 0.07));
+  transition: background 0.15s ease;
+}
+
+/* Copy button (sphinx_copybutton) */
+.copybtn {
+  border-radius: 5px !important;
+  transition: background-color 0.2s ease, opacity 0.2s ease !important;
+}
+
+/* --------------------------------------------------------------------------
+   Admonition boxes — rounded, colourful, with icon pulse on hover
+   -------------------------------------------------------------------------- */
+.admonition {
+  border-radius: 10px;
+  border-left-width: 4px;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  margin: 1.25rem 0;
+}
+
+.admonition:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.admonition-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Specific admonition accent colours */
+.admonition.note       { border-left-color: #5B4FE9; }
+.admonition.warning    { border-left-color: #f59e0b; }
+.admonition.danger,
+.admonition.error      { border-left-color: #ef4444; }
+.admonition.tip,
+.admonition.hint       { border-left-color: #10b981; }
+.admonition.important  { border-left-color: #3b82f6; }
+.admonition.caution    { border-left-color: #f97316; }
+.admonition.attention  { border-left-color: #eab308; }
+
+/* --------------------------------------------------------------------------
+   Tables — zebra stripes + hover row highlight
+   -------------------------------------------------------------------------- */
+table.docutils {
+  border-radius: 8px;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  width: 100%;
+  font-size: 0.9rem;
+  margin: 1.25rem 0;
+}
+
+table.docutils thead tr th {
+  background: var(--color-brand-primary);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 0.65rem 1rem;
+}
+
+table.docutils tbody tr:nth-child(even) td {
+  background: rgba(91, 79, 233, 0.04);
+}
+
+table.docutils tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+table.docutils tbody tr:hover td {
+  background: rgba(91, 79, 233, 0.08);
+}
+
+table.docutils td, table.docutils th {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--color-background-border, rgba(0,0,0,0.08));
+}
+
+/* --------------------------------------------------------------------------
+   Links — smooth colour transition + animated underline
+   -------------------------------------------------------------------------- */
+a {
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbar — minimal & branded
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-primary);
+  border-radius: 3px;
+  opacity: 0.6;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Search highlight
+   -------------------------------------------------------------------------- */
+.highlighted {
+  background: rgba(91, 79, 233, 0.22) !important;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+/* --------------------------------------------------------------------------
+   "On this page" / TOC sidebar
+   -------------------------------------------------------------------------- */
+.toc-tree a {
+  transition: color 0.15s ease, padding-left 0.15s ease;
+}
+
+.toc-tree a:hover {
+  padding-left: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Prev/next page navigation
+   -------------------------------------------------------------------------- */
+.bottom-of-page .prev-next-area a {
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bottom-of-page .prev-next-area a:hover {
+  transform: translateX(3px);
+  box-shadow: 0 2px 10px rgba(91, 79, 233, 0.2);
+}
+
+.bottom-of-page .prev-next-area a.prev-page:hover {
+  transform: translateX(-3px);
+}
+
+/* --------------------------------------------------------------------------
+   API reference — autodoc styling
+   -------------------------------------------------------------------------- */
+dl.py.class > dt,
+dl.py.function > dt,
+dl.py.method > dt,
+dl.py.attribute > dt {
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.93rem;
+}
+
+dl.py.class  > dt { border-left: 4px solid var(--color-brand-primary); }
+dl.py.function > dt,
+dl.py.method > dt { border-left: 4px solid #10b981; }
+dl.py.attribute > dt { border-left: 4px solid #f59e0b; }
+
+/* --------------------------------------------------------------------------
+   Smooth page transition (triggered by custom.js)
+   -------------------------------------------------------------------------- */
+.page-transition-out {
+  animation: fadeIn 0.2s ease reverse both;
+}
+
+/* --------------------------------------------------------------------------
+   Dark mode tweaks
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  div.highlight {
+    border-color: rgba(167, 139, 250, 0.15);
+  }
+
+  table.docutils thead tr th {
+    background: #5B4FE9;
+  }
+
+  table.docutils tbody tr:nth-child(even) td {
+    background: rgba(167, 139, 250, 0.06);
+  }
+
+  table.docutils tbody tr:hover td {
+    background: rgba(167, 139, 250, 0.1);
+  }
+}
+
+/* Furo data-theme attribute dark mode */
+[data-theme="dark"] div.highlight {
+  border-color: rgba(167, 139, 250, 0.15);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] table.docutils thead tr th {
+  background: #5B4FE9;
+}
+
+[data-theme="dark"] table.docutils tbody tr:nth-child(even) td {
+  background: rgba(167, 139, 250, 0.06);
+}
+
+[data-theme="dark"] table.docutils tbody tr:hover td {
+  background: rgba(167, 139, 250, 0.1);
+}
+
+[data-theme="dark"] .highlighted {
+  background: rgba(167, 139, 250, 0.3) !important;
 }

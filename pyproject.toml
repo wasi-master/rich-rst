@@ -51,7 +51,7 @@ docs = [
     "rich_rst",
     "sphinx",
     "sphinx_copybutton",
-    "sphinx_rtd_theme"
+    "furo"
 ]
 
 [tool.setuptools]
