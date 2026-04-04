@@ -172,6 +172,19 @@ def test_hlist_no_crash(make_visitor):
     assert isinstance(visitor.renderables, list)
 
 
+def test_highlights_bullets_render_on_same_line(render_text):
+    rst = (
+        ".. highlights::\n\n"
+        "   Key takeaways:\n\n"
+        "   - Keep it simple.\n"
+        "   - Document everything.\n"
+    )
+    out = _render(render_text, rst)
+    lines = out.splitlines()
+    assert any("•" in line and "Keep it simple." in line for line in lines)
+    assert any("•" in line and "Document everything." in line for line in lines)
+
+
 # ── toctree ───────────────────────────────────────────────────────────────────
 
 def test_toctree_renders_as_panel(make_visitor):

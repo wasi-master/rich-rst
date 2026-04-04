@@ -1031,12 +1031,8 @@ Highlights directive
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">Key takeaways:</span>
 
 
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> •</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Keep it simple.</span>
-
-
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Document everything.</span>
+   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> • </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">Keep it simple.</span>
+   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Document everything.</span>
    </span></pre>
    </div>
 

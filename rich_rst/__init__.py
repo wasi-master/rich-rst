@@ -1615,6 +1615,38 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     _BULLET_LIST_MARKERS = [" • ", " ∘ ", " ▪ "]
 
+    @staticmethod
+    def _merge_bullet_markers_with_text(renderables):
+        """Merge marker-only bullet Text nodes with their following Text node.
+
+        List rendering emits the marker and item body as separate Text
+        renderables. In contexts that prefix each renderable line-by-line
+        (e.g. block quotes), that separation can visually split bullets from
+        their text. This helper keeps marker and first text fragment together.
+        """
+        merged = []
+        i = 0
+        bullet_markers = {"•", "∘", "▪"}
+        while i < len(renderables):
+            current = renderables[i]
+            if (
+                isinstance(current, Text)
+                and current.plain.strip() in bullet_markers
+                and i + 1 < len(renderables)
+                and isinstance(renderables[i + 1], Text)
+            ):
+                combined = Text()
+                combined.append_text(current)
+                combined.append_text(renderables[i + 1])
+                merged.append(combined)
+                i += 2
+                continue
+
+            merged.append(current)
+            i += 1
+
+        return merged
+
     def _render_bullet_list(self, node, level=0):
         """Recursively render a bullet list with support for unlimited nesting and any child elements."""
         marker_style = self.console.get_style("restructuredtext.bullet_list_marker", default="bold yellow")
@@ -1989,6 +2021,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             # inside the paragraph is preserved instead of being flattened by
             # astext().
             para_renderables = self._render_child_inline(paragraph)
+            para_renderables = self._merge_bullet_markers_with_text(para_renderables)
             if para_renderables and isinstance(para_renderables[0], Text):
                 first = para_renderables[0]
                 first.rstrip()
