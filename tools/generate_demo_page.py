@@ -63,6 +63,8 @@ _DRACULA = TerminalTheme(
 
 # Background colour used for the wrapper div.
 _DRACULA_BG = "#282a36"
+# Foreground colour for the Dracula theme (used as a fallback for unstyled text).
+_DRACULA_FG = "#f8f8f2"
 
 # Width used for all demo renders (matching the existing demos).
 _RENDER_WIDTH = 76
@@ -139,6 +141,22 @@ DEMOS = [
                 "rst": ":program:`git` is a distributed version control system.",
             },
             {
+                "name": "All inline styles combined",
+                "rst": textwrap.dedent("""\
+                    *Italic*, **bold**, ``literal``, :kbd:`Ctrl+C`,
+                    :guilabel:`OK`, :menuselection:`File --> Open`,
+                    :file:`~/.bashrc`, :command:`ls -la`,
+                    :sub:`subscript` and :sup:`superscript`."""),
+            },
+            {
+                "name": "Inline markup in a list",
+                "rst": textwrap.dedent("""\
+                    - Use **bold** for important terms
+                    - Use *italic* for emphasis
+                    - Use ``code`` for inline code samples
+                    - Use :kbd:`Enter` for key presses"""),
+            },
+            {
                 "name": "PEP reference role",
                 "rst": "See :pep:`8` for Python style guidelines.",
             },
@@ -169,7 +187,7 @@ DEMOS = [
                     A second paragraph follows here."""),
             },
             {
-                "name": "Section headings",
+                "name": "Section headings (all 6 levels)",
                 "rst": textwrap.dedent("""\
                     Level 1 Title
                     =============
@@ -180,7 +198,25 @@ DEMOS = [
                     Level 3 Title
                     ~~~~~~~~~~~~~
 
-                    Some body text under level 3."""),
+                    Level 4 Title
+                    ^^^^^^^^^^^^^
+
+                    Level 5 Title
+                    """""""""""""
+
+                    Level 6 Title
+                    '''''''''''''
+
+                    Some body text under level 6."""),
+            },
+            {
+                "name": "Section with overline decoration",
+                "rst": textwrap.dedent("""\
+                    ##################
+                    Part-level heading
+                    ##################
+
+                    Body text below the overlined heading."""),
             },
             {
                 "name": "Document subtitle",
@@ -194,13 +230,17 @@ DEMOS = [
                     Body text."""),
             },
             {
-                "name": "Transition",
+                "name": "Multiple paragraphs with transitions",
                 "rst": textwrap.dedent("""\
-                    First section content.
+                    First paragraph before the transition.
 
                     ----
 
-                    Second section content."""),
+                    Second paragraph after the first transition.
+
+                    ----
+
+                    Third paragraph after the second transition."""),
             },
         ],
     },
@@ -240,11 +280,52 @@ DEMOS = [
                     #. Third step"""),
             },
             {
-                "name": "Enumerated list (arabic numerals)",
+                "name": "Bullet list (plus sign)",
                 "rst": textwrap.dedent("""\
-                    1. Item one
-                    2. Item two
-                    3. Item three"""),
+                    + One
+                    + Two
+                    + Three"""),
+            },
+            {
+                "name": "Deeply nested bullet list",
+                "rst": textwrap.dedent("""\
+                    - Level 1 item A
+
+                      - Level 2 item A1
+
+                        - Level 3 item A1a
+                        - Level 3 item A1b
+
+                      - Level 2 item A2
+
+                    - Level 1 item B"""),
+            },
+            {
+                "name": "Enumerated list (uppercase letters)",
+                "rst": textwrap.dedent("""\
+                    A. Alpha
+                    B. Beta
+                    C. Gamma"""),
+            },
+            {
+                "name": "Enumerated list (uppercase roman numerals)",
+                "rst": textwrap.dedent("""\
+                    I.  Chapter One
+                    II.  Chapter Two
+                    III. Chapter Three"""),
+            },
+            {
+                "name": "Mixed ordered and unordered lists",
+                "rst": textwrap.dedent("""\
+                    Steps to install:
+
+                    1. Download the package
+
+                       - Linux: ``apt install ...``
+                       - macOS: ``brew install ...``
+
+                    2. Run the installer
+                    3. Verify with ``--version``"""),
             },
             {
                 "name": "Enumerated list (letters)",
@@ -343,6 +424,24 @@ DEMOS = [
 
                         def greet(name):
                             print(f"Hello, {name}!")"""),
+            },
+            {
+                "name": "Compound directive",
+                "rst": textwrap.dedent("""\
+                    .. compound::
+
+                       The first sentence of a paragraph.
+
+                       The second paragraph of the compound block,
+                       rendered as a single logical paragraph."""),
+            },
+            {
+                "name": "Parsed literal block",
+                "rst": textwrap.dedent("""\
+                    .. parsed-literal::
+
+                       **Bold** and *italic* inside a literal block.
+                       Also ``code`` here."""),
             },
             {
                 "name": "Epigraph directive",
@@ -446,6 +545,82 @@ DEMOS = [
                        no syntax highlighting"""),
             },
             {
+                "name": "code-block: C",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: c
+
+                       #include <stdio.h>
+
+                       int main(void) {
+                           printf("Hello, World!\\n");
+                           return 0;
+                       }"""),
+            },
+            {
+                "name": "code-block: Java",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: java
+
+                       public class Hello {
+                           public static void main(String[] args) {
+                               System.out.println("Hello, World!");
+                           }
+                       }"""),
+            },
+            {
+                "name": "code-block: TypeScript",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: typescript
+
+                       function greet(name: string): string {
+                           return `Hello, ${name}!`;
+                       }
+                       console.log(greet("World"));"""),
+            },
+            {
+                "name": "code-block: SQL",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: sql
+
+                       SELECT name, email
+                       FROM users
+                       WHERE active = TRUE
+                       ORDER BY name ASC
+                       LIMIT 10;"""),
+            },
+            {
+                "name": "code-block: HTML",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: html
+
+                       <!doctype html>
+                       <html lang="en">
+                         <head><title>Hello</title></head>
+                         <body><h1>Hello, World!</h1></body>
+                       </html>"""),
+            },
+            {
+                "name": "code-block: Rust",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: rust
+
+                       fn main() {
+                           let greeting = "Hello, World!";
+                           println!("{}", greeting);
+                       }"""),
+            },
+            {
+                "name": "code-block with caption and emphasised lines",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: python
+                       :caption: example.py
+                       :emphasize-lines: 2,3
+
+                       def add(a, b):
+                           # This line is emphasised
+                           return a + b"""),
+            },
+            {
                 "name": "productionlist directive",
                 "rst": textwrap.dedent("""\
                     .. productionlist::
@@ -524,6 +699,22 @@ DEMOS = [
                        An error occurred."""),
             },
             {
+                "name": "Admonition with bold content (box-char rendering test)",
+                "rst": textwrap.dedent("""\
+                    .. warning::
+
+                       **Never** commit secrets to version control.
+                       Use environment variables or a secrets manager instead."""),
+            },
+            {
+                "name": "Note with code and emphasis",
+                "rst": textwrap.dedent("""\
+                    .. note::
+
+                       Call ``sys.exit(0)`` to terminate *successfully*,
+                       or ``sys.exit(1)`` for **failure**."""),
+            },
+            {
                 "name": "Generic admonition with custom title",
                 "rst": textwrap.dedent("""\
                     .. admonition:: Did you know?
@@ -549,7 +740,7 @@ DEMOS = [
         "title": "Tables",
         "demos": [
             {
-                "name": "Simple table",
+                "name": "Simple table with header",
                 "rst": textwrap.dedent("""\
                     =====  =====  ======
                     Col A  Col B  Col C
@@ -559,15 +750,28 @@ DEMOS = [
                     =====  =====  ======"""),
             },
             {
-                "name": "Grid table",
+                "name": "Grid table with row spanning",
                 "rst": textwrap.dedent("""\
-                    +----------+----------+----------+
-                    | Header 1 | Header 2 | Header 3 |
-                    +==========+==========+==========+
-                    | row 1    | data     | more     |
-                    +----------+----------+----------+
-                    | row 2    | data     | more     |
-                    +----------+----------+----------+"""),
+                    +------------+------------+
+                    | Column 1   | Column 2   |
+                    +============+============+
+                    | Rows 1 & 2 | Row 1      |
+                    +            +------------+
+                    |            | Row 2      |
+                    +------------+------------+"""),
+            },
+            {
+                "name": "Wider grid table",
+                "rst": textwrap.dedent("""\
+                    +--------+-------+------+---------+
+                    | Name   | Type  | Size | Default |
+                    +========+=======+======+=========+
+                    | width  | int   | 4    | 80      |
+                    +--------+-------+------+---------+
+                    | height | int   | 4    | 24      |
+                    +--------+-------+------+---------+
+                    | title  | str   | var  | ''      |
+                    +--------+-------+------+---------+"""),
             },
             {
                 "name": "list-table directive",
@@ -1210,6 +1414,48 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
     pre_block = re.sub(
         r'(<pre\s+style=")',
         r'\1white-space:pre;',
+        pre_block,
+    )
+
+    # ── Fix 3: inject foreground colour into styled spans that lack one ───────
+    # Rich sometimes emits spans with only font-weight or font-style attributes
+    # (e.g. heading titles rendered italic, inline bold without a colour
+    # override).  Without an explicit colour these spans inherit the body colour
+    # from the RTD theme (#404040 on the default white page), which is dark and
+    # invisible on the Dracula terminal background.  Inject the Dracula
+    # foreground colour into every span that carries a style but has no
+    # standalone "color:" property (background-color and text-decoration-color
+    # don't count — they're caught by the negative lookbehind for "-").
+    def _add_fg_color(m: re.Match) -> str:
+        style = m.group(1)
+        if not re.search(r'(?<!-)color\s*:', style):
+            return f'<span style="color:{_DRACULA_FG};{style}">'
+        return m.group(0)
+
+    pre_block = re.sub(r'<span\s+style="([^"]*)">', _add_fg_color, pre_block)
+
+    # ── Fix 4: remove bold from spans that contain box-drawing characters ─────
+    # Rich renders panel borders (╭, │, ─, ╰, …) inside spans that carry
+    # font-weight: bold, making the border characters visually heavier in the
+    # browser.  Strip font-weight: bold from any leaf span (no child tags)
+    # whose text content contains at least one box-drawing character.
+    # The pattern covers the full Unicode Box Drawing block (U+2500–U+257F)
+    # which includes single-line, double-line, heavy, and dashed variants.
+    _BOX_RE = re.compile(r'[\u2500-\u257f]')
+
+    def _strip_bold_from_box_span(m: re.Match) -> str:
+        style, content = m.group(1), m.group(2)
+        if 'font-weight: bold' in style and _BOX_RE.search(content):
+            # Remove the bold declaration however it appears in the style string.
+            style = re.sub(r';\s*font-weight:\s*bold', '', style)
+            style = re.sub(r'font-weight:\s*bold\s*;?\s*', '', style)
+            style = style.strip('; ')
+            return f'<span style="{style}">{content}</span>'
+        return m.group(0)
+
+    pre_block = re.sub(
+        r'<span\s+style="([^"]*)">([^<]*)</span>',
+        _strip_bold_from_box_span,
         pre_block,
     )
 
