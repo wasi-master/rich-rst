@@ -11,6 +11,7 @@ support for headings, code blocks, tables, admonitions, footnotes, and
    :caption: Contents
 
    demonstration
+   sphinx_heavy_demo
    elements
    limitations
    styling

@@ -14,7 +14,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-import re
+import importlib.metadata
 
 # -- Project information -----------------------------------------------------
 
@@ -23,9 +23,7 @@ copyright = '2022, Wasi Master aka. Arian Mollik Wasi'
 author = 'Wasi Master aka. Arian Mollik Wasi'
 
 # The full version, including alpha/beta/rc tags
-version = ''
-with open('../../rich_rst/__init__.py', encoding="utf-8") as f:
-    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
+version = importlib.metadata.version('rich-rst')
 
 # -- General configuration ---------------------------------------------------
 
