@@ -1561,7 +1561,7 @@ Unicode substitution
 
    Copyright |copy| 2024 The Authors.
 
-   .. |copy| unicode:: U+000A9 .. copyright sign
+   .. |copy| unicode:: U+00A9 .. copyright sign
 
 .. raw:: html
 
