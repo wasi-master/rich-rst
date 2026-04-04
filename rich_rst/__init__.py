@@ -1845,13 +1845,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 # term + one classifier + definition
                 term, classifier, definitions = child_children[:3]
                 header = (
-                    Text("    ")
-                    + Text(term.astext(), style=term_style, end="")
+                    Text(term.astext(), style=term_style, end="")
                     + Text(" : ", end="")
                     + Text(classifier.astext(), style=classifier_style)
-                    + Text("\n      ", end="")
                 )
                 self.renderables.append(header)
+                self.renderables.append(Text("\n    ", end=""))
                 # Use a sub-visitor so inline markup inside the definition body
                 # (bold, italic, links, etc.) is preserved rather than flattened.
                 def_renderables = self._render_admonition_body(
@@ -1870,8 +1869,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     # definition body.
                     first_classifier = child_children[1]
                     header = (
-                        Text("    ")
-                        + Text(term.astext(), style=term_style, end="")
+                        Text(term.astext(), style=term_style, end="")
                         + Text(" : ", end="")
                         + Text(first_classifier.astext(), style=classifier_style)
                     )
@@ -1882,10 +1880,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                                 Text(" : " + ch.astext(), style=classifier_style)
                             )
                         elif isinstance(ch, docutils.nodes.definition):
+                            self.renderables.append(Text("\n    ", end=""))
                             def_renderables = self._render_admonition_body(ch.children)
                             self.renderables.extend(def_renderables)
+                            self.renderables.append(Text("\n", end=""))
                         elif isinstance(ch, docutils.nodes.paragraph):
+                            self.renderables.append(Text("\n    ", end=""))
                             self.renderables.extend(self._render_child_inline(ch))
+                            self.renderables.append(Text("\n", end=""))
                         elif isinstance(ch, docutils.nodes.bullet_list):
                             try:
                                 self.visit_bullet_list(ch)

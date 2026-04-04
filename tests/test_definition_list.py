@@ -84,3 +84,21 @@ def test_definition_list_item_with_only_term_child_does_not_crash():
 
     term_texts = [r for r in visitor.renderables if isinstance(r, Text) and "term-only" in r.plain]
     assert term_texts, "A Text renderable containing the term must exist"
+
+
+def test_definition_list_classifier_indentation(render_text):
+    rst = """\
+term : string
+    A string-typed term.
+
+count : int
+    An integer count.
+"""
+
+    out = render_text(rst)
+    non_empty_lines = [line.rstrip() for line in out.splitlines() if line.strip()]
+
+    assert non_empty_lines[0] == "term : string"
+    assert non_empty_lines[1] == "    A string-typed term."
+    assert non_empty_lines[2] == "count : int"
+    assert non_empty_lines[3] == "    An integer count."
