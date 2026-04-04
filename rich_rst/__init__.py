@@ -1072,11 +1072,11 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.code_theme: Union[str, SyntaxTheme] = code_theme
         self.show_line_numbers: Optional[bool] = show_line_numbers
         self.renderables: List[Any] = []
-        self.superscript: Dict[int, int] = str.maketrans(
+        self.superscript: Dict[int, Union[int, str, None]] = str.maketrans(
             "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷",
             "¹²³⁴⁵⁶⁷⁸⁹⁰ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᑫʳˢᵗᵘᵛʷˣʸᶻᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ⁼⁺⁻*/×÷",
         )
-        self.subscript: Dict[int, int] = str.maketrans(
+        self.subscript: Dict[int, Union[int, str, None]] = str.maketrans(
             "1234567890abcdefghijklmnopqrstuvwxyz=+-*/×÷", "₁₂₃₄₅₆₇₈₉₀abcdₑfgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz₌₊₋*/×÷"
         )
         self.errors: List[Panel] = []
@@ -1170,7 +1170,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             return f"{label}:"
         return node.astext().replace("\n", " ").strip()
 
-    def visit_reference(self, node) -> None:
+    def visit_reference(self, node: docutils.nodes.Node) -> None:
         if len(node.children) == 1 and isinstance(node.children[0], docutils.nodes.image):
             return
         refuri = node.attributes.get("refuri")
