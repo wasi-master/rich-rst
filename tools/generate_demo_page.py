@@ -78,11 +78,11 @@ DEMOS = [
         "demos": [
             {
                 "name": "Emphasis (italic)",
-                "rst": "*italicised text* and _also italic_",
+                "rst": "*italicised text*",
             },
             {
                 "name": "Strong (bold)",
-                "rst": "**bold text** and __also bold__",
+                "rst": "**bold text**",
             },
             {
                 "name": "Inline literal (code)",

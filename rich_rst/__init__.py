@@ -1118,7 +1118,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         return self.default_lexer, "default"
 
     def _section_level(self, node):
-        level = -1
+        level = 0
         parent = getattr(node, "parent", None)
         while parent is not None:
             if isinstance(parent, docutils.nodes.section):
@@ -1198,6 +1198,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_title(self, node):
         level = self._section_level(node)
         self._render_heading(node.astext(), level)
+        raise docutils.nodes.SkipChildren()
+
+    def visit_subtitle(self, node):
+        """Render document subtitle with ROUNDED box styling."""
+        style = self.console.get_style("restructuredtext.subtitle", default="bold")
+        self.renderables.append(Panel(Align(node.astext(), "center"), box=box.ROUNDED, style=style, border_style=style))
+        self.renderables.append(NewLine())
         raise docutils.nodes.SkipChildren()
 
     def visit_rubric(self, node):

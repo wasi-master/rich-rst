@@ -21,12 +21,12 @@ Emphasis (italic)
 
 .. code-block:: rst
 
-   *italicised text* and _also italic_
+   *italicised text*
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">italicised text</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> and _also </span><span style="color:#f8f8f2;font-style: italic">italic_</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">italicised text</span>
    </span></pre>
    </div>
 
@@ -35,12 +35,12 @@ Strong (bold)
 
 .. code-block:: rst
 
-   **bold text** and __also bold__
+   **bold text**
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-weight: bold">bold text</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> and __also </span><span style="color:#f8f8f2;font-weight: bold">bold__</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-weight: bold">bold text</span>
    </span></pre>
    </div>
 
@@ -386,17 +386,21 @@ Section headings (all 6 levels)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">                               <span style="color:#f8f8f2;font-style: italic">Level 1 Title</span>                                
-
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 2 Title</span><span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
-   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                              Level 3 Title                               </span><span style="color:#f8f8f2">║</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
+   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                              Level 1 Title                               </span><span style="color:#f8f8f2">║</span>
    <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
    <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
-   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                              Level 4 Title                               </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                              Level 2 Title                               </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
+
+   <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                              Level 3 Title                               </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
+                                  <span style="color:#f8f8f2;font-weight: bold; text-decoration: underline">Level 4 Title</span>                                
+
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 5 Title &quot;</span>
 
-                                  <span style="color:#f8f8f2;font-weight: bold; text-decoration: underline">Level 6 Title</span>                                
+                                  <span style="color:#f8f8f2;font-weight: bold">Level 6 Title</span>                                
 
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 6.</span>
    </span></pre>
@@ -416,8 +420,9 @@ Section with overline decoration
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">                             <span style="color:#f8f8f2;font-style: italic">Part-level heading</span>                             
-
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
+   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                            Part-level heading                            </span><span style="color:#f8f8f2">║</span>
+   <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body text below the overlined heading.</span>
    </span></pre>
    </div>
@@ -438,9 +443,14 @@ Document subtitle
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">                                <span style="color:#f8f8f2;font-style: italic">My Document</span>                                 
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
+   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                               My Document                                </span><span style="color:#f8f8f2">║</span>
+   <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
+   <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                             A subtitle here                              </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A subtitle hereBody text.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body text.</span>
    </span></pre>
    </div>
 
@@ -1975,9 +1985,9 @@ Internal cross-reference (indirect target)
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Jump to </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline">Target Section</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
 
-   <span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
-   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                              Target Section                              </span><span style="color:#f8f8f2">║</span>
-   <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
+   <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                              Target Section                              </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content here.</span>
    </span></pre>
    </div>
@@ -2213,14 +2223,14 @@ contents directive (table of contents)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">.. contents:: Table of Contents    :depth: 2 <span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
-   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                                Section A                                 </span><span style="color:#f8f8f2">║</span>
-   <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">.. contents:: Table of Contents    :depth: 2 <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                Section A                                 </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content A.</span>
 
-   <span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
-   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                                Section B                                 </span><span style="color:#f8f8f2">║</span>
-   <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
+   <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                Section B                                 </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content B.</span>
    </span></pre>
    </div>
@@ -2241,12 +2251,12 @@ sectnum directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">.. sectnum:: <span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
-   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                                 Overview                                 </span><span style="color:#f8f8f2">║</span>
-   <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
-   <span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
-   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                                 Details                                  </span><span style="color:#f8f8f2">║</span>
-   <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">.. sectnum:: <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                 Overview                                 </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                 Details                                  </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
 
@@ -2374,8 +2384,9 @@ Standard docinfo fields
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">                                 <span style="color:#f8f8f2;font-style: italic">My Report</span>                                  
-
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
+   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                                My Report                                 </span><span style="color:#f8f8f2">║</span>
+   <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
    ┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Field Name   </span>┃<span style="color:#f8f8f2;font-weight: bold"> Field Value     </span>┃
    ┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
