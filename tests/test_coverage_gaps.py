@@ -1327,6 +1327,7 @@ Some text [CIT2024]_.
     out = render_text(rst)
     assert "citation" in out, "Citation must render as a Panel with title 'citation'"
     assert "A citation" in out, "Citation body text must be visible"
+    assert "CIT2024: A citation." in out, "Citation should render inline as 'label: body'"
 
 
 def test_footnote_reference(render_text):
@@ -1338,6 +1339,7 @@ Some text [#]_.
 """
     out = render_text(rst)
     assert "A footnote" in out, "Footnote body text must appear in the Footer panel"
+    assert "1: A footnote." in out, "Auto-numbered footnote should render inline as 'label: body'"
 
 
 def test_multiple_footnotes(render_text):
@@ -1351,6 +1353,8 @@ First [1]_ and second [2]_.
     out = render_text(rst)
     assert "First note" in out, "First footnote body must be visible"
     assert "Second note" in out, "Second footnote body must be visible"
+    assert "1: First note." in out, "First numbered footnote should render inline as 'label: body'"
+    assert "2: Second note." in out, "Second numbered footnote should render inline as 'label: body'"
 
 
 def test_citation_reference_appended_to_text(render_text):
@@ -1374,6 +1378,7 @@ This is text [1]_ with a footnote.
 """
     out = render_text(rst)
     assert "Footnote text" in out, "Footnote body must appear in the Footer panel"
+    assert "1: Footnote text." in out, "Footnote should render inline as 'label: body'"
 
 
 def test_numbered_footnote(render_text):
@@ -1385,6 +1390,7 @@ Text [1]_.
 """
     out = render_text(rst)
     assert "First footnote" in out, "Footnote body must appear in the Footer panel"
+    assert "1: First footnote." in out, "Manual numbered footnote should render inline as 'label: body'"
 
 
 def test_auto_numbered_footnote(render_text):
@@ -1396,6 +1402,7 @@ Text [#]_.
 """
     out = render_text(rst)
     assert "Auto-numbered footnote" in out, "Footnote body must appear in the Footer panel"
+    assert "1: Auto-numbered footnote." in out, "Auto-numbered footnote should render inline as 'label: body'"
 
 
 def test_labeled_footnote(render_text):
@@ -1407,6 +1414,33 @@ Text [note]_.
 """
     out = render_text(rst)
     assert "A labeled footnote" in out, "Footnote body must appear in the Footer panel"
+    assert "note: A labeled footnote." in out, "Labeled footnote should render inline as 'label: body'"
+
+
+def test_named_auto_footnote(render_text):
+    """Test named auto-numbered footnote."""
+    rst = """\
+Text [#named]_ and [#named]_.
+
+.. [#named] Named auto-numbered footnote.
+"""
+    out = render_text(rst)
+    assert "Named auto-numbered footnote" in out, "Named auto footnote body must appear in the Footer panel"
+    assert "1: Named auto-numbered footnote." in out, (
+        "Named auto-numbered footnote should render inline as 'label: body'"
+    )
+
+
+def test_symbol_footnote(render_text):
+    """Test symbol footnote."""
+    rst = """\
+Text [*]_.
+
+.. [*] Symbol footnote.
+"""
+    out = render_text(rst)
+    assert "Symbol footnote" in out, "Symbol footnote body must appear in the Footer panel"
+    assert "*: Symbol footnote." in out, "Symbol footnote should render inline as 'label: body'"
 
 
 def test_citation_block(render_text):
@@ -1419,6 +1453,9 @@ Reference [Book2024]_.
     out = render_text(rst)
     assert "citation" in out, "Citation must render as a Panel with title 'citation'"
     assert "A Book Title" in out, "Citation body text must be visible"
+    assert "Book2024: A Book Title. Published 2024." in out, (
+        "Citation should render inline as 'label: body'"
+    )
 
 
 # ══════════════════════════════════════════════════════════════════════════════

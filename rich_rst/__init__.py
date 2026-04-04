@@ -1144,6 +1144,28 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         else:
             self.renderables.append(Panel(Align(Text(text, style=style), "center"), box=panel_box, style=style, border_style=style))
 
+    def _format_labelled_node(self, node):
+        """Return labelled nodes (footnotes/citations) as `label: body`."""
+        label_node = next((child for child in node.children if isinstance(child, docutils.nodes.label)), None)
+        label = ""
+        if label_node is not None:
+            label = label_node.astext().replace("\n", " ").strip()
+
+        body_parts = []
+        for child in node.children:
+            if child is label_node:
+                continue
+            part = child.astext().replace("\n", " ").strip()
+            if part:
+                body_parts.append(part)
+        body = " ".join(body_parts).strip()
+
+        if label and body:
+            return f"{label}: {body}"
+        if label:
+            return f"{label}:"
+        return node.astext().replace("\n", " ").strip()
+
     def visit_reference(self, node):
         if len(node.children) == 1 and isinstance(node.children[0], docutils.nodes.image):
             return
@@ -2152,7 +2174,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_citation(self, node):
         border_style = self.console.get_style("restructuredtext.citation_border", default="grey74")
-        self.renderables.append(Panel(node.astext(), title="citation", border_style=border_style))
+        self.renderables.append(Panel(self._format_labelled_node(node), title="citation", border_style=border_style))
         raise docutils.nodes.SkipChildren()
 
     def visit_citation_reference(self, node):
@@ -2192,7 +2214,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_footnote(self, node):
-        self.footer.append(Align(node.astext(), "left"))
+        self.footer.append(Align(self._format_labelled_node(node), "left"))
         raise docutils.nodes.SkipChildren()
 
     def visit_generated(self, node):

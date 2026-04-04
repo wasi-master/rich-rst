@@ -1847,9 +1847,7 @@ Manual footnote
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See the footnote </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1                                                                        <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> This is the footnote text.                                               <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1: This is the footnote text.                                            <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -1870,12 +1868,8 @@ Auto-numbered footnote
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">. Second reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[2]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1                                                                        <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> First auto footnote.                                                     <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 2                                                                        <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> Second auto footnote.                                                    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1: First auto footnote.                                                  <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 2: Second auto footnote.                                                 <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -1894,9 +1888,7 @@ Named auto footnote
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1                                                                        <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> The named auto footnote.                                                 <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1: The named auto footnote.                                              <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -1915,9 +1907,7 @@ Symbol footnote
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Marked with a symbol </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[*]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> *                                                                        <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> Symbol footnote text.                                                    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> *: Symbol footnote text.                                                 <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -1937,9 +1927,7 @@ Citation
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">As described in </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">Doe2023</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
 
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">╭──────────────────────────────── citation ────────────────────────────────╮</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> Doe2023                                                                  <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> John Doe. Python Patterns. 2023.                                         <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> Doe2023: John Doe. Python Patterns. 2023.                                <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
