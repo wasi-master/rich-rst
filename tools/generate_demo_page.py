@@ -1398,7 +1398,8 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
         show_errors=False,
         default_lexer="text",
     )
-    console.print(rst_obj, soft_wrap=True)
+    # Keep Rich's normal wrapping behavior so panel bodies wrap instead of clipping.
+    console.print(rst_obj)
     html = console.export_html(inline_styles=True, theme=_DRACULA)
 
     # Extract the <pre> block (contains the entire rendered output).
