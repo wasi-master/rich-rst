@@ -1,5 +1,6 @@
 import argparse
 import sys
+from typing import Tuple
 from rich.panel import Panel
 from rich.console import Console
 from rich_rst import RestructuredText, __version__
@@ -7,7 +8,7 @@ from rich.terminal_theme import TerminalTheme, DEFAULT_TERMINAL_THEME, MONOKAI, 
 from rich.traceback import install
 from rich.text import Text
 
-def rgb(r, g, b):
+def rgb(r: int, g: int, b: int) -> Tuple[int, int, int]:
     """
     Function to represent color in RGB format.
 
@@ -63,7 +64,7 @@ _HTML_THEMES = {
 }
 
 
-def parse_arguments():
+def parse_arguments() -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description="Render reStructuredText to the console with rich-rst")
     parser.add_argument("--version", action="version", version=__version__)
@@ -108,7 +109,7 @@ def parse_arguments():
         parser.error("the following arguments are required: PATH")
     return args
 
-def main():
+def main() -> int:
     """The main function."""
     args = parse_arguments()
 
