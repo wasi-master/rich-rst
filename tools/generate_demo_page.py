@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate docs/source/sphinx_heavy_demo.rst.
+Generate docs/source/demo.rst.
 
 Each demo entry is a dict with:
   - "title"  : section heading
@@ -1277,7 +1277,7 @@ def generate() -> str:
 # ── Entry point ───────────────────────────────────────────────────────────────
 
 def main() -> None:
-    output_path = REPO_ROOT / "docs" / "source" / "sphinx_heavy_demo.rst"
+    output_path = REPO_ROOT / "docs" / "source" / "demo.rst"
     print(f"Writing to {output_path}")
     content = generate()
     output_path.write_text(content, encoding="utf-8")

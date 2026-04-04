@@ -194,5 +194,5 @@ See also
 --------
 
 - :doc:`limitations`
-- :doc:`sphinx_heavy_demo`
+- :doc:`demo`
 - :doc:`documentation`

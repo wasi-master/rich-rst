@@ -198,7 +198,7 @@
 
 ### Documentation and Tests
 
-- Rewrote key docs pages (`index.rst`, `documentation.rst`, `demonstration.rst`) for clearer onboarding and reference flow.
+- Rewrote key docs pages (`index.rst`, `documentation.rst`) for clearer onboarding and reference flow.
 - Updated `test_api.py`: fixed assertions for renamed `log_errors` attribute; added tests for `render_to_string()` and `register_visitor()`.
 - Updated `test_definition_list.py`: relaxed over-specified structural assertions to content-presence checks after definition-list rendering improvements.
 - Updated `test_block_elements.py`: added tests verifying that bold and italic inline markup inside block quotes produces correct `Span` objects.

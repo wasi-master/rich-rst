@@ -1,7 +1,7 @@
 .. THIS FILE IS AUTO-GENERATED — DO NOT EDIT BY HAND.
    Re-generate it by running:  python tools/generate_demo_page.py
 
-Sphinx & RST Demo Gallery
+RST and Sphinx Demo Gallery
 ==========================
 
 This page shows every supported RST and Sphinx element rendered by

@@ -58,5 +58,5 @@ Reference pages
 ---------------
 
 - See :doc:`elements` for full element coverage and rendering families.
-- See :doc:`sphinx_heavy_demo` for practical Sphinx-oriented examples.
+- See :doc:`demo` for practical RST and Sphinx examples.
 - See :doc:`documentation` for complete API and CLI option details.
