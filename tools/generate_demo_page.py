@@ -146,7 +146,7 @@ DEMOS = [
                     *Italic*, **bold**, ``literal``, :kbd:`Ctrl+C`,
                     :guilabel:`OK`, :menuselection:`File --> Open`,
                     :file:`~/.bashrc`, :command:`ls -la`,
-                    :sub:`subscript` and :sup:`superscript`."""),
+                    and :sup:`superscript`."""),
             },
             {
                 "name": "Inline markup in a list",
@@ -188,26 +188,33 @@ DEMOS = [
             },
             {
                 "name": "Section headings (all 6 levels)",
-                "rst": textwrap.dedent("""\
-                    Level 1 Title
-                    =============
-
-                    Level 2 Title
-                    -------------
-
-                    Level 3 Title
-                    ~~~~~~~~~~~~~
-
-                    Level 4 Title
-                    ^^^^^^^^^^^^^
-
-                    Level 5 Title
-                    """""""""""""
-
-                    Level 6 Title
-                    '''''''''''''
-
-                    Some body text under level 6."""),
+                "rst": "\n".join(
+                    [
+                        "Level 1 Title",
+                        "=============",
+                        "Some body text under level 1.",
+                        "",
+                        "Level 2 Title",
+                        "-------------",
+                        "Some body text under level 2.",
+                        "",
+                        "Level 3 Title",
+                        "~~~~~~~~~~~~~",
+                        "Some body text under level 3.",
+                        "",
+                        "Level 4 Title",
+                        "^^^^^^^^^^^^^",
+                        "Some body text under level 4.",
+                        "",
+                        "Level 5 Title",
+                        '"' * 13,
+                        "Some body text under level 5.",
+                        "",
+                        "Level 6 Title",
+                        "'" * 13,
+                        "Some body text under level 6.",
+                    ]
+                ),
             },
             {
                 "name": "Section with overline decoration",
@@ -1479,6 +1486,14 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
             else:            # text run: keep full style (bold intact)
                 result.append(f'<span style="{style}">{part}</span>')
         return ''.join(result)
+
+
+    # ── Fix 5: lighten low-contrast Dracula foreground variant ───────────────
+    # Some plain output text (notably doctest results) is emitted as #44475a,
+    # which is too close to the Dracula background for the docs page.
+    # Remap it to a higher-contrast gray requested for demo readability.
+    pre_block = pre_block.replace('#44475a', '#949494')
+
 
     pre_block = re.sub(
         r'<span\s+style="([^"]*)">([^<]*)</span>',

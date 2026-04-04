@@ -248,12 +248,12 @@ All inline styles combined
    *Italic*, **bold**, ``literal``, :kbd:`Ctrl+C`,
    :guilabel:`OK`, :menuselection:`File --> Open`,
    :file:`~/.bashrc`, :command:`ls -la`,
-   :sub:`subscript` and :sup:`superscript`.
+   and :sup:`superscript`.
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">Italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color:#f8f8f2;font-weight: bold; font-style: italic">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">literal</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">Ctrl+C</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">OK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">File ▶ Open</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">~/.bashrc</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color:#f8f8f2;font-weight: bold; font-style: italic">ls -la</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color:#f8f8f2;font-style: italic">ₛᵤbₛcᵣᵢₚₜ</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> and </span><span style="color:#f8f8f2;font-style: italic">ˢᵘᵖᵉʳˢᶜʳⁱᵖᵗ</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">Italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color:#f8f8f2;font-weight: bold; font-style: italic">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">literal</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">Ctrl+C</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">OK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">File ▶ Open</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">~/.bashrc</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color:#f8f8f2;font-weight: bold; font-style: italic">ls -la</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, and </span><span style="color:#f8f8f2;font-style: italic">ˢᵘᵖᵉʳˢᶜʳⁱᵖᵗ</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
    </span></pre>
    </div>
 
@@ -365,22 +365,26 @@ Section headings (all 6 levels)
 
    Level 1 Title
    =============
+   Some body text under level 1.
 
    Level 2 Title
    -------------
+   Some body text under level 2.
 
    Level 3 Title
    ~~~~~~~~~~~~~
+   Some body text under level 3.
 
    Level 4 Title
    ^^^^^^^^^^^^^
+   Some body text under level 4.
 
    Level 5 Title
-   "
+   """""""""""""
+   Some body text under level 5.
 
    Level 6 Title
    '''''''''''''
-
    Some body text under level 6.
 
 .. raw:: html
@@ -389,18 +393,26 @@ Section headings (all 6 levels)
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
    <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                              Level 1 Title                               </span><span style="color:#f8f8f2">║</span>
    <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 1.</span>
+
    <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
    <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                              Level 2 Title                               </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 2.</span>
 
-   <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
-   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                              Level 3 Title                               </span><span style="color:#f8f8f2">│</span>
-   <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
-                                  <span style="color:#f8f8f2;font-weight: bold; text-decoration: underline">Level 4 Title</span>                                
+                                  <span style="color:#f8f8f2;font-weight: bold; text-decoration: underline">Level 3 Title</span>                                
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 5 Title &quot;</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 3.</span>
 
-                                  <span style="color:#f8f8f2;font-weight: bold">Level 6 Title</span>                                
+                                  <span style="color:#f8f8f2;font-weight: bold">Level 4 Title</span>                                
+
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 4.</span>
+
+                                  <span style="color:#f8f8f2;text-decoration: underline">Level 5 Title</span>                                
+
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 5.</span>
+
+                                  <span style="color:#f8f8f2;font-style: italic">Level 6 Title</span>                                
 
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 6.</span>
    </span></pre>
@@ -772,14 +784,12 @@ Definition list with classifier
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">    term : <span style="color: #8be9fd; text-decoration-color: #8be9fd">string</span>
-         
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A string-typed term.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">term : <span style="color: #8be9fd; text-decoration-color: #8be9fd">string</span>
+       <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A string-typed term.</span>
 
 
-       count : <span style="color: #8be9fd; text-decoration-color: #8be9fd">int</span>
-         
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">An integer count.</span>
+   count : <span style="color: #8be9fd; text-decoration-color: #8be9fd">int</span>
+       <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">An integer count.</span>
    </span></pre>
    </div>
 
@@ -913,9 +923,9 @@ Doctest block
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────── doctest block ──────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;&gt;&gt; </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">print</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;Hello, world!&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">)</span>                                               <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #44475a; text-decoration-color: #44475a; background-color: #282a36">Hello, world!</span>                                                            <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #949494; text-decoration-color: #949494; background-color: #282a36">Hello, world!</span>                                                            <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;&gt;&gt; </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span>                                                                <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #44475a; text-decoration-color: #44475a; background-color: #282a36">2</span>                                                                        <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #949494; text-decoration-color: #949494; background-color: #282a36">2</span>                                                                        <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
