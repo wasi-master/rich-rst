@@ -42,6 +42,8 @@ Usage
    python -m rich_rst PATH [options]
    python -m rich_rst - [options]     # read from stdin
 
+``PATH`` is required unless you use ``--list-html-themes``.
+
 Options
 ~~~~~~~
 
@@ -53,6 +55,8 @@ Options
      - Description
    * - ``-c``, ``--force-color``
      - Force ANSI colour output even on non-terminal streams.
+   * - ``--version``
+     - Show the installed package version and exit.
    * - ``-e``, ``--encoding``
      - File encoding (default: ``utf-8``).
    * - ``-w``, ``--width``
@@ -77,3 +81,10 @@ Options
        (default: ``python``).
    * - ``-se``, ``--show-errors``
      - Show RST parse errors and warnings.
+   * - ``--html-theme``
+     - Theme for ``--save-html`` output. Available values:
+       ``dracula``, ``monokai``, ``night-owl``, ``dimmed-monokai``, ``default``.
+   * - ``--list-html-themes``
+     - Print available HTML themes and exit.
+   * - ``-o``, ``--output``
+     - Write rendered plain-text output to a file instead of stdout.

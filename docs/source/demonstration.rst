@@ -55,8 +55,8 @@ On Windows:
 
 .. note::
 
-   Short aliases are available for all flags — run ``python -m rich_rst --help``
-   to see the full list.
+  Several frequently used flags have short aliases. Run
+  ``python -m rich_rst --help`` to see the full list.
 
 For ``rich_introduction.rst`` the ``--default-lexer`` flag was set to
 ``python`` instead of ``rst``.
