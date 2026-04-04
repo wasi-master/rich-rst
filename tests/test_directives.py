@@ -148,6 +148,28 @@ def test_topic_body_visible(render_text):
     assert "Body content." in render_text(".. topic:: Title\n\n   Body content.\n")
 
 
+# ── Container Directive ───────────────────────────────────────────────────────
+
+def test_container_directive_renders_inner_paragraph(render_text):
+    rst = """\
+.. container:: framed
+
+   This paragraph is in the box, too.
+"""
+    out = render_text(rst)
+    assert "This paragraph is in the box, too." in out
+
+
+def test_container_directive_preserves_nested_block_content(render_text):
+    rst = """\
+.. container:: framed
+
+   .. math:: -1^2 = 1
+"""
+    out = render_text(rst)
+    assert "-1^2 = 1" in out
+
+
 # ── Sidebars ──────────────────────────────────────────────────────────────────
 
 def test_sidebar_produces_panel(make_visitor):

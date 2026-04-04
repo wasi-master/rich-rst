@@ -726,7 +726,7 @@ DEMOS = [
                 "rst": textwrap.dedent("""\
                     .. admonition:: Did you know?
 
-                       rich-rst supports 79 RST elements."""),
+                       rich-rst supports all currently documented RST elements."""),
             },
             {
                 "name": "Admonition with nested content",

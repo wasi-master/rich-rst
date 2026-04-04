@@ -1641,13 +1641,13 @@ Generic admonition with custom title
 
    .. admonition:: Did you know?
 
-      rich-rst supports 79 RST elements.
+      rich-rst supports all currently documented RST elements.
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭─────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Did you know? </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────╮</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst supports 79 RST elements.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                       </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst supports all currently documented RST elements.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                       </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>

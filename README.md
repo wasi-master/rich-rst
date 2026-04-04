@@ -6,7 +6,7 @@ Render [reStructuredText](https://docutils.sourceforge.io/rst.html) with [Rich](
 
 ## Highlights
 
-- Supports 89 of the 98 documented docutils elements. See [ELEMENTS.md](ELEMENTS.md) for the full support matrix.
+- Supports all currently documented RST elements.
 - Handles common documentation features such as headings, lists, tables, links, images, code blocks, footnotes, and many Sphinx roles.
 - Provides both a Python API and a command-line interface.
 - Can also export rendered output to HTML from the CLI.

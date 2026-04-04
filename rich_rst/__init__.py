@@ -1258,6 +1258,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def depart_compound(self, node):  # pylint: disable=unused-argument
         pass
 
+    def visit_container(self, node):
+        # Transparent container used by ``.. container::``; traverse children.
+        pass
+
+    def depart_container(self, node):  # pylint: disable=unused-argument
+        pass
+
     def visit_inline(self, node):
         """Render a generic inline span, applying any ``classes`` as a style name."""
         classes = node.get('classes', [])
