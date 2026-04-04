@@ -1158,6 +1158,20 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
 
     The returned snippet is a ``<div>`` containing a dark-background ``<pre>``
     block with all styles inlined (no external CSS required).
+
+    Two issues arise when the Sphinx RTD theme is active:
+
+    1. The theme applies CSS to ``<code>`` elements (font-size reduction,
+       background-color, padding, border-radius, and a ``white-space`` change)
+       which overrides Rich's inline styles on the ``<span>`` children.
+    2. Some RTD theme versions set ``white-space: nowrap`` (or similar) on
+       ``code``, collapsing the ``\\n`` characters that separate each terminal
+       line into spaces so that all lines appear on one long horizontal row.
+
+    Fix: replace ``<code ...>`` / ``</code>`` with ``<span>`` / ``</span>``
+    so the RTD theme's ``code``-specific CSS does not apply.  Also pin
+    ``white-space: pre`` explicitly on the ``<pre>`` element so that even if
+    the theme resets it, newlines are preserved.
     """
     from rich_rst import RestructuredText
 
@@ -1181,6 +1195,23 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
     if not match:
         return "<pre><!-- render failed --></pre>"
     pre_block = match.group(0)
+
+    # ── Fix 1: replace <code> with <span> ────────────────────────────────────
+    # The RTD theme targets `code` elements with CSS rules that break Rich's
+    # inline styling (wrong font size, unwanted background/padding, whitespace
+    # changes).  Swapping the tag name to <span> sidesteps all of that because
+    # the theme has no special rules for <span> inside <pre>.
+    pre_block = re.sub(r'<code[^>]*>', '<span>', pre_block)
+    pre_block = pre_block.replace('</code>', '</span>')
+
+    # ── Fix 2: pin white-space:pre on the <pre> element ──────────────────────
+    # Guarantee that newlines inside the block are always rendered as line
+    # breaks regardless of any theme-level white-space reset.
+    pre_block = re.sub(
+        r'(<pre\s+style=")',
+        r'\1white-space:pre;',
+        pre_block,
+    )
 
     # Wrap in a styled container so it stands out on the docs page.
     return (

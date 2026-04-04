@@ -1,7 +1,7 @@
 .. THIS FILE IS AUTO-GENERATED — DO NOT EDIT BY HAND.
    Re-generate it by running:  python tools/generate_demo_page.py
 
-RST and Sphinx Demo Gallery
+Sphinx & RST Demo Gallery
 ==========================
 
 This page shows every supported RST and Sphinx element rendered by
@@ -26,8 +26,8 @@ Emphasis (italic)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="font-style: italic">italicised text</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic"> and _also </span><span style="font-style: italic">italic_</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="font-style: italic">italicised text</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic"> and _also </span><span style="font-style: italic">italic_</span>
+   </span></pre>
    </div>
 
 Strong (bold)
@@ -40,8 +40,8 @@ Strong (bold)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="font-weight: bold">bold text</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold"> and __also </span><span style="font-weight: bold">bold__</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="font-weight: bold">bold text</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold"> and __also </span><span style="font-weight: bold">bold__</span>
+   </span></pre>
    </div>
 
 Inline literal (code)
@@ -54,8 +54,8 @@ Inline literal (code)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">print()</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to display output.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">print()</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to display output.</span>
+   </span></pre>
    </div>
 
 Hyperlink (external)
@@ -68,8 +68,8 @@ Hyperlink (external)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Visit </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://www.python.org">Python</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for more.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Visit </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://www.python.org">Python</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for more.</span>
+   </span></pre>
    </div>
 
 Anonymous hyperlink
@@ -82,8 +82,8 @@ Anonymous hyperlink
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://rich.readthedocs.io">Rich docs</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for styling.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://rich.readthedocs.io">Rich docs</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for styling.</span>
+   </span></pre>
    </div>
 
 Title reference
@@ -96,8 +96,8 @@ Title reference
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Read </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">The Zen of Python</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for inspiration.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Read </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">The Zen of Python</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for inspiration.</span>
+   </span></pre>
    </div>
 
 Subscript role
@@ -110,8 +110,8 @@ Subscript role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">H₂O is water.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">H₂O is water.</span>
+   </span></pre>
    </div>
 
 Superscript role
@@ -124,8 +124,8 @@ Superscript role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">E = mc²</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">E = mc²</span>
+   </span></pre>
    </div>
 
 Abbreviation role
@@ -138,8 +138,8 @@ Abbreviation role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="text-decoration: underline">RST (reStructuredText)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is a markup language.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="text-decoration: underline">RST (reStructuredText)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is a markup language.</span>
+   </span></pre>
    </div>
 
 Keyboard role
@@ -152,8 +152,8 @@ Keyboard role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Press </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Ctrl+C</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to copy.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Press </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Ctrl+C</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to copy.</span>
+   </span></pre>
    </div>
 
 GUI label role
@@ -166,8 +166,8 @@ GUI label role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Click </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">OK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to confirm.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Click </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">OK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to confirm.</span>
+   </span></pre>
    </div>
 
 Menu selection role
@@ -180,8 +180,8 @@ Menu selection role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Go to </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">File ▶ Save As</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Go to </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">File ▶ Save As</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   </span></pre>
    </div>
 
 File role
@@ -194,8 +194,8 @@ File role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Edit </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">/etc/hosts</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> with sudo.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Edit </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">/etc/hosts</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> with sudo.</span>
+   </span></pre>
    </div>
 
 Sample (samp) role
@@ -208,8 +208,8 @@ Sample (samp) role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Type </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">ping host</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> in the terminal.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Type </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">ping host</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> in the terminal.</span>
+   </span></pre>
    </div>
 
 Command role
@@ -222,8 +222,8 @@ Command role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Run </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">python -m pytest</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Run </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">python -m pytest</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   </span></pre>
    </div>
 
 Program role
@@ -236,8 +236,8 @@ Program role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="font-weight: bold">git</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold"> is a distributed version control system.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="font-weight: bold">git</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold"> is a distributed version control system.</span>
+   </span></pre>
    </div>
 
 PEP reference role
@@ -250,8 +250,8 @@ PEP reference role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0008/">PEP 8</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for Python style guidelines.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0008/">PEP 8</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for Python style guidelines.</span>
+   </span></pre>
    </div>
 
 RFC reference role
@@ -264,8 +264,8 @@ RFC reference role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">HTTP is described in </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://datatracker.ietf.org/doc/html/rfc2616">RFC 2616</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">HTTP is described in </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://datatracker.ietf.org/doc/html/rfc2616">RFC 2616</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   </span></pre>
    </div>
 
 Definition (dfn) role
@@ -278,8 +278,8 @@ Definition (dfn) role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">docstring</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is a string literal that documents a Python object.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">docstring</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is a string literal that documents a Python object.</span>
+   </span></pre>
    </div>
 
 Math role (inline)
@@ -292,8 +292,8 @@ Math role (inline)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The area of a circle is </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">π r^2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The area of a circle is </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">π r^2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   </span></pre>
    </div>
 
 Paragraphs and Sections
@@ -312,10 +312,10 @@ Plain paragraph
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a plain paragraph.  Paragraphs are separated by blank lines.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a plain paragraph.  Paragraphs are separated by blank lines.</span>
 
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A second paragraph follows here.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Section headings
@@ -337,13 +337,13 @@ Section headings
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">                               <span style="font-style: italic">Level 1 Title</span>                                
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>                               <span style="font-style: italic">Level 1 Title</span>                                
 
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 2 Title</span><span style="font-weight: bold">╔══════════════════════════════════════════════════════════════════════════╗</span>
    <span style="font-weight: bold">║                              Level 3 Title                               ║</span>
    <span style="font-weight: bold">╚══════════════════════════════════════════════════════════════════════════╝</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 3.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Document subtitle
@@ -362,10 +362,10 @@ Document subtitle
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">                                <span style="font-style: italic">My Document</span>                                 
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>                                <span style="font-style: italic">My Document</span>                                 
 
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A subtitle hereBody text.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Transition
@@ -382,11 +382,11 @@ Transition
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First section content.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First section content.</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">────────────────────────────────────────────────────────────────────────────</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Second section content.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Lists
@@ -404,12 +404,12 @@ Bullet list (dash)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First item</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First item</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Second item</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Third item</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Bullet list (asterisk)
@@ -424,12 +424,12 @@ Bullet list (asterisk)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Beta</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Gamma</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Nested bullet list
@@ -447,14 +447,14 @@ Nested bullet list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Parent item</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Parent item</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Child item one</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Child item two</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Another parent</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Enumerated list (auto-numbered)
@@ -469,12 +469,12 @@ Enumerated list (auto-numbered)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First step</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First step</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 2.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Second step</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 3.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Third step</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Enumerated list (arabic numerals)
@@ -489,12 +489,12 @@ Enumerated list (arabic numerals)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item one</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item one</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 2.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item two</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 3.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item three</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Enumerated list (letters)
@@ -509,12 +509,12 @@ Enumerated list (letters)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> a.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Apple</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> a.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Apple</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> b.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Banana</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> c.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Cherry</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Enumerated list (roman numerals)
@@ -529,12 +529,12 @@ Enumerated list (roman numerals)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> i.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item i</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> i.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item i</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> ii.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item ii</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> iii.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item iii</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Definition list
@@ -552,12 +552,12 @@ Definition list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">term
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>term
        Definition of the term.
          
    another term
        Its definition spans multiple lines.
-   </code></pre>
+   </span></pre>
    </div>
 
 Definition list with classifier
@@ -574,7 +574,7 @@ Definition list with classifier
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">    term : <span style="color: #8be9fd; text-decoration-color: #8be9fd">string</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>    term : <span style="color: #8be9fd; text-decoration-color: #8be9fd">string</span>
          
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A string-typed term.</span>
 
@@ -582,7 +582,7 @@ Definition list with classifier
        count : <span style="color: #8be9fd; text-decoration-color: #8be9fd">int</span>
          
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">An integer count.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Field list
@@ -597,7 +597,7 @@ Field list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
    ┃<span style="font-weight: bold"> Field Name </span>┃<span style="font-weight: bold"> Field Value      </span>┃
    ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
    │ <span style="font-weight: bold">Name      </span> │ John Doe         │
@@ -606,7 +606,7 @@ Field list
    ├────────────┼──────────────────┤
    │ <span style="font-weight: bold">Role      </span> │ Developer        │
    └────────────┴──────────────────┘
-   </code></pre>
+   </span></pre>
    </div>
 
 Option list
@@ -621,13 +621,13 @@ Option list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">-v, --verbose, 
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>-v, --verbose, 
        Enable verbose output.
    -o FILE
        Write output to FILE.
    --help
        Show this help message.
-   </code></pre>
+   </span></pre>
    </div>
 
 Horizontal list (hlist)
@@ -648,13 +648,13 @@ Horizontal list (hlist)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Beta   </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Gamma</span> 
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Beta   </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Gamma</span> 
     <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
     <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
     <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Delta</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Epsilon</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Zeta </span> 
     <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
     <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
-   </code></pre>
+   </span></pre>
    </div>
 
 Block Markup
@@ -674,12 +674,12 @@ Block quote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Normal paragraph.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Normal paragraph.</span>
 
    <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">This is an indented block quote.</span>
 
    <span style="color: #e4e4e4; text-decoration-color: #e4e4e4">  — Attribution</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Line block
@@ -694,10 +694,10 @@ Line block
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">The first line of a poem.
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>The first line of a poem.
    The second line continues.
        An indented third line.
-   </code></pre>
+   </span></pre>
    </div>
 
 Doctest block
@@ -713,13 +713,13 @@ Doctest block
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────── doctest block ──────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────── doctest block ──────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;&gt;&gt; </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">print</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;Hello, world!&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">)</span>                                               <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #44475a; text-decoration-color: #44475a; background-color: #282a36">Hello, world!</span>                                                            <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;&gt;&gt; </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span>                                                                <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #44475a; text-decoration-color: #44475a; background-color: #282a36">2</span>                                                                        <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Literal block (indented)
@@ -735,12 +735,12 @@ Literal block (indented)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Example code:</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Example code:</span>
    <span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────── text (default) ─────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">def greet(name):</span>                                                         <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    print(f&quot;Hello, {name}!&quot;)</span>                                             <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Epigraph directive
@@ -758,10 +758,10 @@ Epigraph directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">No man is an island, entire of itself.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">No man is an island, entire of itself.</span>
 
    <span style="color: #e4e4e4; text-decoration-color: #e4e4e4">  — John Donne</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Highlights directive
@@ -779,7 +779,7 @@ Highlights directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">Key takeaways:</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">Key takeaways:</span>
 
 
    <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> •</span>
@@ -788,7 +788,7 @@ Highlights directive
 
    <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span>
    <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Document everything.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Pull-quote directive
@@ -806,10 +806,10 @@ Pull-quote directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">The best way to predict the future is to invent it.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">The best way to predict the future is to invent it.</span>
 
    <span style="color: #e4e4e4; text-decoration-color: #e4e4e4">  — Alan Kay</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Code Blocks
@@ -830,13 +830,13 @@ code-block with language
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">def</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">factorial</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(n):</span>                                                        <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">if</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> n </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">==</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">:</span>                                                           <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">        </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span>                                                         <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> n </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">*</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> factorial(n </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">-</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">)</span>                                          <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 code-block with line numbers
@@ -854,12 +854,12 @@ code-block with line numbers
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">x </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span>                                                                    <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">y </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">2</span>                                                                    <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">print</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(x </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> y)</span>                                                             <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 code-block: bash
@@ -875,11 +875,11 @@ code-block: bash
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── bash ──────────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── bash ──────────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">pip install rich-rst</span>                                                     <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">python -m rich_rst README.rst</span>                                            <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 code-block: JSON
@@ -898,14 +898,14 @@ code-block: JSON
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── json ──────────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── json ──────────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">{</span>                                                                        <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">&quot;name&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">: </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;rich-rst&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">,</span>                                                    <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">&quot;version&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">: </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;1.0.0&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">,</span>                                                    <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">&quot;description&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">: </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;RST renderer for Rich&quot;</span>                                 <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">}</span>                                                                        <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 code-block: YAML
@@ -923,13 +923,13 @@ code-block: YAML
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── yaml ──────────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── yaml ──────────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">name</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">: </span><span style="background-color: #282a36">rich-rst</span>                                                           <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">dependencies</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">:</span>                                                            <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="background-color: #282a36">-</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="background-color: #282a36">rich&gt;=10.0</span>                                                           <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="background-color: #282a36">-</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="background-color: #282a36">docutils&gt;=0.17</span>                                                       <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 sourcecode alias
@@ -945,11 +945,11 @@ sourcecode alias
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌─────────────────────────────── javascript ───────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌─────────────────────────────── javascript ───────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">const</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> greet </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> (name) =&gt; </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">`Hello, ${</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">name</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">}!`</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">;</span>                               <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">console.log(greet(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&#x27;World&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">));</span>                                             <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 code alias (no language)
@@ -965,11 +965,11 @@ code alias (no language)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────── text (default) ─────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────── text (default) ─────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">plain text block</span>                                                         <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">no syntax highlighting</span>                                                   <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 productionlist directive
@@ -986,12 +986,12 @@ productionlist directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── text ──────────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── text ──────────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">statement  : expression NEWLINE</span>                                          <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">expression : term (&#x27;+&#x27; term)*</span>                                            <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">term       : factor (&#x27;*&#x27; factor)*</span>                                        <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Admonitions
@@ -1009,11 +1009,11 @@ note
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭───────────────────────────────── Note:  ─────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭───────────────────────────────── Note:  ─────────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">This is a note admonition.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                               │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│                                                                          │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 warning
@@ -1028,11 +1028,11 @@ warning
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">╭─────────────────────────────── Warning:  ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">╭─────────────────────────────── Warning:  ────────────────────────────────╮</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">This is a warning.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                       │</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">│                                                                          │</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 tip
@@ -1047,11 +1047,11 @@ tip
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">╭───────────────────────────────── Tip:  ──────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">╭───────────────────────────────── Tip:  ──────────────────────────────────╮</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">This is a tip.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                           │</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">│                                                                          │</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 important
@@ -1066,11 +1066,11 @@ important
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────────── IMPORTANT:  ───────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────────── IMPORTANT:  ───────────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">This is important.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                                       │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│                                                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 hint
@@ -1085,11 +1085,11 @@ hint
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭───────────────────────────────── Hint:  ─────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭───────────────────────────────── Hint:  ─────────────────────────────────╮</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a hint.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">                                                          │</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│                                                                          │</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 attention
@@ -1104,11 +1104,11 @@ attention
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold">╭────────────────────────────── Attention:  ───────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold">╭────────────────────────────── Attention:  ───────────────────────────────╮</span>
    <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Pay attention to this.</span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold">                                                   │</span>
    <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold">│                                                                          │</span>
    <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 caution
@@ -1123,11 +1123,11 @@ caution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ff5555; text-decoration-color: #ff5555">╭─────────────────────────────── Caution:  ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ff5555; text-decoration-color: #ff5555">╭─────────────────────────────── Caution:  ────────────────────────────────╮</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Exercise caution here.</span><span style="color: #ff5555; text-decoration-color: #ff5555">                                                   │</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">│                                                                          │</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 danger
@@ -1142,11 +1142,11 @@ danger
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold">╭──────────────────────────────── DANGER:  ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold">╭──────────────────────────────── DANGER:  ────────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Danger! Proceed carefully.</span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold">                                               │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold">│                                                                          │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 error
@@ -1161,11 +1161,11 @@ error
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">╭──────────────────────────────── ERROR:  ─────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">╭──────────────────────────────── ERROR:  ─────────────────────────────────╮</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">An error occurred.</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">                                                       │</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">│                                                                          │</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Generic admonition with custom title
@@ -1180,11 +1180,11 @@ Generic admonition with custom title
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭───────────────────────────── Did you know? ──────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭───────────────────────────── Did you know? ──────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">rich-rst supports 79 RST elements.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                       │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│                                                                          │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Admonition with nested content
@@ -1204,7 +1204,7 @@ Admonition with nested content
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭───────────────────────────────── Note:  ─────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭───────────────────────────────── Note:  ─────────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Notes can contain bold, </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold; font-style: italic">italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">, and </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-weight: bold">code</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│                                                                          │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">They can also contain lists:</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                             │</span>
@@ -1215,7 +1215,7 @@ Admonition with nested content
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│                                                                          │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│                                                                          │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Tables
@@ -1236,14 +1236,14 @@ Simple table
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">┏━━━━━━━┳━━━━━━━┳━━━━━━━┓
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>┏━━━━━━━┳━━━━━━━┳━━━━━━━┓
    ┃<span style="font-weight: bold"> Col A </span>┃<span style="font-weight: bold"> Col B </span>┃<span style="font-weight: bold"> Col C </span>┃
    ┡━━━━━━━╇━━━━━━━╇━━━━━━━┩
    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">1    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">2    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">3    </span> │
    ├───────┼───────┼───────┤
    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">4    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">5    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">6    </span> │
    └───────┴───────┴───────┘
-   </code></pre>
+   </span></pre>
    </div>
 
 Grid table
@@ -1262,14 +1262,14 @@ Grid table
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">┏━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┓
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>┏━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┓
    ┃<span style="font-weight: bold"> Header 1 </span>┃<span style="font-weight: bold"> Header 2 </span>┃<span style="font-weight: bold"> Header 3 </span>┃
    ┡━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━┩
    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">row 1   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">data    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">more    </span> │
    ├──────────┼──────────┼──────────┤
    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">row 2   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">data    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">more    </span> │
    └──────────┴──────────┴──────────┘
-   </code></pre>
+   </span></pre>
    </div>
 
 list-table directive
@@ -1294,7 +1294,7 @@ list-table directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="font-style: italic">          Comparison           </span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="font-style: italic">          Comparison           </span>
    ┏━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━┓
    ┃<span style="font-weight: bold"> Library  </span>┃<span style="font-weight: bold"> Language </span>┃<span style="font-weight: bold"> Stars </span>┃
    ┡━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━┩
@@ -1302,7 +1302,7 @@ list-table directive
    ├──────────┼──────────┼───────┤
    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Python  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">1k+  </span> │
    └──────────┴──────────┴───────┘
-   </code></pre>
+   </span></pre>
    </div>
 
 csv-table directive
@@ -1321,7 +1321,7 @@ csv-table directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="font-style: italic">             Data              </span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="font-style: italic">             Data              </span>
    ┏━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━┓
    ┃<span style="font-weight: bold"> Name   </span>┃<span style="font-weight: bold"> Value       </span>┃<span style="font-weight: bold"> Unit </span>┃
    ┡━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━┩
@@ -1331,7 +1331,7 @@ csv-table directive
    ├────────┼─────────────┼──────┤
    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Mass  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">9.109e-31  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">kg  </span> │
    └────────┴─────────────┴──────┘
-   </code></pre>
+   </span></pre>
    </div>
 
 Footnotes and Citations
@@ -1349,13 +1349,13 @@ Manual footnote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See the footnote </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See the footnote </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1                                                                        <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> This is the footnote text.                                               <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Auto-numbered footnote
@@ -1372,7 +1372,7 @@ Auto-numbered footnote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">. Second reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[2]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">. Second reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[2]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1                                                                        <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
@@ -1381,7 +1381,7 @@ Auto-numbered footnote
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> Second auto footnote.                                                    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Named auto footnote
@@ -1396,13 +1396,13 @@ Named auto footnote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1                                                                        <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> The named auto footnote.                                                 <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Symbol footnote
@@ -1417,13 +1417,13 @@ Symbol footnote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Marked with a symbol </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[*]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Marked with a symbol </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[*]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> *                                                                        <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> Symbol footnote text.                                                    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Citation
@@ -1438,14 +1438,14 @@ Citation
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">As described in </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">Doe2023</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">As described in </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">Doe2023</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
 
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">╭──────────────────────────────── citation ────────────────────────────────╮</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> Doe2023                                                                  <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                                                          <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> John Doe. Python Patterns. 2023.                                         <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Hyperlinks and Targets
@@ -1461,8 +1461,8 @@ Standalone hyperlink
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Visit </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://python.org">https://python.org</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for more.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Visit </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://python.org">https://python.org</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for more.</span>
+   </span></pre>
    </div>
 
 External hyperlink (named)
@@ -1477,8 +1477,8 @@ External hyperlink (named)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Read the </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://rich.readthedocs.io">Rich documentation</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Read the </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://rich.readthedocs.io">Rich documentation</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   </span></pre>
    </div>
 
 Internal cross-reference (indirect target)
@@ -1496,13 +1496,13 @@ Internal cross-reference (indirect target)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Jump to </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline">Target Section</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Jump to </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline">Target Section</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
 
    <span style="font-weight: bold">╔══════════════════════════════════════════════════════════════════════════╗</span>
    <span style="font-weight: bold">║                              Target Section                              ║</span>
    <span style="font-weight: bold">╚══════════════════════════════════════════════════════════════════════════╝</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content here.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Anonymous hyperlink
@@ -1515,8 +1515,8 @@ Anonymous hyperlink
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://example.com">this page</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://example.com">this page</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
+   </span></pre>
    </div>
 
 Substitutions
@@ -1534,8 +1534,8 @@ Text substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst is written in Python.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst is written in Python.</span>
+   </span></pre>
    </div>
 
 Date substitution
@@ -1550,8 +1550,8 @@ Date substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-04-04.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-04-04.</span>
+   </span></pre>
    </div>
 
 Unicode substitution
@@ -1566,8 +1566,8 @@ Unicode substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Copyright © 2024 The Authors.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Copyright © 2024 The Authors.</span>
+   </span></pre>
    </div>
 
 Image substitution
@@ -1583,8 +1583,8 @@ Image substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Click the </span>🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">Logo</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> icon.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Click the </span>🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">Logo</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> icon.</span>
+   </span></pre>
    </div>
 
 Images and Figures
@@ -1602,8 +1602,8 @@ image directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">A photo</a></span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">A photo</a></span>
+   </span></pre>
    </div>
 
 figure directive
@@ -1620,10 +1620,10 @@ figure directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭─ Figure caption goes here. ─╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭─ Figure caption goes here. ─╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span> 🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">A chart</a></span>                  <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9">╰─────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 figure with legend
@@ -1641,10 +1641,10 @@ figure with legend
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭─ Caption text. ─╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭─ Caption text. ─╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span> 🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">Diagram</a></span>      <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9">╰─ Legend text wi─╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Document Structure Directives
@@ -1663,11 +1663,11 @@ topic directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">╭──────────────────────────── Interesting Fact ────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">╭──────────────────────────── Interesting Fact ────────────────────────────╮</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">This is the topic body. It can contain any body elements.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                │</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">│                                                                          │</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 sidebar directive
@@ -1684,7 +1684,7 @@ sidebar directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">╭──────────── Note ────────────╮
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>╭──────────── Note ────────────╮
    │ ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━┓ │
    │ ┃<span style="font-weight: bold"> Field Name </span>┃<span style="font-weight: bold"> Field Value </span>┃ │
    │ ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━┩ │
@@ -1693,7 +1693,7 @@ sidebar directive
    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sidebar text goes here.</span>      │
    │                              │
    ╰──────────────────────────────╯
-   </code></pre>
+   </span></pre>
    </div>
 
 rubric directive
@@ -1708,11 +1708,11 @@ rubric directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #909194; text-decoration-color: #909194; font-style: italic">╭──────────────────────────────────────────────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #909194; text-decoration-color: #909194; font-style: italic">╭──────────────────────────────────────────────────────────────────────────╮</span>
    <span style="color: #909194; text-decoration-color: #909194; font-style: italic">│                          An Unnumbered Heading                           │</span>
    <span style="color: #909194; text-decoration-color: #909194; font-style: italic">╰──────────────────────────────────────────────────────────────────────────╯</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Following paragraph.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 contents directive (table of contents)
@@ -1736,7 +1736,7 @@ contents directive (table of contents)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">.. contents:: Table of Contents    :depth: 2 <span style="font-weight: bold">╔══════════════════════════════════════════════════════════════════════════╗</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>.. contents:: Table of Contents    :depth: 2 <span style="font-weight: bold">╔══════════════════════════════════════════════════════════════════════════╗</span>
    <span style="font-weight: bold">║                                Section A                                 ║</span>
    <span style="font-weight: bold">╚══════════════════════════════════════════════════════════════════════════╝</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content A.</span>
@@ -1745,7 +1745,7 @@ contents directive (table of contents)
    <span style="font-weight: bold">║                                Section B                                 ║</span>
    <span style="font-weight: bold">╚══════════════════════════════════════════════════════════════════════════╝</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content B.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 sectnum directive
@@ -1764,13 +1764,13 @@ sectnum directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">.. sectnum:: <span style="font-weight: bold">╔══════════════════════════════════════════════════════════════════════════╗</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>.. sectnum:: <span style="font-weight: bold">╔══════════════════════════════════════════════════════════════════════════╗</span>
    <span style="font-weight: bold">║                                 Overview                                 ║</span>
    <span style="font-weight: bold">╚══════════════════════════════════════════════════════════════════════════╝</span>
    <span style="font-weight: bold">╔══════════════════════════════════════════════════════════════════════════╗</span>
    <span style="font-weight: bold">║                                 Details                                  ║</span>
    <span style="font-weight: bold">╚══════════════════════════════════════════════════════════════════════════╝</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 header directive
@@ -1785,8 +1785,8 @@ header directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">.. header:: My Document Header <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>.. header:: My Document Header <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
+   </span></pre>
    </div>
 
 footer directive
@@ -1801,10 +1801,10 @@ footer directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
 
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.. footer:: Page |page|</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 centered directive
@@ -1819,9 +1819,9 @@ centered directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">                              <span style="font-weight: bold">IMPORTANT NOTICE</span>                              
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>                              <span style="font-weight: bold">IMPORTANT NOTICE</span>                              
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body text.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Math
@@ -1837,8 +1837,8 @@ Inline math role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The Pythagorean theorem: </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">a^2 + b^2 = c^2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The Pythagorean theorem: </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">a^2 + b^2 = c^2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   </span></pre>
    </div>
 
 math directive (display)
@@ -1853,10 +1853,10 @@ math directive (display)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── math ──────────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── math ──────────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> ∫_-∞^∞ e^-x^2 dx = √(π)                                                  <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 math directive (labeled)
@@ -1870,8 +1870,8 @@ math directive (labeled)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">.. math:: E = mc^2    :label: einstein
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>.. math:: E = mc^2    :label: einstein
+   </span></pre>
    </div>
 
 Document Info (docinfo)
@@ -1897,7 +1897,7 @@ Standard docinfo fields
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">                                 <span style="font-style: italic">My Report</span>                                  
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>                                 <span style="font-style: italic">My Report</span>                                  
 
    ┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
    ┃<span style="font-weight: bold"> Field Name   </span>┃<span style="font-weight: bold"> Field Value     </span>┃
@@ -1915,7 +1915,7 @@ Standard docinfo fields
    │ <span style="font-weight: bold">Organization</span> │ ACME Corp       │
    └──────────────┴─────────────────┘
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body of the document.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Authors list
@@ -1932,7 +1932,7 @@ Authors list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">┏━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span>┏━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
    ┃<span style="font-weight: bold"> Field Name </span>┃<span style="font-weight: bold"> Field Value </span>┃
    ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
    │ <span style="font-weight: bold">Author    </span> │ Alice       │
@@ -1942,7 +1942,7 @@ Authors list
    │ <span style="font-weight: bold">Author    </span> │ Carol       │
    └────────────┴─────────────┘
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body text.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Comments
@@ -1962,10 +1962,10 @@ RST comment (invisible)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Before comment.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Before comment.</span>
 
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">After comment.</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Raw Directive
@@ -1983,10 +1983,10 @@ raw html directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌─────────────────────────── stripped raw html ────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌─────────────────────────── stripped raw html ────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bold via raw HTML</span>                                                        <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 raw latex directive
@@ -2001,10 +2001,10 @@ raw latex directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #949494; text-decoration-color: #949494">┌─────────────────────────────── raw latex ────────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #949494; text-decoration-color: #949494">┌─────────────────────────────── raw latex ────────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">\textbf</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">{</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bold via LaTeX</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">}</span>                                                  <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Sphinx Version Directives
@@ -2022,11 +2022,11 @@ versionadded
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">╭─────────────────────────── New in version 2.1 ───────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">╭─────────────────────────── New in version 2.1 ───────────────────────────╮</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">This feature was added in version 2.1.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                   │</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">│                                                                          │</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 versionchanged
@@ -2041,11 +2041,11 @@ versionchanged
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">╭───────────────────────── Changed in version 3.0 ─────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">╭───────────────────────── Changed in version 3.0 ─────────────────────────╮</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">The API changed in version 3.0.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                          │</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">│                                                                          │</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 deprecated
@@ -2060,11 +2060,11 @@ deprecated
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">╭────────────────────── Deprecated since version 1.5 ──────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">╭────────────────────── Deprecated since version 1.5 ──────────────────────╮</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Use the new API instead.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                 │</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">│                                                                          │</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 deprecated-removed
@@ -2079,11 +2079,11 @@ deprecated-removed
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">╭───────────── Deprecated since version 1.5 (removed in 2.0) ──────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">╭───────────── Deprecated since version 1.5 (removed in 2.0) ──────────────╮</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Removed in 2.0. Use the new API.</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">                                         │</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">│                                                                          │</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Sphinx Cross-Reference Roles
@@ -2099,8 +2099,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path.join</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to join paths.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path.join</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to join paths.</span>
+   </span></pre>
    </div>
 
 :class: role
@@ -2113,8 +2113,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">pathlib.Path</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for path handling.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">pathlib.Path</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for path handling.</span>
+   </span></pre>
    </div>
 
 :meth: role
@@ -2127,8 +2127,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">str.upper</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to uppercase a string.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">str.upper</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to uppercase a string.</span>
+   </span></pre>
    </div>
 
 :attr: role
@@ -2141,8 +2141,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Access </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.sep</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for the path separator.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Access </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.sep</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for the path separator.</span>
+   </span></pre>
    </div>
 
 :mod: role
@@ -2155,8 +2155,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> module provides path utilities.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> module provides path utilities.</span>
+   </span></pre>
    </div>
 
 :exc: role
@@ -2169,8 +2169,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Raises </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">ValueError</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> when the input is invalid.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Raises </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">ValueError</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> when the input is invalid.</span>
+   </span></pre>
    </div>
 
 :obj: role
@@ -2183,8 +2183,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Set </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.path</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to control module lookup.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Set </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.path</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to control module lookup.</span>
+   </span></pre>
    </div>
 
 :data: role
@@ -2197,8 +2197,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Read </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.version</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for the Python version.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Read </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.version</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for the Python version.</span>
+   </span></pre>
    </div>
 
 :const: role
@@ -2211,8 +2211,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The value of </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">math.pi</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is approximately 3.14.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The value of </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">math.pi</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is approximately 3.14.</span>
+   </span></pre>
    </div>
 
 :term: role
@@ -2225,8 +2225,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">decorator</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> wraps another function.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">decorator</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> wraps another function.</span>
+   </span></pre>
    </div>
 
 :ref: role (cross-reference)
@@ -2239,8 +2239,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">some-label</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">some-label</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
+   </span></pre>
    </div>
 
 :doc: role
@@ -2253,8 +2253,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Refer to </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">installation</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for setup instructions.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Refer to </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">installation</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for setup instructions.</span>
+   </span></pre>
    </div>
 
 :envvar: role
@@ -2267,8 +2267,8 @@ Sphinx Cross-Reference Roles
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Set </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">PYTHONPATH</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> before running.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Set </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">PYTHONPATH</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> before running.</span>
+   </span></pre>
    </div>
 
 Python Domain Directives
@@ -2291,7 +2291,7 @@ py:function
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────  greet(name: str) -&gt; str ────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────  greet(name: str) -&gt; str ────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Return a greeting for </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold; font-style: italic">name</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                              │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│                                                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┓                                      │</span>
@@ -2306,7 +2306,7 @@ py:function
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ │ rtype      │ str                │                                      │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ └────────────┴────────────────────┘                                      │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 py:class
@@ -2324,7 +2324,7 @@ py:class
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────────  MyClass(value) ─────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────────  MyClass(value) ─────────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">A simple example class.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                                  │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│                                                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓                                         │</span>
@@ -2335,7 +2335,7 @@ py:class
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ │ type value  │ int            │                                         │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ └─────────────┴────────────────┘                                         │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 py:method
@@ -2350,11 +2350,11 @@ py:method
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭─────────────────────────  MyClass.process(data) ─────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭─────────────────────────  MyClass.process(data) ─────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Process the given </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold; font-style: italic">data</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                                  │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│                                                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 py:attribute
@@ -2370,11 +2370,11 @@ py:attribute
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭─────────────────────────────  MyClass.value ─────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭─────────────────────────────  MyClass.value ─────────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">The current value.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                                       │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│                                                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 py:data
@@ -2390,11 +2390,11 @@ py:data
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭──────────────────────────────  MAX_RETRIES ──────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭──────────────────────────────  MAX_RETRIES ──────────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Maximum number of retry attempts.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                        │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│                                                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 py:exception
@@ -2409,11 +2409,11 @@ py:exception
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────────────  MyError ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────────────  MyError ────────────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Raised when something goes wrong.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                        │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│                                                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 py:module
@@ -2428,11 +2428,11 @@ py:module
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────────  mypackage.core ─────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭────────────────────────────  mypackage.core ─────────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Core functionality for mypackage.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                        │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│                                                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 py:decorator
@@ -2447,11 +2447,11 @@ py:decorator
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭─────────────────────────────  cached(func) ──────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╭─────────────────────────────  cached(func) ──────────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">Cache the return value of </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold; font-style: italic">func</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">│                                                                          │</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 See Also
@@ -2469,11 +2469,11 @@ seealso directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭──────────────────────────────── See Also ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭──────────────────────────────── See Also ────────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│ </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-weight: bold">os.path.join</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-weight: bold">pathlib.Path</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                               │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│                                                                          │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 seealso with inline argument
@@ -2486,11 +2486,11 @@ seealso with inline argument
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭──────────────────────────────── See Also ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╭──────────────────────────────── See Also ────────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">:mod:`json` for serialization.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                           │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">│                                                                          │</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Toctree (Sphinx)
@@ -2512,12 +2512,12 @@ toctree directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">╭──────────────────────────────── Contents ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">╭──────────────────────────────── Contents ────────────────────────────────╮</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">│ </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • installation</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                          │</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">│ </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • usage</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                 │</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">│ </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • api</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                   │</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Glossary
@@ -2539,7 +2539,7 @@ glossary directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="font-weight: bold">╭──────────────────────────────── Glossary ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="font-weight: bold">╭──────────────────────────────── Glossary ────────────────────────────────╮</span>
    <span style="font-weight: bold">│ RST                                                                      │</span>
    <span style="font-weight: bold">│     reStructuredText — a lightweight markup language.                    │</span>
    <span style="font-weight: bold">│                                                                          │</span>
@@ -2547,7 +2547,7 @@ glossary directive
    <span style="font-weight: bold">│     A documentation generator for Python projects.                       │</span>
    <span style="font-weight: bold">│                                                                          │</span>
    <span style="font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 glossary (sorted)
@@ -2567,7 +2567,7 @@ glossary (sorted)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="font-weight: bold">╭──────────────────────────────── Glossary ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="font-weight: bold">╭──────────────────────────────── Glossary ────────────────────────────────╮</span>
    <span style="font-weight: bold">│ Zebra                                                                    │</span>
    <span style="font-weight: bold">│     A striped animal.                                                    │</span>
    <span style="font-weight: bold">│                                                                          │</span>
@@ -2575,7 +2575,7 @@ glossary (sorted)
    <span style="font-weight: bold">│     An ant-eating mammal.                                                │</span>
    <span style="font-weight: bold">│                                                                          │</span>
    <span style="font-weight: bold">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </code></pre>
+   </span></pre>
    </div>
 
 Mixed Sphinx Roles in Prose
@@ -2594,8 +2594,8 @@ Mixed roles in a paragraph
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">json.dumps</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> or </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">json.loads</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to serialize data. The </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">dict</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> type maps </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">str</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> keys to values. See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0484/">PEP 484</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for type hints and </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0526/">PEP 526</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for variable annotations. Press </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Ctrl+D</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> or call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">exit</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to quit the REPL.</span>
-   </code></pre>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">json.dumps</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> or </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">json.loads</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to serialize data. The </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">dict</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> type maps </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">str</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> keys to values. See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0484/">PEP 484</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for type hints and </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0526/">PEP 526</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for variable annotations. Press </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Ctrl+D</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> or call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">exit</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to quit the REPL.</span>
+   </span></pre>
    </div>
 
 
