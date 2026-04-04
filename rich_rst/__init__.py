@@ -1080,6 +1080,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         )
         self.errors = []
         self.footer = []
+        self.citations = []
         self.guess_lexer = guess_lexer
         self.default_lexer = _validate_default_lexer_name(default_lexer)
         self.refname_to_renderable = {}
@@ -2358,8 +2359,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_citation(self, node):
-        border_style = self.console.get_style("restructuredtext.citation_border", default="grey74")
-        self.renderables.append(Panel(self._format_labelled_node(node), title="citation", border_style=border_style))
+        self.citations.append(Align(self._format_labelled_node(node), "left"))
         raise docutils.nodes.SkipChildren()
 
     def visit_citation_reference(self, node):
@@ -2779,6 +2779,14 @@ class RestructuredText(JupyterMixin):
         if self.show_errors and visitor.errors:
             for error in visitor.errors:
                 yield from console.render(error, options)
+
+        citation_style = console.get_style("restructuredtext.citation", default="none")
+        citation_border_style = console.get_style("restructuredtext.citation_border", default="grey74")
+        if visitor.citations:
+            yield from console.render(
+                Panel(Group(*visitor.citations), title="citation", box=box.SQUARE, border_style=citation_border_style, style=citation_style)
+            )
+
         style = console.get_style("restructuredtext.footer", default="none")
         border_style = console.get_style("restructuredtext.footer_border", default="grey74")
         if visitor.footer:

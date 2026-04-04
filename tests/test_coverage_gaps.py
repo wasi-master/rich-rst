@@ -1374,6 +1374,20 @@ See the cited work [Ref2024]_.
     assert "A citation" in out, "Citation body text must be visible"
 
 
+def test_multiple_citations_share_one_panel(render_text):
+    """All citations should be grouped in one citation panel."""
+    rst = """\
+Alpha [A]_ and beta [B]_.
+
+.. [A] First source.
+.. [B] Second source.
+"""
+    out = render_text(rst)
+    assert out.count(" citation ") == 1, "Multiple citations should render in a single citation panel"
+    assert "A: First source." in out, "First citation should be present in the grouped citation panel"
+    assert "B: Second source." in out, "Second citation should be present in the grouped citation panel"
+
+
 def test_footnote_reference_appended_to_text(render_text):
     """Test footnote reference appended to existing text element."""
     rst = """\
