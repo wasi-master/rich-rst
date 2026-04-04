@@ -11,9 +11,8 @@ Formatting contract
   ``Span`` with ``color=white``.
 * **Attribution** — a ``Text`` with base style ``grey89`` and plain text
   that starts with ``"  - "``.
-* **Heading level-1** — rendered as an ``Align`` renderable with
-  ``align='center'``, its ``renderable`` is a ``Text`` containing the heading
-  text.
+* **Heading level-1** — rendered as a ``Panel`` renderable with a ``DOUBLE``
+  box, containing centered text.
 * **Transition** — rendered as a ``Rule`` whose ``style`` has
   ``color.name == 'yellow'``.
 * **Bullet list marker** — a ``Text`` object with plain text ``" • "`` and
@@ -66,16 +65,20 @@ def test_depart_paragraph_ignores_empty_text_renderable(make_visitor):
 
 def test_heading_level1_produces_centered_align(make_visitor):
     visitor = make_visitor("My Title\n========\n\nBody.\n")
-    aligns = [r for r in visitor.renderables if isinstance(r, Align)]
-    assert aligns, "Level-1 heading must produce an Align renderable"
-    assert aligns[0].align == "center", "Level-1 heading must be centred"
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels, "Level-1 heading must produce a Panel renderable with box"
+    # The panel contains centered content
+    assert isinstance(panels[0].renderable, Align), "Panel content must be centered"
+    assert panels[0].renderable.align == "center", "Panel content must be centred"
 
 
 def test_heading_level1_align_contains_heading_text(make_visitor):
     visitor = make_visitor("My Title\n========\n\nBody.\n")
-    aligns = [r for r in visitor.renderables if isinstance(r, Align)]
-    assert aligns
-    heading_text = aligns[0].renderable
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+    align = panels[0].renderable
+    assert isinstance(align, Align), "Panel content must be an Align"
+    heading_text = align.renderable
     assert isinstance(heading_text, Text)
     assert heading_text.plain == "My Title", (
         f"Heading text must equal 'My Title', got {heading_text.plain!r}"
@@ -85,9 +88,9 @@ def test_heading_level1_align_contains_heading_text(make_visitor):
 def test_heading_level2_produces_align(make_visitor):
     rst = "Title\n=====\n\nSection\n-------\n"
     visitor = make_visitor(rst)
-    aligns = [r for r in visitor.renderables if isinstance(r, Align)]
-    # Level-1 always produces an Align; level-2+ may render as Align, Panel or Rule
-    assert aligns, "Top-level heading must produce at least one Align renderable"
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    # Level-1 and Level-2 headings now render as Panel with boxes
+    assert len(panels) >= 2, "Document title and section heading must produce Panel renderables"
 
 
 def test_multiple_heading_levels_all_produce_text(render_text):

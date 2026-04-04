@@ -1142,7 +1142,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.renderables.append(Align(Text(text, style=style), "center"))
             self.renderables.append(NewLine())
         else:
-            self.renderables.append(Panel(Align(text, "center"), box=panel_box, style=style, border_style=style))
+            self.renderables.append(Panel(Align(Text(text, style=style), "center"), box=panel_box, style=style, border_style=style))
 
     def visit_reference(self, node):
         if len(node.children) == 1 and isinstance(node.children[0], docutils.nodes.image):
