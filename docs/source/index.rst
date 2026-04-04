@@ -6,17 +6,6 @@ It lets you render RST documents beautifully in the terminal, with full
 support for headings, code blocks, tables, admonitions, footnotes, and
 `79 other RST elements <https://github.com/wasi-master/rich-rst/blob/main/ELEMENTS.md>`_.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents
-
-   demo
-   elements
-   limitations
-   styling
-   include_directive
-   documentation
-
 Installation
 ------------
 
@@ -75,6 +64,15 @@ Contributing
 rich-rst is open source. The `source code`_ is hosted on GitHub. Bug reports
 and pull requests are welcome on the `issue tracker`_.
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Documentation Contents
+
+   documentation
+   demo
+   styling
+   include_directive
+   limitations
 
 Indices and tables
 ==================
