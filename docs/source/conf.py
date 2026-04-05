@@ -19,7 +19,7 @@ import importlib.metadata
 # -- Project information -----------------------------------------------------
 
 project = 'rich-rst'
-copyright = '2022, Wasi Master aka. Arian Mollik Wasi'
+copyright = '2026, Wasi Master aka. Arian Mollik Wasi'
 author = 'Wasi Master aka. Arian Mollik Wasi'
 
 # The full version, including alpha/beta/rc tags
