@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rich-rst"
-version = "2.0.0a6"
+version = "2.0.0a7"
 description = "A beautiful reStructuredText renderer for rich"
 readme = "README.md"
 license = "MIT"
@@ -55,8 +55,9 @@ docs = [
 ]
 
 [tool.setuptools]
-packages = [
-    "rich_rst",
-]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rich_rst*"]
 
 
