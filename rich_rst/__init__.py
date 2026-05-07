@@ -22,6 +22,7 @@ import rich_rst._vendor.docutils.io
 import rich_rst._vendor.docutils.nodes
 import rich_rst._vendor.docutils.parsers.rst
 import rich_rst._vendor.docutils.parsers.rst.directives
+import rich_rst._vendor.docutils.parsers.rst.directives.tables
 import rich_rst._vendor.docutils.utils
 
 # Imports from the rich package for the printing
@@ -555,6 +556,259 @@ class _AutodocDirective(docutils.parsers.rst.Directive):
         return []
 
 
+# ── flat-table directive (Linux kernel docs) ──────────────────────────────────
+
+class _rowSpan(docutils.nodes.General, docutils.nodes.Element):
+    """Inline node carrying a row-span value for flat-table cells."""
+    pass
+
+
+class _colSpan(docutils.nodes.General, docutils.nodes.Element):
+    """Inline node carrying a column-span value for flat-table cells."""
+    pass
+
+
+def _flat_table_cspan(
+    name: str,
+    rawtext: str,
+    text: str,
+    lineno: int,
+    inliner: Any,
+    options: Optional[Dict[str, Any]] = None,
+    content: Optional[List[str]] = None,
+) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+    """Role handler for ``:cspan:`` — extra columns a cell spans."""
+    return [_colSpan(span=int(text))], []
+
+
+def _flat_table_rspan(
+    name: str,
+    rawtext: str,
+    text: str,
+    lineno: int,
+    inliner: Any,
+    options: Optional[Dict[str, Any]] = None,
+    content: Optional[List[str]] = None,
+) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+    """Role handler for ``:rspan:`` — extra rows a cell spans."""
+    return [_rowSpan(span=int(text))], []
+
+
+class _FlatTableDirective(docutils.parsers.rst.directives.tables.Table):
+    """Implementation of the ``flat-table`` directive.
+
+    The flat-table is a two-level bullet list that supports row-span and
+    column-span via the ``:rspan:`` and ``:cspan:`` roles.  Missing cells on
+    the right side of a row are auto-spanned (or auto-filled when
+    ``:fill-cells:`` is set).
+
+    Ported from the Linux kernel documentation extension
+    ``Documentation/sphinx/rstFlatTable.py`` (GPL-2.0).
+    """
+
+    option_spec = {
+        'name': docutils.parsers.rst.directives.unchanged,
+        'class': docutils.parsers.rst.directives.class_option,
+        'header-rows': docutils.parsers.rst.directives.nonnegative_int,
+        'stub-columns': docutils.parsers.rst.directives.nonnegative_int,
+        'widths': docutils.parsers.rst.directives.positive_int_list,
+        'fill-cells': docutils.parsers.rst.directives.flag,
+    }
+
+    def run(self) -> List[docutils.nodes.Node]:
+        if not self.content:
+            error = self.state_machine.reporter.error(
+                'The "%s" directive is empty; content required.' % self.name,
+                docutils.nodes.literal_block(self.block_text, self.block_text),
+                line=self.lineno,
+            )
+            return [error]
+
+        title, messages = self.make_title()
+        node = docutils.nodes.Element()
+        self.state.nested_parse(self.content, self.content_offset, node)
+
+        builder = _FlatTableBuilder(self)
+        builder.parse_flat_table_node(node)
+        table_node = builder.build_table_node()
+        if title:
+            table_node.insert(0, title)
+        return [table_node] + messages
+
+
+class _FlatTableBuilder:
+    """Builds a docutils ``table`` node from a two-level bullet list."""
+
+    def __init__(self, directive: _FlatTableDirective) -> None:
+        self.directive = directive
+        self.rows: List[List[Any]] = []
+        self.max_cols = 0
+
+    def build_table_node(self) -> docutils.nodes.table:
+        col_widths = self.directive.get_column_widths(self.max_cols)
+        # get_column_widths may return (widths_string, [ints]) in older docutils.
+        if isinstance(col_widths, tuple):
+            col_widths = col_widths[1]
+
+        stub_columns = self.directive.options.get('stub-columns', 0)
+        header_rows = self.directive.options.get('header-rows', 0)
+
+        table = docutils.nodes.table()
+        tgroup = docutils.nodes.tgroup(cols=len(col_widths))
+        table += tgroup
+
+        remaining_stubs = stub_columns
+        for colwidth in col_widths:
+            colspec = docutils.nodes.colspec(colwidth=colwidth)
+            if remaining_stubs:
+                colspec.attributes['stub'] = 1
+                remaining_stubs -= 1
+            tgroup += colspec
+
+        if header_rows:
+            thead = docutils.nodes.thead()
+            tgroup += thead
+            for row in self.rows[:header_rows]:
+                thead += self._build_row_node(row)
+
+        tbody = docutils.nodes.tbody()
+        tgroup += tbody
+        for row in self.rows[header_rows:]:
+            tbody += self._build_row_node(row)
+
+        return table
+
+    def _build_row_node(self, row_data: List[Any]) -> docutils.nodes.row:
+        row = docutils.nodes.row()
+        for cell in row_data:
+            if cell is None:
+                continue
+            cspan, rspan, cell_elements = cell
+            attrs: Dict[str, Any] = {'classes': []}
+            if rspan:
+                attrs['morerows'] = rspan
+            if cspan:
+                attrs['morecols'] = cspan
+            entry = docutils.nodes.entry(**attrs)
+            entry.extend(cell_elements)
+            row += entry
+        return row
+
+    def _raise_error(self, msg: str) -> None:
+        error = self.directive.state_machine.reporter.error(
+            msg,
+            docutils.nodes.literal_block(
+                self.directive.block_text, self.directive.block_text
+            ),
+            line=self.directive.lineno,
+        )
+        from rich_rst._vendor.docutils.utils import SystemMessagePropagation
+        raise SystemMessagePropagation(error)
+
+    def parse_flat_table_node(self, node: docutils.nodes.Element) -> None:
+        if len(node) != 1 or not isinstance(node[0], docutils.nodes.bullet_list):
+            self._raise_error(
+                'Error parsing content block for the "%s" directive: '
+                'exactly one bullet list expected.' % self.directive.name
+            )
+
+        for row_num, row_item in enumerate(node[0]):
+            row = self._parse_row_item(row_item, row_num)
+            self.rows.append(row)
+
+        self._round_off_table()
+
+    def _round_off_table(self) -> None:
+        """Insert None placeholders for spanned cells and auto-span/fill the right edge."""
+        y = 0
+        while y < len(self.rows):
+            x = 0
+            while x < len(self.rows[y]):
+                cell = self.rows[y][x]
+                if cell is None:
+                    x += 1
+                    continue
+                cspan, rspan = cell[:2]
+                # Colspan: insert None placeholders in the current row
+                for c in range(cspan):
+                    try:
+                        self.rows[y].insert(x + c + 1, None)
+                    except Exception:
+                        pass
+                # Rowspan: insert None placeholders in spanned rows
+                for r in range(rspan):
+                    for c in range(cspan + 1):
+                        try:
+                            self.rows[y + r + 1].insert(x + c, None)
+                        except Exception:
+                            pass
+                x += 1
+            y += 1
+
+        for row in self.rows:
+            if self.max_cols < len(row):
+                self.max_cols = len(row)
+
+        fill_cells = 'fill-cells' in self.directive.options
+        for row in self.rows:
+            missing = self.max_cols - len(row)
+            if missing and not fill_cells:
+                if row[-1] is None:
+                    row.append((missing - 1, 0, []))
+                else:
+                    cspan, rspan, content = row[-1]
+                    row[-1] = (cspan + missing, rspan, content)
+            elif missing and fill_cells:
+                for _ in range(missing):
+                    row.append((0, 0, docutils.nodes.comment()))
+
+    def _parse_row_item(self, row_item: docutils.nodes.list_item, row_num: int) -> List[Any]:
+        row: List[Any] = []
+        child_no = 0
+        error = False
+        cell_list = None
+
+        for child in row_item:
+            if isinstance(child, (docutils.nodes.comment, docutils.nodes.system_message)):
+                pass
+            elif isinstance(child, docutils.nodes.target):
+                pass  # targets are attached to the first cell below
+            elif isinstance(child, docutils.nodes.bullet_list):
+                child_no += 1
+                cell_list = child
+            else:
+                error = True
+                break
+
+        if child_no != 1 or error:
+            self._raise_error(
+                'Error parsing content block for the "%s" directive: '
+                'two-level bullet list expected, but row %s does not '
+                'contain a second-level bullet list.'
+                % (self.directive.name, row_num + 1)
+            )
+
+        for cell_item in cell_list:
+            cspan, rspan, cell_elements = self._parse_cell_item(cell_item)
+            row.append((cspan, rspan, cell_elements))
+        return row
+
+    def _parse_cell_item(
+        self, cell_item: docutils.nodes.list_item
+    ) -> Tuple[int, int, List[docutils.nodes.Node]]:
+        cspan = rspan = 0
+        if not len(cell_item):
+            return cspan, rspan, []
+        for elem in cell_item[0]:
+            if isinstance(elem, _colSpan):
+                cspan = elem.get('span')
+                elem.parent.remove(elem)
+            elif isinstance(elem, _rowSpan):
+                rspan = elem.get('span')
+                elem.parent.remove(elem)
+        return cspan, rspan, list(cell_item)
+
+
 _sphinx_directives_registered = False
 # This lock serialises one-time directive and role registration within a
 # single Python process.  Each worker process in a multi-process build gets
@@ -642,6 +896,16 @@ def _register_sphinx_directives() -> None:
             'autodecorator', 'autoclassmethod', 'autostaticmethod',
         ):
             docutils.parsers.rst.directives.register_directive(name, _AutodocDirective)
+        # flat-table (Linux kernel docs extension)
+        docutils.parsers.rst.directives.register_directive('flat-table', _FlatTableDirective)
+        # cspan / rspan roles used inside flat-table cells
+        import rich_rst._vendor.docutils.parsers.rst.roles as _roles
+        import rich_rst._vendor.docutils.parsers.rst.languages.en as _en
+        _roles.register_canonical_role('cspan', _flat_table_cspan)
+        _roles.register_canonical_role('rspan', _flat_table_rspan)
+        if hasattr(_en, 'roles'):
+            _en.roles['cspan'] = 'cspan'
+            _en.roles['rspan'] = 'rspan'
 
         _sphinx_directives_registered = True
 
@@ -2504,11 +2768,16 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if not renderables:
                 return Text("", style=cell_style)
             # depart_paragraph appends "\n\n" to trailing Text renderables; strip
-            # it so cells don't carry extra vertical whitespace.  Other renderable
-            # types (Panel, Table, …) manage their own spacing.
-            for r in renderables:
+            # it so cells don't carry extra vertical whitespace.  Also strip any
+            # leading whitespace left over after span-role nodes (:cspan:/:rspan:)
+            # are removed (the space between the role and the following text is
+            # preserved as a leading space in the text node).
+            for i, r in enumerate(renderables):
                 if isinstance(r, Text):
                     r.rstrip()
+                    leading = len(r.plain) - len(r.plain.lstrip())
+                    if leading:
+                        renderables[i] = r[leading:]
             if len(renderables) == 1:
                 return renderables[0]
             return Group(*renderables)
@@ -2576,7 +2845,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             col_idx = 0
             for entry in header_row.children:
                 morecols = entry.get("morecols", 0)
-                rich_table.add_column(entry.astext().replace("\n", " "), style=cell_style)
+                rich_table.add_column(entry.astext().replace("\n", " ").strip(), style=cell_style)
                 for _ in range(morecols):
                     rich_table.add_column("", style=cell_style)
                 col_idx += 1 + morecols
