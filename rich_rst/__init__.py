@@ -2705,6 +2705,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_pending(self, node) -> None:
         raise docutils.nodes.SkipChildren()
 
+    def visit__colSpan(self, node) -> None:
+        raise docutils.nodes.SkipNode()
+
+    def visit__rowSpan(self, node) -> None:
+        raise docutils.nodes.SkipNode()
+
     def visit_problematic(self, node) -> None:
         # Keep problematic inline source visible in the main render output.
         problematic_style = self.console.get_style("restructuredtext.problematic", default="none")
