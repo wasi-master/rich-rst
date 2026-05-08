@@ -556,7 +556,10 @@ class _AutodocDirective(docutils.parsers.rst.Directive):
         return []
 
 
-# ── flat-table directive (Linux kernel docs) ──────────────────────────────────
+# ── flat-table directive ───────────────────────────────────────────────────────
+# The flat-table directive is described in the Linux kernel Sphinx documentation
+# guide (https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html).
+# This is an independent implementation.
 
 class _rowSpan(docutils.nodes.General, docutils.nodes.Element):
     """Inline node carrying a row-span value for flat-table cells."""
@@ -578,7 +581,17 @@ def _flat_table_cspan(
     content: Optional[List[str]] = None,
 ) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
     """Role handler for ``:cspan:`` — extra columns a cell spans."""
-    return [_colSpan(span=int(text))], []
+    try:
+        n = int(text)
+        if n < 0:
+            raise ValueError
+    except ValueError:
+        msg = inliner.reporter.error(
+            f":cspan: requires a non-negative integer, got {text!r}",
+            line=lineno,
+        )
+        return [inliner.problematic(rawtext, rawtext, msg)], [msg]
+    return [_colSpan(span=n)], []
 
 
 def _flat_table_rspan(
@@ -591,19 +604,27 @@ def _flat_table_rspan(
     content: Optional[List[str]] = None,
 ) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
     """Role handler for ``:rspan:`` — extra rows a cell spans."""
-    return [_rowSpan(span=int(text))], []
+    try:
+        n = int(text)
+        if n < 0:
+            raise ValueError
+    except ValueError:
+        msg = inliner.reporter.error(
+            f":rspan: requires a non-negative integer, got {text!r}",
+            line=lineno,
+        )
+        return [inliner.problematic(rawtext, rawtext, msg)], [msg]
+    return [_rowSpan(span=n)], []
 
 
 class _FlatTableDirective(docutils.parsers.rst.directives.tables.Table):
     """Implementation of the ``flat-table`` directive.
 
-    The flat-table is a two-level bullet list that supports row-span and
-    column-span via the ``:rspan:`` and ``:cspan:`` roles.  Missing cells on
-    the right side of a row are auto-spanned (or auto-filled when
-    ``:fill-cells:`` is set).
-
-    Ported from the Linux kernel documentation extension
-    ``Documentation/sphinx/rstFlatTable.py`` (GPL-2.0).
+    A flat-table is written as a two-level bullet list.  The outer items are
+    rows; the inner items are cells.  Cells may carry ``:rspan:`` and
+    ``:cspan:`` roles to span rows or columns.  Missing cells on the right
+    side of a row are auto-extended (or filled with empty cells when
+    ``:fill-cells:`` is given).
     """
 
     option_spec = {
@@ -637,7 +658,7 @@ class _FlatTableDirective(docutils.parsers.rst.directives.tables.Table):
 
 
 class _FlatTableBuilder:
-    """Builds a docutils ``table`` node from a two-level bullet list."""
+    """Converts a two-level bullet list into a docutils ``table`` node."""
 
     def __init__(self, directive: _FlatTableDirective) -> None:
         self.directive = directive
@@ -646,7 +667,6 @@ class _FlatTableBuilder:
 
     def build_table_node(self) -> docutils.nodes.table:
         col_widths = self.directive.get_column_widths(self.max_cols)
-        # get_column_widths may return (widths_string, [ints]) in older docutils.
         if isinstance(col_widths, tuple):
             col_widths = col_widths[1]
 
@@ -716,51 +736,63 @@ class _FlatTableBuilder:
             row = self._parse_row_item(row_item, row_num)
             self.rows.append(row)
 
-        self._round_off_table()
+        self._build_grid()
 
-    def _round_off_table(self) -> None:
-        """Insert None placeholders for spanned cells and auto-span/fill the right edge."""
-        y = 0
-        while y < len(self.rows):
-            x = 0
-            while x < len(self.rows[y]):
-                cell = self.rows[y][x]
-                if cell is None:
-                    x += 1
-                    continue
-                cspan, rspan = cell[:2]
-                # Colspan: insert None placeholders in the current row
-                for c in range(cspan):
-                    try:
-                        self.rows[y].insert(x + c + 1, None)
-                    except Exception:
-                        pass
-                # Rowspan: insert None placeholders in spanned rows
-                for r in range(rspan):
-                    for c in range(cspan + 1):
-                        try:
-                            self.rows[y + r + 1].insert(x + c, None)
-                        except Exception:
-                            pass
-                x += 1
-            y += 1
+    def _build_grid(self) -> None:
+        """Assign column positions to cells and insert None placeholders for spanned slots.
 
-        for row in self.rows:
-            if self.max_cols < len(row):
-                self.max_cols = len(row)
+        Phase 1: walk rows in order, tracking which (row, col) positions are
+        already claimed by a spanning cell via an occupancy set.  Each cell
+        lands in the first unoccupied column in its row.
+
+        Phase 2: rebuild self.rows as flat lists (None for occupied slots,
+        tuple for real cells) and pad the right edge with auto-span or
+        fill-cells as requested.
+        """
+        occupied: set = set()  # (row_idx, col_idx) positions pre-filled by a span
+        positioned: List[List[Any]] = []
+
+        for r, row in enumerate(self.rows):
+            col = 0
+            row_cells: List[Any] = []
+            for cspan, rspan, content in row:
+                while (r, col) in occupied:
+                    col += 1
+                row_cells.append((col, cspan, rspan, content))
+                for dr in range(rspan + 1):
+                    for dc in range(cspan + 1):
+                        if dr > 0 or dc > 0:
+                            occupied.add((r + dr, col + dc))
+                col += cspan + 1
+            positioned.append(row_cells)
+
+        for row_cells in positioned:
+            for col, cspan, _rspan, _content in row_cells:
+                self.max_cols = max(self.max_cols, col + cspan + 1)
 
         fill_cells = 'fill-cells' in self.directive.options
-        for row in self.rows:
-            missing = self.max_cols - len(row)
-            if missing and not fill_cells:
-                if row[-1] is None:
-                    row.append((missing - 1, 0, []))
+        self.rows = []
+        for row_cells in positioned:
+            row: List[Any] = []
+            col_cursor = 0
+            for col, cspan, rspan, content in row_cells:
+                while col_cursor < col:
+                    row.append(None)
+                    col_cursor += 1
+                row.append((cspan, rspan, content))
+                col_cursor += cspan + 1
+            missing = self.max_cols - col_cursor
+            if missing > 0:
+                if not fill_cells:
+                    if row and row[-1] is not None:
+                        cspan, rspan, content = row[-1]
+                        row[-1] = (cspan + missing, rspan, content)
+                    else:
+                        row.append((missing - 1, 0, []))
                 else:
-                    cspan, rspan, content = row[-1]
-                    row[-1] = (cspan + missing, rspan, content)
-            elif missing and fill_cells:
-                for _ in range(missing):
-                    row.append((0, 0, docutils.nodes.comment()))
+                    for _ in range(missing):
+                        row.append((0, 0, docutils.nodes.comment()))
+            self.rows.append(row)
 
     def _parse_row_item(self, row_item: docutils.nodes.list_item, row_num: int) -> List[Any]:
         row: List[Any] = []
@@ -772,7 +804,7 @@ class _FlatTableBuilder:
             if isinstance(child, (docutils.nodes.comment, docutils.nodes.system_message)):
                 pass
             elif isinstance(child, docutils.nodes.target):
-                pass  # targets are attached to the first cell below
+                pass
             elif isinstance(child, docutils.nodes.bullet_list):
                 child_no += 1
                 cell_list = child
@@ -799,13 +831,12 @@ class _FlatTableBuilder:
         cspan = rspan = 0
         if not len(cell_item):
             return cspan, rspan, []
-        for elem in cell_item[0]:
-            if isinstance(elem, _colSpan):
-                cspan = elem.get('span')
-                elem.parent.remove(elem)
-            elif isinstance(elem, _rowSpan):
-                rspan = elem.get('span')
-                elem.parent.remove(elem)
+        for elem in list(cell_item.findall(_colSpan)):
+            cspan = elem.get('span')
+            elem.parent.remove(elem)
+        for elem in list(cell_item.findall(_rowSpan)):
+            rspan = elem.get('span')
+            elem.parent.remove(elem)
         return cspan, rspan, list(cell_item)
 
 
