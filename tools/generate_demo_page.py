@@ -808,6 +808,91 @@ DEMOS = [
                        "Charge", "1.602e-19", "C"
                        "Mass", "9.109e-31", "kg" """),
             },
+            {
+                "name": "flat-table — basic with stub column",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: Linux Kernel Subsystems
+                       :header-rows: 1
+                       :stub-columns: 1
+
+                       * - Subsystem
+                         - Maintainer
+                         - Description
+
+                       * - Networking
+                         - David S. Miller
+                         - TCP/IP stack and network drivers
+
+                       * - Memory Management
+                         - Andrew Morton
+                         - Virtual memory, paging, and allocators
+
+                       * - File Systems
+                         - Linus Torvalds
+                         - VFS layer and filesystem drivers"""),
+            },
+            {
+                "name": "flat-table — column span (:cspan:)",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: Quarterly Results
+                       :header-rows: 1
+
+                       * - Student
+                         - Q1
+                         - Q2
+                         - Q3
+
+                       * - :cspan:`3` Grand total — all students, all quarters
+
+                       * - Alice
+                         - 90
+                         - 85
+                         - 92
+
+                       * - Bob
+                         - 80
+                         - 88
+                         - 76"""),
+            },
+            {
+                "name": "flat-table — row span (:rspan:)",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: Produce Prices
+                       :header-rows: 1
+
+                       * - Category
+                         - Item
+                         - Price
+
+                       * - :rspan:`1` Fruit
+                         - Apple
+                         - $1.00
+
+                       * - Banana
+                         - $0.50
+
+                       * - :rspan:`1` Vegetable
+                         - Carrot
+                         - $0.75
+
+                       * - Broccoli
+                         - $1.25"""),
+            },
+            {
+                "name": "flat-table — combined :cspan: and :rspan:",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: Combined Spans
+                       :header-rows: 1
+
+                       * - :cspan:`2` Full-width header
+
+                       * - :rspan:`1` Tall cell
+                         - Top-right
+                         - Also top-right
+
+                       * - Bottom-right
+                         - Also bottom-right"""),
+            },
         ],
     },
     # ── 8. Footnotes and citations ────────────────────────────────────────────
