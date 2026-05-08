@@ -96,9 +96,6 @@ GET = """
 """
 
 # ── 2. Column span with :cspan: ───────────────────────────────────────────────
-# NOTE: Rich's Table does not support cell merging, so :cspan: is represented
-# by leaving the extra columns empty.  The morecols attribute is correctly set
-# on the underlying docutils node; only the terminal visual is limited.
 
 CSPAN = """
 .. flat-table:: Column Span (:cspan: in body rows)
