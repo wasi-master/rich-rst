@@ -1647,7 +1647,7 @@ Generic admonition with custom title
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭─────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Did you know? </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────╮</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst supports all currently documented RST elements.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                       </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst supports all currently documented RST elements.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                 </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
@@ -1729,11 +1729,11 @@ Grid table with row spanning
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">┏━━━━━━━━━━━━┳━━━━━━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> Column 1   </span>┃<span style="color:#f8f8f2;font-weight: bold"> Column 2 </span>┃
+   ┃ Column 1   ┃ Column 2 ┃
    ┡━━━━━━━━━━━━╇━━━━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Rows 1 &amp; 2</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Row 1   </span> │
-   ├────────────┼──────────┤
-   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Row 2   </span> │
+   │ Rows 1 &amp; 2 │ Row 1    │
+   │            ├──────────┤
+   │            │ Row 2    │
    └────────────┴──────────┘
    </span></pre>
    </div>
@@ -1827,6 +1827,164 @@ csv-table directive
    ├────────┼─────────────┼──────┤
    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Mass  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">9.109e-31  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">kg  </span> │
    └────────┴─────────────┴──────┘
+   </span></pre>
+   </div>
+
+flat-table — basic with stub column
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: Linux Kernel Subsystems
+      :header-rows: 1
+      :stub-columns: 1
+
+      * - Subsystem
+        - Maintainer
+        - Description
+
+      * - Networking
+        - David S. Miller
+        - TCP/IP stack and network drivers
+
+      * - Memory Management
+        - Andrew Morton
+        - Virtual memory, paging, and allocators
+
+      * - File Systems
+        - Linus Torvalds
+        - VFS layer and filesystem drivers
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">                          Linux Kernel Subsystems                           </span>
+   ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃<span style="color:#f8f8f2;font-weight: bold"> Subsystem         </span>┃<span style="color:#f8f8f2;font-weight: bold"> Maintainer      </span>┃<span style="color:#f8f8f2;font-weight: bold"> Description                        </span>┃
+   ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Networking       </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">David S. Miller</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">TCP/IP stack and network drivers  </span> │
+   ├───────────────────┼─────────────────┼────────────────────────────────────┤
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Memory Management</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Andrew Morton  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Virtual memory, paging, and       </span> │
+   │                   │                 │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">allocators                        </span> │
+   ├───────────────────┼─────────────────┼────────────────────────────────────┤
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">File Systems     </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Linus Torvalds </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">VFS layer and filesystem drivers  </span> │
+   └───────────────────┴─────────────────┴────────────────────────────────────┘
+   </span></pre>
+   </div>
+
+flat-table — column span (:cspan:)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: Quarterly Results
+      :header-rows: 1
+
+      * - Student
+        - Q1
+        - Q2
+        - Q3
+
+      * - :cspan:`3` Grand total — all students, all quarters
+
+      * - Alice
+        - 90
+        - 85
+        - 92
+
+      * - Bob
+        - 80
+        - 88
+        - 76
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">            Quarterly Results             </span>
+   ┏━━━━━━━━━┳━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃ Student ┃ Q1 ┃ Q2 ┃ Q3                         ┃
+   ┡━━━━━━━━━┻━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+   │ Grand total — all students, all quarters       │
+   ├─────────┬────┬────┬────────────────────────────┤
+   │ Alice   │ 90 │ 85 │ 92                         │
+   ├─────────┼────┼────┼────────────────────────────┤
+   │ Bob     │ 80 │ 88 │ 76                         │
+   └─────────┴────┴────┴────────────────────────────┘
+   </span></pre>
+   </div>
+
+flat-table — row span (:rspan:)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: Produce Prices
+      :header-rows: 1
+
+      * - Category
+        - Item
+        - Price
+
+      * - :rspan:`1` Fruit
+        - Apple
+        - $1.00
+
+      * - Banana
+        - $0.50
+
+      * - :rspan:`1` Vegetable
+        - Carrot
+        - $0.75
+
+      * - Broccoli
+        - $1.25
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">      Produce Prices      </span>
+   ┏━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━┓
+   ┃ Category  ┃ Item     ┃ Price ┃
+   ┡━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━┩
+   │ Fruit     │ Apple    │ $1.00 │
+   │           ├──────────┼───────┤
+   │           │ Banana   │ $0.50 │
+   ├───────────┼──────────┼───────┤
+   │ Vegetable │ Carrot   │ $0.75 │
+   │           ├──────────┼───────┤
+   │           │ Broccoli │ $1.25 │
+   └───────────┴──────────┴───────┘
+   </span></pre>
+   </div>
+
+flat-table — combined :cspan: and :rspan:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: Combined Spans
+      :header-rows: 1
+
+      * - :cspan:`2` Full-width header
+
+      * - :rspan:`1` Tall cell
+        - Top-right
+        - Also top-right
+
+      * - Bottom-right
+        - Also bottom-right
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">              Combined Spans              </span>
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃ Full-width header                            ┃
+   ┡━━━━━━━━━━━┯━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━┩
+   │ Tall cell │ Top-right    │ Also top-right    │
+   │           ├──────────────┼───────────────────┤
+   │           │ Bottom-right │ Also bottom-right │
+   └───────────┴──────────────┴───────────────────┘
    </span></pre>
    </div>
 
@@ -1925,10 +2083,9 @@ Citation
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">As described in </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">Doe2023</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
-
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">╭──────────────────────────────── citation ────────────────────────────────╮</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌──────────────────────────────── citation ────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> Doe2023: John Doe. Python Patterns. 2023.                                <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
 
@@ -2034,7 +2191,7 @@ Date substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-04-04.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-05-08.</span>
    </span></pre>
    </div>
 

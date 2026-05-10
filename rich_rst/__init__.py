@@ -22,6 +22,7 @@ import rich_rst._vendor.docutils.io
 import rich_rst._vendor.docutils.nodes
 import rich_rst._vendor.docutils.parsers.rst
 import rich_rst._vendor.docutils.parsers.rst.directives
+import rich_rst._vendor.docutils.parsers.rst.directives.tables
 import rich_rst._vendor.docutils.utils
 
 # Imports from the rich package for the printing
@@ -555,6 +556,290 @@ class _AutodocDirective(docutils.parsers.rst.Directive):
         return []
 
 
+# ── flat-table directive ───────────────────────────────────────────────────────
+# The flat-table directive is described in the Linux kernel Sphinx documentation
+# guide (https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html).
+# This is an independent implementation.
+
+class _rowSpan(docutils.nodes.General, docutils.nodes.Element):
+    """Inline node carrying a row-span value for flat-table cells."""
+    pass
+
+
+class _colSpan(docutils.nodes.General, docutils.nodes.Element):
+    """Inline node carrying a column-span value for flat-table cells."""
+    pass
+
+
+def _flat_table_cspan(
+    name: str,
+    rawtext: str,
+    text: str,
+    lineno: int,
+    inliner: Any,
+    options: Optional[Dict[str, Any]] = None,
+    content: Optional[List[str]] = None,
+) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+    """Role handler for ``:cspan:`` — extra columns a cell spans."""
+    try:
+        n = int(text)
+        if n < 0:
+            raise ValueError
+    except ValueError:
+        msg = inliner.reporter.error(
+            f":cspan: requires a non-negative integer, got {text!r}",
+            line=lineno,
+        )
+        return [inliner.problematic(rawtext, rawtext, msg)], [msg]
+    return [_colSpan(span=n)], []
+
+
+def _flat_table_rspan(
+    name: str,
+    rawtext: str,
+    text: str,
+    lineno: int,
+    inliner: Any,
+    options: Optional[Dict[str, Any]] = None,
+    content: Optional[List[str]] = None,
+) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+    """Role handler for ``:rspan:`` — extra rows a cell spans."""
+    try:
+        n = int(text)
+        if n < 0:
+            raise ValueError
+    except ValueError:
+        msg = inliner.reporter.error(
+            f":rspan: requires a non-negative integer, got {text!r}",
+            line=lineno,
+        )
+        return [inliner.problematic(rawtext, rawtext, msg)], [msg]
+    return [_rowSpan(span=n)], []
+
+
+class _FlatTableDirective(docutils.parsers.rst.directives.tables.Table):
+    """Implementation of the ``flat-table`` directive.
+
+    A flat-table is written as a two-level bullet list.  The outer items are
+    rows; the inner items are cells.  Cells may carry ``:rspan:`` and
+    ``:cspan:`` roles to span rows or columns.  Missing cells on the right
+    side of a row are auto-extended (or filled with empty cells when
+    ``:fill-cells:`` is given).
+    """
+
+    option_spec = {
+        'name': docutils.parsers.rst.directives.unchanged,
+        'class': docutils.parsers.rst.directives.class_option,
+        'header-rows': docutils.parsers.rst.directives.nonnegative_int,
+        'stub-columns': docutils.parsers.rst.directives.nonnegative_int,
+        'widths': docutils.parsers.rst.directives.positive_int_list,
+        'fill-cells': docutils.parsers.rst.directives.flag,
+    }
+
+    def run(self) -> List[docutils.nodes.Node]:
+        if not self.content:
+            error = self.state_machine.reporter.error(
+                'The "%s" directive is empty; content required.' % self.name,
+                docutils.nodes.literal_block(self.block_text, self.block_text),
+                line=self.lineno,
+            )
+            return [error]
+
+        title, messages = self.make_title()
+        node = docutils.nodes.Element()
+        self.state.nested_parse(self.content, self.content_offset, node)
+
+        builder = _FlatTableBuilder(self)
+        builder.parse_flat_table_node(node)
+        table_node = builder.build_table_node()
+        if title:
+            table_node.insert(0, title)
+        return [table_node] + messages
+
+
+class _FlatTableBuilder:
+    """Converts a two-level bullet list into a docutils ``table`` node."""
+
+    def __init__(self, directive: _FlatTableDirective) -> None:
+        self.directive = directive
+        self.rows: List[List[Any]] = []
+        self.max_cols = 0
+
+    def build_table_node(self) -> docutils.nodes.table:
+        col_widths = self.directive.get_column_widths(self.max_cols)
+        if isinstance(col_widths, tuple):
+            col_widths = col_widths[1]
+
+        stub_columns = self.directive.options.get('stub-columns', 0)
+        header_rows = self.directive.options.get('header-rows', 0)
+
+        table = docutils.nodes.table()
+        tgroup = docutils.nodes.tgroup(cols=len(col_widths))
+        table += tgroup
+
+        remaining_stubs = stub_columns
+        for colwidth in col_widths:
+            colspec = docutils.nodes.colspec(colwidth=colwidth)
+            if remaining_stubs:
+                colspec.attributes['stub'] = 1
+                remaining_stubs -= 1
+            tgroup += colspec
+
+        if header_rows:
+            thead = docutils.nodes.thead()
+            tgroup += thead
+            for row in self.rows[:header_rows]:
+                thead += self._build_row_node(row)
+
+        tbody = docutils.nodes.tbody()
+        tgroup += tbody
+        for row in self.rows[header_rows:]:
+            tbody += self._build_row_node(row)
+
+        return table
+
+    def _build_row_node(self, row_data: List[Any]) -> docutils.nodes.row:
+        row = docutils.nodes.row()
+        for cell in row_data:
+            if cell is None:
+                continue
+            cspan, rspan, cell_elements = cell
+            attrs: Dict[str, Any] = {'classes': []}
+            if rspan:
+                attrs['morerows'] = rspan
+            if cspan:
+                attrs['morecols'] = cspan
+            entry = docutils.nodes.entry(**attrs)
+            entry.extend(cell_elements)
+            row += entry
+        return row
+
+    def _raise_error(self, msg: str) -> None:
+        error = self.directive.state_machine.reporter.error(
+            msg,
+            docutils.nodes.literal_block(
+                self.directive.block_text, self.directive.block_text
+            ),
+            line=self.directive.lineno,
+        )
+        from rich_rst._vendor.docutils.utils import SystemMessagePropagation
+        raise SystemMessagePropagation(error)
+
+    def parse_flat_table_node(self, node: docutils.nodes.Element) -> None:
+        if len(node) != 1 or not isinstance(node[0], docutils.nodes.bullet_list):
+            self._raise_error(
+                'Error parsing content block for the "%s" directive: '
+                'exactly one bullet list expected.' % self.directive.name
+            )
+
+        for row_num, row_item in enumerate(node[0]):
+            row = self._parse_row_item(row_item, row_num)
+            self.rows.append(row)
+
+        self._build_grid()
+
+    def _build_grid(self) -> None:
+        """Assign column positions to cells and insert None placeholders for spanned slots.
+
+        Phase 1: walk rows in order, tracking which (row, col) positions are
+        already claimed by a spanning cell via an occupancy set.  Each cell
+        lands in the first unoccupied column in its row.
+
+        Phase 2: rebuild self.rows as flat lists (None for occupied slots,
+        tuple for real cells) and pad the right edge with auto-span or
+        fill-cells as requested.
+        """
+        occupied: set = set()  # (row_idx, col_idx) positions pre-filled by a span
+        positioned: List[List[Any]] = []
+
+        for r, row in enumerate(self.rows):
+            col = 0
+            row_cells: List[Any] = []
+            for cspan, rspan, content in row:
+                while (r, col) in occupied:
+                    col += 1
+                row_cells.append((col, cspan, rspan, content))
+                for dr in range(rspan + 1):
+                    for dc in range(cspan + 1):
+                        if dr > 0 or dc > 0:
+                            occupied.add((r + dr, col + dc))
+                col += cspan + 1
+            positioned.append(row_cells)
+
+        for row_cells in positioned:
+            for col, cspan, _rspan, _content in row_cells:
+                self.max_cols = max(self.max_cols, col + cspan + 1)
+
+        fill_cells = 'fill-cells' in self.directive.options
+        self.rows = []
+        for row_cells in positioned:
+            row: List[Any] = []
+            col_cursor = 0
+            for col, cspan, rspan, content in row_cells:
+                while col_cursor < col:
+                    row.append(None)
+                    col_cursor += 1
+                row.append((cspan, rspan, content))
+                col_cursor += cspan + 1
+            missing = self.max_cols - col_cursor
+            if missing > 0:
+                if not fill_cells:
+                    if row and row[-1] is not None:
+                        cspan, rspan, content = row[-1]
+                        row[-1] = (cspan + missing, rspan, content)
+                    else:
+                        row.append((missing - 1, 0, []))
+                else:
+                    for _ in range(missing):
+                        row.append((0, 0, docutils.nodes.comment()))
+            self.rows.append(row)
+
+    def _parse_row_item(self, row_item: docutils.nodes.list_item, row_num: int) -> List[Any]:
+        row: List[Any] = []
+        child_no = 0
+        error = False
+        cell_list = None
+
+        for child in row_item:
+            if isinstance(child, (docutils.nodes.comment, docutils.nodes.system_message)):
+                pass
+            elif isinstance(child, docutils.nodes.target):
+                pass
+            elif isinstance(child, docutils.nodes.bullet_list):
+                child_no += 1
+                cell_list = child
+            else:
+                error = True
+                break
+
+        if child_no != 1 or error:
+            self._raise_error(
+                'Error parsing content block for the "%s" directive: '
+                'two-level bullet list expected, but row %s does not '
+                'contain a second-level bullet list.'
+                % (self.directive.name, row_num + 1)
+            )
+
+        for cell_item in cell_list:
+            cspan, rspan, cell_elements = self._parse_cell_item(cell_item)
+            row.append((cspan, rspan, cell_elements))
+        return row
+
+    def _parse_cell_item(
+        self, cell_item: docutils.nodes.list_item
+    ) -> Tuple[int, int, List[docutils.nodes.Node]]:
+        cspan = rspan = 0
+        if not len(cell_item):
+            return cspan, rspan, []
+        for elem in list(cell_item.findall(_colSpan)):
+            cspan = elem.get('span')
+            elem.parent.remove(elem)
+        for elem in list(cell_item.findall(_rowSpan)):
+            rspan = elem.get('span')
+            elem.parent.remove(elem)
+        return cspan, rspan, list(cell_item)
+
+
 _sphinx_directives_registered = False
 # This lock serialises one-time directive and role registration within a
 # single Python process.  Each worker process in a multi-process build gets
@@ -642,6 +927,16 @@ def _register_sphinx_directives() -> None:
             'autodecorator', 'autoclassmethod', 'autostaticmethod',
         ):
             docutils.parsers.rst.directives.register_directive(name, _AutodocDirective)
+        # flat-table (Linux kernel docs extension)
+        docutils.parsers.rst.directives.register_directive('flat-table', _FlatTableDirective)
+        # cspan / rspan roles used inside flat-table cells
+        import rich_rst._vendor.docutils.parsers.rst.roles as _roles
+        import rich_rst._vendor.docutils.parsers.rst.languages.en as _en
+        _roles.register_canonical_role('cspan', _flat_table_cspan)
+        _roles.register_canonical_role('rspan', _flat_table_rspan)
+        if hasattr(_en, 'roles'):
+            _en.roles['cspan'] = 'cspan'
+            _en.roles['rspan'] = 'rspan'
 
         _sphinx_directives_registered = True
 
@@ -2410,6 +2705,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_pending(self, node) -> None:
         raise docutils.nodes.SkipChildren()
 
+    def visit__colSpan(self, node) -> None:
+        raise docutils.nodes.SkipNode()
+
+    def visit__rowSpan(self, node) -> None:
+        raise docutils.nodes.SkipNode()
+
     def visit_problematic(self, node) -> None:
         # Keep problematic inline source visible in the main render output.
         problematic_style = self.console.get_style("restructuredtext.problematic", default="none")
@@ -2449,6 +2750,219 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             )
         )
         raise docutils.nodes.SkipChildren()
+
+    # ── spanning table renderer ───────────────────────────────────────────────
+
+    @staticmethod
+    def _spanning_table(
+        grid: List[List[Any]],
+        col_widths: List[int],
+        header_rows: int,
+        title: Optional[str],
+        header_style: Any,
+        cell_style: Any,
+    ) -> "Group":
+        """Build a Rich Group that renders a table with proper cspan/rspan merging.
+
+        *grid[r][c]* is either ``(renderable, cspan, rspan)`` for a real cell or
+        ``None`` for a placeholder occupied by a span from another cell.
+        *col_widths[c]* is the inner character width of column *c* (excluding borders).
+        """
+        nrows = len(grid)
+        ncols = len(col_widths)
+        lines: List[Text] = []
+
+        # ── box chars ──────────────────────────────────────────────────────
+        # Top border (heavy)
+        TL, TH, TM, TR = "┏", "━", "┳", "┓"
+        # Head/body separator
+        SL, SH, SM, SR = "┡", "━", "╇", "┩"
+        # Body row separator
+        ML, MH, MM, MR = "├", "─", "┼", "┤"
+        # Bottom border
+        BL, BH, BM, BR = "└", "─", "┴", "┘"
+        # Vertical content borders: header uses heavy ┃, body uses light │
+        VH, VB = "┃", "│"
+
+        # ── helpers ────────────────────────────────────────────────────────
+
+        def _plain(renderable: Any) -> str:
+            if renderable is None:
+                return ""
+            if isinstance(renderable, Text):
+                return renderable.plain
+            if isinstance(renderable, Group):
+                return " ".join(_plain(r) for r in renderable.renderables)
+            buf = StringIO()
+            tmp = Console(file=buf, force_terminal=False, width=200)
+            tmp.print(renderable, end="")
+            return buf.getvalue().strip()
+
+        def _origin(r: int, c: int) -> Optional[Tuple[int, int]]:
+            """Return (origin_row, origin_col) for the real cell covering (r, c)."""
+            cell = grid[r][c]
+            if cell is not None:
+                return (r, c)
+            # Scan left — cspan placeholder in same row
+            for cc in range(c - 1, -1, -1):
+                if grid[r][cc] is not None:
+                    _, csp, _ = grid[r][cc]
+                    if cc + csp >= c:
+                        return (r, cc)
+                    break
+            # Scan up — rspan placeholder
+            for rr in range(r - 1, -1, -1):
+                if grid[rr][c] is not None:
+                    _, csp, rsp = grid[rr][c]
+                    if rr + rsp >= r:
+                        return (rr, c)
+                    break
+            return None
+
+        def _rspan_continues(row_above: int, c: int) -> bool:
+            """True if an rspan cell above is still active at the row boundary."""
+            for rr in range(row_above, -1, -1):
+                cell = grid[rr][c]
+                if cell is not None:
+                    _, _, rsp = cell
+                    return rr + rsp > row_above
+            return False
+
+        def _cspan_continues(r: int, c: int) -> bool:
+            """True if column c is a cspan continuation of the cell to its left in row r."""
+            if c == 0:
+                return False
+            for cc in range(c - 1, -1, -1):
+                if grid[r][cc] is not None:
+                    _, csp, _ = grid[r][cc]
+                    return cc + csp >= c
+                break
+            return False
+
+        def _is_header(r: int) -> bool:
+            return r < header_rows
+
+        def _has_vborder(r: int, c: int) -> bool:
+            """True iff row *r* has a vertical separator between column *c* and *c+1*."""
+            return _origin(r, c) != _origin(r, c + 1)
+
+        # ── separator line ─────────────────────────────────────────────────
+
+        def _sep(above: Optional[int], below: Optional[int]) -> Text:
+            """Horizontal rule between rows *above* and *below* (None = table edge)."""
+            is_top = above is None
+            is_bot = below is None
+            is_head_sep = (
+                above is not None
+                and below is not None
+                and above == header_rows - 1
+                and below == header_rows
+            )
+            if is_top:
+                L, H, M, R = TL, TH, TM, TR
+            elif is_bot:
+                L, H, M, R = BL, BH, BM, BR
+            elif is_head_sep:
+                L, H, M, R = SL, SH, SM, SR
+            else:
+                L, H, M, R = ML, MH, MM, MR
+
+            # Left border: use │ when col 0 is an active rspan (cell continues)
+            rc0 = _rspan_continues(above, 0) if above is not None and not is_top else False
+            if rc0 and not is_top and not is_bot:
+                s = VB
+            else:
+                s = L
+            for c in range(ncols):
+                rc = _rspan_continues(above, c) if above is not None and not is_top else False
+                if rc:
+                    s += " " * (col_widths[c] + 2)
+                else:
+                    s += H * (col_widths[c] + 2)
+
+                if c < ncols - 1:
+                    lrc = rc
+                    rrc = (_rspan_continues(above, c + 1) if above is not None and not is_top else False)
+                    if lrc and rrc:
+                        s += VB
+                    elif lrc or rrc:
+                        s += "├" if lrc else "┤"
+                    else:
+                        has_up = above is not None and not is_top and _has_vborder(above, c)
+                        has_dn = below is not None and _has_vborder(below, c)
+                        if has_up and has_dn:
+                            s += SM if is_head_sep else MM
+                        elif has_up:
+                            # ┻ = heavy up + heavy horizontal (head sep); ┴ otherwise
+                            s += "┻" if is_head_sep else BM
+                        elif has_dn:
+                            # ┯ = light down + heavy horizontal (head sep); ┳ at top; ┬ in body
+                            if is_top:
+                                s += TM
+                            elif is_head_sep:
+                                s += "┯"
+                            else:
+                                s += "┬"
+                        else:
+                            s += H  # no junction — just continue horizontal line
+            # Right border
+            rcN = _rspan_continues(above, ncols - 1) if above is not None and not is_top else False
+            if rcN and not is_top and not is_bot:
+                s += VB
+            else:
+                s += R
+            return Text(s)
+
+        # ── content line ───────────────────────────────────────────────────
+
+        def _content(r: int) -> Text:
+            """Single content line for row *r* (cells truncated/padded to col_widths)."""
+            is_hdr = _is_header(r)
+            V = VH if is_hdr else VB
+            s = V
+            c = 0
+            while c < ncols:
+                if _cspan_continues(r, c):
+                    # Part of a spanning cell rendered by a previous column — skip
+                    c += 1
+                    continue
+
+                cell = grid[r][c]
+                if cell is not None:
+                    content, csp, _ = cell
+                    text = _plain(content)
+                    # avail: inner text space = sum of spanned widths + freed separators+padding
+                    # Each eliminated internal border frees (1 border + 2 padding) = 3 chars
+                    avail = sum(col_widths[c:c + csp + 1]) + 3 * csp
+                    text = text[:avail]
+                    s += " " + text.ljust(avail) + " "
+                    if c + csp < ncols - 1:
+                        s += V
+                    c += 1 + csp  # jump past all placeholder columns
+                else:
+                    # rspan placeholder — empty cell
+                    s += " " * (col_widths[c] + 2)
+                    if c < ncols - 1 and not _cspan_continues(r, c + 1):
+                        s += V
+                    c += 1
+            s += V
+            return Text(s)
+
+        # ── assemble lines ─────────────────────────────────────────────────
+
+        if title:
+            total = sum(col_widths) + ncols + 1
+            lines.append(Text(title.center(total), style="italic"))
+
+        for r in range(nrows):
+            above = r - 1 if r > 0 else None
+            lines.append(_sep(above, r))
+            lines.append(_content(r))
+
+        lines.append(_sep(nrows - 1, None))
+        return Group(*lines)
+
+    # ── table visitor ─────────────────────────────────────────────────────
 
     def visit_table(self, node) -> None:
         header_style = self.console.get_style("restructuredtext.table_header", default="bold")
@@ -2504,11 +3018,16 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if not renderables:
                 return Text("", style=cell_style)
             # depart_paragraph appends "\n\n" to trailing Text renderables; strip
-            # it so cells don't carry extra vertical whitespace.  Other renderable
-            # types (Panel, Table, …) manage their own spacing.
-            for r in renderables:
+            # it so cells don't carry extra vertical whitespace.  Also strip any
+            # leading whitespace left over after span-role nodes (:cspan:/:rspan:)
+            # are removed (the space between the role and the following text is
+            # preserved as a leading space in the text node).
+            for i, r in enumerate(renderables):
                 if isinstance(r, Text):
                     r.rstrip()
+                    leading = len(r.plain) - len(r.plain.lstrip())
+                    if leading:
+                        renderables[i] = r[leading:]
             if len(renderables) == 1:
                 return renderables[0]
             return Group(*renderables)
@@ -2559,7 +3078,98 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
             return cells, new_rowspans
 
-        # Build the rich Table
+        # ── detect whether any cell carries a span ────────────────────────────
+        def _any_spans(section: docutils.nodes.Node) -> bool:
+            for row in section.children:
+                for e in row.children:
+                    if e.get("morecols", 0) or e.get("morerows", 0):
+                        return True
+            return False
+
+        has_spans = _any_spans(tbody) or (thead is not None and _any_spans(thead))
+
+        if has_spans:
+            # ── build a logical grid for the spanning renderer ────────────────
+            num_header_rows = len(thead.children) if thead else 0
+            grid: List[List[Any]] = []
+            # rspan_active[col] = remaining body rows this col is still occupied
+            rspan_active: Dict[int, int] = {}
+
+            all_rows: List[Tuple[docutils.nodes.Node, bool]] = []
+            if thead:
+                for row in thead.children:
+                    all_rows.append((row, True))
+            for row in tbody.children:
+                all_rows.append((row, False))
+
+            for row_node, _ in all_rows:
+                grid_row: List[Any] = [None] * num_cols
+                col = 0
+                entry_iter = iter(row_node.children)
+                while col < num_cols:
+                    if col in rspan_active:
+                        rspan_active[col] -= 1
+                        if rspan_active[col] <= 0:
+                            del rspan_active[col]
+                        col += 1
+                        continue
+                    entry = next(entry_iter, None)
+                    if entry is None:
+                        col += 1
+                        continue
+                    mc = entry.get("morecols", 0)
+                    mr = entry.get("morerows", 0)
+                    content = _render_entry_content(entry)
+                    grid_row[col] = (content, mc, mr)
+                    if mr > 0:
+                        for span_c in range(col, col + mc + 1):
+                            rspan_active[span_c] = mr
+                    col += 1 + mc
+                grid.append(grid_row)
+
+            # ── calculate column widths from non-spanning cells ───────────────
+            def _plain_w(renderable: Any) -> int:
+                if renderable is None:
+                    return 0
+                if isinstance(renderable, Text):
+                    return len(renderable.plain)
+                if isinstance(renderable, Group):
+                    return max((_plain_w(r) for r in renderable.renderables), default=0)
+                buf = StringIO()
+                tmp = Console(file=buf, force_terminal=False, width=400)
+                tmp.print(renderable, end="")
+                return max((len(line) for line in buf.getvalue().splitlines()), default=0)
+
+            col_widths = [1] * num_cols
+            for grid_row in grid:
+                for c, cell in enumerate(grid_row):
+                    if cell is None:
+                        continue
+                    content, mc, mr = cell
+                    if mc == 0:
+                        col_widths[c] = max(col_widths[c], _plain_w(content))
+
+            # Widen for spanning cells that need more space
+            for grid_row in grid:
+                for c, cell in enumerate(grid_row):
+                    if cell is None:
+                        continue
+                    content, mc, mr = cell
+                    if mc > 0:
+                        available = sum(col_widths[c:c + mc + 1]) + mc
+                        needed = _plain_w(content)
+                        if needed > available:
+                            col_widths[c + mc] += needed - available
+
+            self.renderables.append(
+                self._spanning_table(
+                    grid, col_widths, num_header_rows,
+                    title, header_style, cell_style,
+                )
+            )
+            raise docutils.nodes.SkipChildren()
+
+        # ── no spans: use Rich Table for best formatting ──────────────────────
         has_header = thead is not None and bool(thead.children)
         rich_table = Table(
             show_header=has_header,
@@ -2568,19 +3178,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             show_lines=True,
         )
 
-        # Add columns, using header-row entries as column labels when thead exists.
-        # Cells with morecols > 0 produce morecols extra unnamed columns so that
-        # the total column count matches the table definition.
         if thead is not None and thead.children:
             header_row = thead.children[0]
             col_idx = 0
             for entry in header_row.children:
                 morecols = entry.get("morecols", 0)
-                rich_table.add_column(entry.astext().replace("\n", " "), style=cell_style)
+                rich_table.add_column(entry.astext().replace("\n", " ").strip(), style=cell_style)
                 for _ in range(morecols):
                     rich_table.add_column("", style=cell_style)
                 col_idx += 1 + morecols
-            # Ensure column count matches colspec (guards against malformed tables)
             while col_idx < num_cols:
                 rich_table.add_column("", style=cell_style)
                 col_idx += 1
@@ -2588,24 +3194,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             for _ in range(num_cols):
                 rich_table.add_column("", style=cell_style)
 
-        # rowspan_remaining tracks how many more body rows each column is still
-        # spanned over: {col_idx: remaining_row_count}.
-        rowspan_remaining = {}
-
-        # Add body rows, correctly handling rowspan and colspan
+        rowspan_remaining: Dict[int, int] = {}
         for row in tbody.children:
             occupied = {col for col, rem in rowspan_remaining.items() if rem > 0}
             cells, new_rowspans = _build_row_cells(row, occupied)
-
-            # Decrement counters for columns that were occupied this row
             for col in list(occupied):
                 rowspan_remaining[col] -= 1
                 if rowspan_remaining[col] <= 0:
                     del rowspan_remaining[col]
-
-            # Register new rowspans introduced by cells in this row
             rowspan_remaining.update(new_rowspans)
-
             rich_table.add_row(*cells)
 
         self.renderables.append(rich_table)
