@@ -239,6 +239,47 @@ class _CodeBlockDirective(docutils.parsers.rst.Directive):
         return [node]
 
 
+class _MathDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. math::`` with Sphinx-compatible option parsing."""
+
+    required_arguments = 0
+    optional_arguments = 1
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {
+        'class': docutils.parsers.rst.directives.class_option,
+        'name': docutils.parsers.rst.directives.unchanged,
+        # Sphinx-specific options. These are accepted and preserved as node
+        # attributes but intentionally no-op in terminal rendering.
+        'nowrap': docutils.parsers.rst.directives.flag,
+        'label': docutils.parsers.rst.directives.unchanged,
+    }
+
+    def run(self) -> List[docutils.nodes.Node]:
+        blocks: List[str] = []
+        if self.arguments:
+            argument = self.arguments[0].strip()
+            if argument:
+                blocks.append(argument)
+        if self.content:
+            blocks.extend(block for block in '\n'.join(self.content).split('\n\n') if block)
+
+        nodes: List[docutils.nodes.Node] = []
+        for block in blocks:
+            node = docutils.nodes.math_block(self.block_text, block)
+            node['classes'] += self.options.get('class', [])
+            if 'nowrap' in self.options:
+                node['nowrap'] = True
+            if 'label' in self.options:
+                node['label'] = self.options['label']
+            source, line = self.state_machine.get_source_and_line(self.lineno)
+            node.source = source
+            node.line = line
+            self.add_name(node)
+            nodes.append(node)
+        return nodes
+
+
 class _HighlightDirective(docutils.parsers.rst.Directive):
     """Handles ``.. highlight::``."""
 
@@ -466,7 +507,7 @@ class _ProductionListDirective(docutils.parsers.rst.Directive):
         else:
             code = ''
         node = docutils.nodes.literal_block(code, code)
-        node['classes'] = ['code', 'text']
+        node['classes'] = ['code', 'productionlist']
         return [node]
 
 
@@ -557,6 +598,14 @@ class _GlossaryDirective(docutils.parsers.rst.Directive):
         container = glossary_block()
         if self.content:
             self.state.nested_parse(self.content, self.content_offset, container)
+        if 'sorted' in self.options:
+            for child in container.children:
+                if isinstance(child, docutils.nodes.definition_list):
+                    child.children.sort(
+                        key=lambda item: item.children[0].astext().strip().casefold()
+                        if item.children
+                        else ""
+                    )
         return [container]
 
 
@@ -960,6 +1009,8 @@ def _register_sphinx_directives() -> None:
         # code-block
         for name in ('code-block', 'sourcecode', 'code'):
             docutils.parsers.rst.directives.register_directive(name, _CodeBlockDirective)
+        # math (accept Sphinx options like :nowrap: and :label:)
+        docutils.parsers.rst.directives.register_directive('math', _MathDirective)
         # highlight
         docutils.parsers.rst.directives.register_directive('highlight', _HighlightDirective)
         # silent no-op

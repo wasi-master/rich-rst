@@ -145,7 +145,7 @@
 ### Highlights
 
 - Vendored `docutils` into `rich_rst` and removed the external dependency.
-- Expanded reStructuredText coverage, including better handling of tables, figures, docinfo, lists, block quotes, footnotes, headings, and highlights.
+- Expanded reStructuredText coverage, including better handling of all types of tables, figures, docinfo, code-blocks, lists, block quotes, footnotes, headings, and highlights.
 - Added stronger Sphinx compatibility (`sphinx_compat=True`) with broad directive/role support, including better Python domain directive handling.
 - Added and improved export/rendering helpers (`render_to_string`, `render_to_html`, `render_to_svg`) and visitor extension APIs (`register_visitor` decorator usage plus unregister/list helpers).
 - Improved include/literalinclude behavior with safer include handling and richer `literalinclude` options (`:lines:`, `:language:`, `:linenos:`, `:encoding:`).

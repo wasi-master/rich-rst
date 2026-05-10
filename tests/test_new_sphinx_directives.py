@@ -376,6 +376,12 @@ def test_productionlist_produces_panel(make_visitor):
     assert panels, "productionlist should produce a Panel"
 
 
+def test_productionlist_panel_title_is_productionlist(make_visitor):
+    rst = ".. productionlist::\n   rule: token\n"
+    panel = _first_panel(make_visitor, rst)
+    assert panel.title == "productionlist"
+
+
 # ── glossary ──────────────────────────────────────────────────────────────────
 
 def test_glossary_content_appears(render_text):
@@ -394,6 +400,33 @@ def test_glossary_no_crash(make_visitor):
     rst = ".. glossary::\n\n   myterm\n      The definition.\n"
     visitor = make_visitor(rst)
     assert isinstance(visitor.renderables, list)
+
+
+def test_glossary_sorted_option_sorts_terms(render_text):
+    rst = (
+        ".. glossary::\n"
+        "   :sorted:\n\n"
+        "   zebra\n"
+        "      Last entry.\n\n"
+        "   apple\n"
+        "      First entry.\n"
+    )
+    out = _render(render_text, rst)
+    assert out.index("apple") < out.index("zebra")
+
+
+# ── math directive options ────────────────────────────────────────────────────
+
+def test_math_nowrap_and_label_options_are_accepted(render_text):
+    rst = (
+        ".. math::\n"
+        "   :nowrap:\n"
+        "   :label: eq-energy\n\n"
+        "   E = mc^2\n"
+    )
+    out = _render(render_text, rst)
+    assert "unknown option" not in out.lower()
+    assert "E = mc^2" in out
 
 
 # ── deprecated-removed ────────────────────────────────────────────────────────
