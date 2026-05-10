@@ -798,7 +798,7 @@ DEMOS = [
                          - 1k+"""),
             },
             {
-                "name": "csv-table directive",
+                "name": "CSV Table",
                 "rst": textwrap.dedent("""\
                     .. csv-table:: Data
                        :header: "Name", "Value", "Unit"
@@ -809,7 +809,7 @@ DEMOS = [
                        "Mass", "9.109e-31", "kg" """),
             },
             {
-                "name": "flat-table — basic with stub column",
+                "name": "Flat Table: Basic with Stub Column",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Linux Kernel Subsystems
                        :header-rows: 1
@@ -832,7 +832,7 @@ DEMOS = [
                          - VFS layer and filesystem drivers"""),
             },
             {
-                "name": "flat-table — column span (:cspan:)",
+                "name": "Flat Table: Column Span (:cspan:)",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Quarterly Results
                        :header-rows: 1
@@ -855,7 +855,7 @@ DEMOS = [
                          - 76"""),
             },
             {
-                "name": "flat-table — row span (:rspan:)",
+                "name": "Flat Table: Row Span (:rspan:)",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Produce Prices
                        :header-rows: 1
@@ -879,7 +879,7 @@ DEMOS = [
                          - $1.25"""),
             },
             {
-                "name": "flat-table — combined :cspan: and :rspan:",
+                "name": "Flat Table: Combined :cspan: and :rspan:",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Combined Spans
                        :header-rows: 1

@@ -37,6 +37,9 @@ from rich.syntax import Syntax, SyntaxTheme
 from rich.text import Text
 from rich.table import Table
 from rich.rule import Rule
+from rich.segment import Segment
+from rich.cells import cell_len
+from rich.styled import Styled
 from rich.terminal_theme import TerminalTheme, DEFAULT_TERMINAL_THEME
 
 from pygments.lexers import guess_lexer, get_lexer_by_name
@@ -2761,6 +2764,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         title: Optional[str],
         header_style: Any,
         cell_style: Any,
+        console: Console,
     ) -> "Group":
         """Build a Rich Group that renders a table with proper cspan/rspan merging.
 
@@ -2785,59 +2789,49 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         VH, VB = "┃", "│"
 
         # ── helpers ────────────────────────────────────────────────────────
-
-        def _plain(renderable: Any) -> str:
-            if renderable is None:
-                return ""
-            if isinstance(renderable, Text):
-                return renderable.plain
-            if isinstance(renderable, Group):
-                return " ".join(_plain(r) for r in renderable.renderables)
-            buf = StringIO()
-            tmp = Console(file=buf, force_terminal=False, width=200)
-            tmp.print(renderable, end="")
-            return buf.getvalue().strip()
+        origin_cache: Dict[Tuple[int, int], Optional[Tuple[int, int]]] = {}
 
         def _origin(r: int, c: int) -> Optional[Tuple[int, int]]:
             """Return (origin_row, origin_col) for the real cell covering (r, c)."""
-            cell = grid[r][c]
-            if cell is not None:
-                return (r, c)
-            # Scan left — cspan placeholder in same row
-            for cc in range(c - 1, -1, -1):
-                if grid[r][cc] is not None:
-                    _, csp, _ = grid[r][cc]
-                    if cc + csp >= c:
-                        return (r, cc)
-                    break
-            # Scan up — rspan placeholder
-            for rr in range(r - 1, -1, -1):
-                if grid[rr][c] is not None:
-                    _, csp, rsp = grid[rr][c]
-                    if rr + rsp >= r:
-                        return (rr, c)
-                    break
+            key = (r, c)
+            cached = origin_cache.get(key, None)
+            if cached is not None or key in origin_cache:
+                return cached
+
+            for rr in range(r, -1, -1):
+                for cc in range(c, -1, -1):
+                    cell = grid[rr][cc]
+                    if cell is None:
+                        continue
+                    _, csp, rsp = cell
+                    if rr <= r <= rr + rsp and cc <= c <= cc + csp:
+                        origin_cache[key] = (rr, cc)
+                        return (rr, cc)
+
+            origin_cache[key] = None
             return None
 
         def _rspan_continues(row_above: int, c: int) -> bool:
-            """True if an rspan cell above is still active at the row boundary."""
+            """True if a cell covering (row_above, c) extends to the next row."""
+            if row_above < 0 or row_above + 1 >= nrows:
+                return False
             for rr in range(row_above, -1, -1):
-                cell = grid[rr][c]
-                if cell is not None:
-                    _, _, rsp = cell
-                    return rr + rsp > row_above
+                for cc in range(c, -1, -1):
+                    cell = grid[rr][cc]
+                    if cell is None:
+                        continue
+                    _, csp, rsp = cell
+                    if cc <= c <= cc + csp and rr <= row_above <= rr + rsp:
+                        return row_above < rr + rsp
             return False
 
         def _cspan_continues(r: int, c: int) -> bool:
             """True if column c is a cspan continuation of the cell to its left in row r."""
             if c == 0:
                 return False
-            for cc in range(c - 1, -1, -1):
-                if grid[r][cc] is not None:
-                    _, csp, _ = grid[r][cc]
-                    return cc + csp >= c
-                break
-            return False
+            left_origin = _origin(r, c - 1)
+            here_origin = _origin(r, c)
+            return left_origin is not None and left_origin == here_origin
 
         def _is_header(r: int) -> bool:
             return r < header_rows
@@ -2845,6 +2839,69 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         def _has_vborder(r: int, c: int) -> bool:
             """True iff row *r* has a vertical separator between column *c* and *c+1*."""
             return _origin(r, c) != _origin(r, c + 1)
+
+        def _segments_to_lines(line_segments: List[Segment]) -> List[Text]:
+            lines: List[Text] = [Text()]
+            for seg in line_segments:
+                if seg.control or not seg.text:
+                    continue
+                parts = seg.text.split("\n")
+                for index, part in enumerate(parts):
+                    if part:
+                        lines[-1].append(part, seg.style)
+                    if index < len(parts) - 1:
+                        lines.append(Text())
+            return lines
+
+        def _row_style(r: int) -> Any:
+            return header_style if _is_header(r) else cell_style
+
+        cell_render_cache: Dict[Tuple[int, int], List[Text]] = {}
+
+        def _render_cell_lines(r: int, c: int) -> List[Text]:
+            """Render cell content into styled lines sized to its spanned width."""
+            key = (r, c)
+            if key in cell_render_cache:
+                return cell_render_cache[key]
+
+            cell = grid[r][c]
+            if cell is None:
+                cell_render_cache[key] = []
+                return []
+
+            content, csp, _ = cell
+            avail = sum(col_widths[c:c + csp + 1]) + 3 * csp
+            style = _row_style(r)
+            if avail <= 0:
+                cell_render_cache[key] = [Text("")]
+                return cell_render_cache[key]
+
+            options = console.options.update(width=avail, max_width=avail)
+            render_target = Styled(content, style) if style else (content if content is not None else Text(""))
+            rendered_lines = console.render_lines(
+                render_target,
+                options=options,
+                style=None,
+                pad=True,
+                new_lines=False,
+            )
+
+            lines: List[Text] = []
+            for rendered in rendered_lines:
+                lines.extend(_segments_to_lines(rendered))
+            if not lines:
+                lines = [Text(" " * avail, style=style)]
+            normalized: List[Text] = []
+            for line in lines:
+                current_width = cell_len(line.plain)
+                if current_width > avail:
+                    line.truncate(avail, overflow="crop", pad=False)
+                elif current_width < avail:
+                    line.append(" " * (avail - current_width), style=style)
+                normalized.append(line)
+
+            cell_render_cache[key] = normalized
+            return normalized
 
         # ── separator line ─────────────────────────────────────────────────
 
@@ -2884,7 +2941,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     lrc = rc
                     rrc = (_rspan_continues(above, c + 1) if above is not None and not is_top else False)
                     if lrc and rrc:
-                        s += VB
+                        same_origin = (
+                            above is not None
+                            and _origin(above, c) is not None
+                            and _origin(above, c) == _origin(above, c + 1)
+                        )
+                        # When both columns continue the same merged rowspan cell,
+                        # there is no interior boundary at this separator.
+                        s += " " if same_origin else VB
                     elif lrc or rrc:
                         s += "├" if lrc else "┤"
                     else:
@@ -2915,49 +2979,82 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         # ── content line ───────────────────────────────────────────────────
 
-        def _content(r: int) -> Text:
-            """Single content line for row *r* (cells truncated/padded to col_widths)."""
-            is_hdr = _is_header(r)
-            V = VH if is_hdr else VB
-            s = V
+        def _row_height(r: int) -> int:
+            """Physical line count for a logical row after rendering cell content."""
+            height = 1
             c = 0
             while c < ncols:
                 if _cspan_continues(r, c):
-                    # Part of a spanning cell rendered by a previous column — skip
+                    c += 1
+                    continue
+                cell = grid[r][c]
+                if cell is None:
+                    c += 1
+                    continue
+                _, csp, _ = cell
+                height = max(height, len(_render_cell_lines(r, c)))
+                c += 1 + csp
+            return height
+
+        def _content(r: int, line_no: int) -> Text:
+            """One physical content line for logical row *r*."""
+            is_hdr = _is_header(r)
+            V = VH if is_hdr else VB
+            style = _row_style(r)
+            line = Text(V)
+            c = 0
+            while c < ncols:
+                if _cspan_continues(r, c):
+                    # Part of a spanning cell rendered by a previous column.
                     c += 1
                     continue
 
                 cell = grid[r][c]
                 if cell is not None:
                     content, csp, _ = cell
-                    text = _plain(content)
-                    # avail: inner text space = sum of spanned widths + freed separators+padding
-                    # Each eliminated internal border frees (1 border + 2 padding) = 3 chars
                     avail = sum(col_widths[c:c + csp + 1]) + 3 * csp
-                    text = text[:avail]
-                    s += " " + text.ljust(avail) + " "
+                    rendered = _render_cell_lines(r, c)
+                    inner = rendered[line_no] if line_no < len(rendered) else Text(" " * avail, style=style)
+                    line.append(" ", style=style)
+                    line.append_text(inner)
+                    line.append(" ", style=style)
                     if c + csp < ncols - 1:
-                        s += V
+                        line.append(V)
                     c += 1 + csp  # jump past all placeholder columns
                 else:
-                    # rspan placeholder — empty cell
-                    s += " " * (col_widths[c] + 2)
-                    if c < ncols - 1 and not _cspan_continues(r, c + 1):
-                        s += V
-                    c += 1
-            s += V
-            return Text(s)
+                    # Placeholder covered by a rowspan from an origin above.
+                    # If this column is the first covered column for that origin
+                    # in this row, render the full merged placeholder width.
+                    origin = _origin(r, c)
+                    if origin is not None and origin[1] == c:
+                        span_end = c
+                        while span_end + 1 < ncols and _origin(r, span_end + 1) == origin:
+                            span_end += 1
+                        csp = span_end - c
+                        avail = sum(col_widths[c:span_end + 1]) + 3 * csp
+                        line.append(" " * (avail + 2), style=style)
+                        if span_end < ncols - 1:
+                            line.append(V)
+                        c = span_end + 1
+                    else:
+                        line.append(" " * (col_widths[c] + 2), style=style)
+                        if c < ncols - 1 and not _cspan_continues(r, c + 1):
+                            line.append(V)
+                        c += 1
+            line.append(V)
+            return line
 
         # ── assemble lines ─────────────────────────────────────────────────
 
         if title:
-            total = sum(col_widths) + ncols + 1
+            total = cell_len(_sep(None, 0).plain) if nrows else (sum(col_widths) + 3 * ncols + 1)
             lines.append(Text(title.center(total), style="italic"))
 
         for r in range(nrows):
             above = r - 1 if r > 0 else None
             lines.append(_sep(above, r))
-            lines.append(_content(r))
+            for line_no in range(_row_height(r)):
+                lines.append(_content(r, line_no))
 
         lines.append(_sep(nrows - 1, None))
         return Group(*lines)
@@ -3128,19 +3225,35 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 grid.append(grid_row)
 
             # ── calculate column widths from non-spanning cells ───────────────
-            def _plain_w(renderable: Any) -> int:
+            def _rendered_plain_lines(renderable: Any) -> List[str]:
                 if renderable is None:
-                    return 0
-                if isinstance(renderable, Text):
-                    return len(renderable.plain)
-                if isinstance(renderable, Group):
-                    return max((_plain_w(r) for r in renderable.renderables), default=0)
-                buf = StringIO()
-                tmp = Console(file=buf, force_terminal=False, width=400)
-                tmp.print(renderable, end="")
-                return max((len(line) for line in buf.getvalue().splitlines()), default=0)
+                    return []
+                lines = self.console.render_lines(
+                    renderable,
+                    options=self.console.options.update(width=2048, max_width=2048),
+                    pad=False,
+                    new_lines=False,
+                )
+                plain_lines: List[str] = []
+                for line in lines:
+                    plain = "".join(seg.text for seg in line if not seg.control)
+                    plain_lines.append(plain)
+                return plain_lines
+
+            def _plain_w(renderable: Any) -> int:
+                lines = _rendered_plain_lines(renderable)
+                return max((cell_len(line) for line in lines), default=0)
+
+            def _min_token_w(renderable: Any) -> int:
+                lines = _rendered_plain_lines(renderable)
+                widest = 1
+                for line in lines:
+                    for token in line.split():
+                        widest = max(widest, cell_len(token))
+                return min(20, widest)
 
             col_widths = [1] * num_cols
+            col_min_widths = [1] * num_cols
             for grid_row in grid:
                 for c, cell in enumerate(grid_row):
                     if cell is None:
@@ -3148,6 +3261,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     content, mc, mr = cell
                     if mc == 0:
                         col_widths[c] = max(col_widths[c], _plain_w(content))
+                        col_min_widths[c] = max(col_min_widths[c], _min_token_w(content))
 
             # Widen for spanning cells that need more space
             for grid_row in grid:
@@ -3161,10 +3275,50 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                         if needed > available:
                             col_widths[c + mc] += needed - available
 
+            # Clamp spanning-table width to the available console width so long
+            # text wraps inside cells instead of producing overflow and broken
+            # visual alignment in narrow terminals.
+            max_total_width = max(1, self.console.options.max_width)
+
+            def _table_width(widths: List[int]) -> int:
+                return sum(widths) + 3 * len(widths) + 1
+
+            overflow = _table_width(col_widths) - max_total_width
+
+            def _shrink_to_floor(floors: List[int], remaining: int) -> int:
+                while remaining > 0:
+                    reducible = [i for i, w in enumerate(col_widths) if w > floors[i]]
+                    if not reducible:
+                        break
+                    reducible.sort(key=lambda i: col_widths[i], reverse=True)
+                    per_col_cut = max(1, remaining // len(reducible))
+                    changed = 0
+                    for idx in reducible:
+                        if remaining <= 0:
+                            break
+                        max_cut = col_widths[idx] - floors[idx]
+                        cut = min(max_cut, per_col_cut, remaining)
+                        if cut <= 0:
+                            continue
+                        col_widths[idx] -= cut
+                        remaining -= cut
+                        changed += cut
+                    if changed == 0:
+                        break
+                return remaining
+
+            # Prefer preserving enough width to avoid one-character vertical
+            # stacks in key columns, then fall back to absolute minimum when
+            # terminal width is very constrained.
+            overflow = _shrink_to_floor(col_min_widths, overflow)
+            if overflow > 0:
+                overflow = _shrink_to_floor([1] * num_cols, overflow)
+
             self.renderables.append(
                 self._spanning_table(
                     grid, col_widths, num_header_rows,
                     title, header_style, cell_style,
+                    self.console,
                 )
             )
             raise docutils.nodes.SkipChildren()

@@ -15,6 +15,10 @@ Formatting contract
 * ``Table.row_count`` equals the number of body rows in the RST table.
 """
 from rich.table import Table
+from rich.console import Group
+from rich.text import Text
+
+from rich_rst import _register_sphinx_directives
 
 
 # ── Basic table structure ─────────────────────────────────────────────────────
@@ -454,3 +458,99 @@ def test_flat_table_rspan_body_row_separator(render_text):
         "Row separator between rspan rows must start with │ — "
         "col 0 is spanned so no horizontal line crosses through it"
     )
+
+
+def test_flat_table_combined_cspan_rspan_no_malformed_separator(render_text):
+    """Combined cspan+rspan cells must keep separator junctions valid."""
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n"
+        "     - D\n\n"
+        "   * - :cspan:`1` :rspan:`1` span\n"
+        "     - x\n"
+        "     - y\n\n"
+        "   * - z\n"
+        "     - w\n"
+    )
+    out = render_text(rst)
+    assert "│   ├" not in out, "Separator must not be malformed by combined cspan+rspan"
+    lines = out.splitlines()
+    z_line = next((l for l in lines if "z" in l and "w" in l), None)
+    assert z_line is not None, "The final body row with z/w must be present"
+    sep1 = z_line.index("│", 1)
+    assert z_line[1:sep1].strip() == ""
+    assert z_line.index("z") < z_line.index("w")
+
+
+def test_flat_table_spanning_cell_preserves_inline_styles(make_visitor):
+    """Spanning renderer must preserve inline rich styles in cell content."""
+    _register_sphinx_directives()
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - H1\n"
+        "     - H2\n\n"
+        "   * - :cspan:`1` **bold** *italic* ``code``\n"
+    )
+    visitor = make_visitor(rst)
+    table_group = next((r for r in visitor.renderables if isinstance(r, Group)), None)
+    assert table_group is not None, "Spanning table must render as Group"
+    content_line = next(
+        (l for l in table_group.renderables if isinstance(l, Text) and "bold" in l.plain and "italic" in l.plain),
+        None,
+    )
+    assert content_line is not None
+    bold_spans = [s for s in content_line.spans if s.style.bold]
+    italic_spans = [s for s in content_line.spans if s.style.italic]
+    code_spans = [s for s in content_line.spans if s.style.bgcolor is not None]
+    assert any("bold" in content_line.plain[s.start:s.end] for s in bold_spans)
+    assert any("italic" in content_line.plain[s.start:s.end] for s in italic_spans)
+    assert any("code" in content_line.plain[s.start:s.end] for s in code_spans)
+
+
+def test_flat_table_spanning_cell_multiline_content_keeps_borders(render_text):
+    """Multi-line spanning cell content should render as multiple physical row lines."""
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - H1\n"
+        "     - H2\n\n"
+        "   * - :cspan:`1` first line\n\n"
+        "       second line\n"
+    )
+    out = render_text(rst)
+    lines = out.splitlines()
+    first_idx = next((i for i, l in enumerate(lines) if "first line" in l), None)
+    second_idx = next((i for i, l in enumerate(lines) if "second line" in l), None)
+    assert first_idx is not None and second_idx is not None, "Both content lines must be present"
+    assert second_idx > first_idx, "Second line must render on a later physical row line"
+    assert lines[first_idx].startswith("│") and lines[first_idx].endswith("│")
+    assert lines[second_idx].startswith("│") and lines[second_idx].endswith("│")
+
+
+def test_flat_table_spanning_title_centered_to_rendered_width(make_visitor):
+    """Spanning table title should be centered against true rendered table width."""
+    _register_sphinx_directives()
+    rst = (
+        ".. flat-table:: Span Title\n"
+        "   :header-rows: 1\n\n"
+        "   * - Name\n"
+        "     - Q1\n"
+        "     - Q2\n\n"
+        "   * - :cspan:`2` Total\n"
+    )
+    visitor = make_visitor(rst)
+    table_group = next((r for r in visitor.renderables if isinstance(r, Group)), None)
+    assert table_group is not None
+    title_line = next((l for l in table_group.renderables if isinstance(l, Text) and "Span Title" in l.plain), None)
+    top_border = next((l for l in table_group.renderables if isinstance(l, Text) and l.plain.startswith("┏")), None)
+    assert title_line is not None and top_border is not None
+    assert len(title_line.plain) == len(top_border.plain), (
+        "Title line width must equal rendered table width"
+    )
+    title_center = title_line.plain.index("Span Title") + (len("Span Title") / 2)
+    table_center = len(top_border.plain) / 2
+    assert abs(title_center - table_center) <= 1
