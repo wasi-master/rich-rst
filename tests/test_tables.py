@@ -340,7 +340,10 @@ def test_bullet_list_in_spanning_grid_table_cell_keeps_markers_and_no_extra_blan
     assert "• Pretium 43" in out
     assert "Quis 23•" not in out
     assert "Tempus 33•" not in out
-    assert "│              │\n│              │" not in out
+    assert not any(
+        line.startswith("│") and line.endswith("│") and not line.strip("│ ").strip()
+        for line in out.splitlines()
+    )
 
 
 # ── flat-table directive ──────────────────────────────────────────────────────

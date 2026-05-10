@@ -3220,6 +3220,20 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             line.append(V)
             return line
 
+        def _is_placeholder_row(r: int) -> bool:
+            """True when a row is fully covered by rowspans from above."""
+            c = 0
+            while c < ncols:
+                if _cspan_continues(r, c):
+                    c += 1
+                    continue
+                if grid[r][c] is not None:
+                    return False
+                if _origin(r, c) is None:
+                    return False
+                c += 1
+            return True
+
         # ── assemble lines ─────────────────────────────────────────────────
 
         if title:
@@ -3228,7 +3242,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         for r in range(nrows):
             above = r - 1 if r > 0 else None
-            lines.append(_sep(above, r))
+            is_placeholder = _is_placeholder_row(r)
+            sep_line = _sep(above, r)
+            if not (is_placeholder and all(ch in f" {VB}{VH}" for ch in sep_line.plain)):
+                lines.append(sep_line)
+            if is_placeholder:
+                continue
             for line_no in range(_row_height(r)):
                 lines.append(_content(r, line_no))
 
