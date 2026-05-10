@@ -1257,6 +1257,53 @@ def _register_sphinx_roles() -> None:
         if hasattr(docutils.parsers.rst.languages.en, 'roles'):
             docutils.parsers.rst.languages.en.roles['rfc'] = 'rfc'
 
+        # `:cve:` → clickable CVE link
+        def _cve_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any,
+                    options: Optional[Dict[str, Any]] = None,
+                    content: Optional[List[str]] = None
+                    ) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+            cve_id = text.strip().lstrip("CVE-")
+            url = f"https://www.cve.org/CVERecord?id=CVE-{cve_id}"
+            display = f"CVE-{cve_id}"
+            ref = docutils.nodes.reference(rawtext, display, refuri=url)
+            return [ref], []
+
+        docutils.parsers.rst.roles.register_canonical_role('cve', _cve_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['cve'] = 'cve'
+
+
+        # `:cwe:` → clickable CWE link
+        def _cwe_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any,
+                    options: Optional[Dict[str, Any]] = None,
+                    content: Optional[List[str]] = None
+                    ) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+            cwe_num = text.strip()
+            url = f"https://cwe.mitre.org/data/definitions/{cwe_num}.html"
+            display = f"CWE-{cwe_num}"
+            ref = docutils.nodes.reference(rawtext, display, refuri=url)
+            return [ref], []
+
+        docutils.parsers.rst.roles.register_canonical_role('cwe', _cwe_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['cwe'] = 'cwe'
+
+
+        # `:pypi:` → clickable PyPI project link
+        def _pypi_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any,
+                    options: Optional[Dict[str, Any]] = None,
+                    content: Optional[List[str]] = None
+                    ) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+            project_name = text.strip()
+            url = f"https://pypi.org/project/{project_name}/"
+            display = project_name
+            ref = docutils.nodes.reference(rawtext, display, refuri=url)
+            return [ref], []
+
+        docutils.parsers.rst.roles.register_canonical_role('pypi', _pypi_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['pypi'] = 'pypi'
+
         _sphinx_roles_registered = True
 
 
