@@ -3290,6 +3290,36 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             renderables = sub_visitor.renderables
             if not renderables:
                 return Text("", style=cell_style)
+            has_list = any(
+                isinstance(child, (docutils.nodes.bullet_list, docutils.nodes.enumerated_list))
+                for child in entry.children
+            )
+            if has_list:
+                # Table cells should keep list items compact: one visible line
+                # per item without paragraph/list trailing blank lines.
+                renderables = self._merge_bullet_markers_with_text(renderables)
+                renderables = [r for r in renderables if not isinstance(r, NewLine)]
+                if not renderables:
+                    return Text("", style=cell_style)
+                rendered_lines = self.console.render_lines(
+                    Group(*renderables),
+                    options=self.console.options.update(width=2048, max_width=2048),
+                    pad=False,
+                    new_lines=False,
+                )
+                compact_lines: List[Text] = []
+                for line in rendered_lines:
+                    line_text = Text.assemble(
+                        *[(seg.text, seg.style) for seg in line if not seg.control]
+                    )
+                    line_text.rstrip()
+                    if line_text.plain.strip():
+                        compact_lines.append(line_text)
+                if not compact_lines:
+                    return Text("", style=cell_style)
+                if len(compact_lines) == 1:
+                    return compact_lines[0]
+                return Group(*compact_lines)
             # depart_paragraph appends "\n\n" to trailing Text renderables; strip
             # it so cells don't carry extra vertical whitespace.  Also strip any
             # leading whitespace left over after span-role nodes (:cspan:/:rspan:)
@@ -3300,7 +3330,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     r.rstrip()
                     leading = len(r.plain) - len(r.plain.lstrip())
                     if leading:
-                        renderables[i] = r[leading:]
+                        trimmed = r[leading:]
+                        trimmed.end = r.end
+                        renderables[i] = trimmed
             if len(renderables) == 1:
                 return renderables[0]
             return Group(*renderables)

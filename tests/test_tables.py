@@ -323,6 +323,26 @@ def test_inline_code_in_cell_rendered(render_text):
     assert "x" in out, "Inline code cell text must be visible"
 
 
+def test_bullet_list_in_spanning_grid_table_cell_keeps_markers_and_no_extra_blank_lines(render_text):
+    """List markers in a spanning grid-table cell stay attached to item text."""
+    rst = (
+        "+-----------------+\n"
+        "| Header Three    |\n"
+        "+=================+\n"
+        "| * Quis 23       |\n"
+        "+ * Tempus 33     |\n"
+        "| * Pretium 43    |\n"
+        "+-----------------+\n"
+    )
+    out = render_text(rst)
+    assert "• Quis 23" in out
+    assert "• Tempus 33" in out
+    assert "• Pretium 43" in out
+    assert "Quis 23•" not in out
+    assert "Tempus 33•" not in out
+    assert "│              │\n│              │" not in out
+
+
 # ── flat-table directive ──────────────────────────────────────────────────────
 
 def test_flat_table_basic(render_text):
