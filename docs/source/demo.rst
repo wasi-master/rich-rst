@@ -1102,9 +1102,100 @@ code-block with line numbers
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">1 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">x </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span><span style="color:#f8f8f2;background-color: #282a36">                                                               </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">2 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">y </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">2</span><span style="color:#f8f8f2;background-color: #282a36">                                                               </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">3 </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">print</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(x </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> y)</span><span style="color:#f8f8f2;background-color: #282a36">                                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
+   </span></pre>
+   </div>
+
+code-block with lineno-start
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. code-block:: python
+      :linenos:
+      :lineno-start: 10
+
+      x = 1
+      y = 2
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">10 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">x </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span><span style="color:#f8f8f2;background-color: #282a36">                                                              </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">11 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">y </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">2</span><span style="color:#f8f8f2;background-color: #282a36">                                                              </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
+   </span></pre>
+   </div>
+
+code-block with emphasize-lines
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. code-block:: python
+      :emphasize-lines: 3,5
+
+      def some_function():
+          interesting = False
+          print('This line is highlighted.')
+          print('This one is not...')
+          print('...but this one is.')
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">1 </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">def</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">some_function</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">():</span><span style="color:#f8f8f2;background-color: #282a36">                                                </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">2 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    interesting </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">False</span><span style="color:#f8f8f2;background-color: #282a36">                                             </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff5555; text-decoration-color: #ff5555">❱ </span><span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">3 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">print</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&#x27;This line is highlighted.&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">)</span><span style="color:#f8f8f2;background-color: #282a36">                              </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">4 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">print</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&#x27;This one is not...&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">)</span><span style="color:#f8f8f2;background-color: #282a36">                                     </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff5555; text-decoration-color: #ff5555">❱ </span><span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">5 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">print</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&#x27;...but this one is.&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">)</span><span style="color:#f8f8f2;background-color: #282a36">                                    </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
+   </span></pre>
+   </div>
+
+code-block with name
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. code-block:: python
+      :name: example-id
+
+      x = 1
+      y = 2
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────── python — example-id ───────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">x </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span><span style="color:#f8f8f2;background-color: #282a36">                                                                   </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">y </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">2</span><span style="color:#f8f8f2;background-color: #282a36">                                                                   </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">print</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(x </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> y)</span><span style="color:#f8f8f2;background-color: #282a36">                                                            </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
+   </span></pre>
+   </div>
+
+code-block with dedent
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. code-block:: python
+      :dedent:
+
+          def foo():
+              return 1
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">def</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">foo</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">():</span><span style="color:#f8f8f2;background-color: #282a36">                                                              </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">1</span><span style="color:#f8f8f2;background-color: #282a36">                                                            </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -1390,9 +1481,9 @@ code-block with caption and emphasised lines
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">def</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">add</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(a, b):</span><span style="color:#f8f8f2;background-color: #282a36">                                                          </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #6272a4; text-decoration-color: #6272a4; background-color: #282a36"># This line is emphasised</span><span style="color:#f8f8f2;background-color: #282a36">                                           </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> a </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> b</span><span style="color:#f8f8f2;background-color: #282a36">                                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">1 </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">def</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">add</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(a, b):</span><span style="color:#f8f8f2;background-color: #282a36">                                                      </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff5555; text-decoration-color: #ff5555">❱ </span><span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">2 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #6272a4; text-decoration-color: #6272a4; background-color: #282a36"># This line is emphasised</span><span style="color:#f8f8f2;background-color: #282a36">                                       </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff5555; text-decoration-color: #ff5555">❱ </span><span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">3 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> a </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> b</span><span style="color:#f8f8f2;background-color: #282a36">                                                    </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -1729,11 +1820,11 @@ Grid table with row spanning
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">┏━━━━━━━━━━━━┳━━━━━━━━━━┓
-   ┃ Column 1   ┃ Column 2 ┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Column 1</span>  <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Column 2</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━━━━━━╇━━━━━━━━━━┩
-   │ Rows 1 &amp; 2 │ Row 1    │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Rows 1 &amp; 2</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Row 1</span>    │
    │            ├──────────┤
-   │            │ Row 2    │
+   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Row 2</span>    │
    └────────────┴──────────┘
    </span></pre>
    </div>
@@ -1801,8 +1892,8 @@ list-table directive
    </span></pre>
    </div>
 
-csv-table directive
-~~~~~~~~~~~~~~~~~~~
+CSV Table
+~~~~~~~~~
 
 .. code-block:: rst
 
@@ -1830,8 +1921,8 @@ csv-table directive
    </span></pre>
    </div>
 
-flat-table — basic with stub column
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Flat Table: Basic with Stub Column
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -1872,8 +1963,8 @@ flat-table — basic with stub column
    </span></pre>
    </div>
 
-flat-table — column span (:cspan:)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Flat Table: Column Span (:cspan:)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -1900,21 +1991,21 @@ flat-table — column span (:cspan:)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">            Quarterly Results             </span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">                Quarterly Results                 </span>
    ┏━━━━━━━━━┳━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-   ┃ Student ┃ Q1 ┃ Q2 ┃ Q3                         ┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Student</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q1</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q2</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q3</span>                        <span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━━━┻━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-   │ Grand total — all students, all quarters       │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Grand total — all students, all quarters</span>       │
    ├─────────┬────┬────┬────────────────────────────┤
-   │ Alice   │ 90 │ 85 │ 92                         │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alice</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">90</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">85</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">92</span>                         │
    ├─────────┼────┼────┼────────────────────────────┤
-   │ Bob     │ 80 │ 88 │ 76                         │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bob</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">80</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">88</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">76</span>                         │
    └─────────┴────┴────┴────────────────────────────┘
    </span></pre>
    </div>
 
-flat-table — row span (:rspan:)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Flat Table: Row Span (:rspan:)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -1942,23 +2033,23 @@ flat-table — row span (:rspan:)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">      Produce Prices      </span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">         Produce Prices         </span>
    ┏━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━┓
-   ┃ Category  ┃ Item     ┃ Price ┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Category</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item</span>    <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Price</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━┩
-   │ Fruit     │ Apple    │ $1.00 │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Fruit</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Apple</span>    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">$1.00</span> │
    │           ├──────────┼───────┤
-   │           │ Banana   │ $0.50 │
+   │           │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Banana</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">$0.50</span> │
    ├───────────┼──────────┼───────┤
-   │ Vegetable │ Carrot   │ $0.75 │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Vegetable</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Carrot</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">$0.75</span> │
    │           ├──────────┼───────┤
-   │           │ Broccoli │ $1.25 │
+   │           │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Broccoli</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">$1.25</span> │
    └───────────┴──────────┴───────┘
    </span></pre>
    </div>
 
-flat-table — combined :cspan: and :rspan:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Flat Table: Combined :cspan: and :rspan:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -1977,13 +2068,13 @@ flat-table — combined :cspan: and :rspan:
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">              Combined Spans              </span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">                 Combined Spans                 </span>
    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-   ┃ Full-width header                            ┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Full-width header</span>                           <span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━━━━━┯━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━┩
-   │ Tall cell │ Top-right    │ Also top-right    │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Tall cell</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Top-right</span>    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Also top-right</span>    │
    │           ├──────────────┼───────────────────┤
-   │           │ Bottom-right │ Also bottom-right │
+   │           │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bottom-right</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Also bottom-right</span> │
    └───────────┴──────────────┴───────────────────┘
    </span></pre>
    </div>
@@ -2191,7 +2282,7 @@ Date substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-05-08.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-05-11.</span>
    </span></pre>
    </div>
 

@@ -7,6 +7,7 @@ Initial few lines gotten from: https://github.com/willmcgugan/rich/discussions/1
 There are a lot of improvements are added by me
 """
 from io import StringIO
+import textwrap
 from html.parser import HTMLParser
 import functools
 import os
@@ -157,16 +158,84 @@ class _CodeBlockDirective(docutils.parsers.rst.Directive):
         'force': docutils.parsers.rst.directives.flag,
         'class': docutils.parsers.rst.directives.unchanged,
         'number-lines': docutils.parsers.rst.directives.nonnegative_int,
+        'lineno-start': docutils.parsers.rst.directives.nonnegative_int,
     }
 
     def run(self) -> List[docutils.nodes.Node]:
         language = self.arguments[0] if self.arguments else None
         code = '\n'.join(self.content)
+        # Support `:dedent:` option: either an integer number of spaces
+        # to remove from each line, or empty/value-less to auto-dedent.
+        dedent_opt = self.options.get('dedent')
+        if dedent_opt is not None:
+            if dedent_opt == '' or dedent_opt is True:
+                code = textwrap.dedent(code)
+            else:
+                try:
+                    n = int(dedent_opt)
+                except (TypeError, ValueError):
+                    code = textwrap.dedent(code)
+                else:
+                    new_lines = []
+                    for line in code.splitlines():
+                        # Remove up to n leading spaces from each line.
+                        new_lines.append(re.sub(rf'^ {{0,{n}}}', '', line))
+                    code = '\n'.join(new_lines)
         node = docutils.nodes.literal_block(code, code)
         if language:
             node['classes'] = ['code', language]
         else:
             node['classes'] = ['code']
+        # Preserve directive options that are relevant to rendering
+        # (e.g. :caption: and :name:) so the visitor can include them
+        # in panel titles or elsewhere.
+        caption_opt = self.options.get('caption')
+        if caption_opt:
+            node['caption'] = caption_opt
+        name_opt = self.options.get('name')
+        if name_opt:
+            node['name'] = name_opt
+        # Line number options: boolean `:linenos:` and numeric start
+        linenos = 'linenos' in self.options
+        if linenos:
+            node['linenos'] = True
+        # Support both Sphinx-style `:lineno-start:` and docutils `:number-lines:`
+        if 'lineno-start' in self.options:
+            try:
+                node['start_line'] = int(self.options.get('lineno-start'))
+            except (TypeError, ValueError):
+                pass
+        elif 'number-lines' in self.options:
+            try:
+                node['start_line'] = int(self.options.get('number-lines'))
+            except (TypeError, ValueError):
+                pass
+        # Parse emphasize-lines option into a set of integers for Syntax.highlight_lines
+        emphasize = self.options.get('emphasize-lines')
+        if emphasize:
+            highlight_lines = set()
+            for part in emphasize.split(','):
+                part = part.strip()
+                if not part:
+                    continue
+                if '-' in part:
+                    try:
+                        start_s, end_s = part.split('-', 1)
+                        start = int(start_s)
+                        end = int(end_s)
+                        if start <= end:
+                            highlight_lines.update(range(start, end + 1))
+                    except ValueError:
+                        # ignore malformed ranges
+                        continue
+                else:
+                    try:
+                        highlight_lines.add(int(part))
+                    except ValueError:
+                        # ignore malformed numbers
+                        continue
+            if highlight_lines:
+                node['highlight_lines'] = highlight_lines
         return [node]
 
 
@@ -2277,9 +2346,32 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.renderables[-1].append_text(Text("\n"))
         lexer, lexer_source = self._find_lexer(node)
         title = lexer if lexer_source == "explicit" else f"{lexer} ({lexer_source})"
+        # If the directive supplied a :name: option, include it in the
+        # panel title alongside the language identifier.
+        name = node.get('name')
+        if name:
+            title = f"{title} — {name}"
+
+        # Determine whether to show line numbers. We show them when:
+        # - the directive explicitly requested `:linenos:`, or
+        # - there are highlighted lines, or
+        # - the global `show_line_numbers` is enabled.
+        has_highlight = bool(node.get('highlight_lines'))
+        explicit_linenos = bool(node.get('linenos', False))
+        show_linenos = explicit_linenos or has_highlight or self.show_line_numbers
+
+        start_line = int(node.get('start_line', 1))
+
         self.renderables.append(
             Panel(
-                Syntax(node.astext(), lexer, theme=self.code_theme, line_numbers=self.show_line_numbers),
+                Syntax(
+                    node.astext(),
+                    lexer,
+                    theme=self.code_theme,
+                    line_numbers=show_linenos,
+                    start_line=start_line,
+                    highlight_lines=node.get('highlight_lines'),
+                ),
                 border_style=style,
                 box=box.SQUARE,
                 title=title,

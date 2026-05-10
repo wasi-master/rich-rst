@@ -507,6 +507,46 @@ DEMOS = [
                        print(x + y)"""),
             },
             {
+                "name": "code-block with lineno-start",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: python
+                       :linenos:
+                       :lineno-start: 10
+
+                       x = 1
+                       y = 2"""),
+            },
+            {
+                "name": "code-block with emphasize-lines",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: python
+                       :emphasize-lines: 3,5
+
+                       def some_function():
+                           interesting = False
+                           print('This line is highlighted.')
+                           print('This one is not...')
+                           print('...but this one is.')"""),
+            },
+            {
+                "name": "code-block with name",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: python
+                       :name: example-id
+
+                       x = 1
+                       y = 2"""),
+            },
+            {
+                "name": "code-block with dedent",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: python
+                       :dedent:
+
+                           def foo():
+                               return 1"""),
+            },
+            {
                 "name": "code-block: bash",
                 "rst": textwrap.dedent("""\
                     .. code-block:: bash
@@ -617,11 +657,10 @@ DEMOS = [
                        }"""),
             },
             {
-                "name": "code-block with caption and emphasised lines",
+                "name": "code-block with caption",
                 "rst": textwrap.dedent("""\
                     .. code-block:: python
                        :caption: example.py
-                       :emphasize-lines: 2,3
 
                        def add(a, b):
                            # This line is emphasised
