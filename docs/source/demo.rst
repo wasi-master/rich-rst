@@ -1464,14 +1464,13 @@ code-block: Rust
    </span></pre>
    </div>
 
-code-block with caption and emphasised lines
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+code-block with caption
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
    .. code-block:: python
       :caption: example.py
-      :emphasize-lines: 2,3
 
       def add(a, b):
           # This line is emphasised
@@ -1481,9 +1480,9 @@ code-block with caption and emphasised lines
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">1 </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">def</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">add</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(a, b):</span><span style="color:#f8f8f2;background-color: #282a36">                                                      </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff5555; text-decoration-color: #ff5555">❱ </span><span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">2 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #6272a4; text-decoration-color: #6272a4; background-color: #282a36"># This line is emphasised</span><span style="color:#f8f8f2;background-color: #282a36">                                       </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff5555; text-decoration-color: #ff5555">❱ </span><span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">3 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> a </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> b</span><span style="color:#f8f8f2;background-color: #282a36">                                                    </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">def</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">add</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(a, b):</span><span style="color:#f8f8f2;background-color: #282a36">                                                          </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #6272a4; text-decoration-color: #6272a4; background-color: #282a36"># This line is emphasised</span><span style="color:#f8f8f2;background-color: #282a36">                                           </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> a </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> b</span><span style="color:#f8f8f2;background-color: #282a36">                                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -3257,6 +3256,31 @@ toctree directive
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • installation</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                          </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • usage</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                 </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • api</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                   </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   </span></pre>
+   </div>
+
+toctree with numbered entries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. toctree::
+      :numbered:
+
+      intro
+      guide/installation
+      guide/usage
+      guide/api
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭────────────────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Contents </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">────────────────────────────────╮</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">1. intro</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                 </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">  1.1. guide/installation</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">  1.2. guide/usage</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                       </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">  1.3. guide/api</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                         </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>

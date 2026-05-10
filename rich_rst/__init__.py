@@ -329,6 +329,15 @@ class _HlistDirective(docutils.parsers.rst.Directive):
         return [node]
 
 
+def _parse_toctree_numbered(argument: Optional[str]) -> int:
+    if argument is None:
+        return 0
+    value = argument.strip()
+    if not value:
+        return 0
+    return docutils.parsers.rst.directives.nonnegative_int(value)
+
+
 class _ToctreeDirective(docutils.parsers.rst.Directive):
     """Handles ``.. toctree::``."""
 
@@ -345,7 +354,7 @@ class _ToctreeDirective(docutils.parsers.rst.Directive):
         'hidden': docutils.parsers.rst.directives.flag,
         'includehidden': docutils.parsers.rst.directives.flag,
         'reversed': docutils.parsers.rst.directives.flag,
-        'numbered': docutils.parsers.rst.directives.nonnegative_int,
+        'numbered': _parse_toctree_numbered,
     }
 
     def run(self) -> List[docutils.nodes.Node]:
@@ -355,10 +364,16 @@ class _ToctreeDirective(docutils.parsers.rst.Directive):
             line.strip() for line in self.content
             if line.strip() and not line.strip().startswith(':')
         ]
+        reversed_entries = 'reversed' in self.options
+        numbered_enabled = 'numbered' in self.options
+        numbered_depth = self.options.get('numbered', 0)
         node = toctree_stub()
         node['caption'] = caption
         node['entries'] = entries
         node['maxdepth'] = maxdepth
+        node['reversed'] = reversed_entries
+        node['numbered_enabled'] = numbered_enabled
+        node['numbered'] = numbered_depth
         return [node]
 
 
@@ -1975,11 +1990,18 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_toctree_stub(self, node) -> None:
         style = self.console.get_style("restructuredtext.toctree", default="bold cyan")
         caption = node.get('caption', 'Contents')
-        entries = node.get('entries', [])
+        entries = list(node.get('entries', []))
         maxdepth = node.get('maxdepth', 0)  # 0 means unlimited
+        reversed_entries = node.get('reversed', False)
+        numbered_enabled = node.get('numbered_enabled', False)
+        numbered_depth = node.get('numbered', 0)
         marker_style = self.console.get_style("restructuredtext.bullet_list_marker", default="bold yellow")
 
+        if reversed_entries:
+            entries.reverse()
+
         renderables = []
+        counters: List[int] = []
         for entry in entries:
             if not entry:
                 continue
@@ -1998,8 +2020,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if maxdepth > 0 and depth >= maxdepth:
                 continue  # Omit entries beyond the configured maxdepth.
 
-            markers = [" • ", " ∘ ", " ▪ "]
-            marker = "  " * depth + markers[min(depth, len(markers) - 1)]
+            if numbered_enabled:
+                if depth >= len(counters):
+                    counters.extend([0] * (depth + 1 - len(counters)))
+                else:
+                    counters = counters[:depth + 1]
+                counters[depth] += 1
+
+            if numbered_enabled and (numbered_depth == 0 or depth < numbered_depth):
+                number_label = ".".join(str(value) for value in counters[:depth + 1])
+                marker = "  " * depth + f"{number_label}. "
+            else:
+                markers = [" • ", " ∘ ", " ▪ "]
+                marker = "  " * depth + markers[min(depth, len(markers) - 1)]
             renderables.append(Text(marker + display, style=marker_style))
 
         self.renderables.append(

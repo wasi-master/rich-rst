@@ -1434,6 +1434,17 @@ DEMOS = [
                        usage
                        api"""),
             },
+            {
+                "name": "toctree with numbered entries",
+                "rst": textwrap.dedent("""\
+                    .. toctree::
+                       :numbered:
+
+                       intro
+                       guide/installation
+                       guide/usage
+                       guide/api"""),
+            }
         ],
     },
     # ── 22. glossary ─────────────────────────────────────────────────────────

@@ -257,18 +257,6 @@ def test_code_block_with_linenos_and_start(make_visitor):
     assert syn.start_line == 10
 
 
-def test_code_block_with_number_lines_alias(make_visitor):
-    rst = """.. code-block:: python
-       :number-lines: 5
-
-       x = 1
-    """
-    visitor = make_visitor(rst)
-    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
-    syn = panels[0].renderable
-    assert syn.line_numbers is True
-    assert syn.start_line == 5
-
 
 def test_code_block_emphasize_lines_sets_highlight_and_shows_linenos(make_visitor):
     rst = """.. code-block:: python

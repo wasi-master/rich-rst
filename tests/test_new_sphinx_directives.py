@@ -261,6 +261,30 @@ def test_toctree_explicit_title_used(render_text):
     assert "My Guide" in out, "Explicit title must be shown"
 
 
+def test_toctree_reversed_order(render_text):
+    rst = (
+        ".. toctree::\n"
+        "   :reversed:\n\n"
+        "   first\n"
+        "   second\n"
+        "   third\n"
+    )
+    out = _render(render_text, rst)
+    assert out.find("third") < out.find("first"), "Entries must be reversed"
+
+
+def test_toctree_numbered_entries(render_text):
+    rst = (
+        ".. toctree::\n"
+        "   :numbered:\n\n"
+        "   intro\n"
+        "   guide/installation\n"
+    )
+    out = _render(render_text, rst)
+    assert "1. intro" in out
+    assert "1.1. guide/installation" in out
+
+
 # ── literalinclude ────────────────────────────────────────────────────────────
 
 def test_literalinclude_renders_as_panel(make_visitor):
