@@ -2134,13 +2134,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         for arrow_match in re.finditer(r"->", signature):
             # start scanning after the arrow, skipping whitespace
             i = arrow_match.end()
-            L = len(signature)
-            while i < L and signature[i].isspace():
+            signature_length = len(signature)
+            while i < signature_length and signature[i].isspace():
                 i += 1
             # scan until we hit a delimiter at bracket depth 0
             depth = 0
             j = i
-            while j < L:
+            while j < signature_length:
                 ch = signature[j]
                 if ch in "([{":
                     depth += 1
@@ -2169,15 +2169,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         for colon_match in re.finditer(r":\s*", signature):
             # start scanning at first non-space after ':'
             i = colon_match.end()
-            L = len(signature)
-            while i < L and signature[i].isspace():
+            signature_length = len(signature)
+            while i < signature_length and signature[i].isspace():
                 i += 1
             # if next char is ')' or ',' or end, nothing to do
-            if i >= L or signature[i] in ",)":
+            if i >= signature_length or signature[i] in ",)":
                 continue
             depth = 0
             j = i
-            while j < L:
+            while j < signature_length:
                 ch = signature[j]
                 if ch in "([{":
                     depth += 1
@@ -2227,6 +2227,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         normalized_name = name_part.strip()
         # Some malformed/empty signatures can yield no usable attribute name.
         # Use a stable placeholder instead of emitting an empty table cell.
+        # Signatures may be qualified (``Class.attr``); render the leaf attribute name.
         parsed_name = normalized_name.split(".")[-1] if normalized_name else MISSING_ATTRIBUTE_NAME
         return parsed_name, parsed_type
 
@@ -2254,7 +2255,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                         piece = grandchild.astext().replace("\n", " ").strip()
                         if piece:
                             description_parts.append(piece)
-                    attributes.append((attr_name, attr_type, " ".join(description_parts).strip() or "-"))
+                    attributes.append((attr_name, attr_type, " ".join(description_parts).strip()))
                     continue
             remaining_children.append(child)
 
