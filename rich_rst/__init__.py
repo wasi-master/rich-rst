@@ -1986,15 +1986,16 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         if param_order:
             renderables.append(Text("Parameters", style=section_style))
-            param_table = Table("Name", "Type", "Description", show_lines=True)
             for param_name in param_order:
                 entry = params[param_name]
-                param_table.add_row(
-                    Text(param_name, style=param_name_style),
-                    Text(entry["type"] or "-", style=param_type_style),
-                    Text(entry["desc"]),
-                )
-            renderables.append(param_table)
+                line = Text("  ")
+                line.append(param_name, style=param_name_style)
+                if entry["type"]:
+                    line.append(": ")
+                    line.append(entry["type"], style=param_type_style)
+                renderables.append(line)
+                if entry["desc"]:
+                    renderables.append(Text(f"    {entry['desc']}"))
             renderables.append(NewLine())
 
         if returns_desc or returns_type:
@@ -2003,23 +2004,30 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 returns_text = f"{returns_type}: {returns_desc}"
             else:
                 returns_text = returns_type or returns_desc
-            renderables.append(Text(returns_text, style=return_style))
+            renderables.append(Text(f"  {returns_text}", style=return_style))
             renderables.append(NewLine())
 
         if raises_items:
             renderables.append(Text("Raises", style=section_style))
-            raises_table = Table("Exception", "Description", show_lines=True)
             for exc_name, exc_desc in raises_items:
-                raises_table.add_row(Text(exc_name, style=param_name_style), Text(exc_desc))
-            renderables.append(raises_table)
+                line = Text("  ")
+                line.append(exc_name, style=param_name_style)
+                if exc_desc:
+                    line.append(": ")
+                    line.append(exc_desc)
+                renderables.append(line)
             renderables.append(NewLine())
 
         if unknown_items:
             renderables.append(Text("Other", style=section_style))
-            other_table = Table("Field", "Value", show_lines=True)
             for key, value in unknown_items:
-                other_table.add_row(Text(key, style=param_name_style), Text(value))
-            renderables.append(other_table)
+                line = Text("  ")
+                line.append(key, style=param_name_style)
+                if value:
+                    line.append(": ")
+                    line.append(value)
+                renderables.append(line)
+            renderables.append(NewLine())
 
         return renderables
 
@@ -2253,19 +2261,23 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         return attributes, remaining_children
 
     def _render_py_class_attribute_table(self, rows: List[Tuple[str, str, str]]) -> List[Any]:
-        """Render typed class attributes as a compact table."""
+        """Render typed class attributes as an indented list."""
         section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
         name_style = self.console.get_style("restructuredtext.py_desc.param_name", default="bold")
         type_style = self.console.get_style("restructuredtext.py_desc.param_type", default="cyan")
         value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
 
-        table = Table("Attribute: Type", "Description", show_lines=True)
+        renderables: List[Any] = [Text("Attributes", style=section_style)]
         for attr_name, attr_type, attr_description in rows:
             attr_text = Text(attr_name, style=name_style)
             attr_text.append(": ")
             attr_text.append(attr_type, style=type_style)
-            table.add_row(attr_text, Text(attr_description, style=value_style))
-        return [Text("Attributes", style=section_style), table, NewLine()]
+            renderables.append(Text("  "))
+            renderables[-1].append_text(attr_text)
+            if attr_description:
+                renderables.append(Text(f"    {attr_description}", style=value_style))
+        renderables.append(NewLine())
+        return renderables
 
     def visit_py_desc(self, node) -> None:
         objtype = node.get('objtype', 'object')

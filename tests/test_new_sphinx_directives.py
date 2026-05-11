@@ -3,6 +3,7 @@ import pytest
 from rich.panel import Panel
 from rich.align import Align
 from rich.text import Text
+from rich.table import Table
 
 from rich_rst import _register_sphinx_directives, _register_sphinx_roles
 
@@ -494,7 +495,8 @@ def test_py_function_field_list_renders_api_sections(render_text):
     )
     out = _render(render_text, rst)
     assert "Parameters" in out
-    assert "Name" in out and "Type" in out and "Description" in out
+    assert "Name" not in out and "Type" not in out and "Description" not in out
+    assert "name: str" in out
     assert "name" in out and "The name to greet." in out
     assert "Returns" in out and "str: A greeting string." in out
     assert "Field Name" not in out and "Field Value" not in out
@@ -511,9 +513,21 @@ def test_py_method_field_list_uses_same_format(render_text):
     )
     out = _render(render_text, rst)
     assert "Parameters" in out
+    assert "name: str" in out
     assert "Returns" in out
     assert "name" in out and "Person name." in out
     assert "str: Greeting text." in out
+
+
+def test_py_field_list_sections_do_not_render_as_tables(make_visitor):
+    rst = (
+        ".. py:function:: parse(text)\n\n"
+        "   :param text: Input text.\n"
+        "   :type text: str\n"
+        "   :raises ValueError: On invalid input.\n"
+    )
+    visitor = make_visitor(rst)
+    assert not any(isinstance(renderable, Table) for renderable in visitor.renderables)
 
 
 def test_py_data_value_option_is_visible(render_text):
@@ -612,7 +626,7 @@ def test_py_desc_panel_colors_vary_by_object_type(make_visitor):
     assert str(class_panel.border_style) != str(method_panel.border_style)
 
 
-def test_class_typed_attributes_render_in_attributes_table(render_text):
+def test_class_typed_attributes_render_in_attributes_section(render_text):
     rst = (
         ".. py:class:: Counter\n\n"
         "   .. py:attribute:: Counter.value\n"
