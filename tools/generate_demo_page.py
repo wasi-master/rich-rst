@@ -931,11 +931,16 @@ DEMOS = [
                        * - Task
                          - Mon
                          - Tue
+                         - Wed
+                         - Thu
+                         - Fri
 
-                       * - :cspan:`1` :rspan:`1` Planning
+                       * - :cspan:`2` :rspan:`1` Planning
                          - Review
 
-                       * - Deploy"""),
+                       * - Deploy
+                       
+                       * - Others."""),
             },
             {
                 "name": "flat-table — :cspan: fills merged column width without inflation",

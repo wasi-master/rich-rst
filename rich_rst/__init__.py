@@ -2960,7 +2960,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         # ── assemble lines ─────────────────────────────────────────────────
 
         if title:
-            total = sum(col_widths) + ncols + 1
+            total = sum(col_widths) + 3 * ncols + 1
             lines.append(Text(title.center(total), style="italic"))
 
         for r in range(nrows):

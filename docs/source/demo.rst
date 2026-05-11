@@ -1900,7 +1900,7 @@ flat-table — column span (:cspan:)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">         Quarterly Results          </span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">             Quarterly Results              </span>
    ┏━━━━━━━━━┳━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
    ┃ Student ┃ Q1 ┃ Q2 ┃ Q3                   ┃
    ┡━━━━━━━━━┻━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━━━━┩
@@ -1947,7 +1947,7 @@ flat-table — wide partial column span (:cspan: > 1)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">          Regional Sales          </span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">              Regional Sales              </span>
    ┏━━━━━━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━┓
    ┃ Region  ┃ Q1 ┃ Q2                ┃ Q3  ┃
    ┡━━━━━━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━╇━━━━━┩
@@ -1991,7 +1991,7 @@ flat-table — row span (:rspan:)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">      Produce Prices      </span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">         Produce Prices         </span>
    ┏━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━┓
    ┃ Category  ┃ Item     ┃ Price ┃
    ┡━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━┩
@@ -2026,7 +2026,7 @@ flat-table — combined :cspan: and :rspan:
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">              Combined Spans              </span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">                 Combined Spans                 </span>
    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
    ┃ Full-width header                            ┃
    ┡━━━━━━━━━━━┯━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━┩
@@ -2048,23 +2048,30 @@ flat-table — single cell with :cspan: and :rspan: (2×2 block)
       * - Task
         - Mon
         - Tue
+        - Wed
+        - Thu
+        - Fri
 
-      * - :cspan:`1` :rspan:`1` Planning
+      * - :cspan:`2` :rspan:`1` Planning
         - Review
 
       * - Deploy
 
+      * - Others.
+
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic"> 2×2 merged cell </span>
-   ┏━━━━━━┳━━━━━┳━━━━━━━━┓
-   ┃ Task ┃ Mon ┃ Tue    ┃
-   ┡━━━━━━┻━━━━━╇━━━━━━━━┩
-   │ Planning   │ Review │
-   │            ├────────┤
-   │            │ Deploy │
-   └────────────┴────────┘
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">           2×2 merged cell            </span>
+   ┏━━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┓
+   ┃ Task ┃ Mon ┃ Tue ┃ Wed ┃ Thu ┃ Fri ┃
+   ┡━━━━━━┻━━━━━┻━━━━━╇━━━━━┻━━━━━┻━━━━━┩
+   │ Planning         │ Review          │
+   │                  ├─────────────────┤
+   │                  │ Deploy          │
+   ├──────────────────┴─────────────────┤
+   │ Others.                            │
+   └────────────────────────────────────┘
    </span></pre>
    </div>
 
@@ -2090,7 +2097,7 @@ flat-table — :cspan: fills merged column width without inflation
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">Team Overview</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic"> Team Overview  </span>
    ┏━━━━━━━┳━━━━━━┓
    ┃ Name  ┃ Role ┃
    ┡━━━━━━━┻━━━━━━┩

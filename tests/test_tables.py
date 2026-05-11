@@ -591,6 +591,44 @@ def test_flat_table_rspan_body_row_separator(render_text):
     )
 
 
+def test_flat_table_title_centering_matches_table_width(render_text):
+    """Title must be centered over the actual separator-line width.
+
+    Formula contract: total = sum(col_widths) + 3*ncols + 1
+    Wrong formula:    total = sum(col_widths) +   ncols + 1  (2*ncols too short)
+
+    col_widths = [4("Name"/"Both"), 5("Value")] → sum=9, ncols=2
+    Correct total = 9 + 6 + 1 = 16  →  bottom border is 16 chars wide
+    Buggy   total = 9 + 2 + 1 = 12  →  title off-center by (16-12)/2 = 2 chars
+
+    We verify that the observed left-pad of "Title" in its rendered line equals
+    (len(bottom_border) - len("Title")) // 2, which only holds with the correct formula.
+    """
+    rst = (
+        ".. flat-table:: Title\n"
+        "   :header-rows: 1\n\n"
+        "   * - Name\n"
+        "     - Value\n\n"
+        "   * - :cspan:`1` Both\n"
+    )
+    out = render_text(rst)
+    lines = [l.rstrip() for l in out.splitlines()]
+
+    bottom = next((l for l in reversed(lines) if l.startswith("└")), None)
+    title_line = next((l for l in lines if "Title" in l), None)
+    assert bottom is not None, "Bottom border line must be present"
+    assert title_line is not None, "Title line must be present"
+
+    title_start = title_line.index("Title")
+    expected_pad = (len(bottom) - len("Title")) // 2
+    assert title_start == expected_pad, (
+        f"Title left-pad is {title_start} but must be {expected_pad} "
+        f"(centered over table width {len(bottom)}). "
+        f"The wrong +ncols formula produces left-pad "
+        f"{(len(bottom) - 2 * 2 - len('Title')) // 2}."
+    )
+
+
 def test_flat_table_cspan_no_unnecessary_column_widening(render_text):
     """Spanning-cell content that fits within the correct merged budget must not widen columns.
 
