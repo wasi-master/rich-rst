@@ -4,6 +4,7 @@
 ![Tests Status](https://img.shields.io/github/actions/workflow/status/wasi-master/rich-rst/tests.yaml?label=tests)
 ![CodeQL Status](https://img.shields.io/github/actions/workflow/status/wasi-master/rich-rst/codeql.yml?label=codeql)
 ![Codecov](https://img.shields.io/codecov/c/github/wasi-master/rich-rst)
+![Pepy Total Downloads](https://img.shields.io/pepy/dt/rich-rst)
 
 Render [reStructuredText](https://docutils.sourceforge.io/rst.html) with [Rich](https://rich.readthedocs.io/en/latest/). This package turns reST documents into Rich renderables so you can preview documentation, docstrings, and snippets directly in the terminal. Also includes a CLI.
 
