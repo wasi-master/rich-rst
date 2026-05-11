@@ -584,7 +584,7 @@ def _span_covers_token(title: Text, token: str, predicate):
     except ValueError:
         return False
     end = start + len(token)
-    return any(span.start <= start and span.end >= end and predicate(span.style) for span in title.spans)
+    return any(span.start <= start and span.end > end and predicate(span.style) for span in title.spans)
 
 
 def test_py_function_signature_title_highlighting_rules(make_visitor):

@@ -2093,7 +2093,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if not signature:
             return rendered
 
-        self_cls_style = self.console.get_style("restructuredtext.py_desc.signature.self_cls", default="bright_magenta")
+        self_and_cls_style = self.console.get_style("restructuredtext.py_desc.signature.self_and_cls", default="bright_magenta")
         arrow_style = self.console.get_style("restructuredtext.py_desc.signature.arrow", default="bold yellow")
         type_style = self.console.get_style("restructuredtext.py_desc.signature.type", default="cyan")
         name_style = self.console.get_style("restructuredtext.py_desc.signature.name", default="bold")
@@ -2114,7 +2114,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 rendered.stylize(name_style, name_match.start(1), name_match.end(1))
 
         for match in re.finditer(r"\b(self|cls)\b", signature):
-            rendered.stylize(self_cls_style, match.start(1), match.end(1))
+            rendered.stylize(self_and_cls_style, match.start(1), match.end(1))
 
         for match in re.finditer(r"->", signature):
             rendered.stylize(arrow_style, match.start(), match.end())
@@ -2165,6 +2165,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             name_part = cleaned
             parsed_type = ""
         normalized_name = name_part.strip()
+        # Some malformed/empty signatures can yield no usable attribute name.
+        # Use a stable placeholder instead of emitting an empty table cell.
         parsed_name = normalized_name.split(".")[-1] if normalized_name else EMPTY_ATTRIBUTE_NAME
         return parsed_name, parsed_type
 
