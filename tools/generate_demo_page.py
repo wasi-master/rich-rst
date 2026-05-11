@@ -169,6 +169,18 @@ DEMOS = [
                 "rst": "A :dfn:`docstring` is a string literal that documents a Python object.",
             },
             {
+                "name": "CVE reference role",
+                "rst": "This vulnerability is tracked as :cve:`2024-3094`."
+            },
+            {
+                "name": "CWE reference role",
+                "rst": "This bug is categorized under :cwe:`79`."
+            },
+            {
+                "name": "PyPI project reference role",
+                "rst": "Install the package from :pypi:`requests`."
+            },
+            {
                 "name": "Math role (inline)",
                 "rst": "The area of a circle is :math:`\\pi r^2`.",
             },
