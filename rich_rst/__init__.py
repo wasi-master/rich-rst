@@ -51,6 +51,7 @@ import importlib.metadata
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "RSTVisitor")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
+DEFAULT_PY_ATTRIBUTE_NAME = "<attribute>"
 
 
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
@@ -2104,9 +2105,10 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             "decorator", "decoratorfunction", "coroutinefunction",
             "coroutinemethod", "abstractmethod",
         }:
-            name_matches = list(re.finditer(r"([A-Za-z_][A-Za-z0-9_]*)\s*(?=\()", signature))
-            if name_matches:
-                name_match = name_matches[-1]
+            name_match = None
+            for match in re.finditer(r"([A-Za-z_][A-Za-z0-9_]*)\s*(?=\()", signature):
+                name_match = match
+            if name_match is not None:
                 rendered.stylize(name_style, name_match.start(1), name_match.end(1))
 
         for match in re.finditer(r"\b(self|cls)\b", signature):
@@ -2161,7 +2163,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             name_part = cleaned
             parsed_type = ""
         normalized_name = name_part.strip()
-        parsed_name = normalized_name.split(".")[-1] if normalized_name else "<attribute>"
+        parsed_name = normalized_name.split(".")[-1] if normalized_name else DEFAULT_PY_ATTRIBUTE_NAME
         return parsed_name, parsed_type
 
     def _collect_typed_class_attributes(self, class_node: docutils.nodes.Node) -> Tuple[List[Tuple[str, str, str]], List[docutils.nodes.Node]]:
@@ -2178,6 +2180,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 if attr_type:
                     description_parts = []
                     for grandchild in child.children:
+                        # Field lists are rendered separately by _render_py_field_list
+                        # and should not be duplicated in attribute descriptions.
                         if isinstance(grandchild, docutils.nodes.field_list):
                             continue
                         piece = grandchild.astext().replace("\n", " ").strip()
