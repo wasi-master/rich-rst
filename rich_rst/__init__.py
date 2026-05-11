@@ -51,7 +51,7 @@ import importlib.metadata
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "RSTVisitor")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
-EMPTY_ATTRIBUTE_NAME = "<attribute>"
+MISSING_ATTRIBUTE_NAME = "<attribute>"
 
 
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
@@ -2071,7 +2071,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _py_desc_panel_style(self, objtype: str) -> Style:
         """Return panel style based on Python object type."""
-        normalized = (objtype or "object").lower()
+        normalized = (objtype or "").lower().strip()
+        if not normalized:
+            normalized = "object"
         style_name = f"restructuredtext.py_desc.{normalized}"
         if normalized in {"class", "exception"}:
             default_style = "bold green"
@@ -2167,7 +2169,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         normalized_name = name_part.strip()
         # Some malformed/empty signatures can yield no usable attribute name.
         # Use a stable placeholder instead of emitting an empty table cell.
-        parsed_name = normalized_name.split(".")[-1] if normalized_name else EMPTY_ATTRIBUTE_NAME
+        parsed_name = normalized_name.split(".")[-1] if normalized_name else MISSING_ATTRIBUTE_NAME
         return parsed_name, parsed_type
 
     def _collect_typed_class_attributes(self, class_node: docutils.nodes.Node) -> Tuple[List[Tuple[str, str, str]], List[docutils.nodes.Node]]:
@@ -2180,7 +2182,10 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if isinstance(child, py_desc) and child.get("objtype", "").lower() in attribute_types:
                 child_options = child.get("options", {}) or {}
                 attr_name, sig_type = self._split_py_attribute_signature(child.get("sig", ""))
-                attr_type = str(child_options.get("type", "") or sig_type).strip()
+                raw_type = child_options.get("type")
+                if raw_type in (None, ""):
+                    raw_type = sig_type
+                attr_type = str(raw_type).strip() if raw_type is not None else ""
                 if attr_type:
                     description_parts = []
                     for grandchild in child.children:
@@ -2218,12 +2223,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self._py_desc_panel_style(objtype)
         title = self._render_py_desc_title(objtype=objtype, signature=sig)
         body = []
-        body_children = list(node.children)
+        body_children: List[docutils.nodes.Node]
 
         if objtype in {"class", "exception"}:
             typed_attributes, body_children = self._collect_typed_class_attributes(node)
             if typed_attributes:
                 body.extend(self._render_py_class_attribute_table(typed_attributes))
+        else:
+            body_children = list(node.children)
 
         body.extend(self._render_py_desc_options(node))
         for child in body_children:
