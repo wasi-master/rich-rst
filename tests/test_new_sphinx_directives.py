@@ -2,6 +2,7 @@
 import pytest
 from rich.panel import Panel
 from rich.align import Align
+from rich.console import Group
 from rich.text import Text
 from rich.table import Table
 
@@ -541,6 +542,17 @@ def test_py_data_value_option_is_visible(render_text):
     assert "Value" in out
     assert "3" in out
     assert "Maximum number of retry attempts." in out
+
+
+def test_py_data_details_do_not_render_as_table(make_visitor):
+    rst = (
+        ".. py:data:: MAX_RETRIES\n"
+        "   :value: 3\n\n"
+        "   Maximum number of retry attempts.\n"
+    )
+    panel = _first_panel(make_visitor, rst)
+    assert isinstance(panel.renderable, Group)
+    assert not any(isinstance(r, Table) for r in panel.renderable.renderables)
 
 
 def test_py_attribute_type_option_is_visible(render_text):

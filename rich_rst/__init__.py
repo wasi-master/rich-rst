@@ -2034,6 +2034,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def _render_py_desc_options(self, node: docutils.nodes.Node) -> List[Any]:
         """Render ``py:*`` directive options as structured metadata."""
         options = node.get('options', {}) or {}
+        objtype = str(node.get("objtype", "") or "").strip().lower()
         if not options:
             return []
 
@@ -2070,6 +2071,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
         meta_name_style = self.console.get_style("restructuredtext.py_desc.meta_name", default="bold")
         meta_value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
+
+        if objtype == "data":
+            renderables: List[Any] = [Text("Details", style=section_style)]
+            for property_name, property_value in rows:
+                line = Text("  ")
+                line.append(property_name, style=meta_name_style)
+                line.append(": ")
+                line.append(property_value, style=meta_value_style)
+                renderables.append(line)
+            renderables.append(NewLine())
+            return renderables
 
         table = Table("Property", "Value", show_lines=True)
         for property_name, property_value in rows:
