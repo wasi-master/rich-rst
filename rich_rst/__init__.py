@@ -51,7 +51,6 @@ import importlib.metadata
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "RSTVisitor")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
-DEFAULT_ATTRIBUTE_NAME = "<attribute>"
 
 
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
@@ -2241,7 +2240,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         # Use a stable placeholder instead of emitting an empty attribute label.
         # Signatures may be qualified (``Class.attr``); render the leaf attribute name.
         leaf_name = normalized_name.rsplit(".", 1)[-1] if normalized_name else ""
-        parsed_name = leaf_name or DEFAULT_ATTRIBUTE_NAME
+        parsed_name = leaf_name or "<attribute>"
         return parsed_name, parsed_type
 
     def _collect_typed_class_attributes(self, class_node: docutils.nodes.Node) -> Tuple[List[Tuple[str, str, str]], List[docutils.nodes.Node]]:
