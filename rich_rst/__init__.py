@@ -2836,7 +2836,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 if grid[r][cc] is not None:
                     _, csp, _ = grid[r][cc]
                     return cc + csp >= c
-                break
             return False
 
         def _is_header(r: int) -> bool:

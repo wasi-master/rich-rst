@@ -855,6 +855,35 @@ DEMOS = [
                          - 76"""),
             },
             {
+                "name": "flat-table — wide partial column span (:cspan: > 1)",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: Regional Sales
+                       :header-rows: 1
+
+                       * - Region
+                         - Q1
+                         - Q2
+                         - Q3
+
+                       * - :cspan:`2` North + Central + South combined
+                         - 312
+
+                       * - North
+                         - 42
+                         - 55
+                         - 61
+
+                       * - Central
+                         - 78
+                         - 90
+                         - 83
+
+                       * - South
+                         - 34
+                         - 48
+                         - 55"""),
+            },
+            {
                 "name": "flat-table — row span (:rspan:)",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Produce Prices
