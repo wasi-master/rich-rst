@@ -578,6 +578,7 @@ def test_additional_py_domain_directives_produce_panels(make_visitor, directive,
 
 
 def _span_covers_token(title: Text, token: str, predicate):
+    """Return True when a span covering ``token`` satisfies ``predicate``."""
     start = title.plain.index(token)
     end = start + len(token)
     return any(span.start <= start and span.end >= end and predicate(span.style) for span in title.spans)

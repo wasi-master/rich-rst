@@ -1047,7 +1047,7 @@ def _register_sphinx_directives() -> None:
             'py:exception', 'py:module', 'py:property', 'py:decorator',
             'py:classmethod', 'py:staticmethod', 'py:variable', 'py:type',
             'py:typevar', 'py:typealias', 'py:envvar', 'py:option',
-            'py:coroutinefunction', 'py:coroutinefunction:',
+            'py:coroutinefunction',
             'py:coroutinemethod', 'py:decoratorfunction', 'py:abstractmethod',
             'py:opcode', 'py:describe',
             # C domain
@@ -2160,7 +2160,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         else:
             name_part = cleaned
             parsed_type = ""
-        parsed_name = name_part.strip().split(".")[-1] if name_part.strip() else "<attribute>"
+        normalized_name = name_part.strip()
+        parsed_name = normalized_name.split(".")[-1] if normalized_name else "<attribute>"
         return parsed_name, parsed_type
 
     def _collect_typed_class_attributes(self, class_node: docutils.nodes.Node) -> Tuple[List[Tuple[str, str, str]], List[docutils.nodes.Node]]:
