@@ -57,6 +57,5 @@ What is intentionally simplified
 Reference pages
 ---------------
 
-- See :doc:`elements` for full element coverage and rendering families.
 - See :doc:`demo` for practical RST and Sphinx examples.
 - See :doc:`documentation` for complete API and CLI option details.

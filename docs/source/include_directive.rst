@@ -126,4 +126,4 @@ See Also
 --------
 
 - :class:`~rich_rst.RestructuredText` — the main rendering class
-- :doc:`elements` — full list of supported RST elements
+- :doc:`demo` — full kitchen sink style list of supported RST elements

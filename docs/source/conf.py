@@ -69,7 +69,8 @@ html_static_path = ['_static']
 html_extra_path = ['_extra']
 # Add any files that contain extra custom css
 html_css_files = ["custom.css"]
-
+# Specify the logo of the documentation.
+html_logo = "_static/logo.png"
 # Config for sphinxawesome_theme
 # html_permalinks_icon = '<span>#</span>'
 # html_collapsible_definitions = True
