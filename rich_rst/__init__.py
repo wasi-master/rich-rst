@@ -7,6 +7,7 @@ Initial few lines gotten from: https://github.com/willmcgugan/rich/discussions/1
 There are a lot of improvements are added by me
 """
 from io import StringIO
+import textwrap
 from html.parser import HTMLParser
 import functools
 import os
@@ -37,6 +38,9 @@ from rich.syntax import Syntax, SyntaxTheme
 from rich.text import Text
 from rich.table import Table
 from rich.rule import Rule
+from rich.segment import Segment
+from rich.cells import cell_len
+from rich.styled import Styled
 from rich.terminal_theme import TerminalTheme, DEFAULT_TERMINAL_THEME
 
 from pygments.lexers import guess_lexer, get_lexer_by_name
@@ -154,17 +158,126 @@ class _CodeBlockDirective(docutils.parsers.rst.Directive):
         'force': docutils.parsers.rst.directives.flag,
         'class': docutils.parsers.rst.directives.unchanged,
         'number-lines': docutils.parsers.rst.directives.nonnegative_int,
+        'lineno-start': docutils.parsers.rst.directives.nonnegative_int,
     }
 
     def run(self) -> List[docutils.nodes.Node]:
         language = self.arguments[0] if self.arguments else None
         code = '\n'.join(self.content)
+        # Support `:dedent:` option: either an integer number of spaces
+        # to remove from each line, or empty/value-less to auto-dedent.
+        dedent_opt = self.options.get('dedent')
+        if dedent_opt is not None:
+            if dedent_opt == '' or dedent_opt is True:
+                code = textwrap.dedent(code)
+            else:
+                try:
+                    n = int(dedent_opt)
+                except (TypeError, ValueError):
+                    code = textwrap.dedent(code)
+                else:
+                    new_lines = []
+                    for line in code.splitlines():
+                        # Remove up to n leading spaces from each line.
+                        new_lines.append(re.sub(rf'^ {{0,{n}}}', '', line))
+                    code = '\n'.join(new_lines)
         node = docutils.nodes.literal_block(code, code)
         if language:
             node['classes'] = ['code', language]
         else:
             node['classes'] = ['code']
+        # Preserve directive options that are relevant to rendering
+        # (e.g. :caption: and :name:) so the visitor can include them
+        # in panel titles or elsewhere.
+        caption_opt = self.options.get('caption')
+        if caption_opt:
+            node['caption'] = caption_opt
+        name_opt = self.options.get('name')
+        if name_opt:
+            node['name'] = name_opt
+        # Line number options: boolean `:linenos:` and numeric start
+        linenos = 'linenos' in self.options
+        if linenos:
+            node['linenos'] = True
+        # Support both Sphinx-style `:lineno-start:` and docutils `:number-lines:`
+        if 'lineno-start' in self.options:
+            try:
+                node['start_line'] = int(self.options.get('lineno-start'))
+            except (TypeError, ValueError):
+                pass
+        elif 'number-lines' in self.options:
+            try:
+                node['start_line'] = int(self.options.get('number-lines'))
+            except (TypeError, ValueError):
+                pass
+        # Parse emphasize-lines option into a set of integers for Syntax.highlight_lines
+        emphasize = self.options.get('emphasize-lines')
+        if emphasize:
+            highlight_lines = set()
+            for part in emphasize.split(','):
+                part = part.strip()
+                if not part:
+                    continue
+                if '-' in part:
+                    try:
+                        start_s, end_s = part.split('-', 1)
+                        start = int(start_s)
+                        end = int(end_s)
+                        if start <= end:
+                            highlight_lines.update(range(start, end + 1))
+                    except ValueError:
+                        # ignore malformed ranges
+                        continue
+                else:
+                    try:
+                        highlight_lines.add(int(part))
+                    except ValueError:
+                        # ignore malformed numbers
+                        continue
+            if highlight_lines:
+                node['highlight_lines'] = highlight_lines
         return [node]
+
+
+class _MathDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. math::`` with Sphinx-compatible option parsing."""
+
+    required_arguments = 0
+    optional_arguments = 1
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {
+        'class': docutils.parsers.rst.directives.class_option,
+        'name': docutils.parsers.rst.directives.unchanged,
+        # Sphinx-specific options. These are accepted and preserved as node
+        # attributes but intentionally no-op in terminal rendering.
+        'nowrap': docutils.parsers.rst.directives.flag,
+        'label': docutils.parsers.rst.directives.unchanged,
+    }
+
+    def run(self) -> List[docutils.nodes.Node]:
+        blocks: List[str] = []
+        if self.arguments:
+            argument = self.arguments[0].strip()
+            if argument:
+                blocks.append(argument)
+        if self.content:
+            blocks.extend(block for block in '\n'.join(self.content).split('\n\n') if block)
+
+        nodes: List[docutils.nodes.Node] = []
+        for block in blocks:
+            node = docutils.nodes.math_block(self.block_text, block)
+            node['classes'] += self.options.get('class', [])
+            if 'nowrap' in self.options:
+                node['nowrap'] = True
+            if 'label' in self.options:
+                node['label'] = self.options['label']
+            source, line = self.state_machine.get_source_and_line(self.lineno)
+            node.source = source
+            node.line = line
+            self.add_name(node)
+            nodes.append(node)
+        return nodes
 
 
 class _HighlightDirective(docutils.parsers.rst.Directive):
@@ -257,6 +370,15 @@ class _HlistDirective(docutils.parsers.rst.Directive):
         return [node]
 
 
+def _parse_toctree_numbered(argument: Optional[str]) -> int:
+    if argument is None:
+        return 0
+    value = argument.strip()
+    if not value:
+        return 0
+    return docutils.parsers.rst.directives.nonnegative_int(value)
+
+
 class _ToctreeDirective(docutils.parsers.rst.Directive):
     """Handles ``.. toctree::``."""
 
@@ -273,7 +395,7 @@ class _ToctreeDirective(docutils.parsers.rst.Directive):
         'hidden': docutils.parsers.rst.directives.flag,
         'includehidden': docutils.parsers.rst.directives.flag,
         'reversed': docutils.parsers.rst.directives.flag,
-        'numbered': docutils.parsers.rst.directives.nonnegative_int,
+        'numbered': _parse_toctree_numbered,
     }
 
     def run(self) -> List[docutils.nodes.Node]:
@@ -283,10 +405,16 @@ class _ToctreeDirective(docutils.parsers.rst.Directive):
             line.strip() for line in self.content
             if line.strip() and not line.strip().startswith(':')
         ]
+        reversed_entries = 'reversed' in self.options
+        numbered_enabled = 'numbered' in self.options
+        numbered_depth = self.options.get('numbered', 0)
         node = toctree_stub()
         node['caption'] = caption
         node['entries'] = entries
         node['maxdepth'] = maxdepth
+        node['reversed'] = reversed_entries
+        node['numbered_enabled'] = numbered_enabled
+        node['numbered'] = numbered_depth
         return [node]
 
 
@@ -379,7 +507,7 @@ class _ProductionListDirective(docutils.parsers.rst.Directive):
         else:
             code = ''
         node = docutils.nodes.literal_block(code, code)
-        node['classes'] = ['code', 'text']
+        node['classes'] = ['code', 'productionlist']
         return [node]
 
 
@@ -470,6 +598,14 @@ class _GlossaryDirective(docutils.parsers.rst.Directive):
         container = glossary_block()
         if self.content:
             self.state.nested_parse(self.content, self.content_offset, container)
+        if 'sorted' in self.options:
+            for child in container.children:
+                if isinstance(child, docutils.nodes.definition_list):
+                    child.children.sort(
+                        key=lambda item: item.children[0].astext().strip().casefold()
+                        if item.children
+                        else ""
+                    )
         return [container]
 
 
@@ -873,6 +1009,8 @@ def _register_sphinx_directives() -> None:
         # code-block
         for name in ('code-block', 'sourcecode', 'code'):
             docutils.parsers.rst.directives.register_directive(name, _CodeBlockDirective)
+        # math (accept Sphinx options like :nowrap: and :label:)
+        docutils.parsers.rst.directives.register_directive('math', _MathDirective)
         # highlight
         docutils.parsers.rst.directives.register_directive('highlight', _HighlightDirective)
         # silent no-op
@@ -908,7 +1046,10 @@ def _register_sphinx_directives() -> None:
             'py:function', 'py:class', 'py:method', 'py:attribute', 'py:data',
             'py:exception', 'py:module', 'py:property', 'py:decorator',
             'py:classmethod', 'py:staticmethod', 'py:variable', 'py:type',
-            'py:typevar', 'py:typealias',
+            'py:typevar', 'py:typealias', 'py:envvar', 'py:option',
+            'py:coroutinefunction',
+            'py:coroutinemethod', 'py:decoratorfunction', 'py:abstractmethod',
+            'py:opcode', 'py:describe',
             # C domain
             'c:function', 'c:type', 'c:struct', 'c:union', 'c:enum',
             'c:enumerator', 'c:member', 'c:var', 'c:macro',
@@ -1118,6 +1259,53 @@ def _register_sphinx_roles() -> None:
         docutils.parsers.rst.roles.register_canonical_role('rfc', _rfc_role)
         if hasattr(docutils.parsers.rst.languages.en, 'roles'):
             docutils.parsers.rst.languages.en.roles['rfc'] = 'rfc'
+
+        # `:cve:` → clickable CVE link
+        def _cve_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any,
+                    options: Optional[Dict[str, Any]] = None,
+                    content: Optional[List[str]] = None
+                    ) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+            cve_id = text.strip().lstrip("CVE-")
+            url = f"https://www.cve.org/CVERecord?id=CVE-{cve_id}"
+            display = f"CVE-{cve_id}"
+            ref = docutils.nodes.reference(rawtext, display, refuri=url)
+            return [ref], []
+
+        docutils.parsers.rst.roles.register_canonical_role('cve', _cve_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['cve'] = 'cve'
+
+
+        # `:cwe:` → clickable CWE link
+        def _cwe_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any,
+                    options: Optional[Dict[str, Any]] = None,
+                    content: Optional[List[str]] = None
+                    ) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+            cwe_num = text.strip()
+            url = f"https://cwe.mitre.org/data/definitions/{cwe_num}.html"
+            display = f"CWE-{cwe_num}"
+            ref = docutils.nodes.reference(rawtext, display, refuri=url)
+            return [ref], []
+
+        docutils.parsers.rst.roles.register_canonical_role('cwe', _cwe_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['cwe'] = 'cwe'
+
+
+        # `:pypi:` → clickable PyPI project link
+        def _pypi_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any,
+                    options: Optional[Dict[str, Any]] = None,
+                    content: Optional[List[str]] = None
+                    ) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
+            project_name = text.strip()
+            url = f"https://pypi.org/project/{project_name}/"
+            display = project_name
+            ref = docutils.nodes.reference(rawtext, display, refuri=url)
+            return [ref], []
+
+        docutils.parsers.rst.roles.register_canonical_role('pypi', _pypi_role)
+        if hasattr(docutils.parsers.rst.languages.en, 'roles'):
+            docutils.parsers.rst.languages.en.roles['pypi'] = 'pypi'
 
         _sphinx_roles_registered = True
 
@@ -1797,15 +1985,16 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         if param_order:
             renderables.append(Text("Parameters", style=section_style))
-            param_table = Table("Name", "Type", "Description", show_lines=True)
             for param_name in param_order:
                 entry = params[param_name]
-                param_table.add_row(
-                    Text(param_name, style=param_name_style),
-                    Text(entry["type"] or "-", style=param_type_style),
-                    Text(entry["desc"]),
-                )
-            renderables.append(param_table)
+                line = Text("  ")
+                line.append(param_name, style=param_name_style)
+                if entry["type"]:
+                    line.append(": ")
+                    line.append(entry["type"], style=param_type_style)
+                renderables.append(line)
+                if entry["desc"]:
+                    renderables.append(Text(f"    {entry['desc']}"))
             renderables.append(NewLine())
 
         if returns_desc or returns_type:
@@ -1814,29 +2003,37 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 returns_text = f"{returns_type}: {returns_desc}"
             else:
                 returns_text = returns_type or returns_desc
-            renderables.append(Text(returns_text, style=return_style))
+            renderables.append(Text(f"  {returns_text}", style=return_style))
             renderables.append(NewLine())
 
         if raises_items:
             renderables.append(Text("Raises", style=section_style))
-            raises_table = Table("Exception", "Description", show_lines=True)
             for exc_name, exc_desc in raises_items:
-                raises_table.add_row(Text(exc_name, style=param_name_style), Text(exc_desc))
-            renderables.append(raises_table)
+                line = Text("  ")
+                line.append(exc_name, style=param_name_style)
+                if exc_desc:
+                    line.append(": ")
+                    line.append(exc_desc)
+                renderables.append(line)
             renderables.append(NewLine())
 
         if unknown_items:
             renderables.append(Text("Other", style=section_style))
-            other_table = Table("Field", "Value", show_lines=True)
             for key, value in unknown_items:
-                other_table.add_row(Text(key, style=param_name_style), Text(value))
-            renderables.append(other_table)
+                line = Text("  ")
+                line.append(key, style=param_name_style)
+                if value:
+                    line.append(": ")
+                    line.append(value)
+                renderables.append(line)
+            renderables.append(NewLine())
 
         return renderables
 
     def _render_py_desc_options(self, node: docutils.nodes.Node) -> List[Any]:
         """Render ``py:*`` directive options as structured metadata."""
         options = node.get('options', {}) or {}
+        objtype = str(node.get("objtype", "") or "").strip().lower()
         if not options:
             return []
 
@@ -1874,25 +2071,251 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         meta_name_style = self.console.get_style("restructuredtext.py_desc.meta_name", default="bold")
         meta_value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
 
+        if objtype == "data":
+            renderables: List[Any] = [Text("Details", style=section_style)]
+            for property_name, property_value in rows:
+                line = Text("  ")
+                line.append(property_name, style=meta_name_style)
+                line.append(": ")
+                line.append(property_value, style=meta_value_style)
+                renderables.append(line)
+            renderables.append(NewLine())
+            return renderables
+
         table = Table("Property", "Value", show_lines=True)
         for property_name, property_value in rows:
             table.add_row(Text(property_name, style=meta_name_style), Text(property_value, style=meta_value_style))
 
         return [Text("Details", style=section_style), table, NewLine()]
 
+    def _py_desc_panel_style(self, objtype: str) -> Style:
+        """Return panel style based on Python object type."""
+        normalized = (objtype or "").lower().strip()
+        if not normalized:
+            normalized = "object"
+        style_name = f"restructuredtext.py_desc.{normalized}"
+        if normalized in {"class", "exception"}:
+            default_style = "bold green"
+        elif normalized in {"method", "classmethod", "staticmethod", "coroutinemethod", "abstractmethod"}:
+            default_style = "bold cyan"
+        elif normalized in {"function", "decorator", "decoratorfunction", "coroutinefunction"}:
+            default_style = "bold magenta"
+        elif normalized in {"attribute", "property", "data", "variable", "envvar", "option"}:
+            default_style = "bold yellow"
+        elif normalized in {"module", "type", "typevar", "typealias", "opcode", "describe"}:
+            default_style = "bold blue"
+        else:
+            default_style = "bold white"
+        return self.console.get_style(style_name, default=default_style)
+
+    def _highlight_py_signature(self, objtype: str, signature: str) -> Text:
+        """Apply custom syntax highlighting to Python-domain signatures."""
+        rendered = Text(signature)
+        if not signature:
+            return rendered
+
+        self_and_cls_style = self.console.get_style("restructuredtext.py_desc.signature.self_and_cls", default="bright_magenta")
+        arrow_style = self.console.get_style("restructuredtext.py_desc.signature.arrow", default="bold yellow")
+        type_style = self.console.get_style("restructuredtext.py_desc.signature.type", default="cyan")
+        name_style = self.console.get_style("restructuredtext.py_desc.signature.name", default="bold")
+        bool_style = self.console.get_style("restructuredtext.py_desc.signature.bool", default="magenta")
+        int_style = self.console.get_style("restructuredtext.py_desc.signature.int", default="green")
+
+        if objtype in {
+            "function", "method", "classmethod", "staticmethod",
+            "decorator", "decoratorfunction", "coroutinefunction",
+            "coroutinemethod", "abstractmethod",
+        }:
+            name_match = None
+            # Signatures may include dotted names (e.g. ``Class.method(...)``);
+            # the last match before ``(`` is the callable's display name.
+            for match in re.finditer(r"([A-Za-z_][A-Za-z0-9_]*)\s*(?=\()", signature):
+                name_match = match
+            if name_match is not None:
+                rendered.stylize(name_style, name_match.start(1), name_match.end(1))
+
+        for match in re.finditer(r"\b(self|cls)\b", signature):
+            rendered.stylize(self_and_cls_style, match.start(1), match.end(1))
+
+        for match in re.finditer(r"->", signature):
+            rendered.stylize(arrow_style, match.start(), match.end())
+
+        # Highlight return types, but be bracket-aware so generics like
+        # ``-> dict[str, int]`` aren't cut off at internal commas.
+        for arrow_match in re.finditer(r"->", signature):
+            # start scanning after the arrow, skipping whitespace
+            i = arrow_match.end()
+            signature_length = len(signature)
+            while i < signature_length and signature[i].isspace():
+                i += 1
+            # scan until we hit a delimiter at bracket depth 0
+            depth = 0
+            j = i
+            while j < signature_length:
+                ch = signature[j]
+                if ch in "([{":
+                    depth += 1
+                elif ch in ")]}":
+                    if depth > 0:
+                        depth -= 1
+                    else:
+                        # unmatched closing - treat as delimiter
+                        break
+                # stop at comma, closing paren or equals only if not inside brackets
+                if depth == 0 and ch in ",)=":
+                    break
+                j += 1
+            # trim whitespace from ends
+            type_start = i
+            type_end = j
+            while type_start < type_end and signature[type_start].isspace():
+                type_start += 1
+            while type_end > type_start and signature[type_end - 1].isspace():
+                type_end -= 1
+            if type_end > type_start:
+                rendered.stylize(type_style, type_start, type_end)
+
+        # Highlight parameter annotation types, bracket-aware so
+        # ``param: dict[str, int]`` doesn't stop at the inner comma.
+        for colon_match in re.finditer(r":\s*", signature):
+            # start scanning at first non-space after ':'
+            i = colon_match.end()
+            signature_length = len(signature)
+            while i < signature_length and signature[i].isspace():
+                i += 1
+            # if next char is ')' or ',' or end, nothing to do
+            if i >= signature_length or signature[i] in ",)":
+                continue
+            depth = 0
+            j = i
+            while j < signature_length:
+                ch = signature[j]
+                if ch in "([{":
+                    depth += 1
+                elif ch in ")]}":
+                    if depth > 0:
+                        depth -= 1
+                    else:
+                        break
+                # stop at comma, closing paren or equals only if not inside brackets
+                if depth == 0 and ch in ",)=":
+                    break
+                j += 1
+            type_start = i
+            type_end = j
+            while type_start < type_end and signature[type_start].isspace():
+                type_start += 1
+            while type_end > type_start and signature[type_end - 1].isspace():
+                type_end -= 1
+            if type_end > type_start:
+                rendered.stylize(type_style, type_start, type_end)
+
+        for match in re.finditer(r"\b(?:True|False)\b", signature):
+            rendered.stylize(bool_style, match.start(), match.end())
+
+        for match in re.finditer(r"\b\d+\b", signature):
+            rendered.stylize(int_style, match.start(), match.end())
+
+        return rendered
+
+    def _render_py_desc_title(self, objtype: str, signature: str) -> Text:
+        """Render a styled panel title for Python-domain objects."""
+        prefix_style = self.console.get_style("restructuredtext.py_desc.title_prefix", default="bold")
+        title = Text(f"[{objtype}] ", style=prefix_style)
+        title.append_text(self._highlight_py_signature(objtype=objtype, signature=signature))
+        return title
+
+    @staticmethod
+    def _split_py_attribute_signature(signature: str) -> Tuple[str, str]:
+        """Split ``name[: type]`` style signatures into name/type parts."""
+        cleaned = signature.strip()
+        if ":" in cleaned:
+            name_part, _, type_part = cleaned.partition(":")
+            parsed_type = type_part.strip()
+        else:
+            name_part = cleaned
+            parsed_type = ""
+        normalized_name = name_part.strip()
+        # Some malformed/empty signatures can yield no usable attribute name.
+        # Use a stable placeholder instead of emitting an empty attribute label.
+        # Signatures may be qualified (``Class.attr``); render the leaf attribute name.
+        leaf_name = normalized_name.rsplit(".", 1)[-1] if normalized_name else ""
+        parsed_name = leaf_name or "<attribute>"
+        return parsed_name, parsed_type
+
+    def _collect_typed_class_attributes(self, class_node: docutils.nodes.Node) -> Tuple[List[Tuple[str, str, str]], List[docutils.nodes.Node]]:
+        """Collect typed ``py:attribute`` style children under a class description."""
+        attributes: List[Tuple[str, str, str]] = []
+        remaining_children: List[docutils.nodes.Node] = []
+        attribute_types = {"attribute", "property", "data", "variable"}
+
+        for child in class_node.children:
+            if isinstance(child, py_desc) and child.get("objtype", "").lower() in attribute_types:
+                child_options = child.get("options", {}) or {}
+                attr_name, sig_type = self._split_py_attribute_signature(child.get("sig", ""))
+                raw_type = child_options.get("type")
+                if raw_type in (None, ""):
+                    raw_type = sig_type
+                attr_type = str(raw_type).strip() if raw_type is not None else ""
+                if attr_type:
+                    description_parts = []
+                    for grandchild in child.children:
+                        # Field lists are rendered separately by _render_py_field_list
+                        # and should not be duplicated in attribute descriptions.
+                        if isinstance(grandchild, docutils.nodes.field_list):
+                            continue
+                        piece = grandchild.astext().replace("\n", " ").strip()
+                        if piece:
+                            description_parts.append(piece)
+                    attributes.append((attr_name, attr_type, " ".join(description_parts).strip()))
+                    continue
+            remaining_children.append(child)
+
+        return attributes, remaining_children
+
+    def _render_py_class_attribute_table(self, rows: List[Tuple[str, str, str]]) -> List[Any]:
+        """Render typed class attributes as an indented list."""
+        section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
+        name_style = self.console.get_style("restructuredtext.py_desc.param_name", default="bold")
+        type_style = self.console.get_style("restructuredtext.py_desc.param_type", default="cyan")
+        value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
+
+        renderables: List[Any] = [Text("Attributes", style=section_style)]
+        for attr_name, attr_type, attr_description in rows:
+            attr_text = Text(attr_name, style=name_style)
+            attr_text.append(": ")
+            attr_text.append(attr_type, style=type_style)
+            line = Text("  ")
+            line.append_text(attr_text)
+            renderables.append(line)
+            if attr_description:
+                renderables.append(Text(f"    {attr_description}", style=value_style))
+        renderables.append(NewLine())
+        return renderables
+
     def visit_py_desc(self, node) -> None:
         objtype = node.get('objtype', 'object')
         sig = node.get('sig', '')
-        style = self.console.get_style("restructuredtext.py_desc", default="bold blue")
+        style = self._py_desc_panel_style(objtype)
+        title = self._render_py_desc_title(objtype=objtype, signature=sig)
         body = []
+        body_children: List[docutils.nodes.Node]
+
+        if objtype in {"class", "exception"}:
+            typed_attributes, body_children = self._collect_typed_class_attributes(node)
+            if typed_attributes:
+                body.extend(self._render_py_class_attribute_table(typed_attributes))
+        else:
+            body_children = list(node.children)
+
         body.extend(self._render_py_desc_options(node))
-        for child in node.children:
+        for child in body_children:
             if isinstance(child, docutils.nodes.field_list):
                 body.extend(self._render_py_field_list(child))
             else:
                 body.extend(self._render_admonition_body([child]))
         self.renderables.append(
-            Panel(Group(*body) if body else "", title=f"[{objtype}] {sig}",
+            Panel(Group(*body) if body else "", title=title,
                   style=style, border_style=style)
         )
         raise docutils.nodes.SkipChildren()
@@ -1903,11 +2326,18 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_toctree_stub(self, node) -> None:
         style = self.console.get_style("restructuredtext.toctree", default="bold cyan")
         caption = node.get('caption', 'Contents')
-        entries = node.get('entries', [])
+        entries = list(node.get('entries', []))
         maxdepth = node.get('maxdepth', 0)  # 0 means unlimited
+        reversed_entries = node.get('reversed', False)
+        numbered_enabled = node.get('numbered_enabled', False)
+        numbered_depth = node.get('numbered', 0)
         marker_style = self.console.get_style("restructuredtext.bullet_list_marker", default="bold yellow")
 
+        if reversed_entries:
+            entries.reverse()
+
         renderables = []
+        counters: List[int] = []
         for entry in entries:
             if not entry:
                 continue
@@ -1926,8 +2356,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if maxdepth > 0 and depth >= maxdepth:
                 continue  # Omit entries beyond the configured maxdepth.
 
-            markers = [" • ", " ∘ ", " ▪ "]
-            marker = "  " * depth + markers[min(depth, len(markers) - 1)]
+            if numbered_enabled:
+                if depth >= len(counters):
+                    counters.extend([0] * (depth + 1 - len(counters)))
+                else:
+                    counters = counters[:depth + 1]
+                counters[depth] += 1
+
+            if numbered_enabled and (numbered_depth == 0 or depth < numbered_depth):
+                number_label = ".".join(str(value) for value in counters[:depth + 1])
+                marker = "  " * depth + f"{number_label}. "
+            else:
+                markers = [" • ", " ∘ ", " ▪ "]
+                marker = "  " * depth + markers[min(depth, len(markers) - 1)]
             renderables.append(Text(marker + display, style=marker_style))
 
         self.renderables.append(
@@ -2274,9 +2715,32 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.renderables[-1].append_text(Text("\n"))
         lexer, lexer_source = self._find_lexer(node)
         title = lexer if lexer_source == "explicit" else f"{lexer} ({lexer_source})"
+        # If the directive supplied a :name: option, include it in the
+        # panel title alongside the language identifier.
+        name = node.get('name')
+        if name:
+            title = f"{title} — {name}"
+
+        # Determine whether to show line numbers. We show them when:
+        # - the directive explicitly requested `:linenos:`, or
+        # - there are highlighted lines, or
+        # - the global `show_line_numbers` is enabled.
+        has_highlight = bool(node.get('highlight_lines'))
+        explicit_linenos = bool(node.get('linenos', False))
+        show_linenos = explicit_linenos or has_highlight or self.show_line_numbers
+
+        start_line = int(node.get('start_line', 1))
+
         self.renderables.append(
             Panel(
-                Syntax(node.astext(), lexer, theme=self.code_theme, line_numbers=self.show_line_numbers),
+                Syntax(
+                    node.astext(),
+                    lexer,
+                    theme=self.code_theme,
+                    line_numbers=show_linenos,
+                    start_line=start_line,
+                    highlight_lines=node.get('highlight_lines'),
+                ),
                 border_style=style,
                 box=box.SQUARE,
                 title=title,
@@ -2297,14 +2761,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         # Preserve the offending source snippet in normal output so invalid
         # markup does not silently disappear when show_errors=False.
-        for child in node.children:
-            if isinstance(child, docutils.nodes.literal_block):
-                snippet = child.astext().replace("\n", " ")
-                if snippet:
-                    if self.renderables and isinstance(self.renderables[-1], Text):
-                        self.renderables[-1].append_text(Text(snippet, end=" "))
-                    else:
-                        self.renderables.append(Text(snippet, end=""))
+        # Skip snippets for title formatting errors where the title was already parsed correctly.
+        message_text = node.astext().lower()
+        is_title_error = any(keyword in message_text for keyword in ("title", "overline", "underline"))
+        
+        if not is_title_error:
+            for child in node.children:
+                if isinstance(child, docutils.nodes.literal_block):
+                    snippet = child.astext().replace("\n", " ")
+                    if snippet:
+                        if self.renderables and isinstance(self.renderables[-1], Text):
+                            self.renderables[-1].append_text(Text(snippet, end=" "))
+                        else:
+                            self.renderables.append(Text(snippet, end=""))
         raise docutils.nodes.SkipChildren()
 
     def _add_to_field_table(self, field_name: str, field_value: str) -> None:
@@ -2761,6 +3230,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         title: Optional[str],
         header_style: Any,
         cell_style: Any,
+        console: Console,
     ) -> "Group":
         """Build a Rich Group that renders a table with proper cspan/rspan merging.
 
@@ -2785,68 +3255,49 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         VH, VB = "┃", "│"
 
         # ── helpers ────────────────────────────────────────────────────────
-
-        def _plain(renderable: Any) -> str:
-            if renderable is None:
-                return ""
-            if isinstance(renderable, Text):
-                return renderable.plain
-            if isinstance(renderable, Group):
-                return " ".join(_plain(r) for r in renderable.renderables)
-            buf = StringIO()
-            tmp = Console(file=buf, force_terminal=False, width=200)
-            tmp.print(renderable, end="")
-            return buf.getvalue().strip()
+        origin_cache: Dict[Tuple[int, int], Optional[Tuple[int, int]]] = {}
 
         def _origin(r: int, c: int) -> Optional[Tuple[int, int]]:
             """Return (origin_row, origin_col) for the real cell covering (r, c)."""
-            cell = grid[r][c]
-            if cell is not None:
-                return (r, c)
-            # Scan left — cspan placeholder in same row
-            for cc in range(c - 1, -1, -1):
-                if grid[r][cc] is not None:
-                    _, csp, _ = grid[r][cc]
-                    if cc + csp >= c:
-                        return (r, cc)
-                    break
-            # Scan up — rspan placeholder in same column
-            for rr in range(r - 1, -1, -1):
-                if grid[rr][c] is not None:
-                    _, _, rsp = grid[rr][c]
-                    if rr + rsp >= r:
-                        return (rr, c)
-                    break
-            # Two-step: combined cspan+rspan placeholder — for each row above,
-            # scan left to find a real cell that covers (r, c) in both dimensions.
-            for rr in range(r - 1, -1, -1):
-                for cc in range(c - 1, -1, -1):
+            key = (r, c)
+            cached = origin_cache.get(key, None)
+            if cached is not None or key in origin_cache:
+                return cached
+
+            for rr in range(r, -1, -1):
+                for cc in range(c, -1, -1):
                     cell = grid[rr][cc]
-                    if cell is not None:
-                        _, csp, rsp = cell
-                        if cc + csp >= c and rr + rsp >= r:
-                            return (rr, cc)
-                        break  # first real cell in this row is definitive
+                    if cell is None:
+                        continue
+                    _, csp, rsp = cell
+                    if rr <= r <= rr + rsp and cc <= c <= cc + csp:
+                        origin_cache[key] = (rr, cc)
+                        return (rr, cc)
+
+            origin_cache[key] = None
             return None
 
         def _rspan_continues(row_above: int, c: int) -> bool:
-            """True if an rspan cell above is still active at the row boundary."""
-            orig = _origin(row_above, c)
-            if orig is None:
+            """True if a cell covering (row_above, c) extends to the next row."""
+            if row_above < 0 or row_above + 1 >= nrows:
                 return False
-            or_r, or_c = orig
-            _, _, rsp = grid[or_r][or_c]
-            return or_r + rsp > row_above
+            for rr in range(row_above, -1, -1):
+                for cc in range(c, -1, -1):
+                    cell = grid[rr][cc]
+                    if cell is None:
+                        continue
+                    _, csp, rsp = cell
+                    if cc <= c <= cc + csp and rr <= row_above <= rr + rsp:
+                        return row_above < rr + rsp
+            return False
 
         def _cspan_continues(r: int, c: int) -> bool:
             """True if column c is a cspan continuation of the cell to its left in row r."""
             if c == 0:
                 return False
-            for cc in range(c - 1, -1, -1):
-                if grid[r][cc] is not None:
-                    _, csp, _ = grid[r][cc]
-                    return cc + csp >= c
-            return False
+            left_origin = _origin(r, c - 1)
+            here_origin = _origin(r, c)
+            return left_origin is not None and left_origin == here_origin
 
         def _is_header(r: int) -> bool:
             return r < header_rows
@@ -2854,6 +3305,69 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         def _has_vborder(r: int, c: int) -> bool:
             """True iff row *r* has a vertical separator between column *c* and *c+1*."""
             return _origin(r, c) != _origin(r, c + 1)
+
+        def _segments_to_lines(line_segments: List[Segment]) -> List[Text]:
+            lines: List[Text] = [Text()]
+            for seg in line_segments:
+                if seg.control or not seg.text:
+                    continue
+                parts = seg.text.split("\n")
+                for index, part in enumerate(parts):
+                    if part:
+                        lines[-1].append(part, seg.style)
+                    if index < len(parts) - 1:
+                        lines.append(Text())
+            return lines
+
+        def _row_style(r: int) -> Any:
+            return header_style if _is_header(r) else cell_style
+
+        cell_render_cache: Dict[Tuple[int, int], List[Text]] = {}
+
+        def _render_cell_lines(r: int, c: int) -> List[Text]:
+            """Render cell content into styled lines sized to its spanned width."""
+            key = (r, c)
+            if key in cell_render_cache:
+                return cell_render_cache[key]
+
+            cell = grid[r][c]
+            if cell is None:
+                cell_render_cache[key] = []
+                return []
+
+            content, csp, _ = cell
+            avail = sum(col_widths[c:c + csp + 1]) + 3 * csp
+            style = _row_style(r)
+            if avail <= 0:
+                cell_render_cache[key] = [Text("")]
+                return cell_render_cache[key]
+
+            options = console.options.update(width=avail, max_width=avail)
+            render_target = Styled(content, style) if style else (content if content is not None else Text(""))
+            rendered_lines = console.render_lines(
+                render_target,
+                options=options,
+                style=None,
+                pad=True,
+                new_lines=False,
+            )
+
+            lines: List[Text] = []
+            for rendered in rendered_lines:
+                lines.extend(_segments_to_lines(rendered))
+            if not lines:
+                lines = [Text(" " * avail, style=style)]
+            normalized: List[Text] = []
+            for line in lines:
+                current_width = cell_len(line.plain)
+                if current_width > avail:
+                    line.truncate(avail, overflow="crop", pad=False)
+                elif current_width < avail:
+                    line.append(" " * (avail - current_width), style=style)
+                normalized.append(line)
+
+            cell_render_cache[key] = normalized
+            return normalized
 
         # ── separator line ─────────────────────────────────────────────────
 
@@ -2893,7 +3407,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     lrc = rc
                     rrc = (_rspan_continues(above, c + 1) if above is not None and not is_top else False)
                     if lrc and rrc:
-                        s += VB if _has_vborder(above, c) else " "
+                        same_origin = (
+                            above is not None
+                            and _origin(above, c) is not None
+                            and _origin(above, c) == _origin(above, c + 1)
+                        )
+                        # When both columns continue the same merged rowspan cell,
+                        # there is no interior boundary at this separator.
+                        s += " " if same_origin else VB
                     elif lrc or rrc:
                         s += "├" if lrc else "┤"
                     else:
@@ -2924,49 +3445,101 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         # ── content line ───────────────────────────────────────────────────
 
-        def _content(r: int) -> Text:
-            """Single content line for row *r* (cells truncated/padded to col_widths)."""
-            is_hdr = _is_header(r)
-            V = VH if is_hdr else VB
-            s = V
+        def _row_height(r: int) -> int:
+            """Physical line count for a logical row after rendering cell content."""
+            height = 1
             c = 0
             while c < ncols:
                 if _cspan_continues(r, c):
-                    # Part of a spanning cell rendered by a previous column — skip
+                    c += 1
+                    continue
+                cell = grid[r][c]
+                if cell is None:
+                    c += 1
+                    continue
+                _, csp, _ = cell
+                height = max(height, len(_render_cell_lines(r, c)))
+                c += 1 + csp
+            return height
+
+        def _content(r: int, line_no: int) -> Text:
+            """One physical content line for logical row *r*."""
+            is_hdr = _is_header(r)
+            V = VH if is_hdr else VB
+            style = _row_style(r)
+            line = Text(V)
+            c = 0
+            while c < ncols:
+                if _cspan_continues(r, c):
+                    # Part of a spanning cell rendered by a previous column.
                     c += 1
                     continue
 
                 cell = grid[r][c]
                 if cell is not None:
                     content, csp, _ = cell
-                    text = _plain(content)
-                    # avail: inner text space = sum of spanned widths + freed separators+padding
-                    # Each eliminated internal border frees (1 border + 2 padding) = 3 chars
                     avail = sum(col_widths[c:c + csp + 1]) + 3 * csp
-                    text = text[:avail]
-                    s += " " + text.ljust(avail) + " "
+                    rendered = _render_cell_lines(r, c)
+                    inner = rendered[line_no] if line_no < len(rendered) else Text(" " * avail, style=style)
+                    line.append(" ", style=style)
+                    line.append_text(inner)
+                    line.append(" ", style=style)
                     if c + csp < ncols - 1:
-                        s += V
+                        line.append(V)
                     c += 1 + csp  # jump past all placeholder columns
                 else:
-                    # rspan placeholder — empty cell
-                    s += " " * (col_widths[c] + 2)
-                    if c < ncols - 1:
-                        s += V if _has_vborder(r, c) else " "
+                    # Placeholder covered by a rowspan from an origin above.
+                    # If this column is the first covered column for that origin
+                    # in this row, render the full merged placeholder width.
+                    origin = _origin(r, c)
+                    if origin is not None and origin[1] == c:
+                        span_end = c
+                        while span_end + 1 < ncols and _origin(r, span_end + 1) == origin:
+                            span_end += 1
+                        csp = span_end - c
+                        avail = sum(col_widths[c:span_end + 1]) + 3 * csp
+                        line.append(" " * (avail + 2), style=style)
+                        if span_end < ncols - 1:
+                            line.append(V)
+                        c = span_end + 1
+                    else:
+                        line.append(" " * (col_widths[c] + 2), style=style)
+                        if c < ncols - 1 and not _cspan_continues(r, c + 1):
+                            line.append(V)
+                        c += 1
+            line.append(V)
+            return line
+
+        def _is_placeholder_row(r: int) -> bool:
+            """True when a row is fully covered by rowspans from above."""
+            c = 0
+            while c < ncols:
+                if _cspan_continues(r, c):
                     c += 1
-            s += V
-            return Text(s)
+                    continue
+                if grid[r][c] is not None:
+                    return False
+                if _origin(r, c) is None:
+                    return False
+                c += 1
+            return True
 
         # ── assemble lines ─────────────────────────────────────────────────
 
         if title:
-            total = sum(col_widths) + 3 * ncols + 1
+            total = cell_len(_sep(None, 0).plain) if nrows else (sum(col_widths) + 3 * ncols + 1)
             lines.append(Text(title.center(total), style="italic"))
 
         for r in range(nrows):
             above = r - 1 if r > 0 else None
-            lines.append(_sep(above, r))
-            lines.append(_content(r))
+            is_placeholder = _is_placeholder_row(r)
+            sep_line = _sep(above, r)
+            if not (is_placeholder and all(ch in f" {VB}{VH}" for ch in sep_line.plain)):
+                lines.append(sep_line)
+            if is_placeholder:
+                continue
+            for line_no in range(_row_height(r)):
+                lines.append(_content(r, line_no))
 
         lines.append(_sep(nrows - 1, None))
         return Group(*lines)
@@ -3026,6 +3599,36 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             renderables = sub_visitor.renderables
             if not renderables:
                 return Text("", style=cell_style)
+            has_list = any(
+                isinstance(child, (docutils.nodes.bullet_list, docutils.nodes.enumerated_list))
+                for child in entry.children
+            )
+            if has_list:
+                # Table cells should keep list items compact: one visible line
+                # per item without paragraph/list trailing blank lines.
+                renderables = self._merge_bullet_markers_with_text(renderables)
+                renderables = [r for r in renderables if not isinstance(r, NewLine)]
+                if not renderables:
+                    return Text("", style=cell_style)
+                rendered_lines = self.console.render_lines(
+                    Group(*renderables),
+                    options=self.console.options.update(width=2048, max_width=2048),
+                    pad=False,
+                    new_lines=False,
+                )
+                compact_lines: List[Text] = []
+                for line in rendered_lines:
+                    line_text = Text.assemble(
+                        *[(seg.text, seg.style) for seg in line if not seg.control]
+                    )
+                    line_text.rstrip()
+                    if line_text.plain.strip():
+                        compact_lines.append(line_text)
+                if not compact_lines:
+                    return Text("", style=cell_style)
+                if len(compact_lines) == 1:
+                    return compact_lines[0]
+                return Group(*compact_lines)
             # depart_paragraph appends "\n\n" to trailing Text renderables; strip
             # it so cells don't carry extra vertical whitespace.  Also strip any
             # leading whitespace left over after span-role nodes (:cspan:/:rspan:)
@@ -3036,7 +3639,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     r.rstrip()
                     leading = len(r.plain) - len(r.plain.lstrip())
                     if leading:
-                        renderables[i] = r[leading:]
+                        trimmed = r[leading:]
+                        trimmed.end = r.end
+                        renderables[i] = trimmed
             if len(renderables) == 1:
                 return renderables[0]
             return Group(*renderables)
@@ -3137,19 +3742,35 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 grid.append(grid_row)
 
             # ── calculate column widths from non-spanning cells ───────────────
-            def _plain_w(renderable: Any) -> int:
+            def _rendered_plain_lines(renderable: Any) -> List[str]:
                 if renderable is None:
-                    return 0
-                if isinstance(renderable, Text):
-                    return len(renderable.plain)
-                if isinstance(renderable, Group):
-                    return max((_plain_w(r) for r in renderable.renderables), default=0)
-                buf = StringIO()
-                tmp = Console(file=buf, force_terminal=False, width=400)
-                tmp.print(renderable, end="")
-                return max((len(line) for line in buf.getvalue().splitlines()), default=0)
+                    return []
+                lines = self.console.render_lines(
+                    renderable,
+                    options=self.console.options.update(width=2048, max_width=2048),
+                    pad=False,
+                    new_lines=False,
+                )
+                plain_lines: List[str] = []
+                for line in lines:
+                    plain = "".join(seg.text for seg in line if not seg.control)
+                    plain_lines.append(plain)
+                return plain_lines
+
+            def _plain_w(renderable: Any) -> int:
+                lines = _rendered_plain_lines(renderable)
+                return max((cell_len(line) for line in lines), default=0)
+
+            def _min_token_w(renderable: Any) -> int:
+                lines = _rendered_plain_lines(renderable)
+                widest = 1
+                for line in lines:
+                    for token in line.split():
+                        widest = max(widest, cell_len(token))
+                return min(20, widest)
 
             col_widths = [1] * num_cols
+            col_min_widths = [1] * num_cols
             for grid_row in grid:
                 for c, cell in enumerate(grid_row):
                     if cell is None:
@@ -3157,6 +3778,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     content, mc, mr = cell
                     if mc == 0:
                         col_widths[c] = max(col_widths[c], _plain_w(content))
+                        col_min_widths[c] = max(col_min_widths[c], _min_token_w(content))
 
             # Widen for spanning cells that need more space
             for grid_row in grid:
@@ -3170,10 +3792,50 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                         if needed > available:
                             col_widths[c + mc] += needed - available
 
+            # Clamp spanning-table width to the available console width so long
+            # text wraps inside cells instead of producing overflow and broken
+            # visual alignment in narrow terminals.
+            max_total_width = max(1, self.console.options.max_width)
+
+            def _table_width(widths: List[int]) -> int:
+                return sum(widths) + 3 * len(widths) + 1
+
+            overflow = _table_width(col_widths) - max_total_width
+
+            def _shrink_to_floor(floors: List[int], remaining: int) -> int:
+                while remaining > 0:
+                    reducible = [i for i, w in enumerate(col_widths) if w > floors[i]]
+                    if not reducible:
+                        break
+                    reducible.sort(key=lambda i: col_widths[i], reverse=True)
+                    per_col_cut = max(1, remaining // len(reducible))
+                    changed = 0
+                    for idx in reducible:
+                        if remaining <= 0:
+                            break
+                        max_cut = col_widths[idx] - floors[idx]
+                        cut = min(max_cut, per_col_cut, remaining)
+                        if cut <= 0:
+                            continue
+                        col_widths[idx] -= cut
+                        remaining -= cut
+                        changed += cut
+                    if changed == 0:
+                        break
+                return remaining
+
+            # Prefer preserving enough width to avoid one-character vertical
+            # stacks in key columns, then fall back to absolute minimum when
+            # terminal width is very constrained.
+            overflow = _shrink_to_floor(col_min_widths, overflow)
+            if overflow > 0:
+                overflow = _shrink_to_floor([1] * num_cols, overflow)
+
             self.renderables.append(
                 self._spanning_table(
                     grid, col_widths, num_header_rows,
                     title, header_style, cell_style,
+                    self.console,
                 )
             )
             raise docutils.nodes.SkipChildren()

@@ -169,6 +169,18 @@ DEMOS = [
                 "rst": "A :dfn:`docstring` is a string literal that documents a Python object.",
             },
             {
+                "name": "CVE reference role",
+                "rst": "This vulnerability is tracked as :cve:`2024-3094`."
+            },
+            {
+                "name": "CWE reference role",
+                "rst": "This bug is categorized under :cwe:`79`."
+            },
+            {
+                "name": "PyPI project reference role",
+                "rst": "Install the package from :pypi:`requests`."
+            },
+            {
                 "name": "Math role (inline)",
                 "rst": "The area of a circle is :math:`\\pi r^2`.",
             },
@@ -507,6 +519,46 @@ DEMOS = [
                        print(x + y)"""),
             },
             {
+                "name": "code-block with lineno-start",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: python
+                       :linenos:
+                       :lineno-start: 10
+
+                       x = 1
+                       y = 2"""),
+            },
+            {
+                "name": "code-block with emphasize-lines",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: python
+                       :emphasize-lines: 3,5
+
+                       def some_function():
+                           interesting = False
+                           print('This line is highlighted.')
+                           print('This one is not...')
+                           print('...but this one is.')"""),
+            },
+            {
+                "name": "code-block with name",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: python
+                       :name: example-id
+
+                       x = 1
+                       y = 2"""),
+            },
+            {
+                "name": "code-block with dedent",
+                "rst": textwrap.dedent("""\
+                    .. code-block:: python
+                       :dedent:
+
+                           def foo():
+                               return 1"""),
+            },
+            {
                 "name": "code-block: bash",
                 "rst": textwrap.dedent("""\
                     .. code-block:: bash
@@ -617,11 +669,10 @@ DEMOS = [
                        }"""),
             },
             {
-                "name": "code-block with caption and emphasised lines",
+                "name": "code-block with caption",
                 "rst": textwrap.dedent("""\
                     .. code-block:: python
                        :caption: example.py
-                       :emphasize-lines: 2,3
 
                        def add(a, b):
                            # This line is emphasised
@@ -798,7 +849,7 @@ DEMOS = [
                          - 1k+"""),
             },
             {
-                "name": "csv-table directive",
+                "name": "CSV Table",
                 "rst": textwrap.dedent("""\
                     .. csv-table:: Data
                        :header: "Name", "Value", "Unit"
@@ -809,7 +860,7 @@ DEMOS = [
                        "Mass", "9.109e-31", "kg" """),
             },
             {
-                "name": "flat-table — basic with stub column",
+                "name": "Flat Table: Basic with Stub Column",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Linux Kernel Subsystems
                        :header-rows: 1
@@ -832,7 +883,7 @@ DEMOS = [
                          - VFS layer and filesystem drivers"""),
             },
             {
-                "name": "flat-table — column span (:cspan:)",
+                "name": "Flat Table: Column Span (:cspan:)",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Quarterly Results
                        :header-rows: 1
@@ -908,7 +959,7 @@ DEMOS = [
                          - $1.25"""),
             },
             {
-                "name": "flat-table — combined :cspan: and :rspan:",
+                "name": "Flat Table: Combined :cspan: and :rspan:",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Combined Spans
                        :header-rows: 1
@@ -1461,6 +1512,17 @@ DEMOS = [
                        usage
                        api"""),
             },
+            {
+                "name": "toctree with numbered entries",
+                "rst": textwrap.dedent("""\
+                    .. toctree::
+                       :numbered:
+
+                       intro
+                       guide/installation
+                       guide/usage
+                       guide/api"""),
+            }
         ],
     },
     # ── 22. glossary ─────────────────────────────────────────────────────────

@@ -10,6 +10,13 @@ Shared pytest fixtures for the rich-rst test suite.
     Renders RST markup through the public :class:`RestructuredText` API and
     returns the exported plain text.  Use this for content / output assertions.
 """
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from rich_rst._vendor import docutils
 import rich_rst._vendor.docutils.core
 import pytest

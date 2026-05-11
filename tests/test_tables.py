@@ -15,6 +15,10 @@ Formatting contract
 * ``Table.row_count`` equals the number of body rows in the RST table.
 """
 from rich.table import Table
+from rich.console import Group
+from rich.text import Text
+
+from rich_rst import _register_sphinx_directives
 
 
 # ── Basic table structure ─────────────────────────────────────────────────────
@@ -319,6 +323,29 @@ def test_inline_code_in_cell_rendered(render_text):
     assert "x" in out, "Inline code cell text must be visible"
 
 
+def test_bullet_list_in_spanning_grid_table_cell_keeps_markers_and_no_extra_blank_lines(render_text):
+    """List markers in a spanning grid-table cell stay attached to item text."""
+    rst = (
+        "+-----------------+\n"
+        "| Header Three    |\n"
+        "+=================+\n"
+        "| * Quis 23       |\n"
+        "+ * Tempus 33     |\n"
+        "| * Pretium 43    |\n"
+        "+-----------------+\n"
+    )
+    out = render_text(rst)
+    assert "• Quis 23" in out
+    assert "• Tempus 33" in out
+    assert "• Pretium 43" in out
+    assert "Quis 23•" not in out
+    assert "Tempus 33•" not in out
+    assert not any(
+        line.startswith("│") and line.endswith("│") and not line.strip("│ ").strip()
+        for line in out.splitlines()
+    )
+
+
 # ── flat-table directive ──────────────────────────────────────────────────────
 
 def test_flat_table_basic(render_text):
@@ -592,18 +619,7 @@ def test_flat_table_rspan_body_row_separator(render_text):
 
 
 def test_flat_table_title_centering_matches_table_width(render_text):
-    """Title must be centered over the actual separator-line width.
-
-    Formula contract: total = sum(col_widths) + 3*ncols + 1
-    Wrong formula:    total = sum(col_widths) +   ncols + 1  (2*ncols too short)
-
-    col_widths = [4("Name"/"Both"), 5("Value")] → sum=9, ncols=2
-    Correct total = 9 + 6 + 1 = 16  →  bottom border is 16 chars wide
-    Buggy   total = 9 + 2 + 1 = 12  →  title off-center by (16-12)/2 = 2 chars
-
-    We verify that the observed left-pad of "Title" in its rendered line equals
-    (len(bottom_border) - len("Title")) // 2, which only holds with the correct formula.
-    """
+    """Title must be centered over the actual separator-line width."""
     rst = (
         ".. flat-table:: Title\n"
         "   :header-rows: 1\n\n"
@@ -623,9 +639,7 @@ def test_flat_table_title_centering_matches_table_width(render_text):
     expected_pad = (len(bottom) - len("Title")) // 2
     assert title_start == expected_pad, (
         f"Title left-pad is {title_start} but must be {expected_pad} "
-        f"(centered over table width {len(bottom)}). "
-        f"The wrong +ncols formula produces left-pad "
-        f"{(len(bottom) - 2 * 2 - len('Title')) // 2}."
+        f"(centered over table width {len(bottom)})"
     )
 
 
@@ -634,16 +648,13 @@ def test_flat_table_combined_cspan_rspan_fill_cells(render_text):
 
     The :cspan:`1` :rspan:`1` cell in a 4-column table leaves col 3 empty in
     both body rows.  With fill-cells enabled, those trailing slots are filled
-    with filler entries — exercising the issue-3 fix (third tuple element must
-    be a list of nodes, not a bare node) alongside the combined-span pipeline.
+    with filler entries — exercising the fill-cells node-list fix alongside the
+    combined-span pipeline.
 
     Grid layout (4 columns, header-rows=1):
         Row 0 (header):  A     | B          | C    | D
         Row 1 (body):    Big (cspan=1,rspan=1) | C1   | <fill>
         Row 2 (body):    <rspan placeholder 0–1> | C2  | <fill>
-
-    The two fill slots are the regression target for issue 3.
-    The combined 2×2 block (Big) is the regression target for issue 4.
     """
     rst = (
         ".. flat-table::\n"
@@ -665,8 +676,6 @@ def test_flat_table_combined_cspan_rspan_fill_cells(render_text):
 
     lines = out.splitlines()
 
-    # Big row: Big spans cols 0-1 (no internal │), C1 at col 2, fill at col 3.
-    # Bars: outer-left | after-Big | after-C1 | outer-right = 4
     big_line = next((l for l in lines if "Big" in l), None)
     assert big_line is not None, "Row containing 'Big' must be present"
     assert big_line.count("│") == 4, (
@@ -674,8 +683,6 @@ def test_flat_table_combined_cspan_rspan_fill_cells(render_text):
         f"got {big_line.count('│')} in {big_line!r}"
     )
 
-    # C2 row: cols 0-1 are rspan placeholders (no internal │ between them),
-    # C2 at col 2, fill at col 3. Same bar count.
     c2_line = next((l for l in lines if "C2" in l), None)
     assert c2_line is not None, "Row containing C2 must be present"
     assert c2_line.count("│") == 4, (
@@ -685,16 +692,7 @@ def test_flat_table_combined_cspan_rspan_fill_cells(render_text):
 
 
 def test_flat_table_combined_cspan_rspan_placeholder_cols_empty(render_text):
-    """Both placeholder columns of a 2×2 combined span must be blank with no internal border.
-
-    In the continuation row (C2 row), cols 0 and 1 are covered by the Big cell's
-    rspan.  _origin's two-step diagonal search must resolve (r2,c1) back to Big at
-    (r1,c0) so that _has_vborder(r2,0) returns False — suppressing the internal │
-    between the two placeholder columns.
-
-    This tests the contract directly: the region from the outer-left │ to the first
-    interior │ in the C2 row must be all whitespace.
-    """
+    """Both placeholder columns of a 2×2 combined span must be blank with no internal border."""
     rst = (
         ".. flat-table::\n"
         "   :header-rows: 1\n\n"
@@ -711,8 +709,6 @@ def test_flat_table_combined_cspan_rspan_placeholder_cols_empty(render_text):
     c2_line = next((l for l in lines if "C2" in l and "Big" not in l), None)
     assert c2_line is not None, "Continuation row containing C2 must be present"
 
-    # The region between the outer-left │ and the first inner │ spans both
-    # placeholder columns.  It must be entirely blank — no text, no │ inside.
     first_inner = c2_line.index("│", 1)
     placeholder_region = c2_line[1:first_inner]
     assert placeholder_region.strip() == "", (
@@ -721,17 +717,104 @@ def test_flat_table_combined_cspan_rspan_placeholder_cols_empty(render_text):
     )
 
 
+def test_flat_table_combined_cspan_rspan_no_malformed_separator(render_text):
+    """Combined cspan+rspan cells must keep separator junctions valid."""
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n"
+        "     - D\n\n"
+        "   * - :cspan:`1` :rspan:`1` span\n"
+        "     - x\n"
+        "     - y\n\n"
+        "   * - z\n"
+        "     - w\n"
+    )
+    out = render_text(rst)
+    assert "│   ├" not in out, "Separator must not be malformed by combined cspan+rspan"
+    lines = out.splitlines()
+    z_line = next((l for l in lines if "z" in l and "w" in l), None)
+    assert z_line is not None, "The final body row with z/w must be present"
+    sep1 = z_line.index("│", 1)
+    assert z_line[1:sep1].strip() == ""
+    assert z_line.index("z") < z_line.index("w")
+
+
+def test_flat_table_spanning_cell_preserves_inline_styles(make_visitor):
+    """Spanning renderer must preserve inline rich styles in cell content."""
+    _register_sphinx_directives()
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - H1\n"
+        "     - H2\n\n"
+        "   * - :cspan:`1` **bold** *italic* ``code``\n"
+    )
+    visitor = make_visitor(rst)
+    table_group = next((r for r in visitor.renderables if isinstance(r, Group)), None)
+    assert table_group is not None, "Spanning table must render as Group"
+    content_line = next(
+        (l for l in table_group.renderables if isinstance(l, Text) and "bold" in l.plain and "italic" in l.plain),
+        None,
+    )
+    assert content_line is not None
+    bold_spans = [s for s in content_line.spans if s.style.bold]
+    italic_spans = [s for s in content_line.spans if s.style.italic]
+    code_spans = [s for s in content_line.spans if s.style.bgcolor is not None]
+    assert any("bold" in content_line.plain[s.start:s.end] for s in bold_spans)
+    assert any("italic" in content_line.plain[s.start:s.end] for s in italic_spans)
+    assert any("code" in content_line.plain[s.start:s.end] for s in code_spans)
+
+
+def test_flat_table_spanning_cell_multiline_content_keeps_borders(render_text):
+    """Multi-line spanning cell content should render as multiple physical row lines."""
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - H1\n"
+        "     - H2\n\n"
+        "   * - :cspan:`1` first line\n\n"
+        "       second line\n"
+    )
+    out = render_text(rst)
+    lines = out.splitlines()
+    first_idx = next((i for i, l in enumerate(lines) if "first line" in l), None)
+    second_idx = next((i for i, l in enumerate(lines) if "second line" in l), None)
+    assert first_idx is not None and second_idx is not None, "Both content lines must be present"
+    assert second_idx > first_idx, "Second line must render on a later physical row line"
+    assert lines[first_idx].startswith("│") and lines[first_idx].endswith("│")
+    assert lines[second_idx].startswith("│") and lines[second_idx].endswith("│")
+
+
+def test_flat_table_spanning_title_centered_to_rendered_width(make_visitor):
+    """Spanning table title should be centered against true rendered table width."""
+    _register_sphinx_directives()
+    rst = (
+        ".. flat-table:: Span Title\n"
+        "   :header-rows: 1\n\n"
+        "   * - Name\n"
+        "     - Q1\n"
+        "     - Q2\n\n"
+        "   * - :cspan:`2` Total\n"
+    )
+    visitor = make_visitor(rst)
+    table_group = next((r for r in visitor.renderables if isinstance(r, Group)), None)
+    assert table_group is not None
+    title_line = next((l for l in table_group.renderables if isinstance(l, Text) and "Span Title" in l.plain), None)
+    top_border = next((l for l in table_group.renderables if isinstance(l, Text) and l.plain.startswith("┏")), None)
+    assert title_line is not None and top_border is not None
+    assert len(title_line.plain) == len(top_border.plain), (
+        "Title line width must equal rendered table width"
+    )
+    title_center = title_line.plain.index("Span Title") + (len("Span Title") / 2)
+    table_center = len(top_border.plain) / 2
+    assert abs(title_center - table_center) <= 1
+
+
 def test_flat_table_cspan_no_unnecessary_column_widening(render_text):
-    """Spanning-cell content that fits within the correct merged budget must not widen columns.
-
-    col_widths = [5 ("Alice"), 4 ("Lead")] after the non-spanning pass.
-    Correct formula: available = 5 + 4 + 3*1 = 12.
-    "Both columns" = 12 chars — fits exactly, no widening needed.
-
-    The old formula used +mc (+1) instead of +3*mc (+3), giving available=10 < 12
-    and spuriously inflating col 1 by 2 chars.  The bottom border line encodes the
-    actual column widths: 1+(5+2)+1+(4+2)+1 = 16 with no widening, 18 with the bug.
-    """
+    """Spanning-cell content that fits within the correct merged budget must not widen columns."""
     rst = (
         ".. flat-table::\n"
         "   :header-rows: 1\n\n"
@@ -748,9 +831,6 @@ def test_flat_table_cspan_no_unnecessary_column_widening(render_text):
     assert "Alice" in out and "Lead" in out
 
     lines = out.splitlines()
-    # Bottom border └─…─┴─…─┘ length encodes actual col widths.
-    # col_widths=[5,4] (correct): 1+(5+2)+1+(4+2)+1 = 16
-    # col_widths=[5,6] (old bug): 1+(5+2)+1+(6+2)+1 = 18
     bottom = next(
         (l.rstrip() for l in reversed(lines) if l.startswith("└")),
         None,

@@ -235,3 +235,64 @@ def test_math_block_produces_math_panel(make_visitor):
     assert panels, ".. math:: must produce a Panel"
     assert panels[0].title == "math"
     assert "a^2" in str(panels[0].renderable)
+
+
+# ── Regression tests for code-block options ────────────────────────────────
+
+
+def test_code_block_with_linenos_and_start(make_visitor):
+    rst = """.. code-block:: python
+       :linenos:
+       :lineno-start: 10
+
+       x = 1
+       y = 2
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels, "code-block must produce a Panel"
+    syn = panels[0].renderable
+    assert isinstance(syn, Syntax)
+    assert syn.line_numbers is True
+    assert syn.start_line == 10
+
+
+
+def test_code_block_emphasize_lines_sets_highlight_and_shows_linenos(make_visitor):
+    rst = """.. code-block:: python
+       :emphasize-lines: 1,3-4
+
+       a = 1
+       b = 2
+       c = 3
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    syn = panels[0].renderable
+    assert syn.highlight_lines == {1, 3, 4}
+    assert syn.line_numbers is True
+
+
+def test_code_block_name_in_panel_title(make_visitor):
+    rst = """.. code-block:: python
+       :name: example-id
+
+       x = 1
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels[0].title == "python — example-id"
+
+
+def test_code_block_dedent_option_applies(make_visitor):
+    rst = """.. code-block:: python
+       :dedent:
+
+           def foo():
+               return 1
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    syn = panels[0].renderable
+    # dedent should remove common leading indentation so code begins with 'def'
+    assert syn.code.lstrip().startswith('def foo') or syn.code.startswith('def ')

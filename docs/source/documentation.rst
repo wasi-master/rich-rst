@@ -4,10 +4,10 @@ API Reference
 Python API
 ----------
 
-For visitor and plugin-style customization, see :doc:`Extension API <extension_api>`.
+For visitor- and plugin-style customization, see :doc:`Extension API <extension_api>`.
 
 The main class is :class:`~rich_rst.RestructuredText`. Several aliases are
-provided for convenience; they are all identical:
+provided for convenience; they are identical:
 
 .. list-table::
    :header-rows: 1
@@ -33,8 +33,8 @@ provided for convenience; they are all identical:
 Command-line interface
 ----------------------
 
-rich-rst ships with a CLI module that renders RST files (or standard input)
-directly in the terminal.
+rich-rst ships with a CLI module that renders RST files (or ``stdin``)
+directly to the terminal.
 
 Usage
 ~~~~~
@@ -47,7 +47,7 @@ Usage
 ``PATH`` is required unless you use ``--list-html-themes``.
 
 Options
-~~~~~~~
+-------
 
 .. list-table::
    :header-rows: 1
@@ -66,7 +66,8 @@ Options
    * - ``-hw``, ``--html-width``
      - ``max-width`` applied when saving HTML output (default: ``1675px``).
    * - ``-t``, ``--code-theme``
-     - Pygments theme used for syntax-highlighted code blocks (default: ``monokai``).
+     - Pygments theme used for syntax-highlighted code blocks (default:
+       ``monokai``).
    * - ``--show-line-numbers``
      - Show line numbers in syntax-highlighted code blocks.
    * - ``-html``, ``--save-html``
@@ -79,8 +80,8 @@ Options
      - Guess the syntax-highlighting language for code blocks that do not
        specify one.
    * - ``-dl``, ``--default-lexer``
-     - Fallback language for code blocks when none is detected
-       (default: ``python``).
+     - Fallback language for code blocks when none is detected (default:
+       ``python``).
    * - ``-se``, ``--show-errors``
      - Show RST parse errors and warnings.
    * - ``--html-theme``

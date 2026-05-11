@@ -4,7 +4,8 @@ rich-rst
 **rich-rst** is a `reStructuredText`_ renderer for the `Rich`_ library.
 It lets you render RST documents beautifully in the terminal, with full
 support for headings, code blocks, tables, admonitions, footnotes, and
-`79 other RST elements <https://github.com/wasi-master/rich-rst/blob/main/ELEMENTS.md>`_.
+all rst elements. A kitchen sink style rendering reference can be 
+viewed in :doc:`Sphinx & RST Demo Gallery <demo>`
 
 Installation
 ------------
@@ -75,12 +76,6 @@ and pull requests are welcome on the `issue tracker`_.
    include_directive
    limitations
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 
 .. _reStructuredText: https://docutils.sourceforge.io/rst.html
