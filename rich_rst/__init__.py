@@ -791,7 +791,7 @@ class _FlatTableBuilder:
                         row.append((missing - 1, 0, []))
                 else:
                     for _ in range(missing):
-                        row.append((0, 0, docutils.nodes.comment()))
+                        row.append((0, 0, [docutils.nodes.comment()]))
             self.rows.append(row)
 
     def _parse_row_item(self, row_item: docutils.nodes.list_item, row_num: int) -> List[Any]:
