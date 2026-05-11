@@ -2238,7 +2238,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             parsed_type = ""
         normalized_name = name_part.strip()
         # Some malformed/empty signatures can yield no usable attribute name.
-        # Use a stable placeholder instead of emitting an empty table cell.
+        # Use a stable placeholder instead of emitting an empty attribute label.
         # Signatures may be qualified (``Class.attr``); render the leaf attribute name.
         leaf_name = normalized_name.rsplit(".", 1)[-1] if normalized_name else ""
         parsed_name = leaf_name or DEFAULT_ATTRIBUTE_NAME
