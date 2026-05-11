@@ -629,6 +629,98 @@ def test_flat_table_title_centering_matches_table_width(render_text):
     )
 
 
+def test_flat_table_combined_cspan_rspan_fill_cells(render_text):
+    """fill-cells + combined :cspan:/:rspan: must render correctly with no spurious borders.
+
+    The :cspan:`1` :rspan:`1` cell in a 4-column table leaves col 3 empty in
+    both body rows.  With fill-cells enabled, those trailing slots are filled
+    with filler entries — exercising the issue-3 fix (third tuple element must
+    be a list of nodes, not a bare node) alongside the combined-span pipeline.
+
+    Grid layout (4 columns, header-rows=1):
+        Row 0 (header):  A     | B          | C    | D
+        Row 1 (body):    Big (cspan=1,rspan=1) | C1   | <fill>
+        Row 2 (body):    <rspan placeholder 0–1> | C2  | <fill>
+
+    The two fill slots are the regression target for issue 3.
+    The combined 2×2 block (Big) is the regression target for issue 4.
+    """
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n"
+        "   :fill-cells:\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n"
+        "     - D\n\n"
+        "   * - :cspan:`1` :rspan:`1` Big\n"
+        "     - C1\n\n"
+        "   * - C2\n"
+    )
+    out = render_text(rst)
+
+    assert "Big" in out, "Combined-span cell content must appear"
+    assert "C1" in out, "Sibling cell C1 must appear"
+    assert "C2" in out, "Continuation cell C2 must appear"
+
+    lines = out.splitlines()
+
+    # Big row: Big spans cols 0-1 (no internal │), C1 at col 2, fill at col 3.
+    # Bars: outer-left | after-Big | after-C1 | outer-right = 4
+    big_line = next((l for l in lines if "Big" in l), None)
+    assert big_line is not None, "Row containing 'Big' must be present"
+    assert big_line.count("│") == 4, (
+        f"Big row (cspan=1 over cols 0-1, C1, fill): expected 4 │ borders, "
+        f"got {big_line.count('│')} in {big_line!r}"
+    )
+
+    # C2 row: cols 0-1 are rspan placeholders (no internal │ between them),
+    # C2 at col 2, fill at col 3. Same bar count.
+    c2_line = next((l for l in lines if "C2" in l), None)
+    assert c2_line is not None, "Row containing C2 must be present"
+    assert c2_line.count("│") == 4, (
+        f"C2 row (rspan placeholder cols 0-1, C2, fill): expected 4 │ borders, "
+        f"got {c2_line.count('│')} in {c2_line!r}"
+    )
+
+
+def test_flat_table_combined_cspan_rspan_placeholder_cols_empty(render_text):
+    """Both placeholder columns of a 2×2 combined span must be blank with no internal border.
+
+    In the continuation row (C2 row), cols 0 and 1 are covered by the Big cell's
+    rspan.  _origin's two-step diagonal search must resolve (r2,c1) back to Big at
+    (r1,c0) so that _has_vborder(r2,0) returns False — suppressing the internal │
+    between the two placeholder columns.
+
+    This tests the contract directly: the region from the outer-left │ to the first
+    interior │ in the C2 row must be all whitespace.
+    """
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n\n"
+        "   * - :cspan:`1` :rspan:`1` Big\n"
+        "     - C1\n\n"
+        "   * - C2\n"
+    )
+    out = render_text(rst)
+    lines = out.splitlines()
+
+    c2_line = next((l for l in lines if "C2" in l and "Big" not in l), None)
+    assert c2_line is not None, "Continuation row containing C2 must be present"
+
+    # The region between the outer-left │ and the first inner │ spans both
+    # placeholder columns.  It must be entirely blank — no text, no │ inside.
+    first_inner = c2_line.index("│", 1)
+    placeholder_region = c2_line[1:first_inner]
+    assert placeholder_region.strip() == "", (
+        f"Placeholder region (cols 0–1 covered by Big rspan) must be blank, "
+        f"got {placeholder_region!r} in {c2_line!r}"
+    )
+
+
 def test_flat_table_cspan_no_unnecessary_column_widening(render_text):
     """Spanning-cell content that fits within the correct merged budget must not widen columns.
 
