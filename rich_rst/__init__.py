@@ -51,7 +51,7 @@ import importlib.metadata
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "RSTVisitor")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
-MISSING_ATTRIBUTE_NAME = "<attribute>"
+DEFAULT_ATTRIBUTE_NAME = "<attribute>"
 
 
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
@@ -2240,7 +2240,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         # Some malformed/empty signatures can yield no usable attribute name.
         # Use a stable placeholder instead of emitting an empty table cell.
         # Signatures may be qualified (``Class.attr``); render the leaf attribute name.
-        parsed_name = normalized_name.split(".")[-1] if normalized_name else MISSING_ATTRIBUTE_NAME
+        parsed_name = normalized_name.split(".")[-1] if normalized_name else DEFAULT_ATTRIBUTE_NAME
         return parsed_name, parsed_type
 
     def _collect_typed_class_attributes(self, class_node: docutils.nodes.Node) -> Tuple[List[Tuple[str, str, str]], List[docutils.nodes.Node]]:
@@ -2285,8 +2285,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             attr_text = Text(attr_name, style=name_style)
             attr_text.append(": ")
             attr_text.append(attr_type, style=type_style)
-            renderables.append(Text("  "))
-            renderables[-1].append_text(attr_text)
+            line = Text("  ")
+            line.append_text(attr_text)
+            renderables.append(line)
             if attr_description:
                 renderables.append(Text(f"    {attr_description}", style=value_style))
         renderables.append(NewLine())
