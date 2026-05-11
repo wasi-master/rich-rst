@@ -1046,7 +1046,10 @@ def _register_sphinx_directives() -> None:
             'py:function', 'py:class', 'py:method', 'py:attribute', 'py:data',
             'py:exception', 'py:module', 'py:property', 'py:decorator',
             'py:classmethod', 'py:staticmethod', 'py:variable', 'py:type',
-            'py:typevar', 'py:typealias',
+            'py:typevar', 'py:typealias', 'py:envvar', 'py:option',
+            'py:coroutinefunction', 'py:coroutinefunction:',
+            'py:coroutinemethod', 'py:decoratorfunction', 'py:abstractmethod',
+            'py:opcode', 'py:describe',
             # C domain
             'c:function', 'c:type', 'c:struct', 'c:union', 'c:enum',
             'c:enumerator', 'c:member', 'c:var', 'c:macro',
@@ -2065,19 +2068,162 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         return [Text("Details", style=section_style), table, NewLine()]
 
+    def _py_desc_panel_style(self, objtype: str) -> Style:
+        """Return panel style based on Python object type."""
+        normalized = (objtype or "object").lower()
+        style_name = f"restructuredtext.py_desc.{normalized}"
+        if normalized in {"class", "exception"}:
+            default_style = "bold green"
+        elif normalized in {"method", "classmethod", "staticmethod", "coroutinemethod", "abstractmethod"}:
+            default_style = "bold cyan"
+        elif normalized in {"function", "decorator", "decoratorfunction", "coroutinefunction"}:
+            default_style = "bold magenta"
+        elif normalized in {"attribute", "property", "data", "variable", "envvar", "option"}:
+            default_style = "bold yellow"
+        elif normalized in {"module", "type", "typevar", "typealias", "opcode", "describe"}:
+            default_style = "bold blue"
+        else:
+            default_style = "bold white"
+        return self.console.get_style(style_name, default=default_style)
+
+    def _highlight_py_signature(self, objtype: str, signature: str) -> Text:
+        """Apply custom syntax highlighting to Python-domain signatures."""
+        rendered = Text(signature)
+        if not signature:
+            return rendered
+
+        self_cls_style = self.console.get_style("restructuredtext.py_desc.signature.self_cls", default="bright_magenta")
+        arrow_style = self.console.get_style("restructuredtext.py_desc.signature.arrow", default="bold yellow")
+        type_style = self.console.get_style("restructuredtext.py_desc.signature.type", default="cyan")
+        name_style = self.console.get_style("restructuredtext.py_desc.signature.name", default="bold")
+        bool_style = self.console.get_style("restructuredtext.py_desc.signature.bool", default="magenta")
+        int_style = self.console.get_style("restructuredtext.py_desc.signature.int", default="green")
+
+        if objtype in {
+            "function", "method", "classmethod", "staticmethod",
+            "decorator", "decoratorfunction", "coroutinefunction",
+            "coroutinemethod", "abstractmethod",
+        }:
+            name_matches = list(re.finditer(r"([A-Za-z_][A-Za-z0-9_]*)\s*(?=\()", signature))
+            if name_matches:
+                name_match = name_matches[-1]
+                rendered.stylize(name_style, name_match.start(1), name_match.end(1))
+
+        for match in re.finditer(r"\b(self|cls)\b", signature):
+            rendered.stylize(self_cls_style, match.start(1), match.end(1))
+
+        for match in re.finditer(r"->", signature):
+            rendered.stylize(arrow_style, match.start(), match.end())
+
+        for match in re.finditer(r"->\s*([^,)]+)", signature):
+            type_start = match.start(1)
+            type_end = match.end(1)
+            while type_start < type_end and signature[type_start].isspace():
+                type_start += 1
+            while type_end > type_start and signature[type_end - 1].isspace():
+                type_end -= 1
+            if type_end > type_start:
+                rendered.stylize(type_style, type_start, type_end)
+
+        for match in re.finditer(r":\s*([^,)=]+)", signature):
+            type_start = match.start(1)
+            type_end = match.end(1)
+            while type_start < type_end and signature[type_start].isspace():
+                type_start += 1
+            while type_end > type_start and signature[type_end - 1].isspace():
+                type_end -= 1
+            if type_end > type_start:
+                rendered.stylize(type_style, type_start, type_end)
+
+        for match in re.finditer(r"\b(?:True|False)\b", signature):
+            rendered.stylize(bool_style, match.start(), match.end())
+
+        for match in re.finditer(r"\b\d+\b", signature):
+            rendered.stylize(int_style, match.start(), match.end())
+
+        return rendered
+
+    def _render_py_desc_title(self, objtype: str, signature: str) -> Text:
+        """Render a styled panel title for Python-domain objects."""
+        prefix_style = self.console.get_style("restructuredtext.py_desc.title_prefix", default="bold")
+        title = Text(f"[{objtype}] ", style=prefix_style)
+        title.append_text(self._highlight_py_signature(objtype=objtype, signature=signature))
+        return title
+
+    @staticmethod
+    def _split_py_attribute_signature(signature: str) -> Tuple[str, str]:
+        """Split ``name[: type]`` style signatures into name/type parts."""
+        cleaned = signature.strip()
+        if ":" in cleaned:
+            name_part, _, type_part = cleaned.partition(":")
+            parsed_type = type_part.strip()
+        else:
+            name_part = cleaned
+            parsed_type = ""
+        parsed_name = name_part.strip().split(".")[-1] if name_part.strip() else "<attribute>"
+        return parsed_name, parsed_type
+
+    def _collect_typed_class_attributes(self, class_node: docutils.nodes.Node) -> Tuple[List[Tuple[str, str, str]], List[docutils.nodes.Node]]:
+        """Collect typed ``py:attribute`` style children under a class description."""
+        attributes: List[Tuple[str, str, str]] = []
+        remaining_children: List[docutils.nodes.Node] = []
+        attribute_types = {"attribute", "property", "data", "variable"}
+
+        for child in class_node.children:
+            if isinstance(child, py_desc) and child.get("objtype", "").lower() in attribute_types:
+                child_options = child.get("options", {}) or {}
+                attr_name, sig_type = self._split_py_attribute_signature(child.get("sig", ""))
+                attr_type = str(child_options.get("type", "") or sig_type).strip()
+                if attr_type:
+                    description_parts = []
+                    for grandchild in child.children:
+                        if isinstance(grandchild, docutils.nodes.field_list):
+                            continue
+                        piece = grandchild.astext().replace("\n", " ").strip()
+                        if piece:
+                            description_parts.append(piece)
+                    attributes.append((attr_name, attr_type, " ".join(description_parts).strip() or "-"))
+                    continue
+            remaining_children.append(child)
+
+        return attributes, remaining_children
+
+    def _render_py_class_attribute_table(self, rows: List[Tuple[str, str, str]]) -> List[Any]:
+        """Render typed class attributes as a compact table."""
+        section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
+        name_style = self.console.get_style("restructuredtext.py_desc.param_name", default="bold")
+        type_style = self.console.get_style("restructuredtext.py_desc.param_type", default="cyan")
+        value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
+
+        table = Table("Attribute: Type", "Description", show_lines=True)
+        for attr_name, attr_type, attr_description in rows:
+            attr_text = Text(attr_name, style=name_style)
+            attr_text.append(": ")
+            attr_text.append(attr_type, style=type_style)
+            table.add_row(attr_text, Text(attr_description, style=value_style))
+        return [Text("Attributes", style=section_style), table, NewLine()]
+
     def visit_py_desc(self, node) -> None:
         objtype = node.get('objtype', 'object')
         sig = node.get('sig', '')
-        style = self.console.get_style("restructuredtext.py_desc", default="bold blue")
+        style = self._py_desc_panel_style(objtype)
+        title = self._render_py_desc_title(objtype=objtype, signature=sig)
         body = []
+        body_children = list(node.children)
+
+        if objtype in {"class", "exception"}:
+            typed_attributes, body_children = self._collect_typed_class_attributes(node)
+            if typed_attributes:
+                body.extend(self._render_py_class_attribute_table(typed_attributes))
+
         body.extend(self._render_py_desc_options(node))
-        for child in node.children:
+        for child in body_children:
             if isinstance(child, docutils.nodes.field_list):
                 body.extend(self._render_py_field_list(child))
             else:
                 body.extend(self._render_admonition_body([child]))
         self.renderables.append(
-            Panel(Group(*body) if body else "", title=f"[{objtype}] {sig}",
+            Panel(Group(*body) if body else "", title=title,
                   style=style, border_style=style)
         )
         raise docutils.nodes.SkipChildren()
