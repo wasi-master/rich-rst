@@ -2810,23 +2810,33 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     if cc + csp >= c:
                         return (r, cc)
                     break
-            # Scan up — rspan placeholder
+            # Scan up — rspan placeholder in same column
             for rr in range(r - 1, -1, -1):
                 if grid[rr][c] is not None:
-                    _, csp, rsp = grid[rr][c]
+                    _, _, rsp = grid[rr][c]
                     if rr + rsp >= r:
                         return (rr, c)
                     break
+            # Two-step: combined cspan+rspan placeholder — for each row above,
+            # scan left to find a real cell that covers (r, c) in both dimensions.
+            for rr in range(r - 1, -1, -1):
+                for cc in range(c - 1, -1, -1):
+                    cell = grid[rr][cc]
+                    if cell is not None:
+                        _, csp, rsp = cell
+                        if cc + csp >= c and rr + rsp >= r:
+                            return (rr, cc)
+                        break  # first real cell in this row is definitive
             return None
 
         def _rspan_continues(row_above: int, c: int) -> bool:
             """True if an rspan cell above is still active at the row boundary."""
-            for rr in range(row_above, -1, -1):
-                cell = grid[rr][c]
-                if cell is not None:
-                    _, _, rsp = cell
-                    return rr + rsp > row_above
-            return False
+            orig = _origin(row_above, c)
+            if orig is None:
+                return False
+            or_r, or_c = orig
+            _, _, rsp = grid[or_r][or_c]
+            return or_r + rsp > row_above
 
         def _cspan_continues(r: int, c: int) -> bool:
             """True if column c is a cspan continuation of the cell to its left in row r."""
@@ -2941,7 +2951,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 else:
                     # rspan placeholder — empty cell
                     s += " " * (col_widths[c] + 2)
-                    if c < ncols - 1 and not _cspan_continues(r, c + 1):
+                    if c < ncols - 1 and _has_vborder(r, c):
                         s += V
                     c += 1
             s += V
