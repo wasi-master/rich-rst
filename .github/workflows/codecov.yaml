@@ -19,6 +19,9 @@ jobs:
       - name: Install dependencies
         run: pip install pytest pytest-cov
 
+      - name: Install package
+        run: pip install .
+
       - name: Run tests
         run: python3 -m pytest --cov --cov-branch --cov-report=xml
 
