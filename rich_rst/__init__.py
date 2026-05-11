@@ -1046,7 +1046,10 @@ def _register_sphinx_directives() -> None:
             'py:function', 'py:class', 'py:method', 'py:attribute', 'py:data',
             'py:exception', 'py:module', 'py:property', 'py:decorator',
             'py:classmethod', 'py:staticmethod', 'py:variable', 'py:type',
-            'py:typevar', 'py:typealias',
+            'py:typevar', 'py:typealias', 'py:envvar', 'py:option',
+            'py:coroutinefunction',
+            'py:coroutinemethod', 'py:decoratorfunction', 'py:abstractmethod',
+            'py:opcode', 'py:describe',
             # C domain
             'c:function', 'c:type', 'c:struct', 'c:union', 'c:enum',
             'c:enumerator', 'c:member', 'c:var', 'c:macro',
@@ -1982,15 +1985,16 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         if param_order:
             renderables.append(Text("Parameters", style=section_style))
-            param_table = Table("Name", "Type", "Description", show_lines=True)
             for param_name in param_order:
                 entry = params[param_name]
-                param_table.add_row(
-                    Text(param_name, style=param_name_style),
-                    Text(entry["type"] or "-", style=param_type_style),
-                    Text(entry["desc"]),
-                )
-            renderables.append(param_table)
+                line = Text("  ")
+                line.append(param_name, style=param_name_style)
+                if entry["type"]:
+                    line.append(": ")
+                    line.append(entry["type"], style=param_type_style)
+                renderables.append(line)
+                if entry["desc"]:
+                    renderables.append(Text(f"    {entry['desc']}"))
             renderables.append(NewLine())
 
         if returns_desc or returns_type:
@@ -1999,29 +2003,37 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 returns_text = f"{returns_type}: {returns_desc}"
             else:
                 returns_text = returns_type or returns_desc
-            renderables.append(Text(returns_text, style=return_style))
+            renderables.append(Text(f"  {returns_text}", style=return_style))
             renderables.append(NewLine())
 
         if raises_items:
             renderables.append(Text("Raises", style=section_style))
-            raises_table = Table("Exception", "Description", show_lines=True)
             for exc_name, exc_desc in raises_items:
-                raises_table.add_row(Text(exc_name, style=param_name_style), Text(exc_desc))
-            renderables.append(raises_table)
+                line = Text("  ")
+                line.append(exc_name, style=param_name_style)
+                if exc_desc:
+                    line.append(": ")
+                    line.append(exc_desc)
+                renderables.append(line)
             renderables.append(NewLine())
 
         if unknown_items:
             renderables.append(Text("Other", style=section_style))
-            other_table = Table("Field", "Value", show_lines=True)
             for key, value in unknown_items:
-                other_table.add_row(Text(key, style=param_name_style), Text(value))
-            renderables.append(other_table)
+                line = Text("  ")
+                line.append(key, style=param_name_style)
+                if value:
+                    line.append(": ")
+                    line.append(value)
+                renderables.append(line)
+            renderables.append(NewLine())
 
         return renderables
 
     def _render_py_desc_options(self, node: docutils.nodes.Node) -> List[Any]:
         """Render ``py:*`` directive options as structured metadata."""
         options = node.get('options', {}) or {}
+        objtype = str(node.get("objtype", "") or "").strip().lower()
         if not options:
             return []
 
@@ -2059,25 +2071,251 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         meta_name_style = self.console.get_style("restructuredtext.py_desc.meta_name", default="bold")
         meta_value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
 
+        if objtype == "data":
+            renderables: List[Any] = [Text("Details", style=section_style)]
+            for property_name, property_value in rows:
+                line = Text("  ")
+                line.append(property_name, style=meta_name_style)
+                line.append(": ")
+                line.append(property_value, style=meta_value_style)
+                renderables.append(line)
+            renderables.append(NewLine())
+            return renderables
+
         table = Table("Property", "Value", show_lines=True)
         for property_name, property_value in rows:
             table.add_row(Text(property_name, style=meta_name_style), Text(property_value, style=meta_value_style))
 
         return [Text("Details", style=section_style), table, NewLine()]
 
+    def _py_desc_panel_style(self, objtype: str) -> Style:
+        """Return panel style based on Python object type."""
+        normalized = (objtype or "").lower().strip()
+        if not normalized:
+            normalized = "object"
+        style_name = f"restructuredtext.py_desc.{normalized}"
+        if normalized in {"class", "exception"}:
+            default_style = "bold green"
+        elif normalized in {"method", "classmethod", "staticmethod", "coroutinemethod", "abstractmethod"}:
+            default_style = "bold cyan"
+        elif normalized in {"function", "decorator", "decoratorfunction", "coroutinefunction"}:
+            default_style = "bold magenta"
+        elif normalized in {"attribute", "property", "data", "variable", "envvar", "option"}:
+            default_style = "bold yellow"
+        elif normalized in {"module", "type", "typevar", "typealias", "opcode", "describe"}:
+            default_style = "bold blue"
+        else:
+            default_style = "bold white"
+        return self.console.get_style(style_name, default=default_style)
+
+    def _highlight_py_signature(self, objtype: str, signature: str) -> Text:
+        """Apply custom syntax highlighting to Python-domain signatures."""
+        rendered = Text(signature)
+        if not signature:
+            return rendered
+
+        self_and_cls_style = self.console.get_style("restructuredtext.py_desc.signature.self_and_cls", default="bright_magenta")
+        arrow_style = self.console.get_style("restructuredtext.py_desc.signature.arrow", default="bold yellow")
+        type_style = self.console.get_style("restructuredtext.py_desc.signature.type", default="cyan")
+        name_style = self.console.get_style("restructuredtext.py_desc.signature.name", default="bold")
+        bool_style = self.console.get_style("restructuredtext.py_desc.signature.bool", default="magenta")
+        int_style = self.console.get_style("restructuredtext.py_desc.signature.int", default="green")
+
+        if objtype in {
+            "function", "method", "classmethod", "staticmethod",
+            "decorator", "decoratorfunction", "coroutinefunction",
+            "coroutinemethod", "abstractmethod",
+        }:
+            name_match = None
+            # Signatures may include dotted names (e.g. ``Class.method(...)``);
+            # the last match before ``(`` is the callable's display name.
+            for match in re.finditer(r"([A-Za-z_][A-Za-z0-9_]*)\s*(?=\()", signature):
+                name_match = match
+            if name_match is not None:
+                rendered.stylize(name_style, name_match.start(1), name_match.end(1))
+
+        for match in re.finditer(r"\b(self|cls)\b", signature):
+            rendered.stylize(self_and_cls_style, match.start(1), match.end(1))
+
+        for match in re.finditer(r"->", signature):
+            rendered.stylize(arrow_style, match.start(), match.end())
+
+        # Highlight return types, but be bracket-aware so generics like
+        # ``-> dict[str, int]`` aren't cut off at internal commas.
+        for arrow_match in re.finditer(r"->", signature):
+            # start scanning after the arrow, skipping whitespace
+            i = arrow_match.end()
+            signature_length = len(signature)
+            while i < signature_length and signature[i].isspace():
+                i += 1
+            # scan until we hit a delimiter at bracket depth 0
+            depth = 0
+            j = i
+            while j < signature_length:
+                ch = signature[j]
+                if ch in "([{":
+                    depth += 1
+                elif ch in ")]}":
+                    if depth > 0:
+                        depth -= 1
+                    else:
+                        # unmatched closing - treat as delimiter
+                        break
+                # stop at comma, closing paren or equals only if not inside brackets
+                if depth == 0 and ch in ",)=":
+                    break
+                j += 1
+            # trim whitespace from ends
+            type_start = i
+            type_end = j
+            while type_start < type_end and signature[type_start].isspace():
+                type_start += 1
+            while type_end > type_start and signature[type_end - 1].isspace():
+                type_end -= 1
+            if type_end > type_start:
+                rendered.stylize(type_style, type_start, type_end)
+
+        # Highlight parameter annotation types, bracket-aware so
+        # ``param: dict[str, int]`` doesn't stop at the inner comma.
+        for colon_match in re.finditer(r":\s*", signature):
+            # start scanning at first non-space after ':'
+            i = colon_match.end()
+            signature_length = len(signature)
+            while i < signature_length and signature[i].isspace():
+                i += 1
+            # if next char is ')' or ',' or end, nothing to do
+            if i >= signature_length or signature[i] in ",)":
+                continue
+            depth = 0
+            j = i
+            while j < signature_length:
+                ch = signature[j]
+                if ch in "([{":
+                    depth += 1
+                elif ch in ")]}":
+                    if depth > 0:
+                        depth -= 1
+                    else:
+                        break
+                # stop at comma, closing paren or equals only if not inside brackets
+                if depth == 0 and ch in ",)=":
+                    break
+                j += 1
+            type_start = i
+            type_end = j
+            while type_start < type_end and signature[type_start].isspace():
+                type_start += 1
+            while type_end > type_start and signature[type_end - 1].isspace():
+                type_end -= 1
+            if type_end > type_start:
+                rendered.stylize(type_style, type_start, type_end)
+
+        for match in re.finditer(r"\b(?:True|False)\b", signature):
+            rendered.stylize(bool_style, match.start(), match.end())
+
+        for match in re.finditer(r"\b\d+\b", signature):
+            rendered.stylize(int_style, match.start(), match.end())
+
+        return rendered
+
+    def _render_py_desc_title(self, objtype: str, signature: str) -> Text:
+        """Render a styled panel title for Python-domain objects."""
+        prefix_style = self.console.get_style("restructuredtext.py_desc.title_prefix", default="bold")
+        title = Text(f"[{objtype}] ", style=prefix_style)
+        title.append_text(self._highlight_py_signature(objtype=objtype, signature=signature))
+        return title
+
+    @staticmethod
+    def _split_py_attribute_signature(signature: str) -> Tuple[str, str]:
+        """Split ``name[: type]`` style signatures into name/type parts."""
+        cleaned = signature.strip()
+        if ":" in cleaned:
+            name_part, _, type_part = cleaned.partition(":")
+            parsed_type = type_part.strip()
+        else:
+            name_part = cleaned
+            parsed_type = ""
+        normalized_name = name_part.strip()
+        # Some malformed/empty signatures can yield no usable attribute name.
+        # Use a stable placeholder instead of emitting an empty attribute label.
+        # Signatures may be qualified (``Class.attr``); render the leaf attribute name.
+        leaf_name = normalized_name.rsplit(".", 1)[-1] if normalized_name else ""
+        parsed_name = leaf_name or "<attribute>"
+        return parsed_name, parsed_type
+
+    def _collect_typed_class_attributes(self, class_node: docutils.nodes.Node) -> Tuple[List[Tuple[str, str, str]], List[docutils.nodes.Node]]:
+        """Collect typed ``py:attribute`` style children under a class description."""
+        attributes: List[Tuple[str, str, str]] = []
+        remaining_children: List[docutils.nodes.Node] = []
+        attribute_types = {"attribute", "property", "data", "variable"}
+
+        for child in class_node.children:
+            if isinstance(child, py_desc) and child.get("objtype", "").lower() in attribute_types:
+                child_options = child.get("options", {}) or {}
+                attr_name, sig_type = self._split_py_attribute_signature(child.get("sig", ""))
+                raw_type = child_options.get("type")
+                if raw_type in (None, ""):
+                    raw_type = sig_type
+                attr_type = str(raw_type).strip() if raw_type is not None else ""
+                if attr_type:
+                    description_parts = []
+                    for grandchild in child.children:
+                        # Field lists are rendered separately by _render_py_field_list
+                        # and should not be duplicated in attribute descriptions.
+                        if isinstance(grandchild, docutils.nodes.field_list):
+                            continue
+                        piece = grandchild.astext().replace("\n", " ").strip()
+                        if piece:
+                            description_parts.append(piece)
+                    attributes.append((attr_name, attr_type, " ".join(description_parts).strip()))
+                    continue
+            remaining_children.append(child)
+
+        return attributes, remaining_children
+
+    def _render_py_class_attribute_table(self, rows: List[Tuple[str, str, str]]) -> List[Any]:
+        """Render typed class attributes as an indented list."""
+        section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
+        name_style = self.console.get_style("restructuredtext.py_desc.param_name", default="bold")
+        type_style = self.console.get_style("restructuredtext.py_desc.param_type", default="cyan")
+        value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
+
+        renderables: List[Any] = [Text("Attributes", style=section_style)]
+        for attr_name, attr_type, attr_description in rows:
+            attr_text = Text(attr_name, style=name_style)
+            attr_text.append(": ")
+            attr_text.append(attr_type, style=type_style)
+            line = Text("  ")
+            line.append_text(attr_text)
+            renderables.append(line)
+            if attr_description:
+                renderables.append(Text(f"    {attr_description}", style=value_style))
+        renderables.append(NewLine())
+        return renderables
+
     def visit_py_desc(self, node) -> None:
         objtype = node.get('objtype', 'object')
         sig = node.get('sig', '')
-        style = self.console.get_style("restructuredtext.py_desc", default="bold blue")
+        style = self._py_desc_panel_style(objtype)
+        title = self._render_py_desc_title(objtype=objtype, signature=sig)
         body = []
+        body_children: List[docutils.nodes.Node]
+
+        if objtype in {"class", "exception"}:
+            typed_attributes, body_children = self._collect_typed_class_attributes(node)
+            if typed_attributes:
+                body.extend(self._render_py_class_attribute_table(typed_attributes))
+        else:
+            body_children = list(node.children)
+
         body.extend(self._render_py_desc_options(node))
-        for child in node.children:
+        for child in body_children:
             if isinstance(child, docutils.nodes.field_list):
                 body.extend(self._render_py_field_list(child))
             else:
                 body.extend(self._render_admonition_body([child]))
         self.renderables.append(
-            Panel(Group(*body) if body else "", title=f"[{objtype}] {sig}",
+            Panel(Group(*body) if body else "", title=title,
                   style=style, border_style=style)
         )
         raise docutils.nodes.SkipChildren()

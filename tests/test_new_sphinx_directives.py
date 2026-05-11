@@ -2,6 +2,9 @@
 import pytest
 from rich.panel import Panel
 from rich.align import Align
+from rich.console import Group
+from rich.text import Text
+from rich.table import Table
 
 from rich_rst import _register_sphinx_directives, _register_sphinx_roles
 
@@ -493,7 +496,10 @@ def test_py_function_field_list_renders_api_sections(render_text):
     )
     out = _render(render_text, rst)
     assert "Parameters" in out
-    assert "Name" in out and "Type" in out and "Description" in out
+    assert "Name" not in out
+    assert "Type" not in out
+    assert "Description" not in out
+    assert "name: str" in out
     assert "name" in out and "The name to greet." in out
     assert "Returns" in out and "str: A greeting string." in out
     assert "Field Name" not in out and "Field Value" not in out
@@ -510,9 +516,21 @@ def test_py_method_field_list_uses_same_format(render_text):
     )
     out = _render(render_text, rst)
     assert "Parameters" in out
+    assert "name: str" in out
     assert "Returns" in out
     assert "name" in out and "Person name." in out
     assert "str: Greeting text." in out
+
+
+def test_py_field_list_sections_do_not_render_as_tables(make_visitor):
+    rst = (
+        ".. py:function:: parse(text)\n\n"
+        "   :param text: Input text.\n"
+        "   :type text: str\n"
+        "   :raises ValueError: On invalid input.\n"
+    )
+    visitor = make_visitor(rst)
+    assert not any(isinstance(renderable, Table) for renderable in visitor.renderables)
 
 
 def test_py_data_value_option_is_visible(render_text):
@@ -526,6 +544,17 @@ def test_py_data_value_option_is_visible(render_text):
     assert "Value" in out
     assert "3" in out
     assert "Maximum number of retry attempts." in out
+
+
+def test_py_data_details_do_not_render_as_table(make_visitor):
+    rst = (
+        ".. py:data:: MAX_RETRIES\n"
+        "   :value: 3\n\n"
+        "   Maximum number of retry attempts.\n"
+    )
+    panel = _first_panel(make_visitor, rst)
+    assert isinstance(panel.renderable, Group)
+    assert not any(isinstance(r, Table) for r in panel.renderable.renderables)
 
 
 def test_py_attribute_type_option_is_visible(render_text):
@@ -555,6 +584,73 @@ def test_py_function_additional_options_are_visible(render_text):
     assert "Annotation" in out and "static" in out
     assert "Canonical" in out and "pkg.core.compute" in out
     assert "Flags" in out and "deprecated" in out
+
+
+@pytest.mark.parametrize(
+    "directive, signature",
+    [
+        ("py:envvar", "DATABASE_URL"),
+        ("py:option", "--verbose"),
+        ("py:coroutinefunction", "fetch_data(self, timeout: int = 3) -> bool"),
+        ("py:coroutinemethod", "Client.fetch(self, timeout: int = 3) -> bool"),
+        ("py:decoratorfunction", "cached(func)"),
+        ("py:abstractmethod", "Base.run(self, retries: int = 3) -> bool"),
+        ("py:opcode", "LOAD_FAST index"),
+        ("py:describe", "my_symbol"),
+    ],
+)
+def test_additional_py_domain_directives_produce_panels(make_visitor, directive, signature):
+    rst = f".. {directive}:: {signature}\n\n   Description.\n"
+    panels = _panels(make_visitor, rst)
+    assert panels, f"{directive} should produce a Panel"
+
+
+def _span_covers_token(title: Text, token: str, predicate):
+    """Return True when a span covering ``token`` satisfies ``predicate``."""
+    try:
+        start = title.plain.index(token)
+    except ValueError:
+        return False
+    end = start + len(token)
+    return any(span.start <= start and span.end >= end and predicate(span.style) for span in title.spans)
+
+
+def test_py_function_signature_title_highlighting_rules(make_visitor):
+    rst = ".. py:function:: compute(self, value: int = 3, active: bool = True) -> bool\n"
+    panel = _first_panel(make_visitor, rst)
+    assert isinstance(panel.title, Text)
+    title = panel.title
+
+    assert _span_covers_token(title, "compute", lambda style: style.bold)
+    assert _span_covers_token(title, "self", lambda style: style.color is not None)
+    assert _span_covers_token(title, "->", lambda style: style.bold or style.color is not None)
+    assert _span_covers_token(title, "int", lambda style: style.color is not None)
+    assert _span_covers_token(title, "bool", lambda style: style.color is not None)
+    assert _span_covers_token(title, "True", lambda style: style.color is not None)
+    assert _span_covers_token(title, "3", lambda style: style.color is not None)
+
+
+def test_py_desc_panel_colors_vary_by_object_type(make_visitor):
+    function_panel = _first_panel(make_visitor, ".. py:function:: compute(x)\n")
+    class_panel = _first_panel(make_visitor, ".. py:class:: MyClass\n")
+    method_panel = _first_panel(make_visitor, ".. py:method:: MyClass.run(self)\n")
+
+    assert str(function_panel.border_style) != str(class_panel.border_style)
+    assert str(function_panel.border_style) != str(method_panel.border_style)
+    assert str(class_panel.border_style) != str(method_panel.border_style)
+
+
+def test_class_typed_attributes_render_in_attributes_section(render_text):
+    rst = (
+        ".. py:class:: Counter\n\n"
+        "   .. py:attribute:: Counter.value\n"
+        "      :type: int\n\n"
+        "      Current counter value.\n"
+    )
+    out = _render(render_text, rst)
+    assert "Attributes" in out
+    assert "value: int" in out
+    assert "Current counter value." in out
 
 
 # ── C domain directives ───────────────────────────────────────────────────────
