@@ -60,4 +60,11 @@ docs = [
 where = ["."]
 include = ["rich_rst*"]
 
-
+[tool.coverage.run]
+omit = [
+    "rich_rst/_vendor/*",
+]
+[tool.coverage.report]
+omit = [
+    "rich_rst/_vendor/*",
+]
