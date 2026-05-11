@@ -1,7 +1,7 @@
 
 <p align="center">
   <a href="https://github.com/wasi-master/rich-rst">
-    <img src="https://raw.githubusercontent.com/wasi-master/rich-rst/main/images/logo.png" alt="Logo" width="200" height="200">
+    <img src="https://raw.githubusercontent.com/wasi-master/rich-rst/main/logo.png" alt="Logo" width="200" height="200">
   </a>
 
   <h1 align="center">rich-rst</h2>
