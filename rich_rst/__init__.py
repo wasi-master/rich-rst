@@ -51,7 +51,7 @@ import importlib.metadata
 __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "RSTVisitor")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
-DEFAULT_PY_ATTRIBUTE_NAME = "<attribute>"
+EMPTY_ATTRIBUTE_NAME = "<attribute>"
 
 
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
@@ -2106,6 +2106,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             "coroutinemethod", "abstractmethod",
         }:
             name_match = None
+            # Signatures may include dotted names (e.g. ``Class.method(...)``);
+            # the last match before ``(`` is the callable's display name.
             for match in re.finditer(r"([A-Za-z_][A-Za-z0-9_]*)\s*(?=\()", signature):
                 name_match = match
             if name_match is not None:
@@ -2163,7 +2165,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             name_part = cleaned
             parsed_type = ""
         normalized_name = name_part.strip()
-        parsed_name = normalized_name.split(".")[-1] if normalized_name else DEFAULT_PY_ATTRIBUTE_NAME
+        parsed_name = normalized_name.split(".")[-1] if normalized_name else EMPTY_ATTRIBUTE_NAME
         return parsed_name, parsed_type
 
     def _collect_typed_class_attributes(self, class_node: docutils.nodes.Node) -> Tuple[List[Tuple[str, str, str]], List[docutils.nodes.Node]]:
