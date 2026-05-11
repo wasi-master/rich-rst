@@ -1,9 +1,19 @@
-# rich-rst
+<br/>
+<p align="center">
+  <a href="https://github.com/wasi-master/rich-rst">
+    <img src="https://raw.githubusercontent.com/wasi-master/rich-rst/main/images/logo.png" alt="Logo" width="200" height="200">
+  </a>
 
-[![Documentation Status](https://readthedocs.org/projects/rich-rst/badge/?version=latest)](https://rich-rst.readthedocs.io/en/latest/?badge=latest)
-![Tests Status](https://img.shields.io/github/actions/workflow/status/wasi-master/rich-rst/tests.yaml?label=tests)
-![CodeQL Status](https://img.shields.io/github/actions/workflow/status/wasi-master/rich-rst/codeql.yml?label=codeql)
-![Codecov](https://img.shields.io/codecov/c/github/wasi-master/rich-rst)
+  <h1 align="center">rich-rst</h2>
+</p>
+
+<p align="center">
+   <a href="https://rich-rst.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/rich-rst/badge/?version=latest" alt="Documentation Status"></a>
+   <img src="https://img.shields.io/github/actions/workflow/status/wasi-master/rich-rst/tests.yaml?label=tests" alt="Tests Status">
+   <img src="https://img.shields.io/github/actions/workflow/status/wasi-master/rich-rst/codeql.yml?label=codeql" alt="CodeQL Status">
+   <img src="https://img.shields.io/codecov/c/github/wasi-master/rich-rst" alt="Codecov">
+
+</p>
 
 Render [reStructuredText](https://docutils.sourceforge.io/rst.html) with [Rich](https://rich.readthedocs.io/en/latest/). This package turns reST documents into Rich renderables so you can preview documentation, docstrings, and snippets directly in the terminal. Also includes a CLI.
 
