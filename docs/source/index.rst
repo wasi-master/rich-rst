@@ -75,12 +75,6 @@ and pull requests are welcome on the `issue tracker`_.
    include_directive
    limitations
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 
 .. _reStructuredText: https://docutils.sourceforge.io/rst.html
