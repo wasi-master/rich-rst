@@ -906,7 +906,36 @@ DEMOS = [
                          - 76"""),
             },
             {
-                "name": "Flat Table: Row Span (:rspan:)",
+                "name": "flat-table — wide partial column span (:cspan: > 1)",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: Regional Sales
+                       :header-rows: 1
+
+                       * - Region
+                         - Q1
+                         - Q2
+                         - Q3
+
+                       * - :cspan:`2` North + Central + South combined
+                         - 312
+
+                       * - North
+                         - 42
+                         - 55
+                         - 61
+
+                       * - Central
+                         - 78
+                         - 90
+                         - 83
+
+                       * - South
+                         - 34
+                         - 48
+                         - 55"""),
+            },
+            {
+                "name": "flat-table — row span (:rspan:)",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Produce Prices
                        :header-rows: 1
@@ -943,6 +972,43 @@ DEMOS = [
 
                        * - Bottom-right
                          - Also bottom-right"""),
+            },
+            {
+                "name": "flat-table — single cell with :cspan: and :rspan: (2×2 block)",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: 2×2 merged cell
+                       :header-rows: 1
+
+                       * - Task
+                         - Mon
+                         - Tue
+                         - Wed
+                         - Thu
+                         - Fri
+
+                       * - :cspan:`2` :rspan:`1` Planning
+                         - Review
+
+                       * - Deploy
+                       
+                       * - Others."""),
+            },
+            {
+                "name": "flat-table — :cspan: fills merged column width without inflation",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: Team Overview
+                       :header-rows: 1
+
+                       * - Name
+                         - Role
+
+                       * - :cspan:`1` Both columns
+
+                       * - Alice
+                         - Lead
+
+                       * - Bob
+                         - Dev"""),
             },
         ],
     },

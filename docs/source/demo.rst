@@ -2120,6 +2120,79 @@ Flat Table: Combined :cspan: and :rspan:
    </span></pre>
    </div>
 
+flat-table — single cell with :cspan: and :rspan: (2×2 block)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: 2×2 merged cell
+      :header-rows: 1
+
+      * - Task
+        - Mon
+        - Tue
+        - Wed
+        - Thu
+        - Fri
+
+      * - :cspan:`2` :rspan:`1` Planning
+        - Review
+
+      * - Deploy
+
+      * - Others.
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">           2×2 merged cell            </span>
+   ┏━━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┓
+   ┃ Task ┃ Mon ┃ Tue ┃ Wed ┃ Thu ┃ Fri ┃
+   ┡━━━━━━┻━━━━━┻━━━━━╇━━━━━┻━━━━━┻━━━━━┩
+   │ Planning         │ Review          │
+   │                  ├─────────────────┤
+   │                  │ Deploy          │
+   ├──────────────────┴─────────────────┤
+   │ Others.                            │
+   └────────────────────────────────────┘
+   </span></pre>
+   </div>
+
+flat-table — :cspan: fills merged column width without inflation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: Team Overview
+      :header-rows: 1
+
+      * - Name
+        - Role
+
+      * - :cspan:`1` Both columns
+
+      * - Alice
+        - Lead
+
+      * - Bob
+        - Dev
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic"> Team Overview  </span>
+   ┏━━━━━━━┳━━━━━━┓
+   ┃ Name  ┃ Role ┃
+   ┡━━━━━━━┻━━━━━━┩
+   │ Both columns │
+   ├───────┬──────┤
+   │ Alice │ Lead │
+   ├───────┼──────┤
+   │ Bob   │ Dev  │
+   └───────┴──────┘
+   </span></pre>
+   </div>
+
 Footnotes and Citations
 -----------------------
 

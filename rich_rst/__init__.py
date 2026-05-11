@@ -927,7 +927,7 @@ class _FlatTableBuilder:
                         row.append((missing - 1, 0, []))
                 else:
                     for _ in range(missing):
-                        row.append((0, 0, docutils.nodes.comment()))
+                        row.append((0, 0, [docutils.nodes.comment()]))
             self.rows.append(row)
 
     def _parse_row_item(self, row_item: docutils.nodes.list_item, row_num: int) -> List[Any]:
@@ -3787,7 +3787,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                         continue
                     content, mc, mr = cell
                     if mc > 0:
-                        available = sum(col_widths[c:c + mc + 1]) + mc
+                        available = sum(col_widths[c:c + mc + 1]) + 3 * mc
                         needed = _plain_w(content)
                         if needed > available:
                             col_widths[c + mc] += needed - available

@@ -450,6 +450,141 @@ def test_flat_table_rspan_header_into_body_column_order(render_text):
     )
 
 
+def test_flat_table_cspan2_partial_no_internal_borders(render_text):
+    """A body cell with :cspan:`2` (3 of 4 cols) must show no internal │ borders.
+
+    This is the critical regression path for the _cspan_continues bug: the
+    scan-left loop must cross the None placeholder at col 1 to reach the origin
+    at col 0 when checking whether col 2 is a continuation.  With the old
+    unconditional ``break`` the scan stopped at the None and returned False,
+    drawing a spurious internal border.
+    """
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n"
+        "     - D\n\n"
+        "   * - :cspan:`2` Merged ABC\n"
+        "     - normal D\n"
+    )
+    out = render_text(rst)
+    lines = out.splitlines()
+    merged_line = next((l for l in lines if "Merged ABC" in l), None)
+    assert merged_line is not None, "Row containing 'Merged ABC' must be present"
+    # Cols 0–2 are merged → no internal │ between them; one border between col 2 and col 3.
+    # Expected: │ Merged ABC   │ normal D │  →  3 vertical bars total.
+    assert merged_line.count("│") == 3, (
+        f"Merged ABC spans 3 cols: expected 3 │ borders (left, mid, right), "
+        f"got {merged_line.count('│')} in {merged_line!r}"
+    )
+
+
+def test_flat_table_rspan2_separator_all_rows(render_text):
+    """A cell with :rspan:`2` (spanning 3 rows) keeps the separator opening on all
+    intermediate rows — verifying _rspan_continues handles multi-row spans correctly.
+
+    This is the 'opposite direction' counterpart to the cspan_continues fix: the
+    rspan scan goes *upward* past None placeholders, and must not break early.
+    """
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - Category\n"
+        "     - Item\n\n"
+        "   * - :rspan:`2` All three\n"
+        "     - First\n\n"
+        "   * - Second\n\n"
+        "   * - Third\n"
+    )
+    out = render_text(rst)
+    lines = out.splitlines()
+    # All three item rows must be present
+    assert "First" in out
+    assert "Second" in out
+    assert "Third" in out
+    # Each item row: col 0 is the rspan placeholder → starts with │ + spaces
+    for label in ("First", "Second", "Third"):
+        row = next((l for l in lines if label in l), None)
+        assert row is not None, f"Row containing '{label}' must be present"
+        if label != "First":
+            # Rows 2 and 3: col 0 is covered by the rspan → must be empty, not contain label text
+            first_inner_sep = row.index("│", 1)
+            col0_content = row[1:first_inner_sep]
+            assert col0_content.strip() == "", (
+                f"Category column must be empty in the '{label}' row "
+                f"(rspan from 'All three' still active), got {col0_content!r}"
+            )
+    # The separator between First and Second rows must start with │ (rspan continues col 0)
+    first_line_idx = next(i for i, l in enumerate(lines) if "First" in l)
+    sep_line = lines[first_line_idx + 1] if first_line_idx + 1 < len(lines) else ""
+    assert sep_line.startswith("│"), (
+        "Row separator after 'First' row must start with │ — "
+        "col 0 is still spanned by the 3-row rspan"
+    )
+    # The separator between Second and Third rows must also start with │
+    second_line_idx = next(i for i, l in enumerate(lines) if "Second" in l)
+    sep_line2 = lines[second_line_idx + 1] if second_line_idx + 1 < len(lines) else ""
+    assert sep_line2.startswith("│"), (
+        "Row separator after 'Second' row must start with │ — "
+        "col 0 is still spanned by the 3-row rspan on its third row"
+    )
+
+
+def test_flat_table_combined_cspan_rspan_no_internal_border(render_text):
+    """A single cell with :cspan:`1` :rspan:`1` must create a seamless 2×2 block.
+
+    Grid layout:
+        Row 0 (header): [A,      B,    C   ]
+        Row 1 (data):   [Big(1,1), None, C1 ]
+        Row 2 (data):   [None,   None, C2   ]
+
+    The corner placeholder at (2,1) is a combined cspan+rspan slot that neither
+    a left-scan (row 2 has no real cells) nor an up-scan (col 1 has no real
+    cells above) can resolve.  The two-step diagonal search in _origin must
+    trace it back to (1,0), after which _has_vborder(2,0) returns False and
+    _rspan_continues(1,1) returns True — eliminating the spurious internal
+    border and the incorrect horizontal rule through the merged region.
+    """
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n\n"
+        "   * - :cspan:`1` :rspan:`1` Big\n"
+        "     - C1\n\n"
+        "   * - C2\n"
+    )
+    out = render_text(rst)
+    lines = out.splitlines()
+
+    assert "Big" in out, "Combined-span cell content must appear"
+    assert "C1" in out, "Sibling cell C1 in row 1 must appear"
+    assert "C2" in out, "Cell C2 in the continuation row must appear"
+
+    # The continuation row (C2 row) covers cols 0-1 with the Big rspan and
+    # puts C2 at col 2.  No internal │ between cols 0 and 1 expected.
+    c2_line = next((l for l in lines if "C2" in l and "Big" not in l), None)
+    assert c2_line is not None, "Row containing C2 (continuation row) must be present"
+    assert c2_line.count("│") == 3, (
+        f"Combined 2×2 span: continuation row must have exactly 3 │ borders "
+        f"(outer-left, span-boundary, outer-right), got {c2_line.count('│')} "
+        f"in {c2_line!r}"
+    )
+
+    # The row separator between Big's row and the continuation row must keep
+    # the Big span open: it should start with │ (not ├/└) and have a │ between
+    # the two spanned columns (not a junction or horizontal rule).
+    big_line_idx = next((i for i, l in enumerate(lines) if "Big" in l), None)
+    assert big_line_idx is not None
+    sep = lines[big_line_idx + 1] if big_line_idx + 1 < len(lines) else ""
+    assert sep.startswith("│"), (
+        "Separator after Big row must start with │ — cols 0-1 are still spanned"
+    )
+
+
 def test_flat_table_rspan_body_row_separator(render_text):
     """A body cell with :rspan:`1` continues visually across the row separator.
 
@@ -480,6 +615,105 @@ def test_flat_table_rspan_body_row_separator(render_text):
     assert separator_line.startswith("│"), (
         "Row separator between rspan rows must start with │ — "
         "col 0 is spanned so no horizontal line crosses through it"
+    )
+
+
+def test_flat_table_title_centering_matches_table_width(render_text):
+    """Title must be centered over the actual separator-line width."""
+    rst = (
+        ".. flat-table:: Title\n"
+        "   :header-rows: 1\n\n"
+        "   * - Name\n"
+        "     - Value\n\n"
+        "   * - :cspan:`1` Both\n"
+    )
+    out = render_text(rst)
+    lines = [l.rstrip() for l in out.splitlines()]
+
+    bottom = next((l for l in reversed(lines) if l.startswith("└")), None)
+    title_line = next((l for l in lines if "Title" in l), None)
+    assert bottom is not None, "Bottom border line must be present"
+    assert title_line is not None, "Title line must be present"
+
+    title_start = title_line.index("Title")
+    expected_pad = (len(bottom) - len("Title")) // 2
+    assert title_start == expected_pad, (
+        f"Title left-pad is {title_start} but must be {expected_pad} "
+        f"(centered over table width {len(bottom)})"
+    )
+
+
+def test_flat_table_combined_cspan_rspan_fill_cells(render_text):
+    """fill-cells + combined :cspan:/:rspan: must render correctly with no spurious borders.
+
+    The :cspan:`1` :rspan:`1` cell in a 4-column table leaves col 3 empty in
+    both body rows.  With fill-cells enabled, those trailing slots are filled
+    with filler entries — exercising the fill-cells node-list fix alongside the
+    combined-span pipeline.
+
+    Grid layout (4 columns, header-rows=1):
+        Row 0 (header):  A     | B          | C    | D
+        Row 1 (body):    Big (cspan=1,rspan=1) | C1   | <fill>
+        Row 2 (body):    <rspan placeholder 0–1> | C2  | <fill>
+    """
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n"
+        "   :fill-cells:\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n"
+        "     - D\n\n"
+        "   * - :cspan:`1` :rspan:`1` Big\n"
+        "     - C1\n\n"
+        "   * - C2\n"
+    )
+    out = render_text(rst)
+
+    assert "Big" in out, "Combined-span cell content must appear"
+    assert "C1" in out, "Sibling cell C1 must appear"
+    assert "C2" in out, "Continuation cell C2 must appear"
+
+    lines = out.splitlines()
+
+    big_line = next((l for l in lines if "Big" in l), None)
+    assert big_line is not None, "Row containing 'Big' must be present"
+    assert big_line.count("│") == 4, (
+        f"Big row (cspan=1 over cols 0-1, C1, fill): expected 4 │ borders, "
+        f"got {big_line.count('│')} in {big_line!r}"
+    )
+
+    c2_line = next((l for l in lines if "C2" in l), None)
+    assert c2_line is not None, "Row containing C2 must be present"
+    assert c2_line.count("│") == 4, (
+        f"C2 row (rspan placeholder cols 0-1, C2, fill): expected 4 │ borders, "
+        f"got {c2_line.count('│')} in {c2_line!r}"
+    )
+
+
+def test_flat_table_combined_cspan_rspan_placeholder_cols_empty(render_text):
+    """Both placeholder columns of a 2×2 combined span must be blank with no internal border."""
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n\n"
+        "   * - :cspan:`1` :rspan:`1` Big\n"
+        "     - C1\n\n"
+        "   * - C2\n"
+    )
+    out = render_text(rst)
+    lines = out.splitlines()
+
+    c2_line = next((l for l in lines if "C2" in l and "Big" not in l), None)
+    assert c2_line is not None, "Continuation row containing C2 must be present"
+
+    first_inner = c2_line.index("│", 1)
+    placeholder_region = c2_line[1:first_inner]
+    assert placeholder_region.strip() == "", (
+        f"Placeholder region (cols 0–1 covered by Big rspan) must be blank, "
+        f"got {placeholder_region!r} in {c2_line!r}"
     )
 
 
@@ -577,3 +811,32 @@ def test_flat_table_spanning_title_centered_to_rendered_width(make_visitor):
     title_center = title_line.plain.index("Span Title") + (len("Span Title") / 2)
     table_center = len(top_border.plain) / 2
     assert abs(title_center - table_center) <= 1
+
+
+def test_flat_table_cspan_no_unnecessary_column_widening(render_text):
+    """Spanning-cell content that fits within the correct merged budget must not widen columns."""
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - Name\n"
+        "     - Role\n\n"
+        "   * - :cspan:`1` Both columns\n\n"
+        "   * - Alice\n"
+        "     - Lead\n\n"
+        "   * - Bob\n"
+        "     - Dev\n"
+    )
+    out = render_text(rst)
+    assert "Both columns" in out
+    assert "Alice" in out and "Lead" in out
+
+    lines = out.splitlines()
+    bottom = next(
+        (l.rstrip() for l in reversed(lines) if l.startswith("└")),
+        None,
+    )
+    assert bottom is not None, "Bottom border line must be present"
+    assert len(bottom) == 16, (
+        f"Columns must not be inflated: expected border width 16, got {len(bottom)}. "
+        f"Old +mc formula would give 18 by spuriously widening col 1 by 2 chars."
+    )
