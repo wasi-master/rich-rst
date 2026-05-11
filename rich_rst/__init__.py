@@ -2151,7 +2151,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                         # unmatched closing - treat as delimiter
                         break
                 # stop at comma, closing paren or equals only if not inside brackets
-                if depth == 0 and ch in ",)=" :
+                if depth == 0 and ch in ",)=":
                     break
                 j += 1
             # trim whitespace from ends
@@ -2187,7 +2187,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     else:
                         break
                 # stop at comma, closing paren or equals only if not inside brackets
-                if depth == 0 and ch in ",)=" :
+                if depth == 0 and ch in ",)=":
                     break
                 j += 1
             type_start = i
