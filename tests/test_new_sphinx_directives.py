@@ -496,7 +496,9 @@ def test_py_function_field_list_renders_api_sections(render_text):
     )
     out = _render(render_text, rst)
     assert "Parameters" in out
-    assert "Name" not in out and "Type" not in out and "Description" not in out
+    assert "Name" not in out
+    assert "Type" not in out
+    assert "Description" not in out
     assert "name: str" in out
     assert "name" in out and "The name to greet." in out
     assert "Returns" in out and "str: A greeting string." in out
