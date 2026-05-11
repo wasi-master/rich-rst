@@ -3,10 +3,11 @@
 import sys
 import os
 import tempfile
+from io import StringIO
 
 import pytest
 
-from rich_rst.__main__ import main
+from rich_rst.__main__ import main, parse_arguments
 
 
 @pytest.mark.parametrize(
@@ -129,3 +130,15 @@ def test_output_flag_error_on_bad_path(monkeypatch, capsys):
 
         exit_code = main()
         assert exit_code == 1
+
+
+def test_parse_arguments_requires_path_without_list_flag(monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["rich-rst"])
+    with pytest.raises(SystemExit):
+        parse_arguments()
+
+
+def test_main_reads_from_stdin_when_path_dash(monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["rich-rst", "-"])
+    monkeypatch.setattr(sys, "stdin", StringIO("stdin **content**"))
+    assert main() == 0
