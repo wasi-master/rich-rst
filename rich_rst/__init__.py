@@ -2121,9 +2121,34 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         for match in re.finditer(r"->", signature):
             rendered.stylize(arrow_style, match.start(), match.end())
 
-        for match in re.finditer(r"->\s*([^,)]+)", signature):
-            type_start = match.start(1)
-            type_end = match.end(1)
+        # Highlight return types, but be bracket-aware so generics like
+        # ``-> dict[str, int]`` aren't cut off at internal commas.
+        for arrow_match in re.finditer(r"->", signature):
+            # start scanning after the arrow, skipping whitespace
+            i = arrow_match.end()
+            L = len(signature)
+            while i < L and signature[i].isspace():
+                i += 1
+            # scan until we hit a delimiter at bracket depth 0
+            depth = 0
+            j = i
+            while j < L:
+                ch = signature[j]
+                if ch in "([{":
+                    depth += 1
+                elif ch in ")]}":
+                    if depth > 0:
+                        depth -= 1
+                    else:
+                        # unmatched closing - treat as delimiter
+                        break
+                # stop at comma, closing paren or equals only if not inside brackets
+                if depth == 0 and ch in ",)=" :
+                    break
+                j += 1
+            # trim whitespace from ends
+            type_start = i
+            type_end = j
             while type_start < type_end and signature[type_start].isspace():
                 type_start += 1
             while type_end > type_start and signature[type_end - 1].isspace():
@@ -2131,9 +2156,34 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if type_end > type_start:
                 rendered.stylize(type_style, type_start, type_end)
 
-        for match in re.finditer(r":\s*([^,)=]+)", signature):
-            type_start = match.start(1)
-            type_end = match.end(1)
+        # Highlight parameter annotation types, bracket-aware so
+        # ``param: dict[str, int]`` doesn't stop at the inner comma.
+        for colon_match in re.finditer(r":\s*", signature):
+            # start scanning at first non-space after ':'
+            i = colon_match.end()
+            L = len(signature)
+            while i < L and signature[i].isspace():
+                i += 1
+            # if next char is ')' or ',' or end, nothing to do
+            if i >= L or signature[i] in ",)":
+                continue
+            depth = 0
+            j = i
+            while j < L:
+                ch = signature[j]
+                if ch in "([{":
+                    depth += 1
+                elif ch in ")]}":
+                    if depth > 0:
+                        depth -= 1
+                    else:
+                        break
+                # stop at comma, closing paren or equals only if not inside brackets
+                if depth == 0 and ch in ",)=" :
+                    break
+                j += 1
+            type_start = i
+            type_end = j
             while type_start < type_end and signature[type_start].isspace():
                 type_start += 1
             while type_end > type_start and signature[type_end - 1].isspace():
