@@ -2761,14 +2761,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         # Preserve the offending source snippet in normal output so invalid
         # markup does not silently disappear when show_errors=False.
-        for child in node.children:
-            if isinstance(child, docutils.nodes.literal_block):
-                snippet = child.astext().replace("\n", " ")
-                if snippet:
-                    if self.renderables and isinstance(self.renderables[-1], Text):
-                        self.renderables[-1].append_text(Text(snippet, end=" "))
-                    else:
-                        self.renderables.append(Text(snippet, end=""))
+        # Skip snippets for title formatting errors where the title was already parsed correctly.
+        message_text = node.astext().lower()
+        is_title_error = any(keyword in message_text for keyword in ("title", "overline", "underline"))
+        
+        if not is_title_error:
+            for child in node.children:
+                if isinstance(child, docutils.nodes.literal_block):
+                    snippet = child.astext().replace("\n", " ")
+                    if snippet:
+                        if self.renderables and isinstance(self.renderables[-1], Text):
+                            self.renderables[-1].append_text(Text(snippet, end=" "))
+                        else:
+                            self.renderables.append(Text(snippet, end=""))
         raise docutils.nodes.SkipChildren()
 
     def _add_to_field_table(self, field_name: str, field_value: str) -> None:
