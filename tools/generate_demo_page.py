@@ -922,6 +922,21 @@ DEMOS = [
                        * - Bottom-right
                          - Also bottom-right"""),
             },
+            {
+                "name": "flat-table — single cell with :cspan: and :rspan: (2×2 block)",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: 2×2 merged cell
+                       :header-rows: 1
+
+                       * - Task
+                         - Mon
+                         - Tue
+
+                       * - :cspan:`1` :rspan:`1` Planning
+                         - Review
+
+                       * - Deploy"""),
+            },
         ],
     },
     # ── 8. Footnotes and citations ────────────────────────────────────────────

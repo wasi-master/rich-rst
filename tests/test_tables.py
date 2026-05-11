@@ -505,6 +505,59 @@ def test_flat_table_rspan2_separator_all_rows(render_text):
     )
 
 
+def test_flat_table_combined_cspan_rspan_no_internal_border(render_text):
+    """A single cell with :cspan:`1` :rspan:`1` must create a seamless 2×2 block.
+
+    Grid layout:
+        Row 0 (header): [A,      B,    C   ]
+        Row 1 (data):   [Big(1,1), None, C1 ]
+        Row 2 (data):   [None,   None, C2   ]
+
+    The corner placeholder at (2,1) is a combined cspan+rspan slot that neither
+    a left-scan (row 2 has no real cells) nor an up-scan (col 1 has no real
+    cells above) can resolve.  The two-step diagonal search in _origin must
+    trace it back to (1,0), after which _has_vborder(2,0) returns False and
+    _rspan_continues(1,1) returns True — eliminating the spurious internal
+    border and the incorrect horizontal rule through the merged region.
+    """
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n\n"
+        "   * - :cspan:`1` :rspan:`1` Big\n"
+        "     - C1\n\n"
+        "   * - C2\n"
+    )
+    out = render_text(rst)
+    lines = out.splitlines()
+
+    assert "Big" in out, "Combined-span cell content must appear"
+    assert "C1" in out, "Sibling cell C1 in row 1 must appear"
+    assert "C2" in out, "Cell C2 in the continuation row must appear"
+
+    # The continuation row (C2 row) covers cols 0-1 with the Big rspan and
+    # puts C2 at col 2.  No internal │ between cols 0 and 1 expected.
+    c2_line = next((l for l in lines if "C2" in l and "Big" not in l), None)
+    assert c2_line is not None, "Row containing C2 (continuation row) must be present"
+    assert c2_line.count("│") == 3, (
+        f"Combined 2×2 span: continuation row must have exactly 3 │ borders "
+        f"(outer-left, span-boundary, outer-right), got {c2_line.count('│')} "
+        f"in {c2_line!r}"
+    )
+
+    # The row separator between Big's row and the continuation row must keep
+    # the Big span open: it should start with │ (not ├/└) and have a │ between
+    # the two spanned columns (not a junction or horizontal rule).
+    big_line_idx = next((i for i, l in enumerate(lines) if "Big" in l), None)
+    assert big_line_idx is not None
+    sep = lines[big_line_idx + 1] if big_line_idx + 1 < len(lines) else ""
+    assert sep.startswith("│"), (
+        "Separator after Big row must start with │ — cols 0-1 are still spanned"
+    )
+
+
 def test_flat_table_rspan_body_row_separator(render_text):
     """A body cell with :rspan:`1` continues visually across the row separator.
 
