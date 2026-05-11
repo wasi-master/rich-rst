@@ -937,6 +937,23 @@ DEMOS = [
 
                        * - Deploy"""),
             },
+            {
+                "name": "flat-table — :cspan: fills merged column width without inflation",
+                "rst": textwrap.dedent("""\
+                    .. flat-table:: Team Overview
+                       :header-rows: 1
+
+                       * - Name
+                         - Role
+
+                       * - :cspan:`1` Both columns
+
+                       * - Alice
+                         - Lead
+
+                       * - Bob
+                         - Dev"""),
+            },
         ],
     },
     # ── 8. Footnotes and citations ────────────────────────────────────────────

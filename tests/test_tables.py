@@ -589,3 +589,44 @@ def test_flat_table_rspan_body_row_separator(render_text):
         "Row separator between rspan rows must start with │ — "
         "col 0 is spanned so no horizontal line crosses through it"
     )
+
+
+def test_flat_table_cspan_no_unnecessary_column_widening(render_text):
+    """Spanning-cell content that fits within the correct merged budget must not widen columns.
+
+    col_widths = [5 ("Alice"), 4 ("Lead")] after the non-spanning pass.
+    Correct formula: available = 5 + 4 + 3*1 = 12.
+    "Both columns" = 12 chars — fits exactly, no widening needed.
+
+    The old formula used +mc (+1) instead of +3*mc (+3), giving available=10 < 12
+    and spuriously inflating col 1 by 2 chars.  The bottom border line encodes the
+    actual column widths: 1+(5+2)+1+(4+2)+1 = 16 with no widening, 18 with the bug.
+    """
+    rst = (
+        ".. flat-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - Name\n"
+        "     - Role\n\n"
+        "   * - :cspan:`1` Both columns\n\n"
+        "   * - Alice\n"
+        "     - Lead\n\n"
+        "   * - Bob\n"
+        "     - Dev\n"
+    )
+    out = render_text(rst)
+    assert "Both columns" in out
+    assert "Alice" in out and "Lead" in out
+
+    lines = out.splitlines()
+    # Bottom border └─…─┴─…─┘ length encodes actual col widths.
+    # col_widths=[5,4] (correct): 1+(5+2)+1+(4+2)+1 = 16
+    # col_widths=[5,6] (old bug): 1+(5+2)+1+(6+2)+1 = 18
+    bottom = next(
+        (l.rstrip() for l in reversed(lines) if l.startswith("└")),
+        None,
+    )
+    assert bottom is not None, "Bottom border line must be present"
+    assert len(bottom) == 16, (
+        f"Columns must not be inflated: expected border width 16, got {len(bottom)}. "
+        f"Old +mc formula would give 18 by spuriously widening col 1 by 2 chars."
+    )

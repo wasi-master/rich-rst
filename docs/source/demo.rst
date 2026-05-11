@@ -1900,16 +1900,65 @@ flat-table — column span (:cspan:)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">            Quarterly Results             </span>
-   ┏━━━━━━━━━┳━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-   ┃ Student ┃ Q1 ┃ Q2 ┃ Q3                         ┃
-   ┡━━━━━━━━━┻━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-   │ Grand total — all students, all quarters       │
-   ├─────────┬────┬────┬────────────────────────────┤
-   │ Alice   │ 90 │ 85 │ 92                         │
-   ├─────────┼────┼────┼────────────────────────────┤
-   │ Bob     │ 80 │ 88 │ 76                         │
-   └─────────┴────┴────┴────────────────────────────┘
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">         Quarterly Results          </span>
+   ┏━━━━━━━━━┳━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃ Student ┃ Q1 ┃ Q2 ┃ Q3                   ┃
+   ┡━━━━━━━━━┻━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━━━━┩
+   │ Grand total — all students, all quarters │
+   ├─────────┬────┬────┬──────────────────────┤
+   │ Alice   │ 90 │ 85 │ 92                   │
+   ├─────────┼────┼────┼──────────────────────┤
+   │ Bob     │ 80 │ 88 │ 76                   │
+   └─────────┴────┴────┴──────────────────────┘
+   </span></pre>
+   </div>
+
+flat-table — wide partial column span (:cspan: > 1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: Regional Sales
+      :header-rows: 1
+
+      * - Region
+        - Q1
+        - Q2
+        - Q3
+
+      * - :cspan:`2` North + Central + South combined
+        - 312
+
+      * - North
+        - 42
+        - 55
+        - 61
+
+      * - Central
+        - 78
+        - 90
+        - 83
+
+      * - South
+        - 34
+        - 48
+        - 55
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">          Regional Sales          </span>
+   ┏━━━━━━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━┓
+   ┃ Region  ┃ Q1 ┃ Q2                ┃ Q3  ┃
+   ┡━━━━━━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━╇━━━━━┩
+   │ North + Central + South combined │ 312 │
+   ├─────────┬────┬───────────────────┼─────┤
+   │ North   │ 42 │ 55                │ 61  │
+   ├─────────┼────┼───────────────────┼─────┤
+   │ Central │ 78 │ 90                │ 83  │
+   ├─────────┼────┼───────────────────┼─────┤
+   │ South   │ 34 │ 48                │ 55  │
+   └─────────┴────┴───────────────────┴─────┘
    </span></pre>
    </div>
 
@@ -1985,6 +2034,72 @@ flat-table — combined :cspan: and :rspan:
    │           ├──────────────┼───────────────────┤
    │           │ Bottom-right │ Also bottom-right │
    └───────────┴──────────────┴───────────────────┘
+   </span></pre>
+   </div>
+
+flat-table — single cell with :cspan: and :rspan: (2×2 block)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: 2×2 merged cell
+      :header-rows: 1
+
+      * - Task
+        - Mon
+        - Tue
+
+      * - :cspan:`1` :rspan:`1` Planning
+        - Review
+
+      * - Deploy
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic"> 2×2 merged cell </span>
+   ┏━━━━━━┳━━━━━┳━━━━━━━━┓
+   ┃ Task ┃ Mon ┃ Tue    ┃
+   ┡━━━━━━┻━━━━━╇━━━━━━━━┩
+   │ Planning   │ Review │
+   │            ├────────┤
+   │            │ Deploy │
+   └────────────┴────────┘
+   </span></pre>
+   </div>
+
+flat-table — :cspan: fills merged column width without inflation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: Team Overview
+      :header-rows: 1
+
+      * - Name
+        - Role
+
+      * - :cspan:`1` Both columns
+
+      * - Alice
+        - Lead
+
+      * - Bob
+        - Dev
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">Team Overview</span>
+   ┏━━━━━━━┳━━━━━━┓
+   ┃ Name  ┃ Role ┃
+   ┡━━━━━━━┻━━━━━━┩
+   │ Both columns │
+   ├───────┬──────┤
+   │ Alice │ Lead │
+   ├───────┼──────┤
+   │ Bob   │ Dev  │
+   └───────┴──────┘
    </span></pre>
    </div>
 
@@ -2191,7 +2306,7 @@ Date substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-05-08.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-05-11.</span>
    </span></pre>
    </div>
 

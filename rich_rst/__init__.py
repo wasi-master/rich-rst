@@ -2893,7 +2893,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     lrc = rc
                     rrc = (_rspan_continues(above, c + 1) if above is not None and not is_top else False)
                     if lrc and rrc:
-                        s += VB
+                        s += VB if _has_vborder(above, c) else " "
                     elif lrc or rrc:
                         s += "├" if lrc else "┤"
                     else:
@@ -2951,8 +2951,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 else:
                     # rspan placeholder — empty cell
                     s += " " * (col_widths[c] + 2)
-                    if c < ncols - 1 and _has_vborder(r, c):
-                        s += V
+                    if c < ncols - 1:
+                        s += V if _has_vborder(r, c) else " "
                     c += 1
             s += V
             return Text(s)
@@ -3165,7 +3165,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                         continue
                     content, mc, mr = cell
                     if mc > 0:
-                        available = sum(col_widths[c:c + mc + 1]) + mc
+                        available = sum(col_widths[c:c + mc + 1]) + 3 * mc
                         needed = _plain_w(content)
                         if needed > available:
                             col_widths[c + mc] += needed - available
