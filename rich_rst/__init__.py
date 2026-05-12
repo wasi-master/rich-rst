@@ -3293,12 +3293,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         # ── helpers ────────────────────────────────────────────────────────
         origin_cache: Dict[Tuple[int, int], Optional[Tuple[int, int]]] = {}
+        _ORIGIN_CACHE_MISS = object()
 
         def _origin(r: int, c: int) -> Optional[Tuple[int, int]]:
             """Return (origin_row, origin_col) for the real cell covering (r, c)."""
             key = (r, c)
-            cached = origin_cache.get(key, None)
-            if cached is not None or key in origin_cache:
+            cached = origin_cache.get(key, _ORIGIN_CACHE_MISS)
+            if cached is not _ORIGIN_CACHE_MISS:
                 return cached
 
             for rr in range(r, -1, -1):
@@ -3318,15 +3319,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             """True if a cell covering (row_above, c) extends to the next row."""
             if row_above < 0 or row_above + 1 >= nrows:
                 return False
-            for rr in range(row_above, -1, -1):
-                for cc in range(c, -1, -1):
-                    cell = grid[rr][cc]
-                    if cell is None:
-                        continue
-                    _, csp, rsp = cell
-                    if cc <= c <= cc + csp and rr <= row_above <= rr + rsp:
-                        return row_above < rr + rsp
-            return False
+            origin = _origin(row_above, c)
+            if origin is None:
+                return False
+            origin_row, origin_col = origin
+            cell = grid[origin_row][origin_col]
+            if cell is None:
+                return False
+            _, _, rsp = cell
+            return row_above < origin_row + rsp
 
         def _cspan_continues(r: int, c: int) -> bool:
             """True if column c is a cspan continuation of the cell to its left in row r."""
@@ -3427,14 +3428,28 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             else:
                 L, H, M, R = ML, MH, MM, MR
 
+            # Cache rspan-continuation checks per separator row to avoid
+            # repeated origin lookups while assembling this line.
+            rspan_cache: Dict[int, bool] = {}
+
+            def _rspan_for_sep(col: int) -> bool:
+                if above is None or is_top:
+                    return False
+                cached = rspan_cache.get(col, None)
+                if cached is not None:
+                    return cached
+                value = _rspan_continues(above, col)
+                rspan_cache[col] = value
+                return value
+
             # Left border: use │ when col 0 is an active rspan (cell continues)
-            rc0 = _rspan_continues(above, 0) if above is not None and not is_top else False
+            rc0 = _rspan_for_sep(0)
             if rc0 and not is_top and not is_bot:
                 s = VB
             else:
                 s = L
             for c in range(ncols):
-                rc = _rspan_continues(above, c) if above is not None and not is_top else False
+                rc = _rspan_for_sep(c)
                 if rc:
                     s += " " * (col_widths[c] + 2)
                 else:
@@ -3442,7 +3457,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
                 if c < ncols - 1:
                     lrc = rc
-                    rrc = (_rspan_continues(above, c + 1) if above is not None and not is_top else False)
+                    rrc = _rspan_for_sep(c + 1)
                     if lrc and rrc:
                         same_origin = (
                             above is not None
@@ -3473,7 +3488,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                         else:
                             s += H  # no junction — just continue horizontal line
             # Right border
-            rcN = _rspan_continues(above, ncols - 1) if above is not None and not is_top else False
+            rcN = _rspan_for_sep(ncols - 1)
             if rcN and not is_top and not is_bot:
                 s += VB
             else:
@@ -3782,12 +3797,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             # Per-table-call cache; dropped after this visit_table invocation.
             # Keep identity pairs instead of id(...) keys so reuse of object ids
             # can never return stale data.
-            rendered_plain_lines_cache: List[Tuple[Any, List[str]]] = []
+            rendered_plain_lines_cache: Dict[int, Tuple[Any, List[str]]] = {}
 
             def _rendered_plain_lines(renderable: Any) -> List[str]:
                 if renderable is None:
                     return []
-                for cached_renderable, cached_lines in rendered_plain_lines_cache:
+                cache_key = id(renderable)
+                cached = rendered_plain_lines_cache.get(cache_key)
+                if cached is not None:
+                    cached_renderable, cached_lines = cached
                     if cached_renderable is renderable:
                         return cached_lines
                 lines = self.console.render_lines(
@@ -3800,7 +3818,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 for line in lines:
                     plain = "".join(seg.text for seg in line if not seg.control)
                     plain_lines.append(plain)
-                rendered_plain_lines_cache.append((renderable, plain_lines))
+                rendered_plain_lines_cache[cache_key] = (renderable, plain_lines)
                 return plain_lines
 
             def _plain_w(renderable: Any) -> int:
