@@ -1385,6 +1385,11 @@ _LATEX_TO_UNICODE = {
     r'\quad': '  ', r'\qquad': '    ', r'\ ': ' ',
 }
 
+# Pre-sort substitutions once so repeated conversions avoid sorting overhead.
+_LATEX_TO_UNICODE_SORTED = tuple(
+    sorted(_LATEX_TO_UNICODE.items(), key=lambda item: -len(item[0]))
+)
+
 
 def _convert_math_to_unicode(text: str) -> str:
     """Convert common LaTeX math notation to Unicode approximations.
@@ -1414,7 +1419,7 @@ def _convert_math_to_unicode(text: str) -> str:
     result = result.replace('{', '').replace('}', '')
 
     # Apply symbol substitutions (longest first to avoid partial replacements)
-    for latex, uni in sorted(_LATEX_TO_UNICODE.items(), key=lambda x: -len(x[0])):
+    for latex, uni in _LATEX_TO_UNICODE_SORTED:
         result = result.replace(latex, uni)
 
     return result
@@ -1441,6 +1446,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     # subclass registrations (and vice-versa).  Registrations on RSTVisitor
     # itself are truly global and apply to every instance.
     _custom_visitors: ClassVar[Dict[Type[docutils.nodes.Node], Tuple[Optional[Callable[..., Any]], Optional[Callable[..., Any]]]]] = {}
+    _DISPATCH_CACHE_MISS: ClassVar[object] = object()
 
     @classmethod
     def register_visitor(cls, node_class: Type[docutils.nodes.Node], visit_fn: Optional[Callable[..., Any]] = None, depart_fn: Optional[Callable[..., Any]] = None) -> Optional[Callable[..., Any]]:
@@ -1524,22 +1530,16 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         return dict(cls._custom_visitors)
 
     def dispatch_visit(self, node: docutils.nodes.Node) -> None:
-        entry = self._custom_visitors.get(type(node))
-        if entry is not None:
-            visit_fn, _ = entry
-            if visit_fn is not None:
-                return visit_fn(self, node)
-            return
-        return super().dispatch_visit(node)
+        handler = self._resolve_visit_handler(type(node))
+        if handler is not None:
+            return handler(node)
+        return None
 
     def dispatch_departure(self, node: docutils.nodes.Node) -> None:
-        entry = self._custom_visitors.get(type(node))
-        if entry is not None:
-            _, depart_fn = entry
-            if depart_fn is not None:
-                return depart_fn(self, node)
-            return
-        return super().dispatch_departure(node)
+        handler = self._resolve_depart_handler(type(node))
+        if handler is not None:
+            return handler(node)
+        return None
 
     def __init__(
         self,
@@ -1568,6 +1568,46 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.guess_lexer: Optional[bool] = guess_lexer
         self.default_lexer: Optional[str] = _validate_default_lexer_name(default_lexer)
         self.refname_to_renderable: Dict[str, Tuple[Text, int, int]] = {}
+        # Cache node-type dispatch handlers to reduce per-node lookup cost
+        # in large documents.
+        self._visit_dispatch_cache: Dict[Type[docutils.nodes.Node], Optional[Callable[[docutils.nodes.Node], Any]]] = {}
+        self._depart_dispatch_cache: Dict[Type[docutils.nodes.Node], Optional[Callable[[docutils.nodes.Node], Any]]] = {}
+
+    def _resolve_visit_handler(self, node_type: Type[docutils.nodes.Node]) -> Optional[Callable[[docutils.nodes.Node], Any]]:
+        cached = self._visit_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
+        if cached is not self._DISPATCH_CACHE_MISS:
+            return cached
+
+        entry = self._custom_visitors.get(node_type)
+        if entry is not None:
+            visit_fn, _ = entry
+            if visit_fn is None:
+                self._visit_dispatch_cache[node_type] = None
+            else:
+                self._visit_dispatch_cache[node_type] = lambda node, fn=visit_fn: fn(self, node)
+            return self._visit_dispatch_cache[node_type]
+
+        handler = getattr(self, "visit_" + node_type.__name__, self.unknown_visit)
+        self._visit_dispatch_cache[node_type] = handler
+        return handler
+
+    def _resolve_depart_handler(self, node_type: Type[docutils.nodes.Node]) -> Optional[Callable[[docutils.nodes.Node], Any]]:
+        cached = self._depart_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
+        if cached is not self._DISPATCH_CACHE_MISS:
+            return cached
+
+        entry = self._custom_visitors.get(node_type)
+        if entry is not None:
+            _, depart_fn = entry
+            if depart_fn is None:
+                self._depart_dispatch_cache[node_type] = None
+            else:
+                self._depart_dispatch_cache[node_type] = lambda node, fn=depart_fn: fn(self, node)
+            return self._depart_dispatch_cache[node_type]
+
+        handler = getattr(self, "depart_" + node_type.__name__, self.unknown_departure)
+        self._depart_dispatch_cache[node_type] = handler
+        return handler
 
     def _translate_with_fallback(self, text: str, table: Dict[int, Union[int, str, None]]) -> str:
         """Translate characters using `table` while preserving unmapped/deleted chars."""
@@ -4043,24 +4083,20 @@ class RestructuredText(JupyterMixin):
                 break
 
         for renderable in visitor.renderables:
-            yield from console.render(renderable, options)
+            yield renderable
         if self.show_errors and visitor.errors:
             for error in visitor.errors:
-                yield from console.render(error, options)
+                yield error
 
         citation_style = console.get_style("restructuredtext.citation", default="none")
         citation_border_style = console.get_style("restructuredtext.citation_border", default="grey74")
         if visitor.citations:
-            yield from console.render(
-                Panel(Group(*visitor.citations), title="citation", box=box.SQUARE, border_style=citation_border_style, style=citation_style)
-            )
+            yield Panel(Group(*visitor.citations), title="citation", box=box.SQUARE, border_style=citation_border_style, style=citation_style)
 
         style = console.get_style("restructuredtext.footer", default="none")
         border_style = console.get_style("restructuredtext.footer_border", default="grey74")
         if visitor.footer:
-            yield from console.render(
-                Panel(Group(*visitor.footer), title="Footer", box=box.SQUARE, border_style=border_style, style=style)
-            )
+            yield Panel(Group(*visitor.footer), title="Footer", box=box.SQUARE, border_style=border_style, style=style)
 
 
 RST = reST = ReStructuredText = reStructuredText = RestructuredText
