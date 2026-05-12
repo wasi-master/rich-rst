@@ -15,7 +15,7 @@ Formatting contract
 All span assertions use ``span.style.*`` attributes, not string rendering,
 so they are insensitive to colour-name capitalisation or repr format changes.
 """
-from rich.text import Text
+from rich_rst._rich_compat import Text
 
 
 def _get_paragraph_text(visitor):

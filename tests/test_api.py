@@ -6,7 +6,7 @@ show_errors), and end-to-end rendering without exceptions.
 """
 import pytest
 
-from rich.console import Console
+from rich_rst._rich_compat import Console
 from rich_rst import (
     RST,
     ReStructuredText,
@@ -303,7 +303,7 @@ def test_register_visitor_depart_fn_called(make_visitor):
 def test_register_visitor_renderable_produced(make_visitor):
     """A registered visit_fn can append renderables to the visitor."""
     from rich_rst._vendor import docutils as _docutils
-    from rich.text import Text
+    from rich_rst._rich_compat import Text
 
     class _GreetNode(_docutils.nodes.General, _docutils.nodes.Body, _docutils.nodes.Element):
         pass

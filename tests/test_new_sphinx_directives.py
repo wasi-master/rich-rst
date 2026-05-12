@@ -1,10 +1,10 @@
 """Tests for new Sphinx-specific block directives."""
 import pytest
-from rich.panel import Panel
-from rich.align import Align
-from rich.console import Group
-from rich.text import Text
-from rich.table import Table
+from rich_rst._rich_compat import Panel
+from rich_rst._rich_compat import Align
+from rich_rst._rich_compat import Group
+from rich_rst._rich_compat import Text
+from rich_rst._rich_compat import Table
 
 from rich_rst import _register_sphinx_directives, _register_sphinx_roles
 
@@ -318,7 +318,7 @@ def test_literalinclude_reads_actual_file(tmp_path, render_text):
     rst_file = tmp_path / "doc.rst"
     rst_file.write_text(".. literalinclude:: sample.py\n")
 
-    from rich.console import Console
+    from rich_rst._rich_compat import Console
     from rich_rst import RestructuredText
     console = Console(force_terminal=True, width=120, record=True)
     console.print(
@@ -348,7 +348,7 @@ def test_literalinclude_lines_option(tmp_path):
     rst_file = tmp_path / "doc.rst"
     rst_file.write_text(".. literalinclude:: multi.py\n   :lines: 2-3\n")
 
-    from rich.console import Console
+    from rich_rst._rich_compat import Console
     from rich_rst import RestructuredText
     console = Console(force_terminal=True, width=120, record=True)
     console.print(

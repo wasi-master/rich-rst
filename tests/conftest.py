@@ -20,7 +20,7 @@ if str(ROOT) not in sys.path:
 from rich_rst._vendor import docutils
 import rich_rst._vendor.docutils.core
 import pytest
-from rich.console import Console
+from rich_rst._rich_compat import Console
 
 from rich_rst import RestructuredText, RSTVisitor
 

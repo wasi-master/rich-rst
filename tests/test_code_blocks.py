@@ -18,10 +18,10 @@ Formatting contract
   the format name.
 * **Math** content is rendered as plain text (the LaTeX source).
 """
-from rich.panel import Panel
-from rich.syntax import Syntax
-from rich.text import Text
-from rich.console import Console
+from rich_rst._rich_compat import Panel
+from rich_rst._rich_compat import Syntax
+from rich_rst._rich_compat import Text
+from rich_rst._rich_compat import Console
 
 from rich_rst import RSTVisitor
 from rich_rst._vendor import docutils

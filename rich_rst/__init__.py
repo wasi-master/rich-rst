@@ -26,22 +26,30 @@ import rich_rst._vendor.docutils.parsers.rst.directives
 import rich_rst._vendor.docutils.parsers.rst.directives.tables
 import rich_rst._vendor.docutils.utils
 
-# Imports from the rich package for the printing
-import rich
-from rich import box
-from rich.align import Align
-from rich.console import Console, ConsoleOptions, RenderResult, NewLine, Group
-from rich.jupyter import JupyterMixin
-from rich.panel import Panel
-from rich.style import Style
-from rich.syntax import Syntax, SyntaxTheme
-from rich.text import Text
-from rich.table import Table
-from rich.rule import Rule
-from rich.segment import Segment
-from rich.cells import cell_len
-from rich.styled import Styled
-from rich.terminal_theme import TerminalTheme, DEFAULT_TERMINAL_THEME
+# Imports from Rich or fast-rich compatibility layer for printing.
+from rich_rst._rich_compat import (
+    Align,
+    Console,
+    ConsoleOptions,
+    DEFAULT_TERMINAL_THEME,
+    Group,
+    JupyterMixin,
+    NewLine,
+    Panel,
+    RenderResult,
+    Rule,
+    Segment,
+    Style,
+    Styled,
+    Syntax,
+    SyntaxTheme,
+    Table,
+    TerminalTheme,
+    Text,
+    USING_FAST_RICH,
+    box,
+    cell_len,
+)
 
 from pygments.lexers import guess_lexer, get_lexer_by_name
 from pygments.util import ClassNotFound

@@ -20,7 +20,7 @@ Formatting contract (in-sentence context)
 * ``:sub:`` / ``:subscript:``   → digit/letter translated to subscript Unicode
 * ``:sup:`` / ``:superscript:`` → digit/letter translated to superscript Unicode
 """
-from rich.text import Text
+from rich_rst._rich_compat import Text
 
 
 def _get_text(make_visitor, rst):

@@ -17,7 +17,7 @@ When the ``display name <target>`` syntax is used, only the display name
 appears; the target identifier is omitted from the output.
 """
 import pytest
-from rich.text import Text
+from rich_rst._rich_compat import Text
 
 from rich_rst import _register_sphinx_roles
 

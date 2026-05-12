@@ -22,7 +22,7 @@ When no body content is supplied the panel is still emitted (empty body).
 When body content is supplied it appears in the rendered output.
 """
 import pytest
-from rich.panel import Panel
+from rich_rst._rich_compat import Panel
 
 from rich_rst import _register_sphinx_directives
 

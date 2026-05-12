@@ -27,8 +27,8 @@ Named admonition titles and border styles
 | attention  | "Attention:"| bold black on yellow    |
 +------------+------------+--------------------------+
 """
-from rich.panel import Panel
-from rich.style import Style
+from rich_rst._rich_compat import Panel
+from rich_rst._rich_compat import Style
 
 
 def _first_panel(make_visitor, directive):

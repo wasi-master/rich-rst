@@ -14,9 +14,9 @@ Formatting contract
   (separator line using ``===``).
 * ``Table.row_count`` equals the number of body rows in the RST table.
 """
-from rich.table import Table
-from rich.console import Group
-from rich.text import Text
+from rich_rst._rich_compat import Table
+from rich_rst._rich_compat import Group
+from rich_rst._rich_compat import Text
 
 from rich_rst import _register_sphinx_directives
 

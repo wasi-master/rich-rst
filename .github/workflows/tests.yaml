@@ -20,9 +20,11 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        backend: ["rich", "fast-rich"]
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
+      RICH_RST_USE_FAST_RICH: ${{ matrix.backend == 'fast-rich' && '1' || '0' }}
 
     steps:
       - name: Check out repository
@@ -35,7 +37,11 @@ jobs:
 
       - name: Install library
         run: |
-          pip install -e .
+          if [ "${{ matrix.backend }}" = "fast-rich" ]; then
+            pip install -e ".[speed]"
+          else
+            pip install -e .
+          fi
           pip install pytest pytest-coverage
 
       - name: Run tests

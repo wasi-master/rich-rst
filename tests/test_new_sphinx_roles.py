@@ -1,7 +1,7 @@
 """Tests for new Sphinx-specific interpreted-text roles."""
 import pytest
-from rich.console import Console
-from rich.text import Text
+from rich_rst._rich_compat import Console
+from rich_rst._rich_compat import Text
 
 from rich_rst import _register_sphinx_directives, _register_sphinx_roles
 from rich_rst import RestructuredText

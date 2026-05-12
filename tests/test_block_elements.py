@@ -22,12 +22,12 @@ Formatting contract
 * **Field list** — a rich ``Table`` with column headers
   ``"Field Name"`` and ``"Field Value"``.
 """
-from rich.align import Align
-from rich.console import NewLine
-from rich.panel import Panel
-from rich.rule import Rule
-from rich.table import Table
-from rich.text import Text
+from rich_rst._rich_compat import Align
+from rich_rst._rich_compat import NewLine
+from rich_rst._rich_compat import Panel
+from rich_rst._rich_compat import Rule
+from rich_rst._rich_compat import Table
+from rich_rst._rich_compat import Text
 
 
 # ── Paragraphs ────────────────────────────────────────────────────────────────

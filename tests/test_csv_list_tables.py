@@ -12,7 +12,7 @@ Formatting contract
 * The rendered plain-text output contains the cell values.
 * A caption set with the ``title`` argument appears as the Table title.
 """
-from rich.table import Table
+from rich_rst._rich_compat import Table
 
 
 # ── csv-table ─────────────────────────────────────────────────────────────────

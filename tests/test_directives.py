@@ -24,11 +24,11 @@ Formatting contract
 * **Footnote reference** — the bracket label (e.g. ``[1]``) in the body
   is rendered with a ``grey74`` coloured span.
 """
-from rich.align import Align
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
-from rich.text import Text
+from rich_rst._rich_compat import Align
+from rich_rst._rich_compat import Console
+from rich_rst._rich_compat import Panel
+from rich_rst._rich_compat import Table
+from rich_rst._rich_compat import Text
 from rich_rst import RestructuredText
 
 

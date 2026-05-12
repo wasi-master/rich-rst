@@ -16,8 +16,8 @@ Formatting contract
 * Both bullet and enumerated lists append a ``NewLine`` renderable after
   the last item.
 """
-from rich.console import NewLine
-from rich.text import Text
+from rich_rst._rich_compat import NewLine
+from rich_rst._rich_compat import Text
 
 
 # ── Bullet lists ─────────────────────────────────────────────────────────────

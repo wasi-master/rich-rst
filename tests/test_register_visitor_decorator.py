@@ -3,7 +3,7 @@ and list_registered_visitors (item 9d).
 """
 import pytest
 
-from rich.text import Text
+from rich_rst._rich_compat import Text
 from rich_rst import RSTVisitor
 from rich_rst._vendor import docutils
 import rich_rst._vendor.docutils.core

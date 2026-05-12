@@ -53,6 +53,9 @@ docs = [
     "sphinx_copybutton",
     "sphinx_rtd_theme"
 ]
+speed = [
+    "fast-rich>=0.3.1"
+]
 
 [tool.setuptools]
 

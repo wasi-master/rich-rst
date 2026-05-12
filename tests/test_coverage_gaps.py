@@ -23,13 +23,13 @@ Focus areas:
 - Generated and pending nodes
 """
 import pytest
-from rich.console import Console
-from rich.console import Console
-from rich.panel import Panel
-from rich.rule import Rule
-from rich.table import Table
-from rich.text import Text
-from rich.text import Text
+from rich_rst._rich_compat import Console
+from rich_rst._rich_compat import Console
+from rich_rst._rich_compat import Panel
+from rich_rst._rich_compat import Rule
+from rich_rst._rich_compat import Table
+from rich_rst._rich_compat import Text
+from rich_rst._rich_compat import Text
 import rich_rst
 import rich_rst._vendor.docutils.core
 from rich_rst._vendor import docutils

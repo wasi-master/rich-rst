@@ -1,12 +1,23 @@
 import argparse
 import sys
 from typing import Tuple
-from rich.panel import Panel
-from rich.console import Console
+
+from rich_rst._rich_compat import (
+    Console,
+    DEFAULT_TERMINAL_THEME,
+    DIMMED_MONOKAI,
+    MONOKAI,
+    NIGHT_OWLISH,
+    Panel,
+    TerminalTheme,
+)
 from rich_rst import RestructuredText, __version__
-from rich.terminal_theme import TerminalTheme, DEFAULT_TERMINAL_THEME, MONOKAI, NIGHT_OWLISH, DIMMED_MONOKAI
-from rich.traceback import install
-from rich.text import Text
+from rich_rst._rich_compat import Text
+
+try:
+    from fast_rich.traceback import install
+except Exception:
+    from rich.traceback import install
 
 def rgb(r: int, g: int, b: int) -> Tuple[int, int, int]:
     """
