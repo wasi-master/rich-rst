@@ -35,13 +35,16 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install library
+      - name: Install library (rich)
+        if: matrix.backend == 'rich'
         run: |
-          if [ "${{ matrix.backend }}" = "fast-rich" ]; then
-            pip install -e ".[speed]"
-          else
-            pip install -e .
-          fi
+          pip install -e .
+          pip install pytest pytest-coverage
+
+      - name: Install library (fast-rich)
+        if: matrix.backend == 'fast-rich'
+        run: |
+          pip install -e ".[speed]"
           pip install pytest pytest-coverage
 
       - name: Run tests

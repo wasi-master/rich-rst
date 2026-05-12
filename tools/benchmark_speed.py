@@ -15,6 +15,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
 DEFAULT_INPUT = REPO_ROOT / "docs" / "source" / "_extra" / "specification.txt"
+UNICODE_STRESS_SECTIONS = 1200
 
 _SNIPPET = r"""
 from __future__ import annotations
@@ -73,14 +74,13 @@ def run_backend(input_file: Path, multiplier: int, iterations: int, width: int, 
 def build_unicode_stress_file() -> Path:
     row = "| 列一 😀😀😀 | 列二 αβγδεζηθ | 列三 你好世界 |\n"
     parts = []
-    for i in range(1200):
+    for i in range(UNICODE_STRESS_SECTIONS):
         parts.append(f"Section {i}\n---------\n\n")
         parts.append(row * 3)
         parts.append("\n这是一些包含宽字符和emoji 😀😄😁 的文本，用于压力测试。\n\n")
-    handle = tempfile.NamedTemporaryFile(prefix="rich-rst-bench-", suffix=".rst", delete=False)
-    path = Path(handle.name)
-    handle.close()
-    path.write_text("".join(parts), encoding="utf-8")
+    with tempfile.NamedTemporaryFile(prefix="rich-rst-bench-", suffix=".rst", delete=False, mode="w", encoding="utf-8") as handle:
+        handle.write("".join(parts))
+        path = Path(handle.name)
     return path
 
 

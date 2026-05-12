@@ -24,17 +24,14 @@ Focus areas:
 """
 import pytest
 from rich_rst._rich_compat import Console
-from rich_rst._rich_compat import Console
 from rich_rst._rich_compat import Panel
 from rich_rst._rich_compat import Rule
 from rich_rst._rich_compat import Table
-from rich_rst._rich_compat import Text
 from rich_rst._rich_compat import Text
 import rich_rst
 import rich_rst._vendor.docutils.core
 from rich_rst._vendor import docutils
 from rich_rst import RestructuredText, RSTVisitor
-from rich_rst import RSTVisitor, RestructuredText
 
 
 def test_validate_default_lexer_name_accepts_none():

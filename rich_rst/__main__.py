@@ -16,7 +16,7 @@ from rich_rst._rich_compat import Text
 
 try:
     from fast_rich.traceback import install
-except Exception:
+except ImportError:
     from rich.traceback import install
 
 def rgb(r: int, g: int, b: int) -> Tuple[int, int, int]:

@@ -12,7 +12,7 @@ USING_FAST_RICH = False
 if _FAST_RICH_ALLOWED:
     try:
         import fast_rich as _rich_backend  # type: ignore[import-not-found]
-    except Exception:
+    except ImportError:
         _rich_backend = None
     else:
         USING_FAST_RICH = True

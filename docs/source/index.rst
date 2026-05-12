@@ -90,9 +90,9 @@ Example result:
    * - Backend
      - Mean (s)
    * - rich
-     - 1.2972
+     - 1.3029
    * - fast-rich
-     - 1.2643
+     - 1.2761
 
 Contributing
 ------------

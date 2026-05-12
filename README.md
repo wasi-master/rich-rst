@@ -122,7 +122,7 @@ Example result on this branch:
 
 | Backend | Mean (s) |
 |---|---:|
-| rich | 1.2972 |
-| fast-rich | 1.2643 |
+| rich | 1.3029 |
+| fast-rich | 1.2761 |
 
-Mean speed improvement with fast-rich: **2.53%**.
+Mean speed improvement with fast-rich: **2.06%**.
