@@ -3770,15 +3770,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 grid.append(grid_row)
 
             # ── calculate column widths from non-spanning cells ───────────────
-            rendered_plain_lines_cache: Dict[int, List[str]] = {}
+            rendered_plain_lines_cache: Dict[int, Tuple[Any, List[str]]] = {}
 
             def _rendered_plain_lines(renderable: Any) -> List[str]:
                 if renderable is None:
                     return []
                 cache_key = id(renderable)
                 cached = rendered_plain_lines_cache.get(cache_key)
-                if cached is not None:
-                    return cached
+                if cached is not None and cached[0] is renderable:
+                    return cached[1]
                 lines = self.console.render_lines(
                     renderable,
                     options=self.console.options.update(width=2048, max_width=2048),
@@ -3789,7 +3789,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 for line in lines:
                     plain = "".join(seg.text for seg in line if not seg.control)
                     plain_lines.append(plain)
-                rendered_plain_lines_cache[cache_key] = plain_lines
+                rendered_plain_lines_cache[cache_key] = (renderable, plain_lines)
                 return plain_lines
 
             def _plain_w(renderable: Any) -> int:
