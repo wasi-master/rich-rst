@@ -962,16 +962,33 @@ DEMOS = [
                 "name": "Flat Table: Combined :cspan: and :rspan:",
                 "rst": textwrap.dedent("""\
                     .. flat-table:: Combined Spans
-                       :header-rows: 1
+                       :header-rows: 3
 
-                       * - :cspan:`2` Full-width header
+                       * - Full-width title header
 
-                       * - :rspan:`1` Tall cell
-                         - Top-right
-                         - Also top-right
+                       * - :cspan:`1` header 1
+                         - :cspan:`1` header 2
+                         - :cspan:`1` header 3
+                                       
+                       * - Sub-header 1
+                         - Sub-header 2
+                         - Sub-header 3
+                         - Sub-header 4
+                         - Sub-header 5
+                         - Sub-header 6
+ 
+                       * - :rspan:`1` :cspan:`1` Big cell spanning 2 rows and 2 column
+                         - :cspan:`1` Large cell spanning 2 columns
+                         - :cspan:`3` Large cell spanning 4 columns
 
-                       * - Bottom-right
-                         - Also bottom-right"""),
+                       * - :rspan:`1` Tall cell spanning 2 rows
+                         - Cell 3
+                         - :rspan:`1` :cspan:`2` Big cell spanning 2 rows and 3 columns
+
+                       * - Cell 1
+                         - Cell 2
+                         - Cell 4
+                         - """), # TODO: Empty column to fix missing separator.
             },
             {
                 "name": "flat-table — single cell with :cspan: and :rspan: (2×2 block)",

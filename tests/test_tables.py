@@ -840,3 +840,47 @@ def test_flat_table_cspan_no_unnecessary_column_widening(render_text):
         f"Columns must not be inflated: expected border width 16, got {len(bottom)}. "
         f"Old +mc formula would give 18 by spuriously widening col 1 by 2 chars."
     )
+
+
+def test_flat_table_multi_header_rows_inner_separator_is_heavy(render_text):
+    """Separator between two header rows must use heavy box chars (━ / ┣ / ┫).
+
+    Regression test for issue #51: with header-rows: 2 the line between the
+    first and second header row was rendered with light body-row chars (─/├/┤)
+    instead of bold/heavy ones.
+    """
+    rst = (
+        ".. flat-table:: Combined Spans\n"
+        "   :header-rows: 2\n\n"
+        "   * - :cspan:`2` Full-width header\n"
+        "   * - :cspan:`2` Full-width subheader\n\n"
+        "   * - :rspan:`1` Tall cell\n"
+        "     - Top-right\n"
+        "     - Also top-right\n\n"
+        "   * - Bottom-right\n"
+        "     - Also bottom-right\n"
+    )
+    out = render_text(rst)
+    lines = out.splitlines()
+
+    header_line_idx = next(i for i, l in enumerate(lines) if "Full-width header" in l)
+    inner_sep = lines[header_line_idx + 1]
+
+    assert inner_sep.startswith("┣"), (
+        "Intra-header separator must start with heavy ┣, got: " + repr(inner_sep[:4])
+    )
+    assert "━" in inner_sep, (
+        "Intra-header separator must use heavy horizontal ━, got: " + repr(inner_sep)
+    )
+    assert inner_sep.endswith("┫"), (
+        "Intra-header separator must end with heavy ┫, got: " + repr(inner_sep[-4:])
+    )
+    assert "─" not in inner_sep, (
+        "Intra-header separator must not contain light ─"
+    )
+
+    subheader_line_idx = next(i for i, l in enumerate(lines) if "Full-width subheader" in l)
+    head_body_sep = lines[subheader_line_idx + 1]
+    assert head_body_sep.startswith("┡"), (
+        "Header/body separator must still start with transitional ┡"
+    )
