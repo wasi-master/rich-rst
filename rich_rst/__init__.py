@@ -1578,24 +1578,33 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         # in large documents.
         self._visit_dispatch_cache: Dict[Type[docutils.nodes.Node], Callable[[docutils.nodes.Node], Any]] = {}
         self._depart_dispatch_cache: Dict[Type[docutils.nodes.Node], Callable[[docutils.nodes.Node], Any]] = {}
+        self._dispatch_cache_lock = threading.Lock()
 
     def _resolve_visit_handler(self, node_type: Type[docutils.nodes.Node]) -> Callable[[docutils.nodes.Node], Any]:
         cached = self._visit_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
         if cached is not self._DISPATCH_CACHE_MISS:
             return cached
 
-        handler = getattr(self, "visit_" + node_type.__name__, self.unknown_visit)
-        self._visit_dispatch_cache[node_type] = handler
-        return handler
+        with self._dispatch_cache_lock:
+            cached = self._visit_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
+            if cached is not self._DISPATCH_CACHE_MISS:
+                return cached
+            handler = getattr(self, "visit_" + node_type.__name__, self.unknown_visit)
+            self._visit_dispatch_cache[node_type] = handler
+            return handler
 
     def _resolve_depart_handler(self, node_type: Type[docutils.nodes.Node]) -> Callable[[docutils.nodes.Node], Any]:
         cached = self._depart_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
         if cached is not self._DISPATCH_CACHE_MISS:
             return cached
 
-        handler = getattr(self, "depart_" + node_type.__name__, self.unknown_departure)
-        self._depart_dispatch_cache[node_type] = handler
-        return handler
+        with self._dispatch_cache_lock:
+            cached = self._depart_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
+            if cached is not self._DISPATCH_CACHE_MISS:
+                return cached
+            handler = getattr(self, "depart_" + node_type.__name__, self.unknown_departure)
+            self._depart_dispatch_cache[node_type] = handler
+            return handler
 
     def _translate_with_fallback(self, text: str, table: Dict[int, Union[int, str, None]]) -> str:
         """Translate characters using `table` while preserving unmapped/deleted chars."""
@@ -3770,6 +3779,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 grid.append(grid_row)
 
             # ── calculate column widths from non-spanning cells ───────────────
+            # Per-table-call cache; dropped after this visit_table invocation.
             rendered_plain_lines_cache: Dict[int, Tuple[Any, List[str]]] = {}
 
             def _rendered_plain_lines(renderable: Any) -> List[str]:
@@ -4078,20 +4088,24 @@ class RestructuredText(JupyterMixin):
                 break
 
         for renderable in visitor.renderables:
-            yield renderable
+            yield from console.render(renderable, options)
         if self.show_errors and visitor.errors:
             for error in visitor.errors:
-                yield error
+                yield from console.render(error, options)
 
         citation_style = console.get_style("restructuredtext.citation", default="none")
         citation_border_style = console.get_style("restructuredtext.citation_border", default="grey74")
         if visitor.citations:
-            yield Panel(Group(*visitor.citations), title="citation", box=box.SQUARE, border_style=citation_border_style, style=citation_style)
+            yield from console.render(
+                Panel(Group(*visitor.citations), title="citation", box=box.SQUARE, border_style=citation_border_style, style=citation_style)
+            )
 
         style = console.get_style("restructuredtext.footer", default="none")
         border_style = console.get_style("restructuredtext.footer_border", default="grey74")
         if visitor.footer:
-            yield Panel(Group(*visitor.footer), title="Footer", box=box.SQUARE, border_style=border_style, style=style)
+            yield from console.render(
+                Panel(Group(*visitor.footer), title="Footer", box=box.SQUARE, border_style=border_style, style=style)
+            )
 
 
 RST = reST = ReStructuredText = reStructuredText = RestructuredText
