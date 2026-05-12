@@ -1589,7 +1589,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             cached = self._visit_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
             if cached is not self._DISPATCH_CACHE_MISS:
                 return cached
-            handler = getattr(self, "visit_" + node_type.__name__, self.unknown_visit)
+            handler = getattr(self, f"visit_{node_type.__name__}", self.unknown_visit)
             self._visit_dispatch_cache[node_type] = handler
             return handler
 
@@ -1602,7 +1602,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             cached = self._depart_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
             if cached is not self._DISPATCH_CACHE_MISS:
                 return cached
-            handler = getattr(self, "depart_" + node_type.__name__, self.unknown_departure)
+            handler = getattr(self, f"depart_{node_type.__name__}", self.unknown_departure)
             self._depart_dispatch_cache[node_type] = handler
             return handler
 
@@ -3780,15 +3780,16 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
             # ── calculate column widths from non-spanning cells ───────────────
             # Per-table-call cache; dropped after this visit_table invocation.
-            rendered_plain_lines_cache: Dict[int, Tuple[Any, List[str]]] = {}
+            # Keep identity pairs instead of id(...) keys so reuse of object ids
+            # can never return stale data.
+            rendered_plain_lines_cache: List[Tuple[Any, List[str]]] = []
 
             def _rendered_plain_lines(renderable: Any) -> List[str]:
                 if renderable is None:
                     return []
-                cache_key = id(renderable)
-                cached = rendered_plain_lines_cache.get(cache_key)
-                if cached is not None and cached[0] is renderable:
-                    return cached[1]
+                for cached_renderable, cached_lines in rendered_plain_lines_cache:
+                    if cached_renderable is renderable:
+                        return cached_lines
                 lines = self.console.render_lines(
                     renderable,
                     options=self.console.options.update(width=2048, max_width=2048),
@@ -3799,7 +3800,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 for line in lines:
                     plain = "".join(seg.text for seg in line if not seg.control)
                     plain_lines.append(plain)
-                rendered_plain_lines_cache[cache_key] = (renderable, plain_lines)
+                rendered_plain_lines_cache.append((renderable, plain_lines))
                 return plain_lines
 
             def _plain_w(renderable: Any) -> int:
