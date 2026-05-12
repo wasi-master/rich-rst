@@ -16,6 +16,12 @@ Install the latest stable release from PyPI:
 
    python -m pip install rich-rst
 
+Install with experimental speed mode (uses ``fast-rich`` when available):
+
+.. code-block:: bash
+
+   python -m pip install "rich-rst[speed]"
+
 To install the development version directly from the ``main`` branch:
 
 .. code-block:: bash
@@ -26,6 +32,8 @@ To install the development version directly from the ``main`` branch:
 
    On Linux and macOS you may need to use ``python3`` instead of ``python``.
    On Windows you can use ``py`` as a shorthand.
+   If ``fast-rich`` is installed, ``rich-rst`` uses it automatically (experimental).
+   Set ``RICH_RST_USE_FAST_RICH=0`` to force standard Rich.
 
 Quick start
 -----------
@@ -58,6 +66,33 @@ Read from standard input:
    cat README.rst | python -m rich_rst -
 
 Run ``python -m rich_rst --help`` for the full list of options.
+
+Benchmarking
+------------
+
+Benchmark large RST files across both backends:
+
+.. code-block:: bash
+
+   python tools/benchmark_speed.py
+
+Unicode-heavy stress benchmark:
+
+.. code-block:: bash
+
+   python tools/benchmark_speed.py --preset unicode-stress --multiplier 1 --iterations 5 --width 120
+
+Example result:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Backend
+     - Mean (s)
+   * - rich
+     - 1.2972
+   * - fast-rich
+     - 1.2643
 
 Contributing
 ------------

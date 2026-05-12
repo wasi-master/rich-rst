@@ -29,6 +29,19 @@ Render [reStructuredText](https://docutils.sourceforge.io/rst.html) with [Rich](
 pip install rich-rst
 ```
 
+Experimental speed mode (uses `fast-rich` when available):
+
+```sh
+pip install "rich-rst[speed]"
+```
+
+By default, if `fast-rich` is installed then `rich-rst` will use it automatically.
+To force standard Rich, set:
+
+```sh
+RICH_RST_USE_FAST_RICH=0
+```
+
 ## Python API
 
 ```python
@@ -90,3 +103,26 @@ The renderer is designed for terminal output, so not every docutils feature can 
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
+
+## Benchmarking
+
+Benchmark large RST rendering with both backends:
+
+```sh
+python tools/benchmark_speed.py
+```
+
+Unicode-heavy benchmark preset (large file stress test):
+
+```sh
+python tools/benchmark_speed.py --preset unicode-stress --multiplier 1 --iterations 5 --width 120
+```
+
+Example result on this branch:
+
+| Backend | Mean (s) |
+|---|---:|
+| rich | 1.2972 |
+| fast-rich | 1.2643 |
+
+Mean speed improvement with fast-rich: **2.53%**.

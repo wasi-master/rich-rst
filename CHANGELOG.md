@@ -1,3 +1,10 @@
+## [Unreleased]
+
+- Add experimental fast-rich backend support with automatic fallback to Rich.
+- Add optional install extra ``rich-rst[speed]`` to install ``fast-rich``.
+- Add dual-backend CI test matrix (Rich and fast-rich).
+- Add large-RST benchmark script: ``python tools/benchmark_speed.py``.
+
 ### [0.1.0]
 
 - Initial Release
