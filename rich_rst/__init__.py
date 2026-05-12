@@ -3418,19 +3418,29 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 and above == header_rows - 1
                 and below == header_rows
             )
+            # Separator between two header rows (not the final header→body boundary).
+            is_inner_header_sep = (
+                above is not None
+                and below is not None
+                and _is_header(above)
+                and _is_header(below)
+            )
             if is_top:
                 L, H, M, R = TL, TH, TM, TR
             elif is_bot:
                 L, H, M, R = BL, BH, BM, BR
             elif is_head_sep:
                 L, H, M, R = SL, SH, SM, SR
+            elif is_inner_header_sep:
+                L, H, M, R = "┣", "━", "╋", "┫"
             else:
                 L, H, M, R = ML, MH, MM, MR
 
-            # Left border: use │ when col 0 is an active rspan (cell continues)
+            # Left border: use heavy ┃ inside header, light │ in body, for rspan continuations
             rc0 = _rspan_continues(above, 0) if above is not None and not is_top else False
+            V_sep = VH if is_inner_header_sep else VB
             if rc0 and not is_top and not is_bot:
-                s = VB
+                s = V_sep
             else:
                 s = L
             for c in range(ncols):
@@ -3451,23 +3461,33 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                         )
                         # When both columns continue the same merged rowspan cell,
                         # there is no interior boundary at this separator.
-                        s += " " if same_origin else VB
+                        s += " " if same_origin else V_sep
                     elif lrc or rrc:
-                        s += "├" if lrc else "┤"
+                        if is_inner_header_sep:
+                            s += "┣" if lrc else "┫"
+                        else:
+                            s += "├" if lrc else "┤"
                     else:
                         has_up = above is not None and not is_top and _has_vborder(above, c)
                         has_dn = below is not None and _has_vborder(below, c)
                         if has_up and has_dn:
-                            s += SM if is_head_sep else MM
+                            if is_head_sep:
+                                s += SM
+                            elif is_inner_header_sep:
+                                s += "╋"
+                            else:
+                                s += MM
                         elif has_up:
-                            # ┻ = heavy up + heavy horizontal (head sep); ┴ otherwise
-                            s += "┻" if is_head_sep else BM
+                            # ┻ = heavy horizontal + upward arm (head sep and inner header)
+                            s += "┻" if (is_head_sep or is_inner_header_sep) else BM
                         elif has_dn:
-                            # ┯ = light down + heavy horizontal (head sep); ┳ at top; ┬ in body
+                            # ┯/┳ = heavy horizontal + downward arm
                             if is_top:
                                 s += TM
                             elif is_head_sep:
                                 s += "┯"
+                            elif is_inner_header_sep:
+                                s += "┳"
                             else:
                                 s += "┬"
                         else:
@@ -3475,7 +3495,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             # Right border
             rcN = _rspan_continues(above, ncols - 1) if above is not None and not is_top else False
             if rcN and not is_top and not is_bot:
-                s += VB
+                s += V_sep
             else:
                 s += R
             return Text(s)
