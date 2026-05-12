@@ -53,6 +53,10 @@ docs = [
     "sphinx_copybutton",
     "sphinx_rtd_theme"
 ]
+tests = [
+    "pytest",
+    "pytest-cov"
+]
 
 [tool.setuptools]
 

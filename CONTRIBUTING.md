@@ -14,8 +14,7 @@ Example:
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -U pip
-python -m pip install -e .
-python -m pip install pytest pytest-cov
+python -m pip install -e ".[tests]"
 ```
 
 ## Running Tests
