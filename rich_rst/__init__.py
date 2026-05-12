@@ -1530,16 +1530,22 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         return dict(cls._custom_visitors)
 
     def dispatch_visit(self, node: docutils.nodes.Node) -> None:
-        handler = self._resolve_visit_handler(type(node))
-        if handler is not None:
-            return handler(node)
-        return None
+        entry = self._custom_visitors.get(type(node))
+        if entry is not None:
+            visit_fn, _ = entry
+            if visit_fn is not None:
+                return visit_fn(self, node)
+            return None
+        return self._resolve_visit_handler(type(node))(node)
 
     def dispatch_departure(self, node: docutils.nodes.Node) -> None:
-        handler = self._resolve_depart_handler(type(node))
-        if handler is not None:
-            return handler(node)
-        return None
+        entry = self._custom_visitors.get(type(node))
+        if entry is not None:
+            _, depart_fn = entry
+            if depart_fn is not None:
+                return depart_fn(self, node)
+            return None
+        return self._resolve_depart_handler(type(node))(node)
 
     def __init__(
         self,
@@ -1570,40 +1576,22 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.refname_to_renderable: Dict[str, Tuple[Text, int, int]] = {}
         # Cache node-type dispatch handlers to reduce per-node lookup cost
         # in large documents.
-        self._visit_dispatch_cache: Dict[Type[docutils.nodes.Node], Optional[Callable[[docutils.nodes.Node], Any]]] = {}
-        self._depart_dispatch_cache: Dict[Type[docutils.nodes.Node], Optional[Callable[[docutils.nodes.Node], Any]]] = {}
+        self._visit_dispatch_cache: Dict[Type[docutils.nodes.Node], Callable[[docutils.nodes.Node], Any]] = {}
+        self._depart_dispatch_cache: Dict[Type[docutils.nodes.Node], Callable[[docutils.nodes.Node], Any]] = {}
 
-    def _resolve_visit_handler(self, node_type: Type[docutils.nodes.Node]) -> Optional[Callable[[docutils.nodes.Node], Any]]:
+    def _resolve_visit_handler(self, node_type: Type[docutils.nodes.Node]) -> Callable[[docutils.nodes.Node], Any]:
         cached = self._visit_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
         if cached is not self._DISPATCH_CACHE_MISS:
             return cached
-
-        entry = self._custom_visitors.get(node_type)
-        if entry is not None:
-            visit_fn, _ = entry
-            if visit_fn is None:
-                self._visit_dispatch_cache[node_type] = None
-            else:
-                self._visit_dispatch_cache[node_type] = lambda node, fn=visit_fn: fn(self, node)
-            return self._visit_dispatch_cache[node_type]
 
         handler = getattr(self, "visit_" + node_type.__name__, self.unknown_visit)
         self._visit_dispatch_cache[node_type] = handler
         return handler
 
-    def _resolve_depart_handler(self, node_type: Type[docutils.nodes.Node]) -> Optional[Callable[[docutils.nodes.Node], Any]]:
+    def _resolve_depart_handler(self, node_type: Type[docutils.nodes.Node]) -> Callable[[docutils.nodes.Node], Any]:
         cached = self._depart_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
         if cached is not self._DISPATCH_CACHE_MISS:
             return cached
-
-        entry = self._custom_visitors.get(node_type)
-        if entry is not None:
-            _, depart_fn = entry
-            if depart_fn is None:
-                self._depart_dispatch_cache[node_type] = None
-            else:
-                self._depart_dispatch_cache[node_type] = lambda node, fn=depart_fn: fn(self, node)
-            return self._depart_dispatch_cache[node_type]
 
         handler = getattr(self, "depart_" + node_type.__name__, self.unknown_departure)
         self._depart_dispatch_cache[node_type] = handler
@@ -3782,9 +3770,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 grid.append(grid_row)
 
             # ── calculate column widths from non-spanning cells ───────────────
+            rendered_plain_lines_cache: Dict[int, List[str]] = {}
+
             def _rendered_plain_lines(renderable: Any) -> List[str]:
                 if renderable is None:
                     return []
+                cache_key = id(renderable)
+                cached = rendered_plain_lines_cache.get(cache_key)
+                if cached is not None:
+                    return cached
                 lines = self.console.render_lines(
                     renderable,
                     options=self.console.options.update(width=2048, max_width=2048),
@@ -3795,6 +3789,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 for line in lines:
                     plain = "".join(seg.text for seg in line if not seg.control)
                     plain_lines.append(plain)
+                rendered_plain_lines_cache[cache_key] = plain_lines
                 return plain_lines
 
             def _plain_w(renderable: Any) -> int:
