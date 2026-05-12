@@ -1385,6 +1385,11 @@ _LATEX_TO_UNICODE = {
     r'\quad': '  ', r'\qquad': '    ', r'\ ': ' ',
 }
 
+# Pre-sort substitutions once so repeated conversions avoid sorting overhead.
+_LATEX_TO_UNICODE_SORTED = tuple(
+    sorted(_LATEX_TO_UNICODE.items(), key=lambda item: -len(item[0]))
+)
+
 
 def _convert_math_to_unicode(text: str) -> str:
     """Convert common LaTeX math notation to Unicode approximations.
@@ -1414,7 +1419,7 @@ def _convert_math_to_unicode(text: str) -> str:
     result = result.replace('{', '').replace('}', '')
 
     # Apply symbol substitutions (longest first to avoid partial replacements)
-    for latex, uni in sorted(_LATEX_TO_UNICODE.items(), key=lambda x: -len(x[0])):
+    for latex, uni in _LATEX_TO_UNICODE_SORTED:
         result = result.replace(latex, uni)
 
     return result
@@ -1441,6 +1446,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     # subclass registrations (and vice-versa).  Registrations on RSTVisitor
     # itself are truly global and apply to every instance.
     _custom_visitors: ClassVar[Dict[Type[docutils.nodes.Node], Tuple[Optional[Callable[..., Any]], Optional[Callable[..., Any]]]]] = {}
+    _DISPATCH_CACHE_MISS: ClassVar[object] = object()
 
     @classmethod
     def register_visitor(cls, node_class: Type[docutils.nodes.Node], visit_fn: Optional[Callable[..., Any]] = None, depart_fn: Optional[Callable[..., Any]] = None) -> Optional[Callable[..., Any]]:
@@ -1529,8 +1535,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             visit_fn, _ = entry
             if visit_fn is not None:
                 return visit_fn(self, node)
-            return
-        return super().dispatch_visit(node)
+            return None
+        return self._resolve_visit_handler(type(node))(node)
 
     def dispatch_departure(self, node: docutils.nodes.Node) -> None:
         entry = self._custom_visitors.get(type(node))
@@ -1538,8 +1544,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             _, depart_fn = entry
             if depart_fn is not None:
                 return depart_fn(self, node)
-            return
-        return super().dispatch_departure(node)
+            return None
+        return self._resolve_depart_handler(type(node))(node)
 
     def __init__(
         self,
@@ -1568,6 +1574,37 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.guess_lexer: Optional[bool] = guess_lexer
         self.default_lexer: Optional[str] = _validate_default_lexer_name(default_lexer)
         self.refname_to_renderable: Dict[str, Tuple[Text, int, int]] = {}
+        # Cache node-type dispatch handlers to reduce per-node lookup cost
+        # in large documents.
+        self._visit_dispatch_cache: Dict[Type[docutils.nodes.Node], Callable[[docutils.nodes.Node], Any]] = {}
+        self._depart_dispatch_cache: Dict[Type[docutils.nodes.Node], Callable[[docutils.nodes.Node], Any]] = {}
+        self._dispatch_cache_lock = threading.Lock()
+
+    def _resolve_visit_handler(self, node_type: Type[docutils.nodes.Node]) -> Callable[[docutils.nodes.Node], Any]:
+        cached = self._visit_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
+        if cached is not self._DISPATCH_CACHE_MISS:
+            return cached
+
+        with self._dispatch_cache_lock:
+            cached = self._visit_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
+            if cached is not self._DISPATCH_CACHE_MISS:
+                return cached
+            handler = getattr(self, f"visit_{node_type.__name__}", self.unknown_visit)
+            self._visit_dispatch_cache[node_type] = handler
+            return handler
+
+    def _resolve_depart_handler(self, node_type: Type[docutils.nodes.Node]) -> Callable[[docutils.nodes.Node], Any]:
+        cached = self._depart_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
+        if cached is not self._DISPATCH_CACHE_MISS:
+            return cached
+
+        with self._dispatch_cache_lock:
+            cached = self._depart_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
+            if cached is not self._DISPATCH_CACHE_MISS:
+                return cached
+            handler = getattr(self, f"depart_{node_type.__name__}", self.unknown_departure)
+            self._depart_dispatch_cache[node_type] = handler
+            return handler
 
     def _translate_with_fallback(self, text: str, table: Dict[int, Union[int, str, None]]) -> str:
         """Translate characters using `table` while preserving unmapped/deleted chars."""
@@ -3742,9 +3779,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 grid.append(grid_row)
 
             # ── calculate column widths from non-spanning cells ───────────────
+            # Per-table-call cache; dropped after this visit_table invocation.
+            # Keep identity pairs instead of id(...) keys so reuse of object ids
+            # can never return stale data.
+            rendered_plain_lines_cache: List[Tuple[Any, List[str]]] = []
+
             def _rendered_plain_lines(renderable: Any) -> List[str]:
                 if renderable is None:
                     return []
+                for cached_renderable, cached_lines in rendered_plain_lines_cache:
+                    if cached_renderable is renderable:
+                        return cached_lines
                 lines = self.console.render_lines(
                     renderable,
                     options=self.console.options.update(width=2048, max_width=2048),
@@ -3755,6 +3800,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 for line in lines:
                     plain = "".join(seg.text for seg in line if not seg.control)
                     plain_lines.append(plain)
+                rendered_plain_lines_cache.append((renderable, plain_lines))
                 return plain_lines
 
             def _plain_w(renderable: Any) -> int:
