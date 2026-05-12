@@ -3207,8 +3207,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         if lexer == "html":
             text = strip_tags(text)
-            # _guess_lexer_name returns (name, was_guessed); unpack correctly.
-            lexer, _ = self._guess_lexer_name(text) if self.guess_lexer else (self.default_lexer, False)
+            # Stripping HTML tags leaves behind plain text
+            lexer = None
 
         self.renderables.append(
             Panel(
