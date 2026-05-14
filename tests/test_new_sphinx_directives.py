@@ -705,7 +705,7 @@ def test_cpp_alias_signature_title_highlighting_rules(make_visitor):
 
 def test_c_cpp_desc_panel_colors_vary_by_object_type(make_visitor):
     c_enum_panel = _first_panel(make_visitor, ".. c:enum:: color\n")
-    c_member_panel = _first_panel(make_visitor, ".. c:member:: int struct color.value\n")
+    c_member_panel = _first_panel(make_visitor, ".. c:member:: int color.value\n")
     cpp_class_panel = _first_panel(make_visitor, ".. cpp:class:: Widget\n")
     cpp_alias_panel = _first_panel(make_visitor, ".. cpp:alias:: StringMap = std::unordered_map\n")
 
