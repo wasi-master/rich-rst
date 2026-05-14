@@ -109,16 +109,28 @@ class hlist_block(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.El
 # ── Docutils directive classes for Sphinx-specific directives ─────────────────
 
 class _VersionDirective(docutils.parsers.rst.Directive):
-    """Handles ``.. versionadded::``, ``.. versionchanged::``, and ``.. deprecated::``."""
+    """Handles ``.. versionadded::``, ``.. versionchanged::``, and ``.. deprecated::``.
+
+    Matches Sphinx's signature: the version is the first argument and an
+    optional explanation is the second. ``final_argument_whitespace`` lets
+    the explanation span the indented line(s) immediately following the
+    directive (no blank line required), per the Python devguide form
+    ``.. versionchanged:: 2.0\\n   Added the *spam* parameter.``.
+    """
 
     required_arguments = 1
-    optional_arguments = 0
+    optional_arguments = 1
     final_argument_whitespace = True
     option_spec = {}
     has_content = True
 
     def run(self) -> List[docutils.nodes.Node]:
         node = versionmodified(type=self.name, version=self.arguments[0])
+        if len(self.arguments) > 1:
+            explanation = self.arguments[1]
+            inline_nodes, messages = self.state.inline_text(explanation, self.lineno)
+            node += docutils.nodes.paragraph(explanation, '', *inline_nodes)
+            node += messages
         if self.content:
             self.state.nested_parse(self.content, self.content_offset, node)
         return [node]
