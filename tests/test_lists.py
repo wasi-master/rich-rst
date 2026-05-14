@@ -33,6 +33,11 @@ def test_bullet_list_multiple_items_all_visible(render_text):
     assert "gamma" in out
 
 
+def test_bullet_list_items_render_without_blank_lines_between_entries(render_text):
+    out = render_text("* alpha\n* beta\n* gamma\n")
+    assert out.splitlines() == [" • alpha", " • beta", " • gamma"]
+
+
 def test_bullet_list_marker_plain_text_is_bullet_char(make_visitor):
     visitor = make_visitor("* item\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
@@ -79,6 +84,11 @@ def test_enumerated_list_multiple_items_all_visible(render_text):
     assert "one" in out
     assert "two" in out
     assert "three" in out
+
+
+def test_enumerated_list_items_render_without_blank_lines_between_entries(render_text):
+    out = render_text("#. one\n#. two\n#. three\n")
+    assert out.splitlines() == [" 1. one", " 2. two", " 3. three"]
 
 
 def test_enumerated_list_first_marker_plain_text(make_visitor):

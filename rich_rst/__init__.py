@@ -1751,7 +1751,10 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def depart_paragraph(self, node) -> None:  # pylint: disable=unused-argument
         if self.renderables and isinstance(self.renderables[-1], Text):
             if self.renderables[-1]:
-                self.renderables[-1].append("\n\n")
+                if isinstance(getattr(node, "parent", None), docutils.nodes.list_item):
+                    self.renderables[-1].append("\n")
+                else:
+                    self.renderables[-1].append("\n\n")
 
     def visit_title(self, node) -> None:
         level = self._section_level(node)
