@@ -721,6 +721,36 @@ def test_js_function_produces_panel(make_visitor):
     assert panels, "js:function should produce a Panel"
 
 
+def test_js_method_signature_title_highlighting_rules(make_visitor):
+    rst = ".. js:method:: UserManager.authenticate(user, retries = 3)\n\n   A JS method.\n"
+    panel = _first_panel(make_visitor, rst)
+    assert isinstance(panel.title, Text)
+    title = panel.title
+
+    assert _span_covers_token(title, "authenticate", lambda style: style.bold)
+    assert _span_covers_token(title, ".", lambda style: style.bold or style.color is not None)
+    assert _span_covers_token(title, "3", lambda style: style.color is not None)
+
+
+def test_js_module_signature_title_highlighting_rules(make_visitor):
+    rst = ".. js:module:: analytics.core\n\n   A JS module.\n"
+    panel = _first_panel(make_visitor, rst)
+    assert isinstance(panel.title, Text)
+    title = panel.title
+
+    assert _span_covers_token(title, "analytics", lambda style: style.color is not None)
+    assert _span_covers_token(title, "core", lambda style: style.bold)
+
+
+def test_js_desc_panel_colors_vary_by_object_type(make_visitor):
+    function_panel = _first_panel(make_visitor, ".. js:function:: parseConfiguration(config)\n")
+    class_panel = _first_panel(make_visitor, ".. js:class:: UserManager\n")
+    data_panel = _first_panel(make_visitor, ".. js:data:: API_VERSION\n")
+
+    assert function_panel.border_style != class_panel.border_style
+    assert class_panel.border_style != data_panel.border_style
+
+
 # ── autodoc directives ────────────────────────────────────────────────────────
 
 def test_automodule_produces_no_output(make_visitor):

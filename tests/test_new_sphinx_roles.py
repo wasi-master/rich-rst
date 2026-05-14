@@ -195,6 +195,37 @@ def test_js_func_renders_as_code(render_text):
     assert "document.getElementById" in out
 
 
+@pytest.mark.parametrize(
+    "rst, token",
+    [
+        ("Call :c:function:`initialize_system` uses MAX_BUFFER_SIZE.", "initialize_system"),
+        ("Use :cpp:function:`maximum` for std::uint64_t values.", "maximum"),
+        ("Run :js:method:`Cache.set` then :js:method:`Cache.get`.", "Cache.set"),
+        ("Module reference: :js:module:`analytics.core`", "analytics.core"),
+        ("Function reference: :js:function:`calculateMean`", "calculateMean"),
+        ("Method reference: :js:method:`UserManager.authenticate`", "UserManager.authenticate"),
+        ("Attribute reference: :js:attribute:`UserManager.activeUser`", "UserManager.activeUser"),
+    ],
+)
+def test_long_form_c_cpp_js_roles_render_as_inline_code(render_text, rst, token):
+    out = _render(render_text, rst)
+    assert token in out
+
+
+def test_mixed_language_role_flow_renders_without_errors(render_text):
+    rst = (
+        "1. :js:function:`parseConfiguration`\n"
+        "2. :c:function:`initialize_system`\n"
+        "3. :cpp:function:`add`\n"
+        "4. :c:function:`shutdown_system`\n"
+    )
+    out = _render(render_text, rst)
+    assert "parseConfiguration" in out
+    assert "initialize_system" in out
+    assert "add" in out
+    assert "shutdown_system" in out
+
+
 def test_c_func_no_crash(make_visitor):
     rst = "Call :c:func:`malloc` to allocate."
     visitor = make_visitor(rst)
