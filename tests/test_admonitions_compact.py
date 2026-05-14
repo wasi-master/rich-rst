@@ -73,6 +73,17 @@ def test_compact_versionadded_emits_no_panel(make_visitor):
     assert not any(isinstance(r, Panel) for r in visitor.renderables)
 
 
+@pytest.mark.parametrize("directive,arg", [
+    ("availability", "3.13"),
+    ("soft-deprecated", "3.13"),
+    ("impl-detail", ""),
+])
+def test_compact_new_directive_emits_no_panel(make_visitor, directive, arg):
+    rst = f".. {directive}:: {arg}\n\n   hello\n" if arg else f".. {directive}::\n\n   hello\n"
+    visitor = make_visitor(rst, admonition_style="compact")
+    assert not any(isinstance(r, Panel) for r in visitor.renderables)
+
+
 # ── Per-directive title prefixes ──────────────────────────────────────────────
 
 @pytest.mark.parametrize("directive,expected", [
@@ -158,6 +169,64 @@ def test_compact_deprecated_multiparagraph_body_has_glyph(render_text):
     assert "⚠ Deprecated in v1.0: First para." in out
     assert "Second para." in out
     assert "[Deprecated in v1.0: First para." not in out
+
+
+# ── availability / soft-deprecated / impl-detail (compact) ───────────────────
+
+@pytest.mark.parametrize("rst,expected", [
+    (".. availability:: 3.13\n", "[Available in v3.13]"),
+    (".. soft-deprecated:: 3.13\n", "⚠ [Soft Deprecated in v3.13]"),
+])
+def test_compact_new_version_directive_empty_body(render_text, rst, expected):
+    out = render_text(rst, admonition_style="compact")
+    assert expected in out
+
+
+def test_compact_availability_has_no_glyph(render_text):
+    """``availability`` is informational (like ``versionadded``); no severity glyph."""
+    out = render_text(".. availability:: 3.13\n", admonition_style="compact")
+    tag_lines = [ln for ln in out.splitlines() if "Available in v3.13" in ln]
+    assert tag_lines
+    for ln in tag_lines:
+        assert "⚠" not in ln
+        assert "✖" not in ln
+
+
+def test_compact_availability_single_paragraph_body(render_text):
+    rst = ".. availability:: 3.13\n\n   Only on Linux.\n"
+    out = render_text(rst, admonition_style="compact")
+    assert "[Available in v3.13: Only on Linux.]" in out
+
+
+def test_compact_soft_deprecated_single_paragraph_body_has_glyph(render_text):
+    rst = ".. soft-deprecated:: 3.13\n\n   Prefer :func:`new_api`.\n"
+    out = render_text(rst, admonition_style="compact")
+    assert "⚠ [Soft Deprecated in v3.13: Prefer " in out
+
+
+def test_compact_soft_deprecated_multiparagraph_body_has_glyph(render_text):
+    rst = ".. soft-deprecated:: 3.13\n\n   First para.\n\n   Second para.\n"
+    out = render_text(rst, admonition_style="compact")
+    assert "⚠ Soft Deprecated in v3.13: First para." in out
+    assert "Second para." in out
+    assert "[Soft Deprecated in v3.13: First para." not in out
+
+
+def test_compact_impl_detail_title_prefix(render_text):
+    """``impl-detail`` has no version; renders as a plain admonition prefix."""
+    rst = ".. impl-detail::\n\n   CPython-specific.\n"
+    out = render_text(rst, admonition_style="compact")
+    assert "Implementation Detail: CPython-specific." in out
+
+
+def test_compact_impl_detail_has_no_glyph(render_text):
+    rst = ".. impl-detail::\n\n   CPython-specific.\n"
+    out = render_text(rst, admonition_style="compact")
+    detail_lines = [ln for ln in out.splitlines() if "Implementation Detail" in ln]
+    assert detail_lines
+    for ln in detail_lines:
+        assert "⚠" not in ln
+        assert "✖" not in ln
 
 
 # ── Version directives (single-paragraph body → bracketed inline) ────────────

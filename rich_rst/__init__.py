@@ -1998,12 +1998,16 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             "versionchanged": ("restructuredtext.versionchanged", "bold cyan"),
             "deprecated": ("restructuredtext.deprecated", "bold yellow"),
             "deprecated-removed": ("restructuredtext.deprecated_removed", "bold red"),
+            "availability": ("restructuredtext.availability", "bold blue"),
+            "soft-deprecated": ("restructuredtext.soft_deprecated", "bold bright_yellow"),
         }
         panel_title_map = {
             "versionadded": f"New in version {version}",
             "versionchanged": f"Changed in version {version}",
             "deprecated": f"Deprecated since version {version}",
             "deprecated-removed": f"Deprecated since version {version}",
+            "availability": f"Available since version {version}",
+            "soft-deprecated": f"Soft Deprecated since version {version}",
         }
         # ``deprecated-removed`` relies on _DeprecatedRemovedDirective.run embedding
         # "(removed in <removed>)" into the version string, so this map produces
@@ -2014,13 +2018,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             "versionchanged": f"Changed in v{version}",
             "deprecated": f"Deprecated in v{version}",
             "deprecated-removed": f"Deprecated in v{version}",
+            "availability": f"Available in v{version}",
+            "soft-deprecated": f"Soft Deprecated in v{version}",
         }
         # Severity glyphs match the admonition convention: ⚠ for warning-tone
-        # (deprecated → bold yellow), ✖ for danger-tone (deprecated-removed →
-        # bold red). versionadded/versionchanged stay glyphless.
+        # (deprecated/soft-deprecated → yellow), ✖ for danger-tone
+        # (deprecated-removed → bold red). versionadded/versionchanged/availability
+        # stay glyphless.
         glyph_map = {
             "deprecated": "⚠ ",
             "deprecated-removed": "✖ ",
+            "soft-deprecated": "⚠ ",
         }
         style_name, default_style = style_map.get(type_, ("restructuredtext.versionadded", "bold green"))
         style = self.console.get_style(style_name, default=default_style)
@@ -2205,10 +2213,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_availability(self, node) -> None:
         version = node.get("version", "")
-        style = self.console.get_style("restructuredtext.availability", default="bold blue")
-        title = f"Available since version {version}" if version else "Availability"
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
+        if version:
+            self._emit_version_directive("availability", version, node.children)
+        else:
+            # Defensive: the directive requires a version arg, but if missing
+            # we degrade to a plain admonition rather than rendering "v".
+            self._emit_admonition(
+                title="Availability",
+                glyph="",
+                style_name="restructuredtext.availability",
+                default_style="bold blue",
+                body_children=node.children,
+                panel_title="Availability",
+            )
         raise docutils.nodes.SkipChildren()
 
     def depart_availability(self, node) -> None:
@@ -2216,19 +2233,31 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_soft_deprecated(self, node) -> None:
         version = node.get("version", "")
-        style = self.console.get_style("restructuredtext.soft_deprecated", default="bold bright_yellow")
-        title = f"Soft Deprecated since version {version}" if version else "Soft Deprecated"
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
+        if version:
+            self._emit_version_directive("soft-deprecated", version, node.children)
+        else:
+            self._emit_admonition(
+                title="Soft Deprecated",
+                glyph="⚠ ",
+                style_name="restructuredtext.soft_deprecated",
+                default_style="bold bright_yellow",
+                body_children=node.children,
+                panel_title="Soft Deprecated",
+            )
         raise docutils.nodes.SkipChildren()
 
     def depart_soft_deprecated(self, node) -> None:
         pass
 
     def visit_impl_detail(self, node) -> None:
-        style = self.console.get_style("restructuredtext.impl_detail", default="bold magenta")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="Implementation Detail", style=style, border_style=style))
+        self._emit_admonition(
+            title="Implementation Detail",
+            glyph="",
+            style_name="restructuredtext.impl_detail",
+            default_style="bold magenta",
+            body_children=node.children,
+            panel_title="Implementation Detail",
+        )
         raise docutils.nodes.SkipChildren()
 
     def depart_impl_detail(self, node) -> None:
