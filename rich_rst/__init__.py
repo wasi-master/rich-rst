@@ -52,13 +52,13 @@ __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "R
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
 
-C_KEYWORDS = frozenset({
+c_keywords = frozenset({
     "auto", "char", "const", "double", "enum", "extern", "float", "inline",
     "int", "long", "register", "restrict", "short", "signed", "static",
     "struct", "typedef", "union", "unsigned", "void", "volatile", "_Atomic",
     "_Bool", "_Complex", "_Imaginary",
 })
-CPP_KEYWORDS = frozenset({
+cpp_keywords = frozenset({
     "bool", "char", "char8_t", "char16_t", "char32_t", "class", "concept",
     "const", "consteval", "constexpr", "constinit", "decltype", "double",
     "enum", "explicit", "export", "final", "float", "friend", "inline",
@@ -2323,6 +2323,22 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if not signature:
             return rendered
 
+        c_keywords = frozenset({
+            "auto", "char", "const", "double", "enum", "extern", "float", "inline",
+            "int", "long", "register", "restrict", "short", "signed", "static",
+            "struct", "typedef", "union", "unsigned", "void", "volatile", "_Atomic",
+            "_Bool", "_Complex", "_Imaginary",
+        })
+        cpp_keywords = frozenset({
+            "bool", "char", "char8_t", "char16_t", "char32_t", "class", "concept",
+            "const", "consteval", "constexpr", "constinit", "decltype", "double",
+            "enum", "explicit", "export", "final", "float", "friend", "inline",
+            "int", "long", "mutable", "namespace", "noexcept", "override", "private",
+            "protected", "public", "short", "signed", "static", "struct", "template",
+            "typename", "union", "unsigned", "using", "virtual", "void", "volatile",
+            "wchar_t", "nullptr", "auto",
+        })
+
         normalized_domain = (domain or "c").strip().lower()
         normalized_objtype = (objtype or "").strip().lower()
         type_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.type", default="bright_cyan")
@@ -2331,7 +2347,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         operator_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.operator", default="bold yellow")
         number_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.number", default="green")
 
-        keywords = C_KEYWORDS if normalized_domain == "c" else (C_KEYWORDS | CPP_KEYWORDS)
+        keywords = c_keywords if normalized_domain == "c" else (c_keywords | cpp_keywords)
         keyword_pattern = r"\b(?:%s)\b" % "|".join(sorted(re.escape(keyword) for keyword in keywords))
         for match in re.finditer(keyword_pattern, signature):
             rendered.stylize(type_style, match.start(), match.end())
