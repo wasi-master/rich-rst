@@ -75,6 +75,20 @@ def test_versionadded_no_body_no_crash(make_visitor):
     assert panels
 
 
+def test_versionadded_body_without_blank_line_not_in_title(make_visitor):
+    """Body content following the directive must not leak into the panel title.
+
+    Repro from rich-rst v2 feedback: when a ``versionadded`` directive has
+    body content on the next line (no blank separator), the body is
+    concatenated into the panel title rather than placed in the panel body,
+    producing ``"New in version 0.47 This was added recently."`` as the
+    title and an empty body row.
+    """
+    rst = ".. versionadded:: 0.47\n    This was added recently.\n"
+    panel = _first_panel(make_visitor, rst)
+    assert panel.title == "New in version 0.47"
+
+
 # ── versionchanged ────────────────────────────────────────────────────────────
 
 def test_versionchanged_produces_panel(make_visitor):
