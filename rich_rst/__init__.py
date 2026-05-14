@@ -67,7 +67,6 @@ CPP_KEYWORDS = frozenset({
     "typename", "union", "unsigned", "using", "virtual", "void", "volatile",
     "wchar_t", "nullptr", "auto",
 })
-C_AND_CPP_KEYWORDS = frozenset(C_KEYWORDS | CPP_KEYWORDS)
 
 
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
@@ -2324,7 +2323,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if not signature:
             return rendered
 
-        normalized_domain = (domain or "cpp").strip().lower()
+        normalized_domain = (domain or "c").strip().lower()
         normalized_objtype = (objtype or "").strip().lower()
         type_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.type", default="bright_cyan")
         name_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.name", default="bold")
@@ -2332,7 +2331,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         operator_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.operator", default="bold yellow")
         number_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.number", default="green")
 
-        keywords = C_KEYWORDS if normalized_domain == "c" else C_AND_CPP_KEYWORDS
+        keywords = C_KEYWORDS if normalized_domain == "c" else (C_KEYWORDS | CPP_KEYWORDS)
         keyword_pattern = r"\b(?:%s)\b" % "|".join(sorted(re.escape(keyword) for keyword in keywords))
         for match in re.finditer(keyword_pattern, signature):
             rendered.stylize(type_style, match.start(), match.end())
@@ -2352,6 +2351,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 rendered.stylize(name_style, alias_match.start(1), alias_match.end(1))
         elif normalized_objtype == "function":
             name_match = None
+            # Signatures may include qualified names (e.g. ``ns::Class::method(...)``);
+            # the last identifier before ``(`` is the callable name to emphasize.
             for match in re.finditer(r"([A-Za-z_~][A-Za-z0-9_]*)\s*(?=\()", signature):
                 name_match = match
             if name_match is not None:
