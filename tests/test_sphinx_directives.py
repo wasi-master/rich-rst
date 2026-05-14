@@ -1,22 +1,26 @@
 """Tests for Sphinx-specific block directives.
 
 rich-rst registers Sphinx directives (``versionadded``, ``versionchanged``,
-``deprecated``, ``seealso``) so that Python docstrings that use these
-directives render as styled panels instead of system-message errors.
+``deprecated``, ``seealso``, ``availability``, ``soft-deprecated``, ``impl-detail``) 
+so that Python docstrings that use these directives render as styled panels instead 
+of system-message errors.
 
 Formatting contract
 -------------------
 Each directive produces exactly one ``Panel`` whose title and border-style
 follow the table below.
 
-+---------------+--------------------------------+------------------+
-| directive     | title                          | border_style     |
-+===============+================================+==================+
-| versionadded  | "New in version <ver>"         | bold green       |
-| versionchanged| "Changed in version <ver>"     | bold cyan        |
-| deprecated    | "Deprecated since version <v>" | bold yellow      |
-| seealso       | "See Also"                     | bold white       |
-+---------------+--------------------------------+------------------+
++----------------+--------------------------------------+-------------------+
+| directive      | title                                | border_style      |
++================+======================================+===================+
+| versionadded   | "New in version <ver>"               | bold green        |
+| versionchanged | "Changed in version <ver>"           | bold cyan         |
+| deprecated     | "Deprecated since version <v>"       | bold yellow       |
+| seealso        | "See Also"                           | bold white        |
+| availability   | "Available since version <ver>"      | bold blue         |
+| soft-deprecated| "Soft Deprecated since version <v>"  | bold bright_yellow|
+| impl-detail    | "Implementation Detail"              | bold magenta      |
++----------------+--------------------------------------+-------------------+
 
 When no body content is supplied the panel is still emitted (empty body).
 When body content is supplied it appears in the rendered output.
@@ -218,3 +222,127 @@ def test_versionadded_prerelease_version(render_text):
 def test_deprecated_alpha_version(render_text):
     rst = ".. deprecated:: 3.0a1\n"
     assert "3.0a1" in render_text(rst, sphinx_compat=True)
+
+
+# ── availability ──────────────────────────────────────────────────────────────
+
+def test_availability_produces_panel(make_visitor):
+    rst = ".. availability:: 1.0\n"
+    assert isinstance(_first_panel(make_visitor, rst), Panel)
+
+
+def test_availability_panel_title(make_visitor):
+    rst = ".. availability:: 1.0\n"
+    assert _first_panel(make_visitor, rst).title == "Available since version 1.0"
+
+
+def test_availability_border_style(make_visitor):
+    rst = ".. availability:: 1.0\n"
+    bs = _first_panel(make_visitor, rst).border_style
+    assert bs.bold is True and bs.color.name == "blue"
+
+
+def test_availability_body_content_visible(render_text):
+    rst = ".. availability:: 3.5\n\n   Available on all platforms.\n"
+    assert "Available on all platforms." in render_text(rst, sphinx_compat=True)
+
+
+def test_availability_version_in_output(render_text):
+    rst = ".. availability:: 2.5\n"
+    assert "2.5" in render_text(rst, sphinx_compat=True)
+
+
+def test_availability_no_body_no_crash(make_visitor):
+    rst = ".. availability:: 1.0\n"
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+
+
+def test_availability_body_without_blank_line(make_visitor):
+    """Body content on the next line should not leak into the panel title."""
+    rst = ".. availability:: 3.8\n    Works on Windows.\n"
+    panel = _first_panel(make_visitor, rst)
+    assert panel.title == "Available since version 3.8"
+
+
+# ── soft-deprecated ────────────────────────────────────────────────────────────
+
+def test_soft_deprecated_produces_panel(make_visitor):
+    rst = ".. soft-deprecated:: 2.0\n"
+    assert isinstance(_first_panel(make_visitor, rst), Panel)
+
+
+def test_soft_deprecated_panel_title(make_visitor):
+    rst = ".. soft-deprecated:: 2.0\n"
+    assert _first_panel(make_visitor, rst).title == "Soft Deprecated since version 2.0"
+
+
+def test_soft_deprecated_border_style(make_visitor):
+    rst = ".. soft-deprecated:: 2.0\n"
+    bs = _first_panel(make_visitor, rst).border_style
+    assert bs.bold is True and bs.color.name == "bright_yellow"
+
+
+def test_soft_deprecated_body_content_visible(render_text):
+    rst = ".. soft-deprecated:: 1.5\n\n   Use the new function instead.\n"
+    assert "Use the new function instead." in render_text(rst, sphinx_compat=True)
+
+
+def test_soft_deprecated_version_in_output(render_text):
+    rst = ".. soft-deprecated:: 1.8\n"
+    assert "1.8" in render_text(rst, sphinx_compat=True)
+
+
+def test_soft_deprecated_no_body_no_crash(make_visitor):
+    rst = ".. soft-deprecated:: 2.0\n"
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+
+
+def test_soft_deprecated_body_without_blank_line(make_visitor):
+    """Body content on the next line should not leak into the panel title."""
+    rst = ".. soft-deprecated:: 1.9\n    Consider using newer API.\n"
+    panel = _first_panel(make_visitor, rst)
+    assert panel.title == "Soft Deprecated since version 1.9"
+
+
+# ── impl-detail ────────────────────────────────────────────────────────────────
+
+def test_impl_detail_produces_panel(make_visitor):
+    rst = ".. impl-detail::\n\n   This is an implementation detail.\n"
+    assert isinstance(_first_panel(make_visitor, rst), Panel)
+
+
+def test_impl_detail_panel_title(make_visitor):
+    rst = ".. impl-detail::\n\n   Some detail.\n"
+    assert _first_panel(make_visitor, rst).title == "Implementation Detail"
+
+
+def test_impl_detail_border_style(make_visitor):
+    rst = ".. impl-detail::\n\n   Some detail.\n"
+    bs = _first_panel(make_visitor, rst).border_style
+    assert bs.bold is True and bs.color.name == "magenta"
+
+
+def test_impl_detail_body_content_visible(render_text):
+    rst = ".. impl-detail::\n\n   Uses an internal caching mechanism.\n"
+    assert "Uses an internal caching mechanism." in render_text(rst, sphinx_compat=True)
+
+
+def test_impl_detail_no_body_no_crash(make_visitor):
+    rst = ".. impl-detail::\n"
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+
+
+def test_impl_detail_multiple_paragraphs(render_text):
+    rst = """.. impl-detail::
+
+   This is implemented differently on Windows.
+   
+   The POSIX version uses signals."""
+    out = render_text(rst, sphinx_compat=True)
+    assert "Windows" in out and "POSIX" in out

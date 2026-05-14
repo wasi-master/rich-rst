@@ -106,6 +106,21 @@ class hlist_block(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.El
     pass
 
 
+class availability(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node produced by the availability directive."""
+    pass
+
+
+class soft_deprecated(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node produced by the soft-deprecated directive."""
+    pass
+
+
+class impl_detail(docutils.nodes.General, docutils.nodes.Body, docutils.nodes.Element):
+    """Node produced by the impl-detail directive."""
+    pass
+
+
 # ── Docutils directive classes for Sphinx-specific directives ─────────────────
 
 class _VersionDirective(docutils.parsers.rst.Directive):
@@ -638,6 +653,66 @@ class _DeprecatedRemovedDirective(docutils.parsers.rst.Directive):
         return [node]
 
 
+class _AvailabilityDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. availability::``.\n\n    The version is the first required argument. An optional explanation can\n    follow on the next indented line(s).
+    """
+
+    required_arguments = 1
+    optional_arguments = 1
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {}
+
+    def run(self) -> List[docutils.nodes.Node]:
+        node = availability(version=self.arguments[0])
+        if len(self.arguments) > 1:
+            explanation = self.arguments[1]
+            inline_nodes, messages = self.state.inline_text(explanation, self.lineno)
+            node += docutils.nodes.paragraph(explanation, '', *inline_nodes)
+            node += messages
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
+
+
+class _SoftDeprecatedDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. soft-deprecated::``.\n\n    The version is the first required argument. An optional explanation can\n    follow on the next indented line(s).
+    """
+
+    required_arguments = 1
+    optional_arguments = 1
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {}
+
+    def run(self) -> List[docutils.nodes.Node]:
+        node = soft_deprecated(version=self.arguments[0])
+        if len(self.arguments) > 1:
+            explanation = self.arguments[1]
+            inline_nodes, messages = self.state.inline_text(explanation, self.lineno)
+            node += docutils.nodes.paragraph(explanation, '', *inline_nodes)
+            node += messages
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
+
+
+class _ImplDetailDirective(docutils.parsers.rst.Directive):
+    """Handles ``.. impl-detail::``."""
+
+    required_arguments = 0
+    optional_arguments = 0
+    final_argument_whitespace = False
+    has_content = True
+    option_spec = {}
+
+    def run(self) -> List[docutils.nodes.Node]:
+        node = impl_detail()
+        if self.content:
+            self.state.nested_parse(self.content, self.content_offset, node)
+        return [node]
+
+
 class _PyObjectDirective(docutils.parsers.rst.Directive):
     """Handles Python/C/C++/JS domain object-description directives."""
 
@@ -1047,6 +1122,12 @@ def _register_sphinx_directives() -> None:
         docutils.parsers.rst.directives.register_directive('glossary', _GlossaryDirective)
         # deprecated-removed
         docutils.parsers.rst.directives.register_directive('deprecated-removed', _DeprecatedRemovedDirective)
+        # availability
+        docutils.parsers.rst.directives.register_directive('availability', _AvailabilityDirective)
+        # soft-deprecated
+        docutils.parsers.rst.directives.register_directive('soft-deprecated', _SoftDeprecatedDirective)
+        # impl-detail
+        docutils.parsers.rst.directives.register_directive('impl-detail', _ImplDetailDirective)
         # include (safe custom implementation with path-traversal guard)
         docutils.parsers.rst.directives.register_directive('include', _IncludeDirective)
         # class and role: no visual output in terminal rendering; register as no-ops
@@ -1947,6 +2028,37 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def depart_seealso(self, node) -> None:
+        pass
+
+    def visit_availability(self, node) -> None:
+        version = node.get("version", "")
+        style = self.console.get_style("restructuredtext.availability", default="bold blue")
+        title = f"Available since version {version}" if version else "Availability"
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
+        raise docutils.nodes.SkipChildren()
+
+    def depart_availability(self, node) -> None:
+        pass
+
+    def visit_soft_deprecated(self, node) -> None:
+        version = node.get("version", "")
+        style = self.console.get_style("restructuredtext.soft_deprecated", default="bold bright_yellow")
+        title = f"Soft Deprecated since version {version}" if version else "Soft Deprecated"
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
+        raise docutils.nodes.SkipChildren()
+
+    def depart_soft_deprecated(self, node) -> None:
+        pass
+
+    def visit_impl_detail(self, node) -> None:
+        style = self.console.get_style("restructuredtext.impl_detail", default="bold magenta")
+        body = self._render_admonition_body(node.children)
+        self.renderables.append(Panel(Group(*body) if body else "", title="Implementation Detail", style=style, border_style=style))
+        raise docutils.nodes.SkipChildren()
+
+    def depart_impl_detail(self, node) -> None:
         pass
 
     def visit_centered_block(self, node) -> None:
