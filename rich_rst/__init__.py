@@ -2370,7 +2370,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             name_match = None
             # Signatures may include qualified names (e.g. ``ns::Class::method(...)``);
             # the last identifier before ``(`` is the callable name to emphasize.
-            for match in re.finditer(r"([A-Za-z_~][A-Za-z0-9_]*)\s*(?=\()", signature):
+            for match in re.finditer(r"(~?[A-Za-z_][A-Za-z0-9_]*)\s*(?=\()", signature):
                 name_match = match
             if name_match is not None:
                 rendered.stylize(name_style, name_match.start(1), name_match.end(1))
@@ -2381,12 +2381,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 leaf_start = head_match.end(1) - len(leaf)
                 rendered.stylize(name_style, leaf_start, head_match.end(1))
         elif normalized_objtype in {"member", "var", "enumerator"}:
-            identifier_matches = list(re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*)\b", signature))
-            for match in reversed(identifier_matches):
+            rightmost_identifier = None
+            for match in re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*)\b", signature):
                 token = match.group(1)
                 if token not in keywords:
-                    rendered.stylize(name_style, match.start(1), match.end(1))
-                    break
+                    rightmost_identifier = match
+            if rightmost_identifier is not None:
+                rendered.stylize(name_style, rightmost_identifier.start(1), rightmost_identifier.end(1))
 
         return rendered
 

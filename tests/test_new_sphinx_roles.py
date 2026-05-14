@@ -207,7 +207,7 @@ def test_js_func_renders_as_code(render_text):
         ("Attribute reference: :js:attribute:`UserManager.activeUser`", "UserManager.activeUser"),
     ],
 )
-def test_long_form_c_cpp_js_roles_render_as_inline_code(render_text, rst, token):
+def test_long_form_c_cpp_and_js_roles_render_as_inline_code(render_text, rst, token):
     out = _render(render_text, rst)
     assert token in out
 
