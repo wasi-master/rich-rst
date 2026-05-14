@@ -52,6 +52,23 @@ __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "R
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
 
+C_KEYWORDS = frozenset({
+    "auto", "char", "const", "double", "enum", "extern", "float", "inline",
+    "int", "long", "register", "restrict", "short", "signed", "static",
+    "struct", "typedef", "union", "unsigned", "void", "volatile", "_Atomic",
+    "_Bool", "_Complex", "_Imaginary",
+})
+CPP_KEYWORDS = frozenset({
+    "bool", "char", "char8_t", "char16_t", "char32_t", "class", "concept",
+    "const", "consteval", "constexpr", "constinit", "decltype", "double",
+    "enum", "explicit", "export", "final", "float", "friend", "inline",
+    "int", "long", "mutable", "namespace", "noexcept", "override", "private",
+    "protected", "public", "short", "signed", "static", "struct", "template",
+    "typename", "union", "unsigned", "using", "virtual", "void", "volatile",
+    "wchar_t", "nullptr", "auto",
+})
+C_AND_CPP_KEYWORDS = frozenset(C_KEYWORDS | CPP_KEYWORDS)
+
 
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
     """Validate that ``default_lexer`` is a known Pygments lexer alias."""
@@ -2309,33 +2326,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         normalized_domain = (domain or "cpp").strip().lower()
         normalized_objtype = (objtype or "").strip().lower()
-        keyword_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.keyword", default="cyan")
         type_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.type", default="bright_cyan")
         name_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.name", default="bold")
         namespace_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.namespace", default="magenta")
         operator_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.operator", default="bold yellow")
         number_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.number", default="green")
 
-        c_keywords = {
-            "auto", "char", "const", "double", "enum", "extern", "float", "inline",
-            "int", "long", "register", "restrict", "short", "signed", "static",
-            "struct", "typedef", "union", "unsigned", "void", "volatile", "_Atomic",
-            "_Bool", "_Complex", "_Imaginary",
-        }
-        cpp_keywords = {
-            "bool", "char", "char8_t", "char16_t", "char32_t", "class", "concept",
-            "const", "consteval", "constexpr", "constinit", "decltype", "double",
-            "enum", "explicit", "export", "final", "float", "friend", "inline",
-            "int", "long", "mutable", "namespace", "noexcept", "override", "private",
-            "protected", "public", "short", "signed", "static", "struct", "template",
-            "typename", "union", "unsigned", "using", "virtual", "void", "volatile",
-            "wchar_t", "nullptr", "auto",
-        }
-
-        keywords = c_keywords if normalized_domain == "c" else (c_keywords | cpp_keywords)
+        keywords = C_KEYWORDS if normalized_domain == "c" else C_AND_CPP_KEYWORDS
         keyword_pattern = r"\b(?:%s)\b" % "|".join(sorted(re.escape(keyword) for keyword in keywords))
         for match in re.finditer(keyword_pattern, signature):
-            rendered.stylize(keyword_style, match.start(), match.end())
             rendered.stylize(type_style, match.start(), match.end())
 
         for match in re.finditer(r"\b\d+(?:\.\d+)?\b", signature):

@@ -709,8 +709,8 @@ def test_c_cpp_desc_panel_colors_vary_by_object_type(make_visitor):
     cpp_class_panel = _first_panel(make_visitor, ".. cpp:class:: Widget\n")
     cpp_alias_panel = _first_panel(make_visitor, ".. cpp:alias:: StringMap = std::unordered_map\n")
 
-    assert str(c_enum_panel.border_style) != str(c_member_panel.border_style)
-    assert str(cpp_class_panel.border_style) != str(cpp_alias_panel.border_style)
+    assert c_enum_panel.border_style != c_member_panel.border_style
+    assert cpp_class_panel.border_style != cpp_alias_panel.border_style
 
 
 # ── JS domain directives ──────────────────────────────────────────────────────
