@@ -681,6 +681,38 @@ def test_cpp_class_produces_panel(make_visitor):
     assert panels
 
 
+def test_c_function_signature_title_highlighting_rules(make_visitor):
+    rst = ".. c:function:: int my_func(int value)\n\n   A C function.\n"
+    panel = _first_panel(make_visitor, rst)
+    assert isinstance(panel.title, Text)
+    title = panel.title
+
+    assert _span_covers_token(title, "my_func", lambda style: style.bold)
+    assert _span_covers_token(title, "int", lambda style: style.color is not None)
+
+
+def test_cpp_alias_signature_title_highlighting_rules(make_visitor):
+    rst = ".. cpp:alias:: StringMap = std::unordered_map<std::string, int>\n\n   Alias.\n"
+    panel = _first_panel(make_visitor, rst)
+    assert isinstance(panel.title, Text)
+    title = panel.title
+
+    assert _span_covers_token(title, "StringMap", lambda style: style.bold)
+    assert _span_covers_token(title, "=", lambda style: style.bold or style.color is not None)
+    assert _span_covers_token(title, "std", lambda style: style.color is not None)
+    assert _span_covers_token(title, "int", lambda style: style.color is not None)
+
+
+def test_c_cpp_desc_panel_colors_vary_by_object_type(make_visitor):
+    c_enum_panel = _first_panel(make_visitor, ".. c:enum:: color\n")
+    c_member_panel = _first_panel(make_visitor, ".. c:member:: int struct color.value\n")
+    cpp_class_panel = _first_panel(make_visitor, ".. cpp:class:: Widget\n")
+    cpp_alias_panel = _first_panel(make_visitor, ".. cpp:alias:: StringMap = std::unordered_map\n")
+
+    assert str(c_enum_panel.border_style) != str(c_member_panel.border_style)
+    assert str(cpp_class_panel.border_style) != str(cpp_alias_panel.border_style)
+
+
 # ── JS domain directives ──────────────────────────────────────────────────────
 
 def test_js_function_produces_panel(make_visitor):
