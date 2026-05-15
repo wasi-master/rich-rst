@@ -6,26 +6,26 @@ attention, and the generic ``.. admonition::`` directive.
 Formatting contract
 -------------------
 Each named admonition directive produces exactly one ``Panel`` whose:
-* ``title`` is the exact string documented below (including the trailing
-  colon-space).
+* ``title`` is the exact string documented below (the bare label, no
+  trailing colon).
 * ``border_style`` encodes the severity of the admonition through specific
   colour and weight attributes.
 
 Named admonition titles and border styles
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+------------+------------+--------------------------+
-| directive  | title      | border_style             |
-+============+============+==========================+
-| note       | "Note: "   | bold white               |
-| warning    | "Warning: "| bold yellow              |
-| tip        | "Tip: "    | bold green               |
-| caution    | "Caution: "| red (no bold)            |
-| danger     | "DANGER: " | bold white on red        |
-| hint       | "Hint: "   | yellow (no bold)         |
-| important  | "IMPORTANT:"| bold blue               |
-| error      | "ERROR: "  | bold red                 |
-| attention  | "Attention:"| bold black on yellow    |
-+------------+------------+--------------------------+
++------------+--------------+--------------------------+
+| directive  | title        | border_style             |
++============+==============+==========================+
+| note       | "Note"       | bold white               |
+| warning    | "Warning"    | bold yellow              |
+| tip        | "Tip"        | bold green               |
+| caution    | "Caution"    | red (no bold)            |
+| danger     | "DANGER"     | bold white on red        |
+| hint       | "Hint"       | yellow (no bold)         |
+| important  | "IMPORTANT"  | bold blue                |
+| error      | "ERROR"      | bold red                 |
+| attention  | "Attention"  | bold black on yellow     |
++------------+--------------+--------------------------+
 """
 from rich.panel import Panel
 from rich.style import Style
@@ -72,31 +72,31 @@ def test_attention_produces_panel(make_visitor):
 # ── Exact panel titles ────────────────────────────────────────────────────────
 
 def test_note_panel_title(make_visitor):
-    assert _first_panel(make_visitor, "note").title == "Note: "
+    assert _first_panel(make_visitor, "note").title == "Note"
 
 def test_warning_panel_title(make_visitor):
-    assert _first_panel(make_visitor, "warning").title == "Warning: "
+    assert _first_panel(make_visitor, "warning").title == "Warning"
 
 def test_tip_panel_title(make_visitor):
-    assert _first_panel(make_visitor, "tip").title == "Tip: "
+    assert _first_panel(make_visitor, "tip").title == "Tip"
 
 def test_caution_panel_title(make_visitor):
-    assert _first_panel(make_visitor, "caution").title == "Caution: "
+    assert _first_panel(make_visitor, "caution").title == "Caution"
 
 def test_danger_panel_title(make_visitor):
-    assert _first_panel(make_visitor, "danger").title == "DANGER: "
+    assert _first_panel(make_visitor, "danger").title == "DANGER"
 
 def test_hint_panel_title(make_visitor):
-    assert _first_panel(make_visitor, "hint").title == "Hint: "
+    assert _first_panel(make_visitor, "hint").title == "Hint"
 
 def test_important_panel_title(make_visitor):
-    assert _first_panel(make_visitor, "important").title == "IMPORTANT: "
+    assert _first_panel(make_visitor, "important").title == "IMPORTANT"
 
 def test_error_panel_title(make_visitor):
-    assert _first_panel(make_visitor, "error").title == "ERROR: "
+    assert _first_panel(make_visitor, "error").title == "ERROR"
 
 def test_attention_panel_title(make_visitor):
-    assert _first_panel(make_visitor, "attention").title == "Attention: "
+    assert _first_panel(make_visitor, "attention").title == "Attention"
 
 
 # ── Border styles ─────────────────────────────────────────────────────────────

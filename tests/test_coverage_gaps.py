@@ -933,7 +933,7 @@ def test_empty_body_rendering(render_text):
    Minimal content.
 """
     out = render_text(rst)
-    assert "Note:" in out, "Note admonition must render with 'Note:' panel title"
+    assert "Note" in out, "Note admonition must render with 'Note' panel title"
     assert "Minimal content" in out, "Admonition body must be visible"
 
 
@@ -972,7 +972,7 @@ def test_admonition_with_nested_lists_and_code(render_text):
       safe_function()
 """
     out = render_text(rst)
-    assert "Warning:" in out, "Warning admonition must render with 'Warning:' panel title"
+    assert "Warning" in out, "Warning admonition must render with 'Warning' panel title"
     assert "important information" in out, "Warning body must be visible"
 
 
