@@ -1941,19 +1941,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style_name: str,
         default_style: str,
         body_children: List[docutils.nodes.Node],
-        panel_title: Optional[str] = None,
     ) -> None:
         """Render an admonition in either ``panel`` or ``compact`` style.
 
-        ``title`` is the bare label (e.g. ``"Note"``); ``panel_title`` overrides
-        the title used in panel mode when it differs from ``f"{title}: "``.
+        ``title`` is the bare label (e.g. ``"Note"``) — used directly as the
+        panel title in panel mode and as the inline prefix label (followed by
+        ``": "``) in compact mode.
         """
         style = self.console.get_style(style_name, default=default_style)
         if self.admonition_style == "compact":
             self._emit_compact_admonition(title=title, glyph=glyph, style=style, body_children=body_children)
         else:
             self._emit_panel_admonition(
-                panel_title=panel_title if panel_title is not None else f"{title}: ",
+                panel_title=title,
                 style=style,
                 body_children=body_children,
             )
@@ -2074,18 +2074,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if node.children and isinstance(node.children[0], docutils.nodes.title):
             user_title = node.children[0].astext()
             body_children = node.children[1:]
-            panel_title = user_title
         else:
             user_title = "Admonition"
             body_children = node.children
-            panel_title = "Admonition: "
         self._emit_admonition(
             title=user_title,
             glyph="",
             style_name="restructuredtext.admonition",
             default_style="bold white",
             body_children=body_children,
-            panel_title=panel_title,
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2096,7 +2093,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.attention",
             default_style="bold black on yellow",
             body_children=node.children,
-            panel_title="Attention: ",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2107,7 +2103,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.caution",
             default_style="red",
             body_children=node.children,
-            panel_title="Caution: ",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2118,7 +2113,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.danger",
             default_style="bold white on red",
             body_children=node.children,
-            panel_title="DANGER: ",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2129,7 +2123,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.error",
             default_style="bold red",
             body_children=node.children,
-            panel_title="ERROR: ",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2140,7 +2133,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.hint",
             default_style="yellow",
             body_children=node.children,
-            panel_title="Hint: ",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2151,7 +2143,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.important",
             default_style="bold blue",
             body_children=node.children,
-            panel_title="IMPORTANT: ",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2162,7 +2153,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.note",
             default_style="bold white",
             body_children=node.children,
-            panel_title="Note: ",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2173,7 +2163,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.tip",
             default_style="bold green",
             body_children=node.children,
-            panel_title="Tip: ",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2184,7 +2173,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.warning",
             default_style="bold yellow",
             body_children=node.children,
-            panel_title="Warning: ",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2204,7 +2192,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.seealso",
             default_style="bold white",
             body_children=node.children,
-            panel_title="See Also",
         )
         raise docutils.nodes.SkipChildren()
 
@@ -2224,7 +2211,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 style_name="restructuredtext.availability",
                 default_style="bold blue",
                 body_children=node.children,
-                panel_title="Availability",
             )
         raise docutils.nodes.SkipChildren()
 
@@ -2242,7 +2228,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 style_name="restructuredtext.soft_deprecated",
                 default_style="bold bright_yellow",
                 body_children=node.children,
-                panel_title="Soft Deprecated",
             )
         raise docutils.nodes.SkipChildren()
 
@@ -2256,7 +2241,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style_name="restructuredtext.impl_detail",
             default_style="bold magenta",
             body_children=node.children,
-            panel_title="Implementation Detail",
         )
         raise docutils.nodes.SkipChildren()
 
