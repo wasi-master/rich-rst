@@ -1524,6 +1524,9 @@ def _convert_math_to_unicode(text: str) -> str:
 class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     """A visitor that produces rich renderables.
 
+    .. note:: The ``_SUPERSCRIPT`` and ``_SUBSCRIPT`` translation tables are
+       class-level constants so they are computed once rather than per-instance.
+
     Custom visitors for third-party node types can be registered via
     :meth:`register_visitor`.  Registered functions take ``(visitor, node)``
     as arguments and should follow the same conventions as the built-in
@@ -1542,6 +1545,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     # itself are truly global and apply to every instance.
     _custom_visitors: ClassVar[Dict[Type[docutils.nodes.Node], Tuple[Optional[Callable[..., Any]], Optional[Callable[..., Any]]]]] = {}
     _DISPATCH_CACHE_MISS: ClassVar[object] = object()
+
+    _SUPERSCRIPT: ClassVar[Dict[int, Union[int, str, None]]] = str.maketrans(
+        "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷",
+        "¹²³⁴⁵⁶⁷⁸⁹⁰ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᑫʳˢᵗᵘᵛʷˣʸᶻᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ⁼⁺⁻*/×÷",
+    )
+    _SUBSCRIPT: ClassVar[Dict[int, Union[int, str, None]]] = str.maketrans(
+        "1234567890abcdefghijklmnopqrstuvwxyz=+-*/×÷", "₁₂₃₄₅₆₇₈₉₀abcdₑfgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz₌₊₋*/×÷"
+    )
 
     @classmethod
     def register_visitor(cls, node_class: Type[docutils.nodes.Node], visit_fn: Optional[Callable[..., Any]] = None, depart_fn: Optional[Callable[..., Any]] = None) -> Optional[Callable[..., Any]]:
@@ -1658,13 +1669,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.show_line_numbers: Optional[bool] = show_line_numbers
         self.admonition_style: Literal["panel", "compact"] = admonition_style
         self.renderables: List[Any] = []
-        self.superscript: Dict[int, Union[int, str, None]] = str.maketrans(
-            "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷",
-            "¹²³⁴⁵⁶⁷⁸⁹⁰ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᑫʳˢᵗᵘᵛʷˣʸᶻᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ⁼⁺⁻*/×÷",
-        )
-        self.subscript: Dict[int, Union[int, str, None]] = str.maketrans(
-            "1234567890abcdefghijklmnopqrstuvwxyz=+-*/×÷", "₁₂₃₄₅₆₇₈₉₀abcdₑfgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz₌₊₋*/×÷"
-        )
         self.errors: List[Panel] = []
         self.footer: List[Align] = []
         self.citations: List[Align] = []
@@ -1895,15 +1899,24 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         )
         style = self.console.get_style(style_name, default="none")
         text = node.astext().replace("\n", " ")
+        self._append_inline_text(text, style)
+        raise docutils.nodes.SkipChildren()
+
+    def _append_inline_text(self, text: str, style: Style) -> None:
+        """Append styled *text* to the last renderable if it is a :class:`Text`, otherwise create a new one.
+
+        When merging into an existing Text, uses ``end=" "`` to add word
+        separation; standalone Text gets ``end=""`` so the caller controls
+        whitespace.
+        """
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].append_text(Text(text, style=style, end=" "))
         else:
             self.renderables.append(Text(text, style=style, end=""))
-        raise docutils.nodes.SkipChildren()
 
-    def _render_admonition_body(self, children: List[docutils.nodes.Node]) -> List[Any]:
-        """Render admonition body children using a sub-visitor to preserve inline markup."""
-        sub_visitor = RSTVisitor(
+    def _make_sub_visitor(self) -> "RSTVisitor":
+        """Create a fresh sub-visitor that shares this visitor's configuration."""
+        return RSTVisitor(
             self.document,
             console=self.console,
             code_theme=self.code_theme,
@@ -1912,6 +1925,10 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             default_lexer=self.default_lexer,
             admonition_style=self.admonition_style,
         )
+
+    def _render_admonition_body(self, children: List[docutils.nodes.Node]) -> List[Any]:
+        """Render admonition body children using a sub-visitor to preserve inline markup."""
+        sub_visitor = self._make_sub_visitor()
         for child in children:
             child.walkabout(sub_visitor)
         return sub_visitor.renderables
@@ -1923,15 +1940,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         bold, italic, links, inline code, and other inline markup instead of
         stripping to plain text via astext().
         """
-        sub_visitor = RSTVisitor(
-            self.document,
-            console=self.console,
-            code_theme=self.code_theme,
-            show_line_numbers=self.show_line_numbers,
-            guess_lexer=self.guess_lexer,
-            default_lexer=self.default_lexer,
-            admonition_style=self.admonition_style,
-        )
+        sub_visitor = self._make_sub_visitor()
         child.walkabout(sub_visitor)
         return sub_visitor.renderables
 
@@ -2986,36 +2995,24 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_subscript(self, node) -> None:
         style = self.console.get_style("restructuredtext.subscript", default="none")
-        translated = self._translate_with_fallback(node.astext(), self.subscript)
-        if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(translated, style=style, end=" "))
-            raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(translated, end="", style=style))
+        translated = self._translate_with_fallback(node.astext(), self._SUBSCRIPT)
+        self._append_inline_text(translated, style)
         raise docutils.nodes.SkipChildren()
 
     def visit_superscript(self, node) -> None:
         style = self.console.get_style("restructuredtext.superscript", default="none")
-        translated = self._translate_with_fallback(node.astext(), self.superscript)
-        if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(translated, style=style, end=" "))
-            raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(translated, end="", style=style))
+        translated = self._translate_with_fallback(node.astext(), self._SUPERSCRIPT)
+        self._append_inline_text(translated, style)
         raise docutils.nodes.SkipChildren()
 
     def visit_emphasis(self, node) -> None:
         style = self.console.get_style("restructuredtext.emphasis", default="italic")
-        if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
-            raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
+        self._append_inline_text(node.astext().replace("\n", " "), style)
         raise docutils.nodes.SkipChildren()
 
     def visit_strong(self, node) -> None:
         style = self.console.get_style("restructuredtext.strong", default="bold")
-        if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
-            raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
+        self._append_inline_text(node.astext().replace("\n", " "), style)
         raise docutils.nodes.SkipChildren()
 
     def _make_image_text(self, node: docutils.nodes.image, link_override: Optional[str] = None) -> Text:
@@ -3037,10 +3034,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         text = node.astext().replace("\n", " ")
         if explanation:
             text = f"{text} ({explanation})"
-        if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(text, style=style, end=" "))
-            raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(text, style=style, end=""))
+        self._append_inline_text(text, style)
         raise docutils.nodes.SkipChildren()
 
 
@@ -3221,18 +3215,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_literal(self, node) -> None:
         style = self.console.get_style("restructuredtext.inline_codeblock", default="grey78 on grey7")
-        if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
-            raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
+        self._append_inline_text(node.astext().replace("\n", " "), style)
         raise docutils.nodes.SkipChildren()
 
     def visit_title_reference(self, node) -> None:
         style = self.console.get_style("restructuredtext.title_reference", default="italic")
-        if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
-            raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(node.astext().replace("\n", " "), style=style, end=""))
+        self._append_inline_text(node.astext().replace("\n", " "), style)
         raise docutils.nodes.SkipChildren()
 
     def visit_literal_block(self, node) -> None:
@@ -3644,10 +3632,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         """Render inline math with Unicode approximations where possible."""
         style = self.console.get_style("restructuredtext.math", default="italic")
         converted = _convert_math_to_unicode(node.astext().replace("\n", " "))
-        if self.renderables and isinstance(self.renderables[-1], Text):
-            self.renderables[-1].append_text(Text(converted, style=style, end=" "))
-            raise docutils.nodes.SkipChildren()
-        self.renderables.append(Text(converted, style=style, end=""))
+        self._append_inline_text(converted, style)
         raise docutils.nodes.SkipChildren()
 
     def visit_citation(self, node) -> None:
@@ -4133,15 +4118,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         def _render_entry_content(entry: docutils.nodes.Node) -> Any:
             """Render an entry node with a sub-visitor to preserve inline RST markup."""
-            sub_visitor = RSTVisitor(
-                self.document,
-                console=self.console,
-                code_theme=self.code_theme,
-                show_line_numbers=self.show_line_numbers,
-                guess_lexer=self.guess_lexer,
-                default_lexer=self.default_lexer,
-                admonition_style=self.admonition_style,
-            )
+            sub_visitor = self._make_sub_visitor()
             for child in entry.children:
                 child.walkabout(sub_visitor)
             renderables = sub_visitor.renderables

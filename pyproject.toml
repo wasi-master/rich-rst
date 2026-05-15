@@ -14,12 +14,10 @@ license-files = ["LICENSE", "rich_rst/_vendor/LICENSES.txt"]
 authors = [
     { name = "Wasi Master", email = "arianmollik323@gmail.com" }
 ]
-keywords = ["richrst", "restructuredtextrich", "restructuredtextrich-restructuredtextrich", "rstrich-rst"]
+keywords = ["rich", "rst", "restructuredtext", "terminal", "docutils", "renderer"]
 classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
