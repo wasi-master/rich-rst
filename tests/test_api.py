@@ -16,6 +16,9 @@ from rich_rst import (
 )
 from rich_rst._vendor import docutils
 import rich_rst._vendor.docutils.core
+from rich_rst import RestructuredText
+from rich.text import Text
+from rich_rst import RSTVisitor
 
 
 # ── Alias names ───────────────────────────────────────────────────────────────
@@ -321,3 +324,301 @@ def test_register_visitor_renderable_produced(make_visitor):
         assert any("hello from custom node" in t.plain for t in texts)
     finally:
         RSTVisitor._custom_visitors.pop(_GreetNode, None)
+
+# ── render_to_html ────────────────────────────────────────────────────────────
+
+def test_render_to_html_returns_str():
+    rst = RestructuredText("Hello **world**.")
+    out = rst.render_to_html()
+    assert isinstance(out, str)
+
+
+def test_render_to_html_is_valid_html_structure():
+    rst = RestructuredText("Hello **world**.")
+    out = rst.render_to_html()
+    assert "<html" in out or "<!DOCTYPE" in out
+    assert "</html>" in out
+
+
+def test_render_to_html_contains_text():
+    rst = RestructuredText("Hello **world**.")
+    out = rst.render_to_html()
+    assert "Hello" in out
+    assert "world" in out
+
+
+def test_render_to_html_default_width_is_80():
+    rst = RestructuredText("Short text.")
+    out = rst.render_to_html()
+    # Just verify it doesn't crash and returns HTML
+    assert "<" in out
+
+
+def test_render_to_html_custom_width():
+    rst = RestructuredText("Short text.")
+    out = rst.render_to_html(width=40)
+    assert "Short text." in out
+
+
+def test_render_to_html_respects_show_errors_true():
+    rst = RestructuredText(
+        ":bad_role:`text`",
+        show_errors=True,
+        sphinx_compat=False,
+    )
+    out = rst.render_to_html()
+    assert "System Message" in out
+
+
+def test_render_to_html_multiple_calls_same_result():
+    rst = RestructuredText("Consistent output.")
+    assert rst.render_to_html() == rst.render_to_html()
+
+
+def test_render_to_html_with_custom_theme():
+    from rich.terminal_theme import MONOKAI
+    rst = RestructuredText("Hello world.")
+    out = rst.render_to_html(theme=MONOKAI)
+    assert isinstance(out, str)
+    assert "Hello" in out
+
+
+def test_render_to_html_complex_document():
+    rst_text = """\
+Title
+=====
+
+A paragraph with **bold** and *italic*.
+
+.. note::
+
+   A note box.
+
+* item one
+* item two
+"""
+    rst = RestructuredText(rst_text)
+    out = rst.render_to_html()
+    assert "Title" in out
+    assert "bold" in out
+
+
+# ── render_to_svg ─────────────────────────────────────────────────────────────
+
+def test_render_to_svg_returns_str():
+    rst = RestructuredText("Hello **world**.")
+    out = rst.render_to_svg()
+    assert isinstance(out, str)
+
+
+def test_render_to_svg_is_xml():
+    rst = RestructuredText("Hello **world**.")
+    out = rst.render_to_svg()
+    assert "<svg" in out
+    assert "</svg>" in out
+
+
+def test_render_to_svg_contains_text():
+    rst = RestructuredText("Hello **world**.")
+    out = rst.render_to_svg()
+    assert "Hello" in out
+    assert "world" in out
+
+
+def test_render_to_svg_default_width_is_80():
+    rst = RestructuredText("Short text.")
+    out = rst.render_to_svg()
+    assert "<svg" in out
+
+
+def test_render_to_svg_custom_width():
+    rst = RestructuredText("Short text.")
+    out = rst.render_to_svg(width=40)
+    # SVG output contains the document structure; verify it's a valid SVG
+    assert "<svg" in out
+
+
+def test_render_to_svg_with_title():
+    rst = RestructuredText("Hello world.")
+    out = rst.render_to_svg(title="My Document")
+    # Rich encodes the title in the SVG (in a <title> element or comment)
+    assert "<svg" in out
+
+
+def test_render_to_svg_multiple_calls_same_result():
+    rst = RestructuredText("Consistent output.")
+    assert rst.render_to_svg() == rst.render_to_svg()
+
+
+def test_render_to_svg_complex_document():
+    rst_text = """\
+Title
+=====
+
+A paragraph with **bold** and *italic*.
+"""
+    rst = RestructuredText(rst_text)
+    out = rst.render_to_svg()
+    assert "Title" in out
+
+# ── Decorator form ────────────────────────────────────────────────────────────
+
+def test_register_visitor_decorator_form_visit_called(make_visitor):
+    """@RSTVisitor.register_visitor(NodeClass) must register the decorated fn."""
+
+    class _DecoratorNode(
+        docutils.nodes.General,
+        docutils.nodes.Inline,
+        docutils.nodes.Element,
+    ):
+        pass
+
+    visited = []
+
+    @RSTVisitor.register_visitor(_DecoratorNode)
+    def visit_decorator_node(visitor, node):
+        visited.append(node.__class__.__name__)
+        raise docutils.nodes.SkipChildren()
+
+    try:
+        node = _DecoratorNode()
+        visitor = make_visitor("")
+        node.walkabout(visitor)
+        assert "_DecoratorNode" in visited
+    finally:
+        RSTVisitor.unregister_visitor(_DecoratorNode)
+
+
+def test_register_visitor_decorator_returns_original_function():
+    """The decorator form must return the original (unwrapped) function."""
+
+    class _ReturnNode(
+        docutils.nodes.General,
+        docutils.nodes.Inline,
+        docutils.nodes.Element,
+    ):
+        pass
+
+    @RSTVisitor.register_visitor(_ReturnNode)
+    def my_visit(visitor, node):
+        raise docutils.nodes.SkipChildren()
+
+    try:
+        assert my_visit.__name__ == "my_visit"
+    finally:
+        RSTVisitor.unregister_visitor(_ReturnNode)
+
+
+def test_register_visitor_decorator_produces_renderable(make_visitor):
+    """Decorator form visit_fn can append renderables."""
+
+    class _RenderNode(
+        docutils.nodes.General,
+        docutils.nodes.Body,
+        docutils.nodes.Element,
+    ):
+        pass
+
+    @RSTVisitor.register_visitor(_RenderNode)
+    def visit_render_node(visitor, node):
+        visitor.renderables.append(Text("from decorator"))
+        raise docutils.nodes.SkipChildren()
+
+    try:
+        node = _RenderNode()
+        visitor = make_visitor("")
+        node.walkabout(visitor)
+        texts = [r for r in visitor.renderables if isinstance(r, Text)]
+        assert any("from decorator" in t.plain for t in texts)
+    finally:
+        RSTVisitor.unregister_visitor(_RenderNode)
+
+
+# ── unregister_visitor ────────────────────────────────────────────────────────
+
+def test_unregister_visitor_removes_registration(make_visitor):
+    """After unregister, the node class must not be in the registry."""
+
+    class _UnregNode(
+        docutils.nodes.General,
+        docutils.nodes.Inline,
+        docutils.nodes.Element,
+    ):
+        pass
+
+    def dummy(v, n):
+        raise docutils.nodes.SkipChildren()
+
+    RSTVisitor.register_visitor(_UnregNode, visit_fn=dummy)
+    assert _UnregNode in RSTVisitor.list_registered_visitors(), (
+        "Node must be in the registry after registration"
+    )
+
+    RSTVisitor.unregister_visitor(_UnregNode)
+    assert _UnregNode not in RSTVisitor.list_registered_visitors(), (
+        "Node must not be in the registry after unregistration"
+    )
+
+
+def test_unregister_visitor_nonexistent_is_silent():
+    """Unregistering a never-registered class must not raise."""
+
+    class _NeverRegistered(
+        docutils.nodes.General,
+        docutils.nodes.Inline,
+        docutils.nodes.Element,
+    ):
+        pass
+
+    # Should not raise
+    RSTVisitor.unregister_visitor(_NeverRegistered)
+
+
+# ── list_registered_visitors ──────────────────────────────────────────────────
+
+def test_list_registered_visitors_returns_dict():
+    result = RSTVisitor.list_registered_visitors()
+    assert isinstance(result, dict)
+
+
+def test_list_registered_visitors_includes_new_registration():
+    class _ListNode(
+        docutils.nodes.General,
+        docutils.nodes.Inline,
+        docutils.nodes.Element,
+    ):
+        pass
+
+    def dummy_visit(visitor, node):
+        raise docutils.nodes.SkipChildren()
+
+    RSTVisitor.register_visitor(_ListNode, visit_fn=dummy_visit)
+    try:
+        registry = RSTVisitor.list_registered_visitors()
+        assert _ListNode in registry
+        assert registry[_ListNode][0] is dummy_visit
+    finally:
+        RSTVisitor.unregister_visitor(_ListNode)
+
+
+def test_list_registered_visitors_is_snapshot():
+    """Modifying the returned dict must not affect the real registry."""
+
+    class _SnapshotNode(
+        docutils.nodes.General,
+        docutils.nodes.Inline,
+        docutils.nodes.Element,
+    ):
+        pass
+
+    def dummy_visit(visitor, node):
+        raise docutils.nodes.SkipChildren()
+
+    RSTVisitor.register_visitor(_SnapshotNode, visit_fn=dummy_visit)
+    try:
+        snapshot = RSTVisitor.list_registered_visitors()
+        snapshot.pop(_SnapshotNode, None)
+        # Real registry must still have it
+        assert _SnapshotNode in RSTVisitor.list_registered_visitors()
+    finally:
+        RSTVisitor.unregister_visitor(_SnapshotNode)

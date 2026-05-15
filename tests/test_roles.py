@@ -21,6 +21,17 @@ Formatting contract (in-sentence context)
 * ``:sup:`` / ``:superscript:`` → digit/letter translated to superscript Unicode
 """
 from rich.text import Text
+import pytest
+from rich.console import Console
+from rich.console import Console
+from rich.panel import Panel
+from rich.rule import Rule
+from rich.table import Table
+import rich_rst
+import rich_rst._vendor.docutils.core
+from rich_rst._vendor import docutils
+from rich_rst import RestructuredText, RSTVisitor
+from rich_rst import RSTVisitor, RestructuredText
 
 
 def _get_text(make_visitor, rst):
@@ -211,3 +222,33 @@ def test_role_t_alias_is_italic(make_visitor):
     italic_base = t.style.italic is True
     italic_span = bool(_italic_spans(t))
     assert italic_base or italic_span, ":t: alias must produce italic formatting"
+
+def test_abbreviation_with_explanation(render_text):
+    """Test abbreviation with explanation."""
+    rst = """\
+The |abbr| (abbreviation) is common.
+
+.. |abbr| abbreviation:: An abbreviation
+"""
+    out = render_text(rst)
+    assert "abbreviation" in out, "Abbreviation substitution text must be visible"
+
+def test_acronym_with_explanation(render_text):
+    """Test acronym with explanation."""
+    rst = """\
+The |acr| (acronym) is used here.
+
+.. |acr| acronym:: An Acronym Code
+"""
+    out = render_text(rst)
+    assert "acronym" in out, "Acronym substitution text must be visible"
+
+def test_abbreviation_inline_full_markup(render_text):
+    """Test abbreviation with full inline markup."""
+    rst = """\
+Use |HTML| in markup.
+
+.. |HTML| abbreviation:: HyperText Markup Language
+"""
+    out = render_text(rst)
+    assert "HTML" in out, "Abbreviation label must be visible in the output"

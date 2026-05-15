@@ -28,6 +28,14 @@ from rich.panel import Panel
 from rich.rule import Rule
 from rich.table import Table
 from rich.text import Text
+import pytest
+from rich.console import Console
+from rich.console import Console
+import rich_rst
+import rich_rst._vendor.docutils.core
+from rich_rst._vendor import docutils
+from rich_rst import RestructuredText, RSTVisitor
+from rich_rst import RSTVisitor, RestructuredText
 
 
 # ── Paragraphs ────────────────────────────────────────────────────────────────
@@ -366,3 +374,381 @@ def test_substitution_reference_with_image(render_text):
     # The substitution should be resolved (even if the image isn't loaded)
     assert "Warning:" in rendered
 
+
+def test_deeply_nested_sections(render_text):
+    """Test multiple levels of section nesting."""
+    rst = """\
+Level 1
+=======
+
+Some text here.
+
+Level 2
+-------
+
+More text.
+
+Level 3
+^^^^^^^
+
+Even deeper.
+
+Level 4
+"""""""
+
+Deepest level.
+"""
+    out = render_text(rst)
+    assert "Level 1" in out
+    assert "Level 2" in out
+    assert "Level 3" in out
+    assert "Level 4" in out
+
+def test_multiple_sections_same_level(render_text):
+    """Test multiple sections at the same level."""
+    rst = """\
+First Section
+=============
+
+Content here.
+
+Second Section
+==============
+
+Different content.
+
+Third Section
+=============
+
+More content.
+"""
+    out = render_text(rst)
+    assert "First Section" in out
+    assert "Second Section" in out
+    assert "Third Section" in out
+
+def test_block_quote_with_attribution(render_text):
+    """Test block quote with attribution."""
+    rst = """\
+   This is a great quote.
+   It spans multiple lines.
+
+   — Famous Person
+"""
+    out = render_text(rst)
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "great quote" in out, "Block quote text must be visible"
+    assert "Famous Person" in out, "Attribution must be visible"
+
+def test_block_quote_multiple_paragraphs(render_text):
+    """Test block quote with multiple paragraphs."""
+    rst = """\
+   First paragraph of quote.
+
+   Second paragraph continues.
+
+   Third paragraph concludes.
+"""
+    out = render_text(rst)
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "First paragraph of quote" in out, "First paragraph must be visible"
+    assert "Second paragraph continues" in out, "Second paragraph must be visible"
+
+def test_block_quote_no_attribution(render_text):
+    """Test block quote without attribution."""
+    rst = """\
+   A simple quote.
+   No attribution here.
+"""
+    out = render_text(rst)
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "A simple quote" in out, "Block quote text must be visible"
+
+def test_block_quote_single_paragraph(render_text):
+    """Test block quote with exactly one paragraph."""
+    rst = """\
+   Single paragraph quote.
+"""
+    out = render_text(rst)
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "Single paragraph quote" in out, "Block quote text must be visible"
+
+def test_block_quote_many_paragraphs(render_text):
+    """Test block quote with many paragraphs."""
+    rst = """\
+   Para 1
+     
+   Para 2
+     
+   Para 3
+     
+   Para 4
+     
+   Para 5
+"""
+    out = render_text(rst)
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "Para 1" in out, "First paragraph must be visible"
+    assert "Para 5" in out, "Last paragraph must be visible"
+
+def test_nested_content_in_block_quote(render_text):
+    """Test block quote containing various nested content."""
+    rst = """\
+   Block quote with multiple paragraphs.
+   
+   First paragraph here.
+   
+   Second paragraph with **bold** and *italic* text.
+
+   — Attribution
+"""
+    out = render_text(rst)
+    assert "▌" in out, "Block quote must render with the '▌' left-border marker"
+    assert "Block quote with multiple paragraphs" in out, "Block quote text must be visible"
+    assert "Attribution" in out, "Attribution must be visible"
+
+def test_line_block_nested(render_text):
+    """Test nested line blocks."""
+    rst = """\
+| Line 1
+| Line 2
+|
+|     Indented line 3
+|     Indented line 4
+| Line 5
+"""
+    out = render_text(rst)
+    assert "Line 1" in out
+    assert "Line 5" in out
+
+def test_line_block_deeply_nested(render_text):
+    """Test deeply nested line blocks."""
+    rst = """\
+| Level 1-1
+|
+|     Level 2-1
+|     Level 2-2
+|
+|         Level 3-1
+|
+|     Back to Level 2
+|
+| Back to Level 1
+"""
+    out = render_text(rst)
+    assert "Level 1-1" in out
+
+def test_empty_line_block(render_text):
+    """Test line block that's essentially empty."""
+    rst = """\
+| Just one line
+"""
+    out = render_text(rst)
+    assert "Just one line" in out
+
+def test_line_block_single_line(render_text):
+    """Test line block with single line."""
+    rst = """\
+| Single line
+"""
+    out = render_text(rst)
+    assert "Single line" in out
+
+def test_line_block_many_levels(render_text):
+    """Test line block with many indentation levels."""
+    rst = """\
+| L1
+|     L2
+|         L3
+|             L4
+|                 L5
+| Back to L1
+"""
+    out = render_text(rst)
+    assert "L1" in out or "L5" in out
+
+def test_transition_between_sections(render_text):
+    """Test transition/horizontal rule."""
+    rst = """\
+Section 1
+=========
+
+Content here.
+
+----
+
+Section 2
+=========
+
+More content.
+"""
+    out = render_text(rst)
+    assert "Section 1" in out, "First section must be visible"
+    assert "Section 2" in out, "Second section must be visible"
+    assert "─" in out, "Transition must render as a horizontal rule (─)"
+
+def test_multiple_transitions(make_visitor):
+    """Test multiple transitions render as Rule renderables."""
+    rst = """\
+First block.
+
+----
+
+Second block.
+
+----
+
+Third block.
+"""
+    visitor = make_visitor(rst)
+    rules = [r for r in visitor.renderables if isinstance(r, Rule)]
+    assert len(rules) >= 2, (
+        f"Two '----' transitions must produce at least two Rule renderables, got {len(rules)}"
+    )
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    text_content = " ".join(t.plain for t in texts)
+    assert "First" in text_content, "Text before transitions must be visible"
+    assert "Second" in text_content, "Text between transitions must be visible"
+
+def test_citation_reference(render_text):
+    """Test citation reference."""
+    rst = """\
+Some text [CIT2024]_.
+
+.. [CIT2024] A citation.
+"""
+    out = render_text(rst)
+    assert "citation" in out, "Citation must render as a Panel with title 'citation'"
+    assert "A citation" in out, "Citation body text must be visible"
+    assert "CIT2024: A citation." in out, "Citation should render inline as 'label: body'"
+
+def test_footnote_reference(render_text):
+    """Test footnote reference."""
+    rst = """\
+Some text [#]_.
+
+.. [#] A footnote.
+"""
+    out = render_text(rst)
+    assert "A footnote" in out, "Footnote body text must appear in the Footer panel"
+    assert "1: A footnote." in out, "Auto-numbered footnote should render inline as 'label: body'"
+
+def test_multiple_footnotes(render_text):
+    """Test multiple footnotes."""
+    rst = """\
+First [1]_ and second [2]_.
+
+.. [1] First note.
+.. [2] Second note.
+"""
+    out = render_text(rst)
+    assert "First note" in out, "First footnote body must be visible"
+    assert "Second note" in out, "Second footnote body must be visible"
+    assert "1: First note." in out, "First numbered footnote should render inline as 'label: body'"
+    assert "2: Second note." in out, "Second numbered footnote should render inline as 'label: body'"
+
+def test_citation_reference_appended_to_text(render_text):
+    """Test citation reference appended to existing text element."""
+    rst = """\
+See the cited work [Ref2024]_.
+
+.. [Ref2024] A citation.
+"""
+    out = render_text(rst)
+    assert "citation" in out, "Citation must render as a Panel with title 'citation'"
+    assert "A citation" in out, "Citation body text must be visible"
+
+def test_multiple_citations_share_one_panel(render_text):
+    """All citations should be grouped in one citation panel."""
+    rst = """\
+Alpha [A]_ and beta [B]_.
+
+.. [A] First source.
+.. [B] Second source.
+"""
+    out = render_text(rst)
+    assert out.count(" citation ") == 1, "Multiple citations should render in a single citation panel"
+    assert "A: First source." in out, "First citation should be present in the grouped citation panel"
+    assert "B: Second source." in out, "Second citation should be present in the grouped citation panel"
+
+def test_footnote_reference_appended_to_text(render_text):
+    """Test footnote reference appended to existing text element."""
+    rst = """\
+This is text [1]_ with a footnote.
+
+.. [1] Footnote text.
+"""
+    out = render_text(rst)
+    assert "Footnote text" in out, "Footnote body must appear in the Footer panel"
+    assert "1: Footnote text." in out, "Footnote should render inline as 'label: body'"
+
+def test_numbered_footnote(render_text):
+    """Test explicitly numbered footnote."""
+    rst = """\
+Text [1]_.
+
+.. [1] First footnote.
+"""
+    out = render_text(rst)
+    assert "First footnote" in out, "Footnote body must appear in the Footer panel"
+    assert "1: First footnote." in out, "Manual numbered footnote should render inline as 'label: body'"
+
+def test_auto_numbered_footnote(render_text):
+    """Test auto-numbered footnote."""
+    rst = """\
+Text [#]_.
+
+.. [#] Auto-numbered footnote.
+"""
+    out = render_text(rst)
+    assert "Auto-numbered footnote" in out, "Footnote body must appear in the Footer panel"
+    assert "1: Auto-numbered footnote." in out, "Auto-numbered footnote should render inline as 'label: body'"
+
+def test_labeled_footnote(render_text):
+    """Test labeled footnote."""
+    rst = """\
+Text [note]_.
+
+.. [note] A labeled footnote.
+"""
+    out = render_text(rst)
+    assert "A labeled footnote" in out, "Footnote body must appear in the Footer panel"
+    assert "note: A labeled footnote." in out, "Labeled footnote should render inline as 'label: body'"
+
+def test_named_auto_footnote(render_text):
+    """Test named auto-numbered footnote."""
+    rst = """\
+Text [#named]_ and [#named]_.
+
+.. [#named] Named auto-numbered footnote.
+"""
+    out = render_text(rst)
+    assert "Named auto-numbered footnote" in out, "Named auto footnote body must appear in the Footer panel"
+    assert "1: Named auto-numbered footnote." in out, (
+        "Named auto-numbered footnote should render inline as 'label: body'"
+    )
+
+def test_symbol_footnote(render_text):
+    """Test symbol footnote."""
+    rst = """\
+Text [*]_.
+
+.. [*] Symbol footnote.
+"""
+    out = render_text(rst)
+    assert "Symbol footnote" in out, "Symbol footnote body must appear in the Footer panel"
+    assert "*: Symbol footnote." in out, "Symbol footnote should render inline as 'label: body'"
+
+def test_citation_block(render_text):
+    """Test citation block."""
+    rst = """\
+Reference [Book2024]_.
+
+.. [Book2024] A Book Title. Published 2024.
+"""
+    out = render_text(rst)
+    assert "citation" in out, "Citation must render as a Panel with title 'citation'"
+    assert "A Book Title" in out, "Citation body text must be visible"
+    assert "Book2024: A Book Title. Published 2024." in out, (
+        "Citation should render inline as 'label: body'"
+    )

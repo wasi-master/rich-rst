@@ -16,6 +16,17 @@ All span assertions use ``span.style.*`` attributes, not string rendering,
 so they are insensitive to colour-name capitalisation or repr format changes.
 """
 from rich.text import Text
+import pytest
+from rich.console import Console
+from rich.console import Console
+from rich.panel import Panel
+from rich.rule import Rule
+from rich.table import Table
+import rich_rst
+import rich_rst._vendor.docutils.core
+from rich_rst._vendor import docutils
+from rich_rst import RestructuredText, RSTVisitor
+from rich_rst import RSTVisitor, RestructuredText
 
 
 def _get_paragraph_text(visitor):
@@ -271,3 +282,170 @@ def test_code_and_bold_and_italic_each_get_correct_span(make_visitor):
     assert bold_spans   and t.plain[bold_spans[0].start   : bold_spans[0].end]   == "A"
     assert italic_spans and t.plain[italic_spans[0].start : italic_spans[0].end] == "B"
     assert code_spans   and t.plain[code_spans[0].start   : code_spans[0].end]   == "C"
+
+def test_reference_with_inline_image(render_text):
+    """Test that reference with image child is properly skipped."""
+    rst = """\
+`Link with image <http://example.com>`_
+
+.. image:: /some/image.png
+   :target: http://example.com
+"""
+    out = render_text(rst)
+    assert "Link with image" in out, "Reference display text must be visible"
+    assert "🌆" in out, "Image must render with the 🌆 emoji"
+
+def test_reference_resolution_via_target(render_text):
+    """Test reference name resolution with explicit target."""
+    rst = """\
+See the `introduction`_ document.
+
+.. _introduction: https://example.com/intro
+"""
+    out = render_text(rst)
+    assert "introduction" in out
+
+def test_anonymous_target(render_text):
+    """Test anonymous hyperlink targets."""
+    rst = """\
+This is an __ anonymous link.
+
+__ https://example.com
+"""
+    out = render_text(rst)
+    assert "anonymous" in out
+
+def test_multiple_targets_same_name(render_text):
+    """Test handling of duplicate target names."""
+    rst = """\
+First `reference`_.
+
+.. _reference: https://example.com/1
+
+Second reference text.
+"""
+    out = render_text(rst)
+    assert "reference" in out
+
+def test_reference_without_refuri_or_refname(render_text):
+    """Test reference that has neither refuri nor refname."""
+    rst = "Some text with regular link reference."
+    out = render_text(rst)
+    assert "text" in out
+
+def test_multiple_inline_references_sequence(render_text):
+    """Test multiple references in sequence."""
+    rst = """\
+Check `link1`_ and `link2`_ and `link3`_.
+
+.. _link1: http://example.com/1
+.. _link2: http://example.com/2  
+.. _link3: http://example.com/3
+"""
+    out = render_text(rst)
+    assert "link1" in out, "First reference label must be visible"
+    assert "link2" in out, "Second reference label must be visible"
+    assert "link3" in out, "Third reference label must be visible"
+
+def test_title_reference_appended_to_text(render_text):
+    """Test title reference appended to text."""
+    rst = """\
+See the `Title`_ document for more.
+"""
+    out = render_text(rst)
+    assert "Title" in out
+
+def test_emphasis_appended_to_previous_text(make_visitor):
+    """Test emphasis appended to previous text element has an italic span."""
+    rst = """\
+This is regular text *and this is emphasized*.
+"""
+    visitor = make_visitor(rst)
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    assert texts, "Paragraph must produce a Text renderable"
+    combined = " ".join(t.plain for t in texts)
+    assert "regular text" in combined, "Surrounding plain text must be visible"
+    assert "and this is emphasized" in combined, "Emphasized text must be visible"
+    italic_spans = [s for t in texts for s in t._spans if s.style.italic]
+    assert italic_spans, "*...* must produce an italic span"
+
+def test_strong_appended_to_previous_text(make_visitor):
+    """Test strong emphasis appended to previous text has a bold span."""
+    rst = """\
+Regular **and this is bold**.
+"""
+    visitor = make_visitor(rst)
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    assert texts, "Paragraph must produce a Text renderable"
+    combined = " ".join(t.plain for t in texts)
+    assert "Regular" in combined, "Surrounding plain text must be visible"
+    assert "and this is bold" in combined, "Bold text must be visible"
+    bold_spans = [s for t in texts for s in t._spans if s.style.bold]
+    assert bold_spans, "**...** must produce a bold span"
+
+def test_emphasis_first_element(make_visitor):
+    """Test emphasis as first element has an italic span."""
+    rst = """\
+*Starts with emphasis* in a paragraph.
+"""
+    visitor = make_visitor(rst)
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    assert texts, "Paragraph must produce a Text renderable"
+    combined = " ".join(t.plain for t in texts)
+    assert "emphasis" in combined, "Emphasized text must be visible"
+    # The emphasis is at the start; check for italic base style or italic span
+    italic_base = any(t.style.italic is True for t in texts)
+    italic_span = any(s.style.italic for t in texts for s in t._spans)
+    assert italic_base or italic_span, "*...* at start of paragraph must produce italic formatting"
+
+def test_subscript_appended_to_text(render_text):
+    """Test subscript appended to existing text renders as Unicode subscript characters."""
+    rst = "H\\ :sub:`2`\\ O is water.\n"
+    out = render_text(rst)
+    assert "₂" in out, ":sub:`2` must render as Unicode subscript '₂'"
+    assert "O is water" in out, "Surrounding text must be visible"
+
+def test_superscript_appended_to_text(render_text):
+    """Test superscript appended to existing text renders as Unicode superscript characters."""
+    rst = "E=mc\\ :sup:`2`\\ is Einstein's formula.\n"
+    out = render_text(rst)
+    assert "²" in out, ":sup:`2` must render as Unicode superscript '²'"
+
+def test_subscript_first_element(render_text):
+    """Test subscript as first element renders as Unicode subscript characters."""
+    rst = """\
+:sub:`subscript` at the beginning.
+"""
+    out = render_text(rst)
+    assert "ₛ" in out, ":sub:`subscript` must render starting with Unicode subscript 'ₛ'"
+    assert "at the beginning" in out, "Surrounding text must be visible"
+
+def test_subscript_preserves_untranslatable_characters(render_text):
+    """Unsupported subscript chars must fall back to plain text instead of disappearing."""
+    rst = "x\\ :sub:`A?#`\\ y\n"
+    out = render_text(rst)
+    assert "A?#" in out, "Untranslatable subscript chars must remain visible"
+
+def test_superscript_preserves_untranslatable_characters(render_text):
+    """Unsupported superscript chars must fall back to plain text instead of disappearing."""
+    rst = "x\\ :sup:`@_#`\\ y\n"
+    out = render_text(rst)
+    assert "@_#" in out, "Untranslatable superscript chars must remain visible"
+
+def test_inline_literal_appended_to_text(make_visitor):
+    """Test inline code appended to text renders with grey78-on-grey7 style."""
+    rst = """\
+Use the ``code`` variable in your script.
+"""
+    visitor = make_visitor(rst)
+    texts = [r for r in visitor.renderables if isinstance(r, Text)]
+    assert texts, "Paragraph must produce a Text renderable"
+    combined_plain = " ".join(t.plain for t in texts)
+    assert "Use" in combined_plain, "Surrounding text must be visible"
+    assert "code" in combined_plain, "Inline code content must be visible"
+    # Inline literals must carry the grey78-on-grey7 formatting span
+    code_spans = [
+        s for t in texts for s in t._spans
+        if "grey78" in str(s.style) or "grey7" in str(s.style)
+    ]
+    assert code_spans, "Inline ``code`` must produce a span with grey78-on-grey7 style"

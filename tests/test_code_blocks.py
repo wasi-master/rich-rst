@@ -26,6 +26,12 @@ from rich.console import Console
 from rich_rst import RSTVisitor
 from rich_rst._vendor import docutils
 import rich_rst._vendor.docutils.core
+import pytest
+from rich.rule import Rule
+from rich.table import Table
+import rich_rst
+from rich_rst import RestructuredText, RSTVisitor
+from rich_rst import RSTVisitor, RestructuredText
 
 
 # ── Literal blocks ────────────────────────────────────────────────────────────
@@ -296,3 +302,161 @@ def test_code_block_dedent_option_applies(make_visitor):
     syn = panels[0].renderable
     # dedent should remove common leading indentation so code begins with 'def'
     assert syn.code.lstrip().startswith('def foo') or syn.code.startswith('def ')
+
+def test_validate_default_lexer_name_accepts_none():
+    assert rich_rst._validate_default_lexer_name(None) is None
+
+def test_validate_default_lexer_name_rejects_unknown():
+    with pytest.raises(ValueError):
+        rich_rst._validate_default_lexer_name("definitely-not-a-lexer")
+
+def test_guess_lexer_with_unknown_language(render_text):
+    """Test guessing lexer for code that doesn't match any known patterns."""
+    rst = """\
+.. code-block::
+
+   this is just some random text
+   not any specific language
+   maybe looks like something
+"""
+    out = render_text(rst, guess_lexer=False)
+    assert "python" in out
+
+def test_lexer_guess_fallback_to_default(render_text):
+    """Test that when guess fails, it returns default lexer."""
+    rst = """\
+.. code-block::
+
+   ξξξξξξ random unicode ξξξξξξ
+"""
+    out = render_text(rst, guess_lexer=True, default_lexer="python")
+    assert "python" in out or "random unicode" in out
+
+def test_code_block_with_explicit_format(render_text):
+    """Test code block with explicit format specification."""
+    rst = """\
+.. code-block:: javascript
+
+   console.log("hello world");
+"""
+    out = render_text(rst)
+    assert "console.log" in out
+
+def test_code_block_with_class_syntax(render_text):
+    """Test code block using class syntax for language."""
+    rst = """\
+.. code-block::
+   :class: language-rust
+
+   fn main() {
+       println!("Hello");
+   }
+"""
+    out = render_text(rst)
+    assert "fn main" in out
+
+def test_lexer_with_aliases(make_visitor):
+    """Test lexer that has aliases (normal case)."""
+    rst = """\
+.. code-block:: python3
+
+   x = 1
+"""
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels, "code-block must produce a Panel renderable"
+    assert panels[0].title == "python3", (
+        f"Panel title must be the lexer alias 'python3', got {panels[0].title!r}"
+    )
+
+def test_render_with_line_numbers(render_text):
+    """Test rendering with line numbers enabled."""
+    rst = """\
+.. code-block:: python
+
+   def hello():
+       return "world"
+"""
+    out = render_text(rst, show_line_numbers=True)
+    assert "python" in out, "Panel title must show the lexer name 'python'"
+    assert "def hello" in out, "Code content must be visible in line-numbered output"
+    assert "1" in out, "Line number '1' must appear when show_line_numbers=True"
+
+def test_render_with_custom_code_theme(render_text):
+    """Test rendering with different code theme — code content must still be visible."""
+    rst = """\
+.. code-block:: python
+
+   x = 42
+"""
+    out = render_text(rst, code_theme="github-dark")
+    assert "x = 42" in out, "Code content must be visible regardless of the chosen code_theme"
+    assert "python" in out, "Lexer panel title must be visible with a custom code_theme"
+
+def test_doctest_block(render_text):
+    """Test doctest block rendering (inline >>> syntax)."""
+    rst = """\
+>>> x = 1 + 2
+>>> print(x)
+3
+"""
+    out = render_text(rst)
+    assert "doctest block" in out, (
+        "Doctest block must render as a Panel with title 'doctest block'"
+    )
+    assert "x = 1 + 2" in out, "Doctest code content must be visible"
+
+def test_doctest_multiple_examples(render_text):
+    """Test multiple doctest examples."""
+    rst = """\
+>>> list(range(3))
+[0, 1, 2]
+>>> dict(a=1, b=2)
+{'a': 1, 'b': 2}
+"""
+    out = render_text(rst)
+    assert "doctest block" in out, (
+        "Doctest block must render as a Panel with title 'doctest block'"
+    )
+    assert "list(range(3))" in out, "Doctest code must be visible"
+
+def test_doctest_standalone(render_text):
+    """Test doctest directive standalone."""
+    rst = """\
+>>> print("test")
+test
+"""
+    out = render_text(rst)
+    assert "doctest block" in out, (
+        "Doctest block must render as a Panel with title 'doctest block'"
+    )
+    assert 'print("test")' in out, "Doctest code must be visible"
+
+def test_math_block_inline(render_text):
+    """Test inline math rendering."""
+    rst = """\
+Some text :math:`E = mc^2` more text.
+"""
+    out = render_text(rst)
+    assert "E = mc^2" in out, "Inline math formula content must be visible in the output"
+
+def test_math_block_display(render_text):
+    """Test display math block."""
+    rst = """\
+.. math::
+
+   E = mc^2
+"""
+    out = render_text(rst)
+    assert "E = mc^2" in out, "Display math formula content must be visible in the output"
+
+def test_math_standalone(render_text):
+    """Test math directive standalone — frac converts to Unicode (a/b)."""
+    rst = """\
+.. math::
+
+   \\frac{a}{b}
+"""
+    out = render_text(rst)
+    # \\frac{a}{b} is now converted to the Unicode approximation (a/b)
+    assert "a/b" in out, "Math directive must render \\frac{a}{b} as (a/b)"

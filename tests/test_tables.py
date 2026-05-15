@@ -19,6 +19,16 @@ from rich.console import Group
 from rich.text import Text
 
 from rich_rst import _register_sphinx_directives
+import pytest
+from rich.console import Console
+from rich.console import Console
+from rich.panel import Panel
+from rich.rule import Rule
+import rich_rst
+import rich_rst._vendor.docutils.core
+from rich_rst._vendor import docutils
+from rich_rst import RestructuredText, RSTVisitor
+from rich_rst import RSTVisitor, RestructuredText
 
 
 # ── Basic table structure ─────────────────────────────────────────────────────
@@ -884,3 +894,277 @@ def test_flat_table_multi_header_rows_inner_separator_is_heavy(render_text):
     assert head_body_sep.startswith("┡"), (
         "Header/body separator must still start with transitional ┡"
     )
+
+# ── csv-table ─────────────────────────────────────────────────────────────────
+
+def test_csv_table_produces_rich_table(make_visitor):
+    rst = (
+        ".. csv-table::\n\n"
+        "   Alice, 1\n"
+        "   Bob, 2\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables, "csv-table must produce a Rich Table renderable"
+
+
+def test_csv_table_with_header_columns(make_visitor):
+    rst = (
+        ".. csv-table::\n"
+        "   :header: Name, Value\n\n"
+        "   Alice, 1\n"
+        "   Bob, 2\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+    headers = [c.header for c in tables[0].columns]
+    assert "Name" in headers
+    assert "Value" in headers
+
+
+def test_csv_table_row_count(make_visitor):
+    rst = (
+        ".. csv-table::\n"
+        "   :header: Name, Value\n\n"
+        "   Alice, 1\n"
+        "   Bob, 2\n"
+        "   Carol, 3\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+    assert tables[0].row_count == 3, f"Expected 3 rows, got {tables[0].row_count}"
+
+
+def test_csv_table_cell_values_visible(render_text):
+    rst = (
+        ".. csv-table::\n"
+        "   :header: Name, Score\n\n"
+        "   Alice, 100\n"
+        "   Bob, 95\n"
+    )
+    out = render_text(rst)
+    assert "Alice" in out
+    assert "Bob" in out
+    assert "100" in out
+    assert "95" in out
+
+
+def test_csv_table_title_appears(make_visitor):
+    rst = (
+        ".. csv-table:: My CSV Table\n\n"
+        "   Alice, 1\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+    assert tables[0].title == "My CSV Table", (
+        f"Expected title 'My CSV Table', got {tables[0].title!r}"
+    )
+
+
+def test_csv_table_three_column_count(make_visitor):
+    rst = (
+        ".. csv-table::\n"
+        "   :header: A, B, C\n\n"
+        "   1, 2, 3\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+    assert len(tables[0].columns) == 3, f"Expected 3 columns, got {len(tables[0].columns)}"
+
+
+# ── list-table ────────────────────────────────────────────────────────────────
+
+def test_list_table_produces_rich_table(make_visitor):
+    rst = (
+        ".. list-table::\n\n"
+        "   * - Alice\n"
+        "     - 1\n"
+        "   * - Bob\n"
+        "     - 2\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables, "list-table must produce a Rich Table renderable"
+
+
+def test_list_table_with_header_row(make_visitor):
+    rst = (
+        ".. list-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - Name\n"
+        "     - Value\n"
+        "   * - Alice\n"
+        "     - 1\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+    headers = [c.header for c in tables[0].columns]
+    assert "Name" in headers
+    assert "Value" in headers
+
+
+def test_list_table_row_count(make_visitor):
+    rst = (
+        ".. list-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - Name\n"
+        "     - Value\n"
+        "   * - Alice\n"
+        "     - 1\n"
+        "   * - Bob\n"
+        "     - 2\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+    assert tables[0].row_count == 2, f"Expected 2 body rows, got {tables[0].row_count}"
+
+
+def test_list_table_cell_values_visible(render_text):
+    rst = (
+        ".. list-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - Name\n"
+        "     - Score\n"
+        "   * - Alice\n"
+        "     - 100\n"
+        "   * - Bob\n"
+        "     - 95\n"
+    )
+    out = render_text(rst)
+    assert "Alice" in out
+    assert "Bob" in out
+    assert "100" in out
+    assert "95" in out
+
+
+def test_list_table_title_appears(make_visitor):
+    rst = (
+        ".. list-table:: My List Table\n\n"
+        "   * - Alice\n"
+        "     - 1\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+    assert tables[0].title == "My List Table", (
+        f"Expected title 'My List Table', got {tables[0].title!r}"
+    )
+
+
+def test_list_table_column_count(make_visitor):
+    rst = (
+        ".. list-table::\n"
+        "   :header-rows: 1\n\n"
+        "   * - A\n"
+        "     - B\n"
+        "     - C\n"
+        "   * - 1\n"
+        "     - 2\n"
+        "     - 3\n"
+    )
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+    assert len(tables[0].columns) == 3, f"Expected 3 columns, got {len(tables[0].columns)}"
+
+def test_table_with_headers(render_text):
+    """Test table with header row."""
+    rst = """\
+=====  =====
+Col1   Col2
+=====  =====
+A      B
+C      D
+=====  =====
+"""
+    out = render_text(rst)
+    assert "Col1" in out, "First header column must be visible"
+    assert "Col2" in out, "Second header column must be visible"
+    assert "A" in out and "B" in out, "Table body cells must be visible"
+
+def test_table_complex(render_text):
+    """Test complex table."""
+    rst = """\
++-------+-------+
+| A     | B     |
++=======+=======+
+| 1     | 2     |
++-------+-------+
+| 3     | 4     |
++-------+-------+
+"""
+    out = render_text(rst)
+    assert "A" in out and "B" in out, "Table header cells must be visible"
+    assert "1" in out and "2" in out, "Table body cells must be visible"
+
+def test_table_with_cell_content(render_text):
+    """Test table with various cell content."""
+    rst = """\
++----------+----------+
+| Cell 1   | Cell 2   |
++----------+----------+
+| Content1 | Content2 |
++----------+----------+
+"""
+    out = render_text(rst)
+    assert "Cell 1" in out, "First header cell must be visible"
+    assert "Cell 2" in out, "Second header cell must be visible"
+    assert "Content1" in out, "First body cell must be visible"
+    assert "Content2" in out, "Second body cell must be visible"
+
+def test_table_with_multiple_rows_and_columns(render_text):
+    """Test complex table with many rows and columns."""
+    rst = """\
++---------+---------+---------+
+| Header1 | Header2 | Header3 |
++=========+=========+=========+
+| Cell11  | Cell12  | Cell13  |
++---------+---------+---------+
+| Cell21  | Cell22  | Cell23  |
++---------+---------+---------+
+| Cell31  | Cell32  | Cell33  |
++---------+---------+---------+
+"""
+    out = render_text(rst)
+    assert "Header1" in out, "First column header must be visible"
+    assert "Header2" in out, "Second column header must be visible"
+    assert "Header3" in out, "Third column header must be visible"
+    assert "Cell11" in out, "First body cell must be visible"
+    assert "Cell33" in out, "Last body cell must be visible"
+
+def test_simple_table_format(render_text):
+    """Test simple table format."""
+    rst = """\
+Simple Table
+============  ============  ============
+     A              B             C
+============  ============  ============
+    1              2             3
+============  ============  ============
+"""
+    out = render_text(rst)
+    assert "A" in out and "B" in out and "C" in out, (
+        "All simple-table column headers must be visible"
+    )
+    assert "1" in out and "2" in out and "3" in out, (
+        "All simple-table body cells must be visible"
+    )
+
+def test_grid_table(render_text):
+    """Test grid table format."""
+    rst = """\
++---+---+
+| A | B |
++===+===+
+| 1 | 2 |
++---+---+
+"""
+    out = render_text(rst)
+    assert "A" in out and "B" in out, "Grid table header cells must be visible"
+    assert "1" in out and "2" in out, "Grid table body cells must be visible"

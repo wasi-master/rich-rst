@@ -18,6 +18,17 @@ Formatting contract
 """
 from rich.console import NewLine
 from rich.text import Text
+import pytest
+from rich.console import Console
+from rich.console import Console
+from rich.panel import Panel
+from rich.rule import Rule
+from rich.table import Table
+import rich_rst
+import rich_rst._vendor.docutils.core
+from rich_rst._vendor import docutils
+from rich_rst import RestructuredText, RSTVisitor
+from rich_rst import RSTVisitor, RestructuredText
 
 
 # ── Bullet lists ─────────────────────────────────────────────────────────────
@@ -279,3 +290,231 @@ def test_enumerated_list_lowerroman_content_visible(render_text):
     out = render_text("i. one\nii. two\n")
     assert "one" in out
     assert "two" in out
+
+def test_multiple_authors_docinfo(render_text):
+    """Test docinfo with multiple author elements."""
+    rst = """\
+:Author1: Alice
+:Author2: Bob
+:Organization: ACME Corp
+:Contact: contact@example.com
+:Version: 1.0
+:Revision: 1.1
+:Status: Draft
+:Date: 2024-01-01
+:Copyright: 2024 ACME
+"""
+    out = render_text(rst)
+    assert "Author" in out
+    assert "Organization" in out
+
+def test_docinfo_single_author(render_text):
+    """Test docinfo with single author."""
+    rst = """\
+:Author: Charlie
+:Date: 2024-06-15
+"""
+    out = render_text(rst)
+    assert "Author" in out
+    assert "Charlie" in out
+
+def test_multiple_field_merging(render_text):
+    """Test that multiple field blocks merge into same table."""
+    rst = """\
+:Author: Alice
+:Date: 2024-01-01
+
+Some paragraph.
+
+:Version: 1.0
+:Status: Draft
+"""
+    out = render_text(rst)
+    assert "Author" in out
+    assert "Version" in out
+
+def test_field_list_standalone(render_text):
+    """Test field list outside of docinfo."""
+    rst = """\
+Content before.
+
+:Field1: Value1
+:Field2: Value2
+:Field3: Value3
+
+Content after.
+"""
+    out = render_text(rst)
+    assert "Field1" in out
+    assert "Value1" in out
+
+def test_address_docinfo(render_text):
+    """Test address field in docinfo."""
+    rst = """\
+:Address:
+   123 Main Street
+   Springfield, IL 62701
+:Contact: info@example.com
+"""
+    out = render_text(rst)
+    assert "Address" in out, "Address field name must appear in the table"
+    assert "123" in out, "Address field value must appear in the table"
+
+def test_option_list_with_arguments(render_text):
+    """Test option list with arguments."""
+    rst = """\
+-a <arg>
+   Description of -a option
+-b, --beta VALUE
+   Description of beta option
+-c
+   Boolean flag
+"""
+    out = render_text(rst)
+    assert "-a" in out, "Option -a must be visible"
+    assert "Description of -a option" in out, "Option -a description must be rendered"
+    assert "-c" in out, "Option -c must be visible"
+    assert "Boolean flag" in out, "Option -c description must be rendered"
+
+def test_option_list_single_option(render_text):
+    """Test option list with single option."""
+    rst = """\
+--verbose
+   Enable verbose output
+"""
+    out = render_text(rst)
+    assert "--verbose" in out, "Option flag --verbose must be visible"
+    assert "Enable verbose output" in out, "Option description must be rendered"
+
+def test_complex_option_list(render_text):
+    """Test complex option list with various formats."""
+    rst = """\
+Command Options
+===============
+
+-h, --help
+   Show this help message
+-v, --verbose
+   Enable verbose output
+-o FILE, --output FILE
+   Write output to FILE
+-q, --quiet
+   Suppress output
+--config=FILE
+   Use configuration from FILE
+"""
+    out = render_text(rst)
+    assert "-h" in out, "Option -h must be visible"
+    assert "Show this help message" in out, "Option -h description must be rendered"
+    assert "--verbose" in out, "Option --verbose must be visible"
+    assert "Enable verbose output" in out, "Option --verbose description must be rendered"
+    assert "--quiet" in out, "Option --quiet must be visible"
+
+def test_bullet_list_with_nested_enumerated_list(render_text):
+    """Test bullet list containing enumerated list."""
+    rst = """\
+* Bullet 1
+
+  1. Numbered 1.1
+  2. Numbered 1.2
+
+* Bullet 2
+
+  1. Numbered 2.1
+  2. Numbered 2.2
+"""
+    out = render_text(rst)
+    assert "Bullet" in out
+
+def test_enumerated_list_with_nested_bullet_list(render_text):
+    """Test enumerated list containing bullet list."""
+    rst = """\
+1. First item
+
+   * Nested bullet A
+   * Nested bullet B
+
+2. Second item
+
+   * Nested bullet C
+"""
+    out = render_text(rst)
+    assert "First" in out
+
+def test_triple_nested_lists(render_text):
+    """Test three levels of list nesting."""
+    rst = """\
+* Level 1-1
+  
+  * Level 2-1
+    
+    * Level 3-1
+    * Level 3-2
+  
+  * Level 2-2
+
+* Level 1-2
+"""
+    out = render_text(rst)
+    assert "Level 1-1" in out, "First-level list item must be visible"
+    assert "Level 2-1" in out, "Second-level nested list item must be visible"
+    assert "Level 3-1" in out, "Third-level nested list item must be visible"
+
+def test_list_with_code_block(render_text):
+    """Test list containing code block."""
+    rst = """\
+* First item
+* Second item with code::
+
+      def hello():
+          return "world"
+
+* Third item
+"""
+    out = render_text(rst)
+    assert "Second item with code" in out, "List item text must be visible"
+    assert "def hello" in out, "Code block content inside list item must be visible"
+
+def test_bullet_list_with_only_code_blocks(render_text):
+    """Test bullet list containing only code blocks."""
+    rst = """\
+* ::
+
+     code block 1
+
+* ::
+
+     code block 2
+"""
+    out = render_text(rst)
+    assert "code block 1" in out, "First code block content must be visible"
+    assert "code block 2" in out, "Second code block content must be visible"
+
+def test_enumerated_list_with_only_code_blocks(render_text):
+    """Test enumerated list containing only code blocks."""
+    rst = """\
+1. ::
+
+      code block here
+    
+2. ::
+
+      another code block
+"""
+    out = render_text(rst)
+    assert "code block here" in out, "First code block content must be visible"
+    assert "another code block" in out, "Second code block content must be visible"
+
+def test_very_deep_enumerated_list_nesting(render_text):
+    """Test very deeply nested enumerated lists."""
+    rst = """\
+1. Item 1
+
+   1. Item 1.1
+   
+      1. Item 1.1.1
+      
+         1. Item 1.1.1.1
+"""
+    out = render_text(rst)
+    assert "Item" in out
