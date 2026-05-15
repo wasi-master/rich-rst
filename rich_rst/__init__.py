@@ -13,7 +13,7 @@ import functools
 import os
 import re
 import threading
-from typing import Any, Callable, ClassVar, Dict, List, Optional, Tuple, Type, Union
+from typing import Any, Callable, ClassVar, Dict, List, Literal, Optional, Tuple, Type, Union
 
 # Imports from rich_rst._vendor.docutils package for the parsing
 from rich_rst._vendor import docutils
@@ -1648,11 +1648,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         show_line_numbers: Optional[bool] = False,
         guess_lexer: Optional[bool] = True,
         default_lexer: Optional[str] = "python",
+        admonition_style: Literal["panel", "compact"] = "panel",
     ) -> None:
         super().__init__(document)
         self.console: Console = console
         self.code_theme: Union[str, SyntaxTheme] = code_theme
         self.show_line_numbers: Optional[bool] = show_line_numbers
+        self.admonition_style: Literal["panel", "compact"] = admonition_style
         self.renderables: List[Any] = []
         self.superscript: Dict[int, Union[int, str, None]] = str.maketrans(
             "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷",
@@ -1906,6 +1908,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             show_line_numbers=self.show_line_numbers,
             guess_lexer=self.guess_lexer,
             default_lexer=self.default_lexer,
+            admonition_style=self.admonition_style,
         )
         for child in children:
             child.walkabout(sub_visitor)
@@ -1925,106 +1928,284 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             show_line_numbers=self.show_line_numbers,
             guess_lexer=self.guess_lexer,
             default_lexer=self.default_lexer,
+            admonition_style=self.admonition_style,
         )
         child.walkabout(sub_visitor)
         return sub_visitor.renderables
 
-    def visit_admonition(self, node) -> None:
-        style = self.console.get_style("restructuredtext.admonition", default="bold white")
-        # Generic admonition: first child is the user-supplied title node
-        if node.children and isinstance(node.children[0], docutils.nodes.title):
-            title = node.children[0].astext()
-            body_children = node.children[1:]
+    def _emit_admonition(
+        self,
+        *,
+        title: str,
+        glyph: str,
+        style_name: str,
+        default_style: str,
+        body_children: List[docutils.nodes.Node],
+        panel_title: Optional[str] = None,
+    ) -> None:
+        """Render an admonition in either ``panel`` or ``compact`` style.
+
+        ``title`` is the bare label (e.g. ``"Note"``); ``panel_title`` overrides
+        the title used in panel mode when it differs from ``f"{title}: "``.
+        """
+        style = self.console.get_style(style_name, default=default_style)
+        if self.admonition_style == "compact":
+            self._emit_compact_admonition(title=title, glyph=glyph, style=style, body_children=body_children)
         else:
-            title = "Admonition: "
-            body_children = node.children
+            self._emit_panel_admonition(
+                panel_title=panel_title if panel_title is not None else f"{title}: ",
+                style=style,
+                body_children=body_children,
+            )
+
+    def _emit_panel_admonition(self, *, panel_title: str, style: Style, body_children: List[docutils.nodes.Node]) -> None:
         body = self._render_admonition_body(body_children)
-        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
+        self.renderables.append(
+            Panel(Group(*body) if body else "", title=panel_title, style=style, border_style=style)
+        )
 
-    def visit_attention(self, node) -> None:
-        style = self.console.get_style("restructuredtext.attention", default="bold black on yellow")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="Attention: ", style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
+    def _emit_compact_admonition(self, *, title: str, glyph: str, style: Style, body_children: List[docutils.nodes.Node]) -> None:
+        prefix = Text(f"{glyph}{title}: ", style=style, end="")
+        body = self._render_admonition_body(body_children)
+        self._prepend_styled_prefix(prefix, body)
 
-    def visit_caution(self, node) -> None:
-        style = self.console.get_style("restructuredtext.caution", default="red")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="Caution: ", style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
+    def _prepend_styled_prefix(self, prefix: Text, body: List[Any]) -> None:
+        """Append ``prefix`` followed by ``body`` to ``self.renderables``.
 
-    def visit_danger(self, node) -> None:
-        style = self.console.get_style("restructuredtext.danger", default="bold white on red")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="DANGER: ", style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
+        When the first body renderable is a :class:`Text` (the common case —
+        a paragraph), the prefix is merged into it via :meth:`Text.assemble`
+        so the prefix and first paragraph share a wrapped line. Otherwise
+        the prefix is emitted on its own line above the body. ``prefix`` is
+        expected to have ``end=""`` so paragraph spacing is governed by the
+        ``"\\n\\n"`` already baked into paragraph Texts by ``depart_paragraph``.
+        """
+        if not body:
+            prefix.append("\n\n")
+            self.renderables.append(prefix)
+            return
+        first = body[0]
+        if isinstance(first, Text):
+            merged = Text.assemble(prefix, first, end=first.end)
+            self.renderables.append(merged)
+            self.renderables.extend(body[1:])
+        else:
+            self.renderables.append(prefix)
+            self.renderables.extend(body)
 
-    def visit_error(self, node) -> None:
-        style = self.console.get_style("restructuredtext.error", default="bold red")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="ERROR: ", style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
-
-    def visit_hint(self, node) -> None:
-        style = self.console.get_style("restructuredtext.hint", default="yellow")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="Hint: ", style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
-
-    def visit_important(self, node) -> None:
-        style = self.console.get_style("restructuredtext.important", default="bold blue")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="IMPORTANT: ", style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
-
-    def visit_note(self, node) -> None:
-        style = self.console.get_style("restructuredtext.note", default="bold white")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="Note: ", style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
-
-    def visit_tip(self, node) -> None:
-        style = self.console.get_style("restructuredtext.tip", default="bold green")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="Tip: ", style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
-
-    def visit_warning(self, node) -> None:
-        style = self.console.get_style("restructuredtext.warning", default="bold yellow")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="Warning: ", style=style, border_style=style))
-        raise docutils.nodes.SkipChildren()
-
-    def visit_versionmodified(self, node) -> None:
-        type_ = node.get("type", "versionadded")
-        version = node.get("version", "")
+    def _emit_version_directive(self, type_: str, version: str, body_children: List[docutils.nodes.Node]) -> None:
         style_map = {
             "versionadded": ("restructuredtext.versionadded", "bold green"),
             "versionchanged": ("restructuredtext.versionchanged", "bold cyan"),
             "deprecated": ("restructuredtext.deprecated", "bold yellow"),
             "deprecated-removed": ("restructuredtext.deprecated_removed", "bold red"),
+            "availability": ("restructuredtext.availability", "bold blue"),
+            "soft-deprecated": ("restructuredtext.soft_deprecated", "bold bright_yellow"),
         }
-        title_map = {
+        panel_title_map = {
             "versionadded": f"New in version {version}",
             "versionchanged": f"Changed in version {version}",
             "deprecated": f"Deprecated since version {version}",
             "deprecated-removed": f"Deprecated since version {version}",
+            "availability": f"Available since version {version}",
+            "soft-deprecated": f"Soft Deprecated since version {version}",
+        }
+        # ``deprecated-removed`` relies on _DeprecatedRemovedDirective.run embedding
+        # "(removed in <removed>)" into the version string, so this map produces
+        # tags like ``[Deprecated in v0.9 (removed in 2.0)]``. Keep the formats
+        # in sync if that directive's version-string format ever changes.
+        short_title_map = {
+            "versionadded": f"Added in v{version}",
+            "versionchanged": f"Changed in v{version}",
+            "deprecated": f"Deprecated in v{version}",
+            "deprecated-removed": f"Deprecated in v{version}",
+            "availability": f"Available in v{version}",
+            "soft-deprecated": f"Soft Deprecated in v{version}",
+        }
+        # Severity glyphs match the admonition convention: ⚠ for warning-tone
+        # (deprecated/soft-deprecated → yellow), ✖ for danger-tone
+        # (deprecated-removed → bold red). versionadded/versionchanged/availability
+        # stay glyphless.
+        glyph_map = {
+            "deprecated": "⚠ ",
+            "deprecated-removed": "✖ ",
+            "soft-deprecated": "⚠ ",
         }
         style_name, default_style = style_map.get(type_, ("restructuredtext.versionadded", "bold green"))
-        title = title_map.get(type_, f"{type_} {version}")
         style = self.console.get_style(style_name, default=default_style)
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
+
+        if self.admonition_style == "panel":
+            panel_title = panel_title_map.get(type_, f"{type_} {version}")
+            body = self._render_admonition_body(body_children)
+            self.renderables.append(
+                Panel(Group(*body) if body else "", title=panel_title, style=style, border_style=style)
+            )
+            return
+
+        short_title = short_title_map.get(type_, f"{type_} {version}")
+        glyph = glyph_map.get(type_, "")
+        body = self._render_admonition_body(body_children)
+        if not body:
+            tag = Text(f"{glyph}[{short_title}]", style=style, end="")
+            tag.append("\n\n")
+            self.renderables.append(tag)
+            return
+        # Bracket-collapse only when the body is a single paragraph. Adjacent
+        # paragraphs are coalesced into one trailing Text by visit_Text/depart_paragraph,
+        # so detect multi-paragraph bodies by checking for an internal "\n\n".
+        if len(body) == 1 and isinstance(body[0], Text):
+            inner = body[0].copy()
+            inner.rstrip()
+            if "\n\n" not in inner.plain:
+                bracketed = Text.assemble(
+                    Text(f"{glyph}[{short_title}: ", style=style),
+                    inner,
+                    Text("]", style=style),
+                    end="",
+                )
+                bracketed.append("\n\n")
+                self.renderables.append(bracketed)
+                return
+        # Multi-paragraph or structural body: fall back to title-prefix shape (no brackets).
+        prefix = Text(f"{glyph}{short_title}: ", style=style, end="")
+        self._prepend_styled_prefix(prefix, body)
+
+    def visit_admonition(self, node) -> None:
+        # Generic admonition: first child is the user-supplied title node
+        if node.children and isinstance(node.children[0], docutils.nodes.title):
+            user_title = node.children[0].astext()
+            body_children = node.children[1:]
+            panel_title = user_title
+        else:
+            user_title = "Admonition"
+            body_children = node.children
+            panel_title = "Admonition: "
+        self._emit_admonition(
+            title=user_title,
+            glyph="",
+            style_name="restructuredtext.admonition",
+            default_style="bold white",
+            body_children=body_children,
+            panel_title=panel_title,
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_attention(self, node) -> None:
+        self._emit_admonition(
+            title="Attention",
+            glyph="⚠ ",
+            style_name="restructuredtext.attention",
+            default_style="bold black on yellow",
+            body_children=node.children,
+            panel_title="Attention: ",
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_caution(self, node) -> None:
+        self._emit_admonition(
+            title="Caution",
+            glyph="⚠ ",
+            style_name="restructuredtext.caution",
+            default_style="red",
+            body_children=node.children,
+            panel_title="Caution: ",
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_danger(self, node) -> None:
+        self._emit_admonition(
+            title="DANGER",
+            glyph="✖ ",
+            style_name="restructuredtext.danger",
+            default_style="bold white on red",
+            body_children=node.children,
+            panel_title="DANGER: ",
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_error(self, node) -> None:
+        self._emit_admonition(
+            title="ERROR",
+            glyph="✖ ",
+            style_name="restructuredtext.error",
+            default_style="bold red",
+            body_children=node.children,
+            panel_title="ERROR: ",
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_hint(self, node) -> None:
+        self._emit_admonition(
+            title="Hint",
+            glyph="",
+            style_name="restructuredtext.hint",
+            default_style="yellow",
+            body_children=node.children,
+            panel_title="Hint: ",
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_important(self, node) -> None:
+        self._emit_admonition(
+            title="IMPORTANT",
+            glyph="",
+            style_name="restructuredtext.important",
+            default_style="bold blue",
+            body_children=node.children,
+            panel_title="IMPORTANT: ",
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_note(self, node) -> None:
+        self._emit_admonition(
+            title="Note",
+            glyph="",
+            style_name="restructuredtext.note",
+            default_style="bold white",
+            body_children=node.children,
+            panel_title="Note: ",
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_tip(self, node) -> None:
+        self._emit_admonition(
+            title="Tip",
+            glyph="",
+            style_name="restructuredtext.tip",
+            default_style="bold green",
+            body_children=node.children,
+            panel_title="Tip: ",
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_warning(self, node) -> None:
+        self._emit_admonition(
+            title="Warning",
+            glyph="⚠ ",
+            style_name="restructuredtext.warning",
+            default_style="bold yellow",
+            body_children=node.children,
+            panel_title="Warning: ",
+        )
+        raise docutils.nodes.SkipChildren()
+
+    def visit_versionmodified(self, node) -> None:
+        type_ = node.get("type", "versionadded")
+        version = node.get("version", "")
+        self._emit_version_directive(type_, version, node.children)
         raise docutils.nodes.SkipChildren()
 
     def depart_versionmodified(self, node) -> None:
         pass
 
     def visit_seealso(self, node) -> None:
-        style = self.console.get_style("restructuredtext.seealso", default="bold white")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="See Also", style=style, border_style=style))
+        self._emit_admonition(
+            title="See Also",
+            glyph="",
+            style_name="restructuredtext.seealso",
+            default_style="bold white",
+            body_children=node.children,
+            panel_title="See Also",
+        )
         raise docutils.nodes.SkipChildren()
 
     def depart_seealso(self, node) -> None:
@@ -2032,10 +2213,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_availability(self, node) -> None:
         version = node.get("version", "")
-        style = self.console.get_style("restructuredtext.availability", default="bold blue")
-        title = f"Available since version {version}" if version else "Availability"
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
+        if version:
+            self._emit_version_directive("availability", version, node.children)
+        else:
+            # Defensive: the directive requires a version arg, but if missing
+            # we degrade to a plain admonition rather than rendering "v".
+            self._emit_admonition(
+                title="Availability",
+                glyph="",
+                style_name="restructuredtext.availability",
+                default_style="bold blue",
+                body_children=node.children,
+                panel_title="Availability",
+            )
         raise docutils.nodes.SkipChildren()
 
     def depart_availability(self, node) -> None:
@@ -2043,19 +2233,31 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_soft_deprecated(self, node) -> None:
         version = node.get("version", "")
-        style = self.console.get_style("restructuredtext.soft_deprecated", default="bold bright_yellow")
-        title = f"Soft Deprecated since version {version}" if version else "Soft Deprecated"
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title=title, style=style, border_style=style))
+        if version:
+            self._emit_version_directive("soft-deprecated", version, node.children)
+        else:
+            self._emit_admonition(
+                title="Soft Deprecated",
+                glyph="⚠ ",
+                style_name="restructuredtext.soft_deprecated",
+                default_style="bold bright_yellow",
+                body_children=node.children,
+                panel_title="Soft Deprecated",
+            )
         raise docutils.nodes.SkipChildren()
 
     def depart_soft_deprecated(self, node) -> None:
         pass
 
     def visit_impl_detail(self, node) -> None:
-        style = self.console.get_style("restructuredtext.impl_detail", default="bold magenta")
-        body = self._render_admonition_body(node.children)
-        self.renderables.append(Panel(Group(*body) if body else "", title="Implementation Detail", style=style, border_style=style))
+        self._emit_admonition(
+            title="Implementation Detail",
+            glyph="",
+            style_name="restructuredtext.impl_detail",
+            default_style="bold magenta",
+            body_children=node.children,
+            panel_title="Implementation Detail",
+        )
         raise docutils.nodes.SkipChildren()
 
     def depart_impl_detail(self, node) -> None:
@@ -3777,6 +3979,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 show_line_numbers=self.show_line_numbers,
                 guess_lexer=self.guess_lexer,
                 default_lexer=self.default_lexer,
+                admonition_style=self.admonition_style,
             )
             for child in entry.children:
                 child.walkabout(sub_visitor)
@@ -4096,6 +4299,11 @@ class RestructuredText(JupyterMixin):
         Defaults to True for better compatibility with Python documentation.
     filename : Optional[str]
         A file name to use for error messages, useful for debugging purposes. Defaults to "<rst-document>"
+    admonition_style : str
+        How admonition directives (``note``, ``warning``, ``versionadded``, etc.) render.
+        ``"panel"`` (default) emits a bordered Rich :class:`~rich.panel.Panel` per directive.
+        ``"compact"`` collapses each directive to a styled inline title prefix, making the
+        output suitable for narrow contexts such as CLI ``--help`` panels.
     """
 
     def __init__(
@@ -4107,8 +4315,13 @@ class RestructuredText(JupyterMixin):
         guess_lexer: Optional[bool] = False,
         default_lexer: Optional[str] = "python",
         sphinx_compat: Optional[bool] = True,
-        filename: Optional[str] = "<rst-document>"
+        filename: Optional[str] = "<rst-document>",
+        admonition_style: Literal["panel", "compact"] = "panel",
     ) -> None:
+        if admonition_style not in ("panel", "compact"):
+            raise ValueError(
+                f"admonition_style must be 'panel' or 'compact', got {admonition_style!r}"
+            )
         self.markup: str = markup
         self.code_theme: Optional[Union[str, SyntaxTheme]] = code_theme
         self.show_line_numbers: Optional[bool] = show_line_numbers
@@ -4117,6 +4330,7 @@ class RestructuredText(JupyterMixin):
         self.default_lexer: Optional[str] = _validate_default_lexer_name(default_lexer)
         self.sphinx_compat: Optional[bool] = sphinx_compat
         self.filename: Optional[str] = filename
+        self.admonition_style: Literal["panel", "compact"] = admonition_style
 
     def render_to_string(self, width: Optional[int] = None, *, force_terminal: bool = False) -> str:
         """Render the RST markup to a plain string.
@@ -4218,6 +4432,7 @@ class RestructuredText(JupyterMixin):
             show_line_numbers=self.show_line_numbers,
             guess_lexer=self.guess_lexer,
             default_lexer=self.default_lexer,
+            admonition_style=self.admonition_style,
         )
         document.walkabout(visitor)
 
