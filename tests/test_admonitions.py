@@ -457,6 +457,49 @@ def test_compact_deprecated_with_body_inlines_onto_preceding_paragraph(render_te
     assert "⚠ [Deprecated in v2.0: Use foo instead.]" in merged
 
 
+# ── Regression: phantom padded-blank-row under justify="left" ────────────────
+
+def test_paragraph_then_admonition_no_phantom_padded_row_under_justify_left():
+    """An *intermediate* paragraph stored as ``Text("X\\n\\n", end="")`` used to
+    render to three padded lines under ``options.justify == "left"`` — the
+    content row plus two phantom blank-padded rows. The trailing phantom
+    row then fused onto the next renderable's first row, corrupting any
+    layout where directives (admonitions, version tags) follow a paragraph
+    in a width-constrained justified context (e.g. Rich ``Table`` cells in
+    downstream consumers like cyclopts).
+
+    The bug requires a *non-Text* boundary (admonition / panel / version
+    tag) between paragraphs — a plain paragraph→paragraph chain collapses
+    into a single ``Text`` renderable that the existing rstrip cleanup
+    already handles. The trailing-newline normalization in
+    ``RestructuredText.__rich_console__`` covers intermediate ``Text``s too.
+    """
+    from rich.console import Console, ConsoleOptions, ConsoleDimensions
+    # Paragraph followed by a compact admonition: the paragraph becomes
+    # an intermediate Text, the admonition emits a separate Text. Pre-fix,
+    # the paragraph's trailing "\n\n" produced a phantom blank-padded row
+    # that fused onto the admonition's first row.
+    rst = "First paragraph.\n\n.. note:: Second.\n"
+    console = Console(width=80)
+    opts = ConsoleOptions(
+        size=ConsoleDimensions(width=80, height=25),
+        legacy_windows=False, min_width=40, max_width=40,
+        is_terminal=True, encoding="utf-8", max_height=25,
+        justify="left", overflow="fold", no_wrap=False,
+        highlight=False, markup=None, height=None,
+    )
+    lines = console.render_lines(RestructuredText(rst, admonition_style="compact"), opts)
+    # render_lines pads to max_height; drop trailing all-whitespace rows.
+    while lines and all(not s.text or s.text.isspace() for s in lines[-1]):
+        lines.pop()
+    rendered = ["".join(s.text for s in line).rstrip() for line in lines]
+    # Exactly 3 rows: paragraph, single blank separator, note prefix+body.
+    # The bug would add a 4th (extra blank-padded) row between the blank
+    # and the note, or shift "Note: Second." into a row that begins with
+    # the leading pad from the previous paragraph's phantom row.
+    assert rendered == ["First paragraph.", "", "Note: Second."], rendered
+
+
 # ── Default mode is still panel ───────────────────────────────────────────────
 
 def test_default_mode_still_emits_panel(make_visitor):

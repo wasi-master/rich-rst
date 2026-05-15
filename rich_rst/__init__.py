@@ -4607,6 +4607,22 @@ class RestructuredText(JupyterMixin):
                 break
 
         for renderable in visitor.renderables:
+            # Move trailing "\n"s from Text content into ``end``. Otherwise a
+            # paragraph stored as ``Text("X\n\n", end="")`` renders to three
+            # padded lines under ``options.justify == "left"`` — the content
+            # plus two phantom blank-padded rows — and the trailing padded
+            # blank fuses onto the next renderable's first row, breaking
+            # callers like cyclopts' help-cell layout. Visible output is
+            # identical when trailing newlines live in ``end`` instead.
+            if isinstance(renderable, Text):
+                plain = renderable.plain
+                if plain.endswith("\n"):
+                    stripped = plain.rstrip("\n")
+                    trailing = plain[len(stripped):]
+                    fixed = renderable.copy()
+                    fixed.rstrip()
+                    fixed.end = trailing + fixed.end
+                    renderable = fixed
             yield from console.render(renderable, options)
         if self.show_errors and visitor.errors:
             for error in visitor.errors:
