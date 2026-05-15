@@ -740,10 +740,11 @@ class _PyObjectDirective(docutils.parsers.rst.Directive):
 
     def run(self) -> List[docutils.nodes.Node]:
         if ':' in self.name:
-            _, _, objtype = self.name.partition(':')
+            domain, _, objtype = self.name.partition(':')
         else:
+            domain = "py"
             objtype = self.name
-        node = py_desc(objtype=objtype, sig=self.arguments[0])
+        node = py_desc(domain=domain, objtype=objtype, sig=self.arguments[0])
         if self.options:
             node['options'] = dict(self.options)
         if self.content:
@@ -1236,13 +1237,14 @@ def _register_sphinx_roles() -> None:
             # Python domain additional
             'py:variable', 'py:type', 'py:property', 'py:parameter', 'py:typevar',
             # C domain
-            'c:func', 'c:type', 'c:struct', 'c:union', 'c:enum', 'c:enumerator',
+            'c:func', 'c:function', 'c:type', 'c:struct', 'c:union', 'c:enum', 'c:enumerator',
             'c:member', 'c:var', 'c:macro', 'c:expr', 'c:texpr',
             # C++ domain
-            'cpp:func', 'cpp:class', 'cpp:type', 'cpp:member', 'cpp:var',
-            'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:expr', 'cpp:texpr',
+            'cpp:func', 'cpp:function', 'cpp:class', 'cpp:type', 'cpp:member', 'cpp:var',
+            'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:expr', 'cpp:texpr', 'cpp:alias',
             # JavaScript domain
-            'js:mod', 'js:func', 'js:data', 'js:attr', 'js:class', 'js:meth',
+            'js:mod', 'js:module', 'js:func', 'js:function', 'js:data',
+            'js:attr', 'js:attribute', 'js:class', 'js:meth', 'js:method',
         ]
 
         for role in sphinx_roles:
@@ -2438,25 +2440,193 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         return [Text("Details", style=section_style), table, NewLine()]
 
-    def _py_desc_panel_style(self, objtype: str) -> Style:
-        """Return panel style based on Python object type."""
+    def _py_desc_panel_style(self, objtype: str, domain: str = "py") -> Style:
+        """Return panel style based on object type and domain."""
+        normalized_domain = (domain or "py").strip().lower()
         normalized = (objtype or "").lower().strip()
         if not normalized:
             normalized = "object"
-        style_name = f"restructuredtext.py_desc.{normalized}"
-        if normalized in {"class", "exception"}:
-            default_style = "bold green"
-        elif normalized in {"method", "classmethod", "staticmethod", "coroutinemethod", "abstractmethod"}:
-            default_style = "bold cyan"
-        elif normalized in {"function", "decorator", "decoratorfunction", "coroutinefunction"}:
-            default_style = "bold magenta"
-        elif normalized in {"attribute", "property", "data", "variable", "envvar", "option"}:
-            default_style = "bold yellow"
-        elif normalized in {"module", "type", "typevar", "typealias", "opcode", "describe"}:
-            default_style = "bold blue"
+        style_name = f"restructuredtext.{normalized_domain}_desc.{normalized}"
+        if normalized_domain == "py":
+            if normalized in {"class", "exception"}:
+                default_style = "bold green"
+            elif normalized in {"method", "classmethod", "staticmethod", "coroutinemethod", "abstractmethod"}:
+                default_style = "bold cyan"
+            elif normalized in {"function", "decorator", "decoratorfunction", "coroutinefunction"}:
+                default_style = "bold magenta"
+            elif normalized in {"attribute", "property", "data", "variable", "envvar", "option"}:
+                default_style = "bold yellow"
+            elif normalized in {"module", "type", "typevar", "typealias", "opcode", "describe"}:
+                default_style = "bold blue"
+            else:
+                default_style = "bold white"
+        elif normalized_domain == "c":
+            if normalized in {"struct", "union", "type"}:
+                default_style = "bold green"
+            elif normalized in {"function", "macro"}:
+                default_style = "bold magenta"
+            elif normalized in {"enum", "enumerator"}:
+                default_style = "bold yellow"
+            elif normalized in {"member", "var"}:
+                default_style = "bold cyan"
+            else:
+                default_style = "bold white"
+        elif normalized_domain == "cpp":
+            if normalized in {"class", "struct", "union", "type"}:
+                default_style = "bold green"
+            elif normalized in {"function", "concept"}:
+                default_style = "bold magenta"
+            elif normalized in {"enum", "enumerator"}:
+                default_style = "bold yellow"
+            elif normalized in {"member", "var"}:
+                default_style = "bold cyan"
+            elif normalized in {"alias"}:
+                default_style = "bold blue"
+            else:
+                default_style = "bold white"
+        elif normalized_domain == "js":
+            if normalized in {"class", "module"}:
+                default_style = "bold green"
+            elif normalized in {"function", "method"}:
+                default_style = "bold magenta"
+            elif normalized in {"attribute", "data"}:
+                default_style = "bold yellow"
+            else:
+                default_style = "bold white"
         else:
             default_style = "bold white"
         return self.console.get_style(style_name, default=default_style)
+
+    def _highlight_c_cpp_signature(self, domain: str, objtype: str, signature: str) -> Text:
+        """Apply custom syntax highlighting to C/C++ domain signatures."""
+        rendered = Text(signature)
+        if not signature:
+            return rendered
+
+        c_keywords = frozenset({
+            "auto", "char", "const", "double", "enum", "extern", "float", "inline",
+            "int", "long", "register", "restrict", "short", "signed", "static",
+            "struct", "typedef", "union", "unsigned", "void", "volatile", "_Atomic",
+            "_Bool", "_Complex", "_Imaginary",
+        })
+        cpp_keywords = frozenset({
+            "bool", "char", "char8_t", "char16_t", "char32_t", "class", "concept",
+            "const", "consteval", "constexpr", "constinit", "decltype", "double",
+            "enum", "explicit", "export", "final", "float", "friend", "inline",
+            "int", "long", "mutable", "namespace", "noexcept", "override", "private",
+            "protected", "public", "short", "signed", "static", "struct", "template",
+            "typename", "union", "unsigned", "using", "virtual", "void", "volatile",
+            "wchar_t", "nullptr", "auto",
+        })
+
+        normalized_domain = (domain or "c").strip().lower()
+        normalized_objtype = (objtype or "").strip().lower()
+        type_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.type", default="bright_cyan")
+        name_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.name", default="bold")
+        namespace_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.namespace", default="magenta")
+        operator_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.operator", default="bold yellow")
+        number_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.number", default="green")
+
+        keywords = c_keywords if normalized_domain == "c" else (c_keywords | cpp_keywords)
+        keyword_pattern = r"\b(?:%s)\b" % "|".join(sorted(re.escape(keyword) for keyword in keywords))
+        for match in re.finditer(keyword_pattern, signature):
+            rendered.stylize(type_style, match.start(), match.end())
+
+        for match in re.finditer(r"\b\d+(?:\.\d+)?\b", signature):
+            rendered.stylize(number_style, match.start(), match.end())
+
+        for match in re.finditer(r"::|->|=", signature):
+            rendered.stylize(operator_style, match.start(), match.end())
+
+        for match in re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*)::", signature):
+            rendered.stylize(namespace_style, match.start(1), match.end(1))
+
+        if normalized_objtype == "alias":
+            alias_match = re.search(r"\b([A-Za-z_][A-Za-z0-9_]*)\b\s*=", signature)
+            if alias_match is not None:
+                rendered.stylize(name_style, alias_match.start(1), alias_match.end(1))
+        elif normalized_objtype == "function":
+            name_match = None
+            # Signatures may include qualified names (e.g. ``ns::Class::method(...)``);
+            # the last identifier before ``(`` is the callable name to emphasize.
+            for match in re.finditer(r"(~?[A-Za-z_][A-Za-z0-9_]*)\s*(?=\()", signature):
+                name_match = match
+            if name_match is not None:
+                rendered.stylize(name_style, name_match.start(1), name_match.end(1))
+        elif normalized_objtype in {"class", "struct", "union", "enum", "concept", "type"}:
+            head_match = re.search(r"\b([A-Za-z_][A-Za-z0-9_]*(?:::[A-Za-z_][A-Za-z0-9_]*)*)\b", signature)
+            if head_match is not None:
+                leaf = head_match.group(1).split("::")[-1]
+                leaf_start = head_match.end(1) - len(leaf)
+                rendered.stylize(name_style, leaf_start, head_match.end(1))
+        elif normalized_objtype in {"member", "var", "enumerator"}:
+            rightmost_identifier = None
+            for match in re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*)\b", signature):
+                token = match.group(1)
+                if token not in keywords:
+                    rightmost_identifier = match
+            if rightmost_identifier is not None:
+                rendered.stylize(name_style, rightmost_identifier.start(1), rightmost_identifier.end(1))
+
+        return rendered
+
+    def _highlight_js_signature(self, objtype: str, signature: str) -> Text:
+        """Apply custom syntax highlighting to JavaScript-domain signatures."""
+        rendered = Text(signature)
+        if not signature:
+            return rendered
+
+        js_keywords = frozenset({
+            "async", "await", "break", "case", "catch", "class", "const", "continue",
+            "debugger", "default", "delete", "do", "else", "export", "extends",
+            "false", "finally", "for", "function", "if", "import", "in", "instanceof",
+            "let", "new", "null", "return", "super", "switch", "this", "throw", "true",
+            "try", "typeof", "var", "void", "while", "with", "yield",
+        })
+
+        normalized_objtype = (objtype or "").strip().lower()
+        keyword_style = self.console.get_style("restructuredtext.js_desc.signature.keyword", default="bright_cyan")
+        name_style = self.console.get_style("restructuredtext.js_desc.signature.name", default="bold")
+        namespace_style = self.console.get_style("restructuredtext.js_desc.signature.namespace", default="magenta")
+        operator_style = self.console.get_style("restructuredtext.js_desc.signature.operator", default="bold yellow")
+        number_style = self.console.get_style("restructuredtext.js_desc.signature.number", default="green")
+
+        keyword_pattern = r"\b(?:%s)\b" % "|".join(sorted(re.escape(keyword) for keyword in js_keywords))
+        for match in re.finditer(keyword_pattern, signature):
+            rendered.stylize(keyword_style, match.start(), match.end())
+
+        for match in re.finditer(r"\b\d+(?:\.\d+)?\b", signature):
+            rendered.stylize(number_style, match.start(), match.end())
+
+        for match in re.finditer(r"=>|=|\.", signature):
+            rendered.stylize(operator_style, match.start(), match.end())
+
+        if normalized_objtype in {"function", "method"}:
+            name_match = None
+            for match in re.finditer(r"([A-Za-z_$][A-Za-z0-9_$]*)\s*(?=\()", signature):
+                name_match = match
+            if name_match is not None:
+                rendered.stylize(name_style, name_match.start(1), name_match.end(1))
+        elif normalized_objtype == "class":
+            class_match = re.search(r"\b([A-Za-z_$][A-Za-z0-9_$]*)\b", signature)
+            if class_match is not None:
+                rendered.stylize(name_style, class_match.start(1), class_match.end(1))
+        elif normalized_objtype == "module":
+            for match in re.finditer(r"\b([A-Za-z_$][A-Za-z0-9_$]*)\.", signature):
+                rendered.stylize(namespace_style, match.start(1), match.end(1))
+            leaf_match = re.search(r"\b([A-Za-z_$][A-Za-z0-9_$]*)\b$", signature)
+            if leaf_match is not None:
+                rendered.stylize(name_style, leaf_match.start(1), leaf_match.end(1))
+        elif normalized_objtype == "attribute":
+            attribute_match = re.search(r"([A-Za-z_$][A-Za-z0-9_$]*)\s*$", signature)
+            if attribute_match is not None:
+                rendered.stylize(name_style, attribute_match.start(1), attribute_match.end(1))
+        elif normalized_objtype == "data":
+            data_match = re.search(r"\b([A-Za-z_$][A-Za-z0-9_$]*)\b", signature)
+            if data_match is not None:
+                rendered.stylize(name_style, data_match.start(1), data_match.end(1))
+
+        return rendered
 
     def _highlight_py_signature(self, objtype: str, signature: str) -> Text:
         """Apply custom syntax highlighting to Python-domain signatures."""
@@ -2568,11 +2738,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         return rendered
 
-    def _render_py_desc_title(self, objtype: str, signature: str) -> Text:
-        """Render a styled panel title for Python-domain objects."""
+    def _render_py_desc_title(self, domain: str, objtype: str, signature: str) -> Text:
+        """Render a styled panel title for Python/C/C++/JS domain objects."""
         prefix_style = self.console.get_style("restructuredtext.py_desc.title_prefix", default="bold")
         title = Text(f"[{objtype}] ", style=prefix_style)
-        title.append_text(self._highlight_py_signature(objtype=objtype, signature=signature))
+        normalized_domain = (domain or "py").strip().lower()
+        if normalized_domain in {"c", "cpp"}:
+            title.append_text(self._highlight_c_cpp_signature(domain=domain, objtype=objtype, signature=signature))
+        elif normalized_domain == "js":
+            title.append_text(self._highlight_js_signature(objtype=objtype, signature=signature))
+        else:
+            title.append_text(self._highlight_py_signature(objtype=objtype, signature=signature))
         return title
 
     @staticmethod
@@ -2644,14 +2820,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         return renderables
 
     def visit_py_desc(self, node) -> None:
+        domain = node.get('domain', 'py')
         objtype = node.get('objtype', 'object')
         sig = node.get('sig', '')
-        style = self._py_desc_panel_style(objtype)
-        title = self._render_py_desc_title(objtype=objtype, signature=sig)
+        style = self._py_desc_panel_style(objtype, domain=domain)
+        title = self._render_py_desc_title(domain=domain, objtype=objtype, signature=sig)
         body = []
         body_children: List[docutils.nodes.Node]
 
-        if objtype in {"class", "exception"}:
+        if domain == "py" and objtype in {"class", "exception"}:
             typed_attributes, body_children = self._collect_typed_class_attributes(node)
             if typed_attributes:
                 body.extend(self._render_py_class_attribute_table(typed_attributes))
