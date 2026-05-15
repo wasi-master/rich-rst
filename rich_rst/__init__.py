@@ -52,29 +52,6 @@ __all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "R
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
 
-c_keywords = frozenset({
-    "auto", "char", "const", "double", "enum", "extern", "float", "inline",
-    "int", "long", "register", "restrict", "short", "signed", "static",
-    "struct", "typedef", "union", "unsigned", "void", "volatile", "_Atomic",
-    "_Bool", "_Complex", "_Imaginary",
-})
-cpp_keywords = frozenset({
-    "bool", "char", "char8_t", "char16_t", "char32_t", "class", "concept",
-    "const", "consteval", "constexpr", "constinit", "decltype", "double",
-    "enum", "explicit", "export", "final", "float", "friend", "inline",
-    "int", "long", "mutable", "namespace", "noexcept", "override", "private",
-    "protected", "public", "short", "signed", "static", "struct", "template",
-    "typename", "union", "unsigned", "using", "virtual", "void", "volatile",
-    "wchar_t", "nullptr", "auto",
-})
-JS_KEYWORDS = frozenset({
-    "async", "await", "break", "case", "catch", "class", "const", "continue",
-    "debugger", "default", "delete", "do", "else", "export", "extends",
-    "false", "finally", "for", "function", "if", "import", "in", "instanceof",
-    "let", "new", "null", "return", "super", "switch", "this", "throw", "true",
-    "try", "typeof", "var", "void", "while", "with", "yield",
-})
-
 
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
     """Validate that ``default_lexer`` is a known Pygments lexer alias."""
@@ -1264,7 +1241,7 @@ def _register_sphinx_roles() -> None:
             'c:member', 'c:var', 'c:macro', 'c:expr', 'c:texpr',
             # C++ domain
             'cpp:func', 'cpp:function', 'cpp:class', 'cpp:type', 'cpp:member', 'cpp:var',
-            'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:expr', 'cpp:texpr',
+            'cpp:enum', 'cpp:enumerator', 'cpp:concept', 'cpp:expr', 'cpp:texpr', 'cpp:alias',
             # JavaScript domain
             'js:mod', 'js:module', 'js:func', 'js:function', 'js:data',
             'js:attr', 'js:attribute', 'js:class', 'js:meth', 'js:method',
@@ -2413,6 +2390,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if not signature:
             return rendered
 
+        js_keywords = frozenset({
+            "async", "await", "break", "case", "catch", "class", "const", "continue",
+            "debugger", "default", "delete", "do", "else", "export", "extends",
+            "false", "finally", "for", "function", "if", "import", "in", "instanceof",
+            "let", "new", "null", "return", "super", "switch", "this", "throw", "true",
+            "try", "typeof", "var", "void", "while", "with", "yield",
+        })
+
         normalized_objtype = (objtype or "").strip().lower()
         keyword_style = self.console.get_style("restructuredtext.js_desc.signature.keyword", default="bright_cyan")
         name_style = self.console.get_style("restructuredtext.js_desc.signature.name", default="bold")
@@ -2420,7 +2405,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         operator_style = self.console.get_style("restructuredtext.js_desc.signature.operator", default="bold yellow")
         number_style = self.console.get_style("restructuredtext.js_desc.signature.number", default="green")
 
-        keyword_pattern = r"\b(?:%s)\b" % "|".join(sorted(re.escape(keyword) for keyword in JS_KEYWORDS))
+        keyword_pattern = r"\b(?:%s)\b" % "|".join(sorted(re.escape(keyword) for keyword in js_keywords))
         for match in re.finditer(keyword_pattern, signature):
             rendered.stylize(keyword_style, match.start(), match.end())
 
