@@ -417,6 +417,46 @@ def test_compact_versionadded_multiparagraph_falls_back(render_text):
     assert "[Added in v2.0: First para." not in out
 
 
+# ── Inlining version tags onto a preceding paragraph ─────────────────────────
+
+def test_compact_versionadded_inlines_onto_preceding_paragraph(render_text):
+    """Empty-body version tag should hug the previous paragraph on the same
+    line, not float as a separate paragraph. Behavior implemented by
+    ``_append_inline_to_prev_paragraph``."""
+    rst = "Bar parameter.\n\n.. versionadded:: 0.47\n"
+    out = render_text(rst, admonition_style="compact")
+    lines = [ln for ln in out.splitlines() if ln.strip()]
+    assert any("Bar parameter. [Added in v0.47]" in ln for ln in lines), out
+
+
+def test_compact_versionadded_at_section_start_stands_alone(render_text):
+    """When ``.. versionadded::`` has no preceding ``Text`` renderable,
+    ``_append_inline_to_prev_paragraph`` must fall back to emitting the tag
+    on its own line — the inline merge requires a paragraph to merge into."""
+    rst = ".. versionadded:: 0.47\n\nFollowing prose.\n"
+    out = render_text(rst, admonition_style="compact")
+    lines = [ln.strip() for ln in out.splitlines() if ln.strip()]
+    tag_idx = next(i for i, ln in enumerate(lines) if "Added in v0.47" in ln)
+    # Tag is on its own line; the following prose is on a separate line.
+    assert "Following prose" not in lines[tag_idx]
+
+
+def test_compact_deprecated_with_body_inlines_onto_preceding_paragraph(render_text):
+    """The bracket-collapsed shape (single-paragraph body) should also inline
+    onto a preceding paragraph. Verifies the second call site of
+    ``_append_inline_to_prev_paragraph`` in ``_emit_version_directive``."""
+    rst = "Baz parameter.\n\n.. deprecated:: 2.0\n\n   Use foo instead.\n"
+    out = render_text(rst, admonition_style="compact")
+    lines = [ln for ln in out.splitlines() if ln.strip()]
+    merged = next(
+        (ln for ln in lines if "Baz parameter." in ln and "Deprecated in v2.0" in ln),
+        None,
+    )
+    assert merged is not None, out
+    # Glyph stays outside the bracket; body goes inside.
+    assert "⚠ [Deprecated in v2.0: Use foo instead.]" in merged
+
+
 # ── Default mode is still panel ───────────────────────────────────────────────
 
 def test_default_mode_still_emits_panel(make_visitor):
@@ -558,8 +598,9 @@ def test_compact_stacked_admonitions_save_lines():
     compact_lines = RestructuredText(rst, admonition_style="compact").render_to_string(width=68).splitlines()
     panel_nonblank = [ln for ln in panel_lines if ln.strip()]
     compact_nonblank = [ln for ln in compact_lines if ln.strip()]
-    # Three short content lines in compact mode.
-    assert len(compact_nonblank) == 3, compact_lines
+    # Two short content lines in compact mode: ``versionadded`` inlines onto the
+    # preceding ``warning`` admonition line via _append_inline_to_prev_paragraph.
+    assert len(compact_nonblank) == 2, compact_lines
     # Panel mode produces many more lines (panel borders + padding × 3 directives).
     assert len(panel_nonblank) >= 9, panel_lines
 

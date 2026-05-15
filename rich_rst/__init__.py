@@ -1980,6 +1980,26 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         body = self._render_admonition_body(body_children)
         self._prepend_styled_prefix(prefix, body)
 
+    def _append_inline_to_prev_paragraph(self, tag: Text) -> None:
+        """Inline ``tag`` onto the trailing paragraph, space-separated.
+
+        Used by compact-mode version directives so that short tags like
+        ``[Added in v0.47]`` share a line with the paragraph they follow,
+        instead of being forced onto their own line by ``depart_paragraph``'s
+        trailing ``"\\n\\n"``. Falls back to emitting ``tag`` as its own
+        paragraph when there is no preceding ``Text`` to merge into (e.g. the
+        directive is the first content in a section).
+        """
+        if self.renderables and isinstance(self.renderables[-1], Text):
+            prev = self.renderables[-1]
+            prev.rstrip()
+            merged = Text.assemble(prev, Text(" "), tag, end="")
+            merged.append("\n\n")
+            self.renderables[-1] = merged
+        else:
+            tag.append("\n\n")
+            self.renderables.append(tag)
+
     def _prepend_styled_prefix(self, prefix: Text, body: List[Any]) -> None:
         """Append ``prefix`` followed by ``body`` to ``self.renderables``.
 
@@ -2057,8 +2077,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         body = self._render_admonition_body(body_children)
         if not body:
             tag = Text(f"{glyph}[{short_title}]", style=style, end="")
-            tag.append("\n\n")
-            self.renderables.append(tag)
+            self._append_inline_to_prev_paragraph(tag)
             return
         # Bracket-collapse only when the body is a single paragraph. Adjacent
         # paragraphs are coalesced into one trailing Text by visit_Text/depart_paragraph,
@@ -2073,8 +2092,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     Text("]", style=style),
                     end="",
                 )
-                bracketed.append("\n\n")
-                self.renderables.append(bracketed)
+                self._append_inline_to_prev_paragraph(bracketed)
                 return
         # Multi-paragraph or structural body: fall back to title-prefix shape (no brackets).
         prefix = Text(f"{glyph}{short_title}: ", style=style, end="")
