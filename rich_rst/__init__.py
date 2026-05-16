@@ -1675,6 +1675,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.guess_lexer: Optional[bool] = guess_lexer
         self.default_lexer: Optional[str] = _validate_default_lexer_name(default_lexer)
         self.refname_to_renderable: Dict[str, Tuple[Text, int, int]] = {}
+        # Tracks the most recent ``Text`` produced by ``depart_paragraph`` (i.e.
+        # an actual prose paragraph in this visitor's scope), so that
+        # ``_append_inline_to_prev_paragraph`` can distinguish a paragraph from
+        # a ``Text`` emitted by some other path (admonition prefix line, body
+        # paragraph from a sub-visitor, etc.) and avoid merging tags across
+        # directive boundaries.
+        self._last_paragraph_text: Optional[Text] = None
         # Cache node-type dispatch handlers to reduce per-node lookup cost
         # in large documents.
         self._visit_dispatch_cache: Dict[Type[docutils.nodes.Node], Callable[[docutils.nodes.Node], Any]] = {}
@@ -1844,6 +1851,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     self.renderables[-1].append("\n")
                 else:
                     self.renderables[-1].append("\n\n")
+                self._last_paragraph_text = self.renderables[-1]
 
     def visit_title(self, node) -> None:
         level = self._section_level(node)
@@ -1986,16 +1994,23 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         Used by compact-mode version directives so that short tags like
         ``[Added in v0.47]`` share a line with the paragraph they follow,
         instead of being forced onto their own line by ``depart_paragraph``'s
-        trailing ``"\\n\\n"``. Falls back to emitting ``tag`` as its own
-        paragraph when there is no preceding ``Text`` to merge into (e.g. the
-        directive is the first content in a section).
+        trailing ``"\\n\\n"``. Only merges when ``self.renderables[-1]`` is the
+        ``Text`` most recently emitted by ``depart_paragraph`` in this
+        visitor's scope (tracked via ``_last_paragraph_text``); otherwise
+        falls back to emitting ``tag`` as its own paragraph. This guard
+        prevents the tag from leaking onto a preceding admonition's prefix
+        line or onto an admonition body paragraph appended via
+        ``_prepend_styled_prefix``.
         """
-        if self.renderables and isinstance(self.renderables[-1], Text):
-            prev = self.renderables[-1]
+        prev = self._last_paragraph_text
+        if prev is not None and self.renderables and self.renderables[-1] is prev:
             prev.rstrip()
             merged = Text.assemble(prev, Text(" "), tag, end="")
             merged.append("\n\n")
             self.renderables[-1] = merged
+            # Keep chained inlining working: a second version tag immediately
+            # following should still be able to merge onto this same line.
+            self._last_paragraph_text = merged
         else:
             tag.append("\n\n")
             self.renderables.append(tag)

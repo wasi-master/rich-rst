@@ -457,6 +457,39 @@ def test_compact_deprecated_with_body_inlines_onto_preceding_paragraph(render_te
     assert "⚠ [Deprecated in v2.0: Use foo instead.]" in merged
 
 
+def test_compact_versionadded_does_not_inline_onto_preceding_compact_admonition(render_text):
+    """A compact admonition's prefix line is not a prose paragraph; a following
+    ``.. versionadded::`` must stand alone instead of being merged onto it.
+    Regression for the guard in ``_append_inline_to_prev_paragraph`` that
+    keeps directive boundaries intact."""
+    rst = ".. warning:: Be careful here.\n\n.. versionadded:: 0.47\n"
+    out = render_text(rst, admonition_style="compact")
+    warning_line = next((ln for ln in out.splitlines() if "Be careful here" in ln), None)
+    assert warning_line is not None, out
+    assert "Added in v0.47" not in warning_line, out
+    # Tag should appear on its own line elsewhere in the output.
+    assert any("Added in v0.47" in ln and "Be careful here" not in ln for ln in out.splitlines()), out
+
+
+def test_compact_versionadded_does_not_inline_onto_multiparagraph_admonition_body(render_text):
+    """When the previous renderable is the last body paragraph of a preceding
+    multi-paragraph admonition (appended by ``_prepend_styled_prefix``), a
+    following ``.. versionadded::`` must not merge onto it. The body's last
+    ``Text`` is produced by a sub-visitor's ``depart_paragraph``, so the main
+    visitor's ``_last_paragraph_text`` tracker correctly excludes it."""
+    rst = (
+        ".. deprecated:: 1.0\n\n"
+        "   First paragraph.\n\n"
+        "   Second paragraph.\n\n"
+        ".. versionadded:: 0.47\n"
+    )
+    out = render_text(rst, admonition_style="compact")
+    second_para_line = next((ln for ln in out.splitlines() if "Second paragraph" in ln), None)
+    assert second_para_line is not None, out
+    assert "Added in v0.47" not in second_para_line, out
+    assert any("Added in v0.47" in ln and "Second paragraph" not in ln for ln in out.splitlines()), out
+
+
 # ── Regression: phantom padded-blank-row under justify="left" ────────────────
 
 def test_paragraph_then_admonition_no_phantom_padded_row_under_justify_left():
@@ -641,9 +674,10 @@ def test_compact_stacked_admonitions_save_lines():
     compact_lines = RestructuredText(rst, admonition_style="compact").render_to_string(width=68).splitlines()
     panel_nonblank = [ln for ln in panel_lines if ln.strip()]
     compact_nonblank = [ln for ln in compact_lines if ln.strip()]
-    # Two short content lines in compact mode: ``versionadded`` inlines onto the
-    # preceding ``warning`` admonition line via _append_inline_to_prev_paragraph.
-    assert len(compact_nonblank) == 2, compact_lines
+    # Three short content lines in compact mode — one per directive. Each compact
+    # admonition occupies its own line; ``versionadded`` does NOT inline onto the
+    # preceding ``warning`` because that line is not a prose paragraph.
+    assert len(compact_nonblank) == 3, compact_lines
     # Panel mode produces many more lines (panel borders + padding × 3 directives).
     assert len(panel_nonblank) >= 9, panel_lines
 
