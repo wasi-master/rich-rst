@@ -52,7 +52,7 @@ This is a **test** document.
 print(RestructuredText(document))
 ```
 
-The main constructor options are `code_theme`, `show_line_numbers`, `show_errors`, `guess_lexer`, `default_lexer`, and `sphinx_compat`.
+The main constructor options are `code_theme`, `show_line_numbers`, `show_errors`, `guess_lexer`, `default_lexer`, `sphinx_compat`, and `admonition_style`.
 
 ## Command Line Interface
 
@@ -74,7 +74,7 @@ View all available options:
 python -m rich_rst --help
 ```
 
-Useful flags include `--code-theme`, `--show-line-numbers`, `--guess-lexer`, `--default-lexer`, `--show-errors`, `--save-html`, `--html-theme`, `--list-html-themes`, `--output`, and `--version`.
+Useful flags include `--code-theme`, `--show-line-numbers`, `--guess-lexer`, `--default-lexer`, `--show-errors`, `--admonition-style`, `--save-html`, `--html-theme`, `--list-html-themes`, `--output`, and `--version`.
 
 ## Compatibility
 

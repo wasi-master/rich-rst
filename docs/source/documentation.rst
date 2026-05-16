@@ -84,6 +84,8 @@ Options
        ``python``).
    * - ``-se``, ``--show-errors``
      - Show RST parse errors and warnings.
+   * - ``--admonition-style``
+     - How to render admonitions (``panel`` or ``compact``, default: ``panel``).
    * - ``--html-theme``
      - Theme for ``--save-html`` output. Available values:
        ``dracula``, ``monokai``, ``night-owl``, ``dimmed-monokai``, ``default``.
