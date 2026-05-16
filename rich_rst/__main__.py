@@ -82,6 +82,14 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("-dl", "--default-lexer", type=str, dest="default_lexer", default="python", help="The default lexer for code blocks without specified language if no lexer could be guessed or found")
     parser.add_argument("-se", "--show-errors", action="store_true", dest="show_errors", default=False, help="Whether to show errors or not")
     parser.add_argument(
+        "--admonition-style",
+        dest="admonition_style",
+        type=str,
+        default="panel",
+        choices=["panel", "compact"],
+        help="How to render admonitions (default: panel)",
+    )
+    parser.add_argument(
         "--html-theme",
         dest="html_theme",
         type=str,
@@ -185,6 +193,7 @@ def main() -> int:
         default_lexer=args.default_lexer,
         show_errors=args.show_errors,
         filename=args.path if args.path != "-" else "<stdin>",
+        admonition_style=args.admonition_style,
     )
     if args.output:
         # Render to a file instead of stdout.
