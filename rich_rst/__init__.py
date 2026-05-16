@@ -1675,6 +1675,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.guess_lexer: Optional[bool] = guess_lexer
         self.default_lexer: Optional[str] = _validate_default_lexer_name(default_lexer)
         self.refname_to_renderable: Dict[str, Tuple[Text, int, int]] = {}
+        # Tracks the most recent ``Text`` produced by ``depart_paragraph`` (i.e.
+        # an actual prose paragraph in this visitor's scope), so that
+        # ``_append_inline_to_prev_paragraph`` can distinguish a paragraph from
+        # a ``Text`` emitted by some other path (admonition prefix line, body
+        # paragraph from a sub-visitor, etc.) and avoid merging tags across
+        # directive boundaries.
+        self._last_paragraph_text: Optional[Text] = None
         # Cache node-type dispatch handlers to reduce per-node lookup cost
         # in large documents.
         self._visit_dispatch_cache: Dict[Type[docutils.nodes.Node], Callable[[docutils.nodes.Node], Any]] = {}
@@ -1844,6 +1851,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     self.renderables[-1].append("\n")
                 else:
                     self.renderables[-1].append("\n\n")
+                self._last_paragraph_text = self.renderables[-1]
 
     def visit_title(self, node) -> None:
         level = self._section_level(node)
@@ -1980,6 +1988,33 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         body = self._render_admonition_body(body_children)
         self._prepend_styled_prefix(prefix, body)
 
+    def _append_inline_to_prev_paragraph(self, tag: Text) -> None:
+        """Inline ``tag`` onto the trailing paragraph, space-separated.
+
+        Used by compact-mode version directives so that short tags like
+        ``[Added in v0.47]`` share a line with the paragraph they follow,
+        instead of being forced onto their own line by ``depart_paragraph``'s
+        trailing ``"\\n\\n"``. Only merges when ``self.renderables[-1]`` is the
+        ``Text`` most recently emitted by ``depart_paragraph`` in this
+        visitor's scope (tracked via ``_last_paragraph_text``); otherwise
+        falls back to emitting ``tag`` as its own paragraph. This guard
+        prevents the tag from leaking onto a preceding admonition's prefix
+        line or onto an admonition body paragraph appended via
+        ``_prepend_styled_prefix``.
+        """
+        prev = self._last_paragraph_text
+        if prev is not None and self.renderables and self.renderables[-1] is prev:
+            prev.rstrip()
+            merged = Text.assemble(prev, Text(" "), tag, end="")
+            merged.append("\n\n")
+            self.renderables[-1] = merged
+            # Keep chained inlining working: a second version tag immediately
+            # following should still be able to merge onto this same line.
+            self._last_paragraph_text = merged
+        else:
+            tag.append("\n\n")
+            self.renderables.append(tag)
+
     def _prepend_styled_prefix(self, prefix: Text, body: List[Any]) -> None:
         """Append ``prefix`` followed by ``body`` to ``self.renderables``.
 
@@ -2057,8 +2092,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         body = self._render_admonition_body(body_children)
         if not body:
             tag = Text(f"{glyph}[{short_title}]", style=style, end="")
-            tag.append("\n\n")
-            self.renderables.append(tag)
+            self._append_inline_to_prev_paragraph(tag)
             return
         # Bracket-collapse only when the body is a single paragraph. Adjacent
         # paragraphs are coalesced into one trailing Text by visit_Text/depart_paragraph,
@@ -2073,8 +2107,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     Text("]", style=style),
                     end="",
                 )
-                bracketed.append("\n\n")
-                self.renderables.append(bracketed)
+                self._append_inline_to_prev_paragraph(bracketed)
                 return
         # Multi-paragraph or structural body: fall back to title-prefix shape (no brackets).
         prefix = Text(f"{glyph}{short_title}: ", style=style, end="")
@@ -4589,6 +4622,22 @@ class RestructuredText(JupyterMixin):
                 break
 
         for renderable in visitor.renderables:
+            # Move trailing "\n"s from Text content into ``end``. Otherwise a
+            # paragraph stored as ``Text("X\n\n", end="")`` renders to three
+            # padded lines under ``options.justify == "left"`` — the content
+            # plus two phantom blank-padded rows — and the trailing padded
+            # blank fuses onto the next renderable's first row, breaking
+            # callers like cyclopts' help-cell layout. Visible output is
+            # identical when trailing newlines live in ``end`` instead.
+            if isinstance(renderable, Text):
+                plain = renderable.plain
+                if plain.endswith("\n"):
+                    stripped = plain.rstrip("\n")
+                    trailing = plain[len(stripped):]
+                    fixed = renderable.copy()
+                    fixed.rstrip()
+                    fixed.end = trailing + fixed.end
+                    renderable = fixed
             yield from console.render(renderable, options)
         if self.show_errors and visitor.errors:
             for error in visitor.errors:
