@@ -304,15 +304,16 @@ def test_docinfo_three_fields_table_row_count(make_visitor):
 def test_bullet_list_marker_text_is_bullet_char(make_visitor):
     visitor = make_visitor("* item\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain == " • "]
-    assert markers, "Bullet list must produce a Text with plain text ' • '"
+    markers = [t for t in texts if t.plain.lstrip().startswith("•")]
+    assert markers, "Bullet list must produce a Text starting with '•'"
 
 
 def test_bullet_list_marker_style_is_bold_yellow(make_visitor):
     visitor = make_visitor("* item\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain == " • "]
+    markers = [t for t in texts if t.plain.lstrip().startswith("•")]
     assert markers
+    # The marker style becomes the base style of the combined text
     assert str(markers[0].style) == "bold yellow", (
         f"Bullet marker style must be 'bold yellow', got {markers[0].style!r}"
     )
