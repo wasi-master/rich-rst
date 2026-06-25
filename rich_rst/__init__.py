@@ -3171,8 +3171,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                     # Use sub-visitor to preserve inline markup (bold, italic, links, etc.)
                     child_renderables = self._render_child_inline(child)
                     if first_content:
-                        self.renderables.append(Text(indent + marker, end="", style=marker_style))
-                        self.renderables.extend(child_renderables)
+                        # Prepend the marker directly onto the first Text
+                        # renderable so they form a single unit.  When rendered
+                        # inside a Table.grid() cell, separate renderables are
+                        # laid out independently, which would put the marker
+                        # and its text on different lines.
+                        if child_renderables and isinstance(child_renderables[0], Text):
+                            combined = Text(indent + marker, end="", style=marker_style)
+                            combined.append_text(child_renderables[0])
+                            child_renderables[0] = combined
+                            self.renderables.extend(child_renderables)
+                        else:
+                            self.renderables.append(Text(indent + marker, end="", style=marker_style))
+                            self.renderables.extend(child_renderables)
                         first_content = False
                     else:
                         # Prepend continuation indent to first renderable if it's text

@@ -52,15 +52,16 @@ def test_bullet_list_items_render_without_blank_lines_between_entries(render_tex
 def test_bullet_list_marker_plain_text_is_bullet_char(make_visitor):
     visitor = make_visitor("* item\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain == " • "]
-    assert markers, "Bullet list must produce a Text with plain text ' • '"
+    markers = [t for t in texts if t.plain.lstrip().startswith("•")]
+    assert markers, "Bullet list must produce a Text starting with '•'"
 
 
 def test_bullet_list_marker_style_is_bold_yellow(make_visitor):
     visitor = make_visitor("* item\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain == " • "]
+    markers = [t for t in texts if t.plain.lstrip().startswith("•")]
     assert markers
+    # The marker style becomes the base style of the combined text
     assert str(markers[0].style) == "bold yellow", (
         f"Bullet marker style must be 'bold yellow', got {markers[0].style!r}"
     )
@@ -165,7 +166,7 @@ def test_nested_bullet_level2_uses_open_circle_marker(make_visitor):
 def test_nested_bullet_level1_uses_bullet_marker(make_visitor):
     visitor = make_visitor("* outer\n\n  * inner\n")
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    l1_markers = [t for t in texts if t.plain == " • "]
+    l1_markers = [t for t in texts if t.plain.lstrip().startswith("•")]
     assert l1_markers, "Level-1 bullet must use the '•' filled-circle marker"
 
 
