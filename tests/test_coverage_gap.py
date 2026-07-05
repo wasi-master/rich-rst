@@ -1254,3 +1254,670 @@ def test_table_num_cols_zero_empty_tbody():
         visitor.visit_table(table)
 
 
+def test_compact_admonition_non_text_body():
+    rst_text = """
+.. note::
+   - item 1
+   - item 2
+"""
+    rst = RestructuredText(rst_text, admonition_style="compact")
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_compact_version_admonition_non_text_body():
+    rst_text = """
+.. versionadded:: 1.0
+
+   - item 1
+   - item 2
+"""
+    rst = RestructuredText(rst_text, admonition_style="compact")
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+
+def test_hlist_block_multi_renderables():
+    doc = docutils.core.publish_doctree("Hello")
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(doc, console=console)
+    node = hlist_block(columns=2)
+    bl = docutils.nodes.bullet_list()
+    li = docutils.nodes.list_item()
+    li.append(docutils.nodes.paragraph(text="p1"))
+    li.append(docutils.nodes.literal_block(text="code"))
+    bl.append(li)
+    node.append(bl)
+    doc.append(node)
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_hlist_block(node)
+
+
+def test_list_continuation_empty_child():
+    rst_text = """
+- Item 1
+  .. comment here
+
+1. Item 1
+   .. comment here
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_system_message_empty_literal_block_our():
+    sys_msg = docutils.nodes.system_message("System message details")
+    sys_msg['source'] = 'test.rst'
+    sys_msg['line'] = 1
+    sys_msg['type'] = 'WARNING'
+    sys_msg['level'] = 2
+    lit = docutils.nodes.literal_block(text="")
+    sys_msg.append(lit)
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(sys_msg, console=console)
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_system_message(sys_msg)
+
+
+
+def test_definition_list_item_block_quote_our():
+    dl = docutils.nodes.definition_list()
+    dli = docutils.nodes.definition_list_item()
+    dli.append(docutils.nodes.term(text="term"))
+    dli.append(docutils.nodes.classifier(text="classifier1"))
+    dli.append(docutils.nodes.classifier(text="classifier2"))
+    dli.append(docutils.nodes.comment(text="comment"))
+    dli.append(docutils.nodes.block_quote(text="quote"))
+    dl.append(dli)
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_definition_list(dl)
+
+
+
+def test_option_list_no_description_our():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    ol = docutils.nodes.option_list()
+    oli = docutils.nodes.option_list_item()
+    og = docutils.nodes.option_group()
+    opt = docutils.nodes.option()
+    opt.append(docutils.nodes.option_string(text="-o"))
+    og.append(opt)
+    oli.append(og)
+    oli.children = [og, None]
+    ol.append(oli)
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_option_list(ol)
+
+
+
+def test_visit_substitution_reference_empty_renderables_our():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    node = docutils.nodes.substitution_reference(text="subref")
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_substitution_reference(node)
+
+
+def test_table_segments_to_lines_newlines():
+    from rich.segment import Segment
+
+    from rich_rst import RSTVisitor
+    console = Console(force_terminal=True, width=120)
+    with patch.object(Console, "render_lines", return_value=[[Segment("line1\n\nline2")]]):
+        grid = [
+            [(Text("cell"), 0, 0)]
+        ]
+        col_widths = [10]
+        res = RSTVisitor._spanning_table(
+            grid=grid,
+            col_widths=col_widths,
+            header_rows=0,
+            title="Table Title",
+            header_style=None,
+            cell_style=None,
+            console=console
+        )
+        assert res is not None
+
+
+
+class StatefulRow(list):
+    def __getitem__(self, idx):
+        import sys
+        frame = sys._getframe(1)
+        if frame.f_code.co_name == "_render_cell_lines":
+            return None
+        return super().__getitem__(idx)
+
+
+
+
+def test_table_render_cell_lines_none():
+    from rich_rst import RSTVisitor
+    grid = [StatefulRow([(Text("cell"), 0, 0)])]
+    col_widths = [10]
+    console = Console(force_terminal=True, width=120)
+    res = RSTVisitor._spanning_table(
+        grid=grid,
+        col_widths=col_widths,
+        header_rows=0,
+        title=None,
+        header_style=None,
+        cell_style=None,
+        console=console
+    )
+    assert res is not None
+
+
+
+def test_table_rowspan_last_column():
+    grid = [
+        [(Text("c1"), 0, 0), (Text("c2"), 0, 1)],
+        [(Text("c3"), 0, 0), None]
+    ]
+    col_widths = [5, 5]
+    console = Console(force_terminal=True, width=120)
+    res = RSTVisitor._spanning_table(
+        grid=grid,
+        col_widths=col_widths,
+        header_rows=0,
+        title=None,
+        header_style=None,
+        cell_style=None,
+        console=console
+    )
+    assert res is not None
+
+
+def test_table_num_cols_tbody_only():
+    tgroup = docutils.nodes.tgroup()
+    tbody = docutils.nodes.tbody()
+    r = docutils.nodes.row()
+    e1 = docutils.nodes.entry()
+    e1.append(docutils.nodes.paragraph(text="cell"))
+    r.append(e1)
+    tbody.append(r)
+    tgroup.append(tbody)
+    table = docutils.nodes.table()
+    table.append(tgroup)
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    table.document = doc
+    tgroup.document = doc
+    tbody.document = doc
+    r.document = doc
+    e1.document = doc
+    for child in e1.children:
+        child.document = doc
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_table(table)
+
+
+
+def test_table_render_entry_content_edge_cases():
+    rst_text = """
++----+----+----+
+| -  | - b| :: |
+|    |    |    |
+|    |    | c  |
++----+----+----+
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+
+def test_table_visit_table_none():
+    from rich_rst import RSTVisitor
+    grid = [[(None, 0, 0)]]
+    col_widths = [10]
+    console = Console(force_terminal=True, width=120)
+    res = RSTVisitor._spanning_table(
+        grid=grid,
+        col_widths=col_widths,
+        header_rows=0,
+        title=None,
+        header_style=None,
+        cell_style=None,
+        console=console
+    )
+    assert res is not None
+
+
+def test_table_shrink_to_floor_edge_cases():
+    import builtins
+    original_min = builtins.min
+    def mock_min(*args, **kwargs):
+        if len(args) == 3:
+            return 0
+        return original_min(*args, **kwargs)
+
+    with patch("builtins.min", mock_min):
+        rst_text = """
++-------+-------+
+|   col 1/2     |
++=======+=======+
+| col 1 | col 2 |
++-------+-------+
+"""
+        console = Console(width=5)
+        rst = RestructuredText(rst_text)
+        console.print(rst)
+
+
+
+def test_table_rowspan_three_rows():
+    doc = docutils.core.publish_doctree("Hello")
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(doc, console=console)
+
+    tgroup = docutils.nodes.tgroup()
+    tbody = docutils.nodes.tbody()
+
+    r0 = docutils.nodes.row()
+    e1 = docutils.nodes.entry(morerows=2)
+    e1.append(docutils.nodes.paragraph(text="span"))
+    r0.append(e1)
+    e2 = docutils.nodes.entry()
+    e2.append(docutils.nodes.paragraph(text="r0"))
+    r0.append(e2)
+    tbody.append(r0)
+
+    r1 = docutils.nodes.row()
+    e3 = docutils.nodes.entry()
+    e3.append(docutils.nodes.paragraph(text="r1"))
+    r1.append(e3)
+    tbody.append(r1)
+
+    r2 = docutils.nodes.row()
+    e4 = docutils.nodes.entry()
+    e4.append(docutils.nodes.paragraph(text="r2"))
+    r2.append(e4)
+    tbody.append(r2)
+
+    tgroup.append(tbody)
+    table = docutils.nodes.table()
+    table.append(tgroup)
+
+    for row in [r0, r1, r2]:
+        row.document = doc
+        for entry in row.children:
+            entry.document = doc
+            for child in entry.children:
+                child.document = doc
+    table.document = doc
+    tgroup.document = doc
+    tbody.document = doc
+
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_table(table)
+
+
+
+def test_list_continuation_empty_child_programmatic():
+    doc = docutils.core.publish_doctree("Hello")
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(doc, console=console)
+
+    bl = docutils.nodes.bullet_list()
+    li = docutils.nodes.list_item()
+    li.append(docutils.nodes.paragraph(text="item text"))
+    li.append(docutils.nodes.comment(text="comment"))
+    bl.append(li)
+
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_bullet_list(bl)
+
+
+def test_enum_list_continuation_empty_child_programmatic():
+    doc = docutils.core.publish_doctree("Hello")
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(doc, console=console)
+
+    el = docutils.nodes.enumerated_list()
+    li = docutils.nodes.list_item()
+    li.append(docutils.nodes.paragraph(text="item text"))
+    li.append(docutils.nodes.comment(text="comment"))
+    el.append(li)
+
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_enumerated_list(el)
+
+
+class MyChar(str):
+    def __new__(cls, val, index):
+
+        obj = str.__new__(cls, val)
+        obj.index = index
+        obj.call_count = 0
+        return obj
+
+    def isspace(self):
+        if str.isspace(self):
+            return True
+        if self.index in (11, 13):
+            return True
+        elif self.index in (12, 14):
+            self.call_count += 1
+            if self.call_count == 1:
+                return False
+            return True
+        return False
+
+
+class MockSignatureStr(str):
+    def __init__(self, val):
+        self.chars = {}
+
+    def __getitem__(self, item):
+        if isinstance(item, slice):
+            return MockSignatureStr(super().__getitem__(item))
+        if item not in self.chars:
+            val = super().__getitem__(item)
+            self.chars[item] = MyChar(val, item)
+        return self.chars[item]
+
+
+def test_signature_spaces_mock():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+
+    # return type whitespace skipping, and False branch
+    sig1 = MockSignatureStr("def foo() -> int")
+    visitor._highlight_py_signature("function", sig1)
+
+    # parameter annotation whitespace skipping, parameter type whitespace trimming
+    sig2 = MockSignatureStr("def foo(x: int)")
+    visitor._highlight_py_signature("function", sig2)
+
+    # parameter type scan loops normally to end
+    sig3 = "def foo(x: int"
+    visitor._highlight_py_signature("function", sig3)
+
+
+def test_table_render_lines_empty():
+    console = Console(force_terminal=True, width=120)
+    with patch.object(Console, "render_lines", return_value=[]):
+        grid = [[(Text("cell"), 0, 0)]]
+        col_widths = [10]
+        res = RSTVisitor._spanning_table(
+            grid=grid,
+            col_widths=col_widths,
+            header_rows=0,
+            title=None,
+            header_style=None,
+            cell_style=None,
+            console=console
+        )
+        assert res is not None
+
+
+def test_table_cell_truncate():
+    from rich.segment import Segment
+    console = Console(force_terminal=True, width=120)
+    with patch.object(Console, "render_lines", return_value=[[Segment("verylongword")]]):
+        grid = [[(Text("cell"), 0, 0)]]
+        col_widths = [3]
+        res = RSTVisitor._spanning_table(
+            grid=grid,
+            col_widths=col_widths,
+            header_rows=0,
+            title=None,
+            header_style=None,
+            cell_style=None,
+            console=console
+        )
+        assert res is not None
+
+
+class StatefulRowForCspan(list):
+    def __len__(self):
+        return 2
+    def __getitem__(self, idx):
+        import sys
+        frame = sys._getframe(1)
+        if frame.f_code.co_name == "_origin":
+            caller = frame.f_back
+            if caller and caller.f_code.co_name == "_content":
+                if "span_end" in caller.f_locals:
+                    return None
+        return (Text("cell"), 1, 1)
+
+
+
+def test_table_cspan_continues_content_our():
+    from rich_rst import RSTVisitor
+    console = Console(force_terminal=True, width=120)
+    grid = [
+        StatefulRowForCspan(),
+        [None, (Text("cell2"), 0, 0)]
+    ]
+    col_widths = [5, 5]
+    res = RSTVisitor._spanning_table(
+        grid=grid,
+        col_widths=col_widths,
+        header_rows=0,
+        title=None,
+        header_style=None,
+        cell_style=None,
+        console=console
+    )
+    assert res is not None
+
+
+def test_table_inner_header_sep_programmatic():
+    # Covers inner header separators (junctions)
+    console = Console(force_terminal=True, width=120)
+
+    # lrc is True (┣ or ┫ junction)
+    grid1 = [
+        [(Text("h1"), 0, 1), (Text("h2"), 0, 0)],
+        [None, (Text("h3"), 0, 0)]
+    ]
+    res1 = RSTVisitor._spanning_table(
+        grid=grid1, col_widths=[5, 5], header_rows=2,
+        title=None, header_style=None, cell_style=None, console=console
+    )
+    assert res1 is not None
+
+    # inner header intersection (╋)
+    grid2 = [
+        [(Text("h1"), 0, 0), (Text("h2"), 0, 0)],
+        [(Text("h3"), 0, 0), (Text("h4"), 0, 0)]
+    ]
+    res2 = RSTVisitor._spanning_table(
+        grid=grid2, col_widths=[5, 5], header_rows=2,
+        title=None, header_style=None, cell_style=None, console=console
+    )
+    assert res2 is not None
+
+    # colspan above, split below (┳)
+    grid3 = [
+        [(Text("h1"), 1, 0), None],
+        [(Text("h2"), 0, 0), (Text("h3"), 0, 0)]
+    ]
+    res3 = RSTVisitor._spanning_table(
+        grid=grid3, col_widths=[5, 5], header_rows=2,
+        title=None, header_style=None, cell_style=None, console=console
+    )
+    assert res3 is not None
+
+
+
+def test_table_avail_zero():
+    # Covers zero or negative available column widths
+    from rich_rst import RSTVisitor
+    grid = [[(Text("cell"), 0, 0)]]
+    col_widths = [0]
+    console = Console(force_terminal=True, width=120)
+    res = RSTVisitor._spanning_table(
+        grid=grid,
+        col_widths=col_widths,
+        header_rows=0,
+        title=None,
+        header_style=None,
+        cell_style=None,
+        console=console
+    )
+    assert res is not None
+
+
+def test_table_render_entry_content_empty_list():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+
+    tgroup = docutils.nodes.tgroup()
+    tbody = docutils.nodes.tbody()
+    r = docutils.nodes.row()
+    e1 = docutils.nodes.entry()
+
+    bl = docutils.nodes.bullet_list()
+    li = docutils.nodes.list_item()
+    li.append(docutils.nodes.paragraph(text="item"))
+    bl.append(li)
+    e1.append(bl)
+
+    r.append(e1)
+    tbody.append(r)
+    tgroup.append(tbody)
+    table = docutils.nodes.table()
+    table.append(tgroup)
+
+    for node in [table, tgroup, tbody, r, e1, bl, li]:
+        node.document = doc
+        for child in node.children:
+            child.document = doc
+
+    from rich.segment import Segment
+    with patch.object(Console, "render_lines", return_value=[[Segment("   ")]]):
+        with pytest.raises(docutils.nodes.SkipChildren):
+            visitor.visit_table(table)
+
+
+def test_table_render_entry_content_literal_block():
+    # literal block inside a cell
+    # Note: Indentation of 'c' by 2 spaces is critical so it is parsed as a literal block
+
+    rst_text = """
++----+
+| :: |
+|    |
+|  c |
++----+
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+class MockEntryContentVisitor(RSTVisitor):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.call_count = 0
+
+    def _make_sub_visitor(self):
+        sub = super()._make_sub_visitor()
+        self.call_count += 1
+        if self.call_count > 1:
+            sub.renderables = [None]
+        return sub
+
+
+def test_visit_table_none_content_our():
+    doc = docutils.core.publish_doctree("Hello")
+    console = Console(force_terminal=True, width=120)
+    visitor = MockEntryContentVisitor(doc, console=console)
+
+    # Spanning table so has_spans is True and _rendered_plain_lines gets called
+    rst_text = """
++----+----+
+|    a    |
++====+====+
+|    |    |
++----+----+
+"""
+    table = docutils.core.publish_doctree(rst_text)[0]
+    for child in table.findall():
+        child.document = doc
+
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_table(table)
+
+
+class StatefulEntryForSimpleRowspan(docutils.nodes.entry):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.get_calls = 0
+
+    def get(self, key, failobj=None):
+        if key == "morerows":
+            self.get_calls += 1
+            if self.get_calls == 1:
+                return 0
+            return 2
+        return super().get(key, failobj)
+
+
+def test_simple_table_rowspan_our():
+    # Covers rowspans in the simple table renderer
+
+    doc = docutils.core.publish_doctree("Hello")
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(doc, console=console)
+
+    tgroup = docutils.nodes.tgroup()
+    tbody = docutils.nodes.tbody()
+
+    # Row 0: uses the stateful entry subclass
+    r0 = docutils.nodes.row()
+    e1 = StatefulEntryForSimpleRowspan()
+    e1.append(docutils.nodes.paragraph(text="span"))
+    r0.append(e1)
+    e2 = docutils.nodes.entry()
+    e2.append(docutils.nodes.paragraph(text="r0"))
+    r0.append(e2)
+    tbody.append(r0)
+
+    # Row 1: only second cell
+    r1 = docutils.nodes.row()
+    e3 = docutils.nodes.entry()
+    e3.append(docutils.nodes.paragraph(text="r1"))
+    r1.append(e3)
+    tbody.append(r1)
+
+    # Row 2: only second cell
+    r2 = docutils.nodes.row()
+    e4 = docutils.nodes.entry()
+    e4.append(docutils.nodes.paragraph(text="r2"))
+    r2.append(e4)
+    tbody.append(r2)
+
+    tgroup.append(tbody)
+    table = docutils.nodes.table()
+    table.append(tgroup)
+
+    for row in [r0, r1, r2]:
+        row.document = doc
+        for entry in row.children:
+            entry.document = doc
+            for child in entry.children:
+                child.document = doc
+    table.document = doc
+    tgroup.document = doc
+    tbody.document = doc
+
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_table(table)
+
+
+
+
