@@ -47,7 +47,7 @@ def test_list_html_themes_prints_theme_names(monkeypatch, capsys):
     monkeypatch.setattr(sys, "argv", ["rich-rst", "--list-html-themes"])
     main()
     captured = capsys.readouterr()
-    lines = [l.strip() for l in captured.out.splitlines() if l.strip()]
+    lines = [line.strip() for line in captured.out.splitlines() if line.strip()]
     assert "dracula" in lines
     assert "monokai" in lines
     assert "default" in lines

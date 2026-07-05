@@ -16,7 +16,6 @@ from io import StringIO
 from typing import Any, Callable, ClassVar, Dict, List, Literal, Optional, Tuple, Type, Union
 
 # Imports from the rich package for the printing
-import rich
 from pygments.lexers import get_lexer_by_name, guess_lexer
 from pygments.util import ClassNotFound
 from rich import box
@@ -41,7 +40,7 @@ import rich_rst._vendor.docutils.nodes
 import rich_rst._vendor.docutils.parsers.rst
 import rich_rst._vendor.docutils.parsers.rst.directives
 import rich_rst._vendor.docutils.parsers.rst.directives.tables
-import rich_rst._vendor.docutils.utils
+import rich_rst._vendor.docutils.utils  # noqa: F401
 
 # Imports from rich_rst._vendor.docutils package for the parsing
 from rich_rst._vendor import docutils
@@ -1194,7 +1193,7 @@ def _register_sphinx_roles() -> None:
             return
 
         import rich_rst._vendor.docutils.parsers.rst.languages.en
-        import rich_rst._vendor.docutils.parsers.rst.roles
+        import rich_rst._vendor.docutils.parsers.rst.roles  # noqa: F401
         from rich_rst._vendor import docutils
 
         def sphinx_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any, options: Optional[Dict[str, Any]] = None, content: Optional[List[str]] = None) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
@@ -4050,7 +4049,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
                 cell = grid[r][c]
                 if cell is not None:
-                    content, csp, _ = cell
+                    _, csp, _ = cell
                     avail = sum(col_widths[c:c + csp + 1]) + 3 * csp
                     rendered = _render_cell_lines(r, c)
                     inner = rendered[line_no] if line_no < len(rendered) else Text(" " * avail, style=style)

@@ -86,6 +86,31 @@ exclude = [
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "N", "UP", "YTT", "ASYNC", "TRIO", "C4", "RUF"]
+ignore = [
+    "E501",    # Line too long
+    "RUF001",  # Ambiguous unicode character in string
+    "RUF002",  # Ambiguous unicode character in docstring
+    "RUF003",  # Ambiguous unicode character in comment
+    "RUF012",  # Mutable class default
+]
+
+[tool.ruff.lint.per-file-ignores]
+"rich_rst/__init__.py" = [
+    "N801",    # Invalid class name (docutils node subclasses use lowercase)
+    "N802",    # Invalid function name (visitor methods match node names)
+    "N806",    # Non-lowercase variable in function (box/table constants)
+    "N816",    # Mixed-case variable in global scope (legacy/alias exports)
+]
+"tests/*" = [
+    "E741",    # Ambiguous variable name ('l' is commonly used for line/item)
+]
+"tests/conftest.py" = [
+    "E402",    # Module level import not at top of file
+]
+"tools/generate_demo_page.py" = [
+    "E402",    # Module level import not at top of file
+    "N806",    # Non-lowercase variable in function
+]
 
 [tool.mypy]
 ignore_missing_imports = true

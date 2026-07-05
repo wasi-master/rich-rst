@@ -567,9 +567,9 @@ def test_toctree_nested_entries_indented(render_text):
     )
     out = _render(render_text, rst)
     # Root entry has no indentation; sub-entries are indented.
-    lines = [l for l in out.splitlines() if "intro" in l or "installation" in l or "usage" in l]
-    intro_lines = [l for l in lines if "intro" in l]
-    sub_lines = [l for l in lines if "installation" in l or "usage" in l]
+    lines = [line for line in out.splitlines() if "intro" in line or "installation" in line or "usage" in line]
+    intro_lines = [line for line in lines if "intro" in line]
+    sub_lines = [line for line in lines if "installation" in line or "usage" in line]
     assert intro_lines, "Root entry 'intro' must appear in output"
     assert sub_lines, "Sub-entries 'installation' / 'usage' must appear in output"
     # Compare the column where the entry text starts inside the line.
