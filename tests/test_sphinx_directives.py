@@ -1,8 +1,8 @@
 """Tests for Sphinx-specific block directives.
 
 rich-rst registers Sphinx directives (``versionadded``, ``versionchanged``,
-``deprecated``, ``seealso``, ``availability``, ``soft-deprecated``, ``impl-detail``) 
-so that Python docstrings that use these directives render as styled panels instead 
+``deprecated``, ``seealso``, ``availability``, ``soft-deprecated``, ``impl-detail``)
+so that Python docstrings that use these directives render as styled panels instead
 of system-message errors.
 
 Formatting contract
@@ -346,7 +346,7 @@ def test_impl_detail_multiple_paragraphs(render_text):
     rst = """.. impl-detail::
 
    This is implemented differently on Windows.
-   
+
    The POSIX version uses signals."""
     out = render_text(rst, sphinx_compat=True)
     assert "Windows" in out and "POSIX" in out
@@ -410,7 +410,7 @@ def test_sourcecode_produces_panel(make_visitor):
 
 def test_highlight_produces_no_output(make_visitor):
     rst = ".. highlight:: python\n"
-    visitor = make_visitor(rst)
+    make_visitor(rst)
     panels = _panels(make_visitor, rst)
     assert not panels, "highlight should produce no Panel"
 

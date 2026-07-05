@@ -701,18 +701,18 @@ def test_admonition_with_nested_lists_and_code(render_text):
 .. warning::
 
    This warning contains important information.
-   
+
    Key points:
-   
+
    * Point one
    * Point two
-   
+
    Code to avoid::
-   
+
       dangerous_function()
-      
+
    Always use::
-   
+
       safe_function()
 """
     out = render_text(rst)

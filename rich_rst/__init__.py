@@ -861,7 +861,7 @@ class _FlatTableDirective(docutils.parsers.rst.directives.tables.Table):
     def run(self) -> List[docutils.nodes.Node]:
         if not self.content:
             error = self.state_machine.reporter.error(
-                'The "%s" directive is empty; content required.' % self.name,
+                f'The "{self.name}" directive is empty; content required.',
                 docutils.nodes.literal_block(self.block_text, self.block_text),
                 line=self.lineno,
             )
@@ -876,7 +876,7 @@ class _FlatTableDirective(docutils.parsers.rst.directives.tables.Table):
         table_node = builder.build_table_node()
         if title:
             table_node.insert(0, title)
-        return [table_node] + messages
+        return [table_node, *messages]
 
 
 class _FlatTableBuilder:
@@ -950,8 +950,8 @@ class _FlatTableBuilder:
     def parse_flat_table_node(self, node: docutils.nodes.Element) -> None:
         if len(node) != 1 or not isinstance(node[0], docutils.nodes.bullet_list):
             self._raise_error(
-                'Error parsing content block for the "%s" directive: '
-                'exactly one bullet list expected.' % self.directive.name
+                f'Error parsing content block for the "{self.directive.name}" directive: '
+                'exactly one bullet list expected.'
             )
 
         for row_num, row_item in enumerate(node[0]):
@@ -1036,10 +1036,9 @@ class _FlatTableBuilder:
 
         if child_no != 1 or error:
             self._raise_error(
-                'Error parsing content block for the "%s" directive: '
-                'two-level bullet list expected, but row %s does not '
+                f'Error parsing content block for the "{self.directive.name}" directive: '
+                f'two-level bullet list expected, but row {row_num + 1} does not '
                 'contain a second-level bullet list.'
-                % (self.directive.name, row_num + 1)
             )
 
         for cell_item in cell_list:
@@ -2568,7 +2567,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         number_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.number", default="green")
 
         keywords = c_keywords if normalized_domain == "c" else (c_keywords | cpp_keywords)
-        keyword_pattern = r"\b(?:%s)\b" % "|".join(sorted(re.escape(keyword) for keyword in keywords))
+        keyword_pattern = r"\b(?:{})\b".format("|".join(sorted(re.escape(keyword) for keyword in keywords)))
         for match in re.finditer(keyword_pattern, signature):
             rendered.stylize(type_style, match.start(), match.end())
 
@@ -2631,7 +2630,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         operator_style = self.console.get_style("restructuredtext.js_desc.signature.operator", default="bold yellow")
         number_style = self.console.get_style("restructuredtext.js_desc.signature.number", default="green")
 
-        keyword_pattern = r"\b(?:%s)\b" % "|".join(sorted(re.escape(keyword) for keyword in js_keywords))
+        keyword_pattern = r"\b(?:{})\b".format("|".join(sorted(re.escape(keyword) for keyword in js_keywords)))
         for match in re.finditer(keyword_pattern, signature):
             rendered.stylize(keyword_style, match.start(), match.end())
 
@@ -3943,15 +3942,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 and _is_header(below)
             )
             if is_top:
-                L, H, M, R = TL, TH, TM, TR
+                L, H, _M, R = TL, TH, TM, TR
             elif is_bot:
-                L, H, M, R = BL, BH, BM, BR
+                L, H, _M, R = BL, BH, BM, BR
             elif is_head_sep:
-                L, H, M, R = SL, SH, SM, SR
+                L, H, _M, R = SL, SH, SM, SR
             elif is_inner_header_sep:
-                L, H, M, R = "┣", "━", "╋", "┫"
+                L, H, _M, R = "┣", "━", "╋", "┫"
             else:
-                L, H, M, R = ML, MH, MM, MR
+                L, H, _M, R = ML, MH, MM, MR
 
             # Left border: use heavy ┃ inside header, light │ in body, for rspan continuations
             rc0 = _rspan_continues(above, 0) if above is not None and not is_top else False

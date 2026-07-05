@@ -969,14 +969,14 @@ DEMOS = [
                        * - :cspan:`1` header 1
                          - :cspan:`1` header 2
                          - :cspan:`1` header 3
-                                       
+
                        * - Sub-header 1
                          - Sub-header 2
                          - Sub-header 3
                          - Sub-header 4
                          - Sub-header 5
                          - Sub-header 6
- 
+
                        * - :rspan:`1` :cspan:`1` Big cell spanning 2 rows and 2 column
                          - :cspan:`1` Large cell spanning 2 columns
                          - :cspan:`3` Large cell spanning 4 columns
@@ -1007,7 +1007,7 @@ DEMOS = [
                          - Review
 
                        * - Deploy
-                       
+
                        * - Others."""),
             },
             {

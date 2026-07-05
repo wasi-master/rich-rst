@@ -328,7 +328,7 @@ def test_multiple_inline_references_sequence(render_text):
 Check `link1`_ and `link2`_ and `link3`_.
 
 .. _link1: http://example.com/1
-.. _link2: http://example.com/2  
+.. _link2: http://example.com/2
 .. _link3: http://example.com/3
 """
     out = render_text(rst)

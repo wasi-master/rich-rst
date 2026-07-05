@@ -806,17 +806,17 @@ def test_definition_list_nested_lists_and_code(render_text):
     rst = """\
 Term with complex definition
    This definition has multiple components.
-   
+
    Related items:
-   
+
    1. First related
    2. Second related
-   
+
    Code example::
-   
+
       x = 1
       y = 2
-      
+
    Final note about this term.
 """
     out = render_text(rst)
@@ -872,9 +872,9 @@ def test_sidebar_with_subtitle_and_lists(render_text):
     rst = """\
 .. sidebar:: Sidebar Title
    :subtitle: Interesting Subtitle
-   
+
    Sidebar content with bullet list:
-   
+
    * Item 1
    * Item 2
    * Item 3
@@ -889,12 +889,12 @@ def test_topic_with_lists_and_code(render_text):
 .. topic:: Important Topic
 
    This topic covers:
-   
+
    1. First concept
    2. Second concept
-   
+
    Example::
-   
+
       example_code()
 """
     out = render_text(rst)
@@ -962,7 +962,7 @@ def test_raw_content_all_formats(render_text):
 .. raw:: latex
 
    \\textbf{Bold}
-   
+
 .. raw:: rst
 
    **Restructured** text

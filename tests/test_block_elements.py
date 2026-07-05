@@ -469,13 +469,13 @@ def test_block_quote_many_paragraphs(render_text):
     """Test block quote with many paragraphs."""
     rst = """\
    Para 1
-     
+
    Para 2
-     
+
    Para 3
-     
+
    Para 4
-     
+
    Para 5
 """
     out = render_text(rst)
@@ -487,9 +487,9 @@ def test_nested_content_in_block_quote(render_text):
     """Test block quote containing various nested content."""
     rst = """\
    Block quote with multiple paragraphs.
-   
+
    First paragraph here.
-   
+
    Second paragraph with **bold** and *italic* text.
 
    — Attribution

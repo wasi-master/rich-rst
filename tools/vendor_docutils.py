@@ -209,9 +209,9 @@ zero-dependency package (aside from `rich` itself).
 
 ## What was vendored
 
-**Source:** Docutils 0.22.4  
-**Upstream URL:** https://docutils.sourceforge.io/  
-**PyPI:** https://pypi.org/project/docutils/0.22.4/  
+**Source:** Docutils 0.22.4
+**Upstream URL:** https://docutils.sourceforge.io/
+**PyPI:** https://pypi.org/project/docutils/0.22.4/
 **Vendored into:** `rich_rst/_vendor/docutils/`
 
 The following 41 Python modules were copied verbatim (aside from rewriting internal

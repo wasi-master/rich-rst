@@ -434,12 +434,12 @@ def test_triple_nested_lists(render_text):
     """Test three levels of list nesting."""
     rst = """\
 * Level 1-1
-  
+
   * Level 2-1
-    
+
     * Level 3-1
     * Level 3-2
-  
+
   * Level 2-2
 
 * Level 1-2
@@ -485,7 +485,7 @@ def test_enumerated_list_with_only_code_blocks(render_text):
 1. ::
 
       code block here
-    
+
 2. ::
 
       another code block
@@ -500,9 +500,9 @@ def test_very_deep_enumerated_list_nesting(render_text):
 1. Item 1
 
    1. Item 1.1
-   
+
       1. Item 1.1.1
-      
+
          1. Item 1.1.1.1
 """
     out = render_text(rst)

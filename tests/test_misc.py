@@ -27,7 +27,7 @@ Definition List
 
 term one
    Definition of term one with ``code``.
-   
+
    * Nested bullet
    * Another bullet
 
@@ -219,7 +219,7 @@ Features List
 
   * Sub-feature Alpha
   * Sub-feature Beta
-  
+
 * Feature Three
 
 Numbered Items
@@ -230,7 +230,7 @@ Numbered Items
 
    i. Sub-item 1
    ii. Sub-item 2
-   
+
 3. Third item
 
 Glossary
@@ -238,7 +238,7 @@ Glossary
 
 Python
    A programming language.
-   
+
    * Fast development
    * Easy to learn
 
@@ -267,7 +267,7 @@ Quotation
 ---------
 
    "The best way to predict the future is to invent it."
-   
+
    — Alan Kay
 
 Reference
@@ -342,7 +342,7 @@ Nested lists:
 
    * Alpha
    * Beta
-   
+
      - i
      - ii
 
