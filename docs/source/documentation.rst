@@ -57,6 +57,8 @@ Options
      - Description
    * - ``-c``, ``--force-color``
      - Force ANSI colour output even on non-terminal streams.
+   * - ``-d``, ``--debug``
+     - Enable debug logging to help troubleshoot issues.
    * - ``--version``
      - Show the installed package version and exit.
    * - ``-e``, ``--encoding``
@@ -70,7 +72,7 @@ Options
        ``monokai``).
    * - ``--show-line-numbers``
      - Show line numbers in syntax-highlighted code blocks.
-   * - ``-html``, ``--save-html``
+   * - ``-S``, ``--save-html``
      - Path to save the rendered output as an HTML file.
    * - ``-r``, ``--wrap``
      - Hard-wrap long lines.

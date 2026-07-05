@@ -74,7 +74,7 @@ View all available options:
 python -m rich_rst --help
 ```
 
-Useful flags include `--code-theme`, `--show-line-numbers`, `--guess-lexer`, `--default-lexer`, `--show-errors`, `--admonition-style`, `--save-html`, `--html-theme`, `--list-html-themes`, `--output`, and `--version`.
+Useful flags include ``--code-theme``, ``--show-line-numbers``, ``--guess-lexer``, ``--default-lexer``, ``--show-errors``, ``--admonition-style``, ``-S/--save-html``, ``--html-theme``, ``--list-html-themes``, ``--output``, ``--debug``, and ``--version``.
 
 ## Compatibility
 
