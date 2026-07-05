@@ -34,6 +34,9 @@ from rich.terminal_theme import DEFAULT_TERMINAL_THEME, TerminalTheme
 from rich.text import Text
 
 import rich_rst._vendor.docutils.core
+import rich_rst._vendor.docutils.parsers.rst
+import rich_rst._vendor.docutils.parsers.rst.directives
+import rich_rst._vendor.docutils.parsers.rst.directives.tables
 import rich_rst._vendor.docutils.utils
 
 # Imports from rich_rst._vendor.docutils package for the parsing
