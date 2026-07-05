@@ -696,7 +696,7 @@ def test_find_lexer_non_element():
     doc = docutils.core.publish_doctree("Hello")
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(doc, console=console)
-    lexer, source = visitor._find_lexer(docutils.nodes.Text("abc"))
+    lexer, _source = visitor._find_lexer(docutils.nodes.Text("abc"))
     assert lexer == "python"
 
 
@@ -919,8 +919,9 @@ def test_visit_generated():
 
 
 def test_math_directive_empty_run():
-    from rich_rst import _MathDirective
     from unittest.mock import MagicMock
+
+    from rich_rst import _MathDirective
     directive = MagicMock(spec=_MathDirective)
     directive.arguments = ["   "]
     directive.content = []
@@ -1027,7 +1028,7 @@ def test_collect_typed_class_attributes_direct():
     c3 = py_desc(objtype="attribute", sig="attr3 : int")
     class_node.append(c3)
 
-    attrs, remaining = visitor._collect_typed_class_attributes(class_node)
+    attrs, _remaining = visitor._collect_typed_class_attributes(class_node)
     assert len(attrs) == 2
     visitor._render_py_class_attribute_table(attrs)
 
@@ -1126,7 +1127,7 @@ def test_definition_list_block_quote():
     rst_text = """
 term : classifier1 : classifier2
     This is definition body.
-    
+
         Inside blockquote.
 """
     rst = RestructuredText(rst_text)
