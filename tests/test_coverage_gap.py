@@ -1198,6 +1198,38 @@ def test_sidebar_no_title():
         visitor.visit_sidebar(node)
 
 
+def test_sidebar_field_list_coverage_gaps():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree('Hello')
+    visitor = RSTVisitor(doc, console=console)
+    node = docutils.nodes.sidebar()
+    
+    field_list = docutils.nodes.field_list()
+    
+    # 1. Field with less than 2 children
+    field_short = docutils.nodes.field()
+    field_short.append(docutils.nodes.field_name(text='NameOnly'))
+    field_list.append(field_short)
+    
+    # 2. Field with name not equal to "subtitle"
+    field_other = docutils.nodes.field()
+    field_other.append(docutils.nodes.field_name(text='OtherField'))
+    field_other.append(docutils.nodes.field_body(text='value'))
+    field_list.append(field_other)
+    
+    # 3. Field with name "subtitle"
+    field_sub = docutils.nodes.field()
+    field_sub.append(docutils.nodes.field_name(text='subtitle'))
+    field_sub.append(docutils.nodes.field_body(text='My Subtitle'))
+    field_list.append(field_sub)
+    
+    node.append(field_list)
+    node.append(docutils.nodes.paragraph(text='body'))
+    
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_sidebar(node)
+
+
 def test_footnote_sub_ref_empty_renderables():
     console = Console(force_terminal=True, width=120)
     doc = docutils.core.publish_doctree('Hello')

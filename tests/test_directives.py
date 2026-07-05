@@ -909,6 +909,23 @@ def test_sidebar_with_subtitle_and_lists(render_text):
     assert 'Interesting Subtitle' in out, 'Sidebar subtitle must be visible'
 
 
+def test_sidebar_with_field_list_subtitle(render_text):
+    """Test sidebar with subtitle defined via field list in the body."""
+    rst = """\
+.. sidebar:: Note
+
+   :Subtitle: Side note
+
+   Sidebar text goes here.
+"""
+    out = render_text(rst)
+    assert 'Note' in out
+    assert 'Side note' in out
+    assert 'Field Name' not in out
+    assert 'Field Value' not in out
+    assert 'Sidebar text goes here.' in out
+
+
 def test_topic_with_lists_and_code(render_text):
     """Test topic element with nested lists and code."""
     rst = """\

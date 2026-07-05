@@ -3636,6 +3636,16 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             subtitle = body_children[0].astext()
             body_children = body_children[1:]
 
+        if body_children and isinstance(body_children[0], docutils.nodes.field_list):
+            field_list = body_children[0]
+            for field in field_list.children:
+                if len(field.children) >= 2:
+                    field_name = field.children[0].astext().strip().lower()
+                    field_body = field.children[1]
+                    if field_name == "subtitle":
+                        subtitle = field_body.astext().strip()
+            body_children = body_children[1:]
+
         # Use _collect_body_renderables so inline markup in the sidebar body is
         # preserved instead of being flattened by astext().
         body_renderables = self._collect_body_renderables(body_children)
