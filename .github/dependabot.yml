@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # Update GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Update Python dependencies (in pyproject.toml)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "direct"
+    commit-message:
+      prefix: "chore"
+      prefix-scope: "deps"
