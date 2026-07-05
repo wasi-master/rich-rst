@@ -652,3 +652,604 @@ def test_branch_coverage_various_directives():
     rst = RestructuredText(rst_text)
     console = Console(force_terminal=True, width=120)
     console.print(rst)
+
+
+def test_literalinclude_empty_range_parts():
+    # test lines option with empty parts e.g. "1-2, ,3"
+    rst_text = """
+.. literalinclude:: tests/requirements.txt
+   :lines: 1-2, ,3
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_sphinx_registration_no_roles_attr():
+    import rich_rst
+    import rich_rst._vendor.docutils.parsers.rst.languages.en as _en
+    if hasattr(_en, 'roles'):
+        orig_roles = _en.roles
+        delattr(_en, 'roles')
+        try:
+            rich_rst._sphinx_roles_registered = False
+            rich_rst._sphinx_directives_registered = False
+            rich_rst._register_sphinx_roles()
+            rich_rst._register_sphinx_directives()
+        finally:
+            _en.roles = orig_roles
+
+
+def test_command_program_empty_potential_display():
+    rst = RestructuredText("hello :command:` <target>` and :func:` <func_target>`")
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_subclass_unregister_visitor():
+    class MySubVisitor(RSTVisitor):
+        pass
+    MySubVisitor.unregister_visitor(docutils.nodes.paragraph)
+
+
+def test_find_lexer_non_element():
+    doc = docutils.core.publish_doctree("Hello")
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(doc, console=console)
+    lexer, source = visitor._find_lexer(docutils.nodes.Text("abc"))
+    assert lexer == "python"
+
+
+def test_footnote_empty_child():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    fn = docutils.nodes.footnote()
+    fn.append(docutils.nodes.label(text="1"))
+    fn.append(docutils.nodes.Text(""))
+    res = visitor._format_labelled_node(fn)
+    assert res == "1:"
+
+
+def test_target_no_uri():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    node = docutils.nodes.target(names=["myname"])
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_target(node)
+
+
+def test_depart_paragraph_empty_renderables():
+    from rich.panel import Panel
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    visitor.depart_paragraph(docutils.nodes.paragraph())
+
+    visitor.renderables.append(Panel(Text("hi")))
+    visitor.depart_paragraph(docutils.nodes.paragraph())
+
+
+def test_prepend_styled_prefix_empty_body():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    visitor._prepend_styled_prefix(Text("prefix"), [])
+
+
+def test_version_directive_multi_element_body():
+    rst_text = """
+.. versionadded:: 1.0
+
+   First para.
+
+   Second para.
+"""
+    rst = RestructuredText(rst_text, admonition_style="compact")
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_signatures_edge_cases():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    assert visitor._highlight_c_cpp_signature("c", "alias", "invalid_alias") is not None
+    assert visitor._highlight_c_cpp_signature("c", "function", "invalid_func") is not None
+    assert visitor._highlight_c_cpp_signature("c", "class", "") is not None
+    assert visitor._highlight_c_cpp_signature("c", "member", "int") is not None
+
+    assert visitor._highlight_js_signature("function", "invalid_js_func") is not None
+    assert visitor._highlight_js_signature("class", "") is not None
+    assert visitor._highlight_js_signature("module", "mod.") is not None
+    assert visitor._highlight_js_signature("attribute", "") is not None
+    assert visitor._highlight_js_signature("data", "") is not None
+
+    assert visitor._highlight_py_signature("function", "def f() ->   ") is not None
+    assert visitor._highlight_py_signature("function", "def f(a:  )") is not None
+    assert visitor._highlight_py_signature("function", "def f(a: )") is not None
+    assert visitor._highlight_py_signature("function", "def f(a:int, b:str)") is not None
+
+
+def test_hlist_block_edge_cases():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    node = hlist_block(columns=2)
+    node.append(docutils.nodes.paragraph(text="not bullet list"))
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_hlist_block(node)
+
+
+def test_bullet_list_non_text_first_child():
+    rst_text = """
+- .. admonition:: Hi
+     :class: custom
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+    rst_text2 = """
+1. .. admonition:: Hi
+      :class: custom
+"""
+    rst2 = RestructuredText(rst_text2)
+    console.print(rst2)
+
+
+def test_table_compact_lines_empty():
+    rst_text = """
++----+
+| -  |
++----+
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_table_no_spans_bypass_spans():
+    class MockThead(docutils.nodes.thead):
+        def __init__(self, *args, **kwargs):
+            self._first_call = True
+            super().__init__(*args, **kwargs)
+
+        @property
+        def children(self):
+            if getattr(self, '_first_call', False):
+                self._first_call = False
+                r = docutils.nodes.row()
+                r.append(docutils.nodes.entry())
+                return [r]
+            else:
+                r = docutils.nodes.row()
+                r.append(docutils.nodes.entry(morecols=1))
+                return [r]
+
+        @children.setter
+        def children(self, value):
+            pass
+
+    class MockTbody(docutils.nodes.tbody):
+        def __init__(self, *args, **kwargs):
+            self._first_call = True
+            super().__init__(*args, **kwargs)
+
+        @property
+        def children(self):
+            if getattr(self, '_first_call', False):
+                self._first_call = False
+                r = docutils.nodes.row()
+                r.append(docutils.nodes.entry())
+                return [r]
+            else:
+                r1 = docutils.nodes.row()
+                r1.append(docutils.nodes.entry(morerows=1, morecols=1))
+                r2 = docutils.nodes.row()
+                r3 = docutils.nodes.row()
+                r3.append(docutils.nodes.entry())
+                return [r1, r2, r3]
+
+        @children.setter
+        def children(self, value):
+            pass
+
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    tgroup = docutils.nodes.tgroup()
+    tgroup.append(docutils.nodes.colspec(colwidth=5))
+    tgroup.append(docutils.nodes.colspec(colwidth=5))
+    tgroup.append(docutils.nodes.colspec(colwidth=5))
+
+    thead = MockThead()
+    tbody = MockTbody()
+    tgroup.append(thead)
+    tgroup.append(tbody)
+    table = docutils.nodes.table()
+    table.append(tgroup)
+
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_table(table)
+
+
+def test_sphinx_compat_false():
+    rst = RestructuredText("hello world", sphinx_compat=False)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_render_no_renderables():
+    rst = RestructuredText(".. comment")
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_render_non_text_renderable():
+    rst = RestructuredText("""
++---+
+| a |
++---+
+""")
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_render_ends_with_newline():
+    rst = RestructuredText("some paragraph\n\n")
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_citations_and_footer():
+    rst_text = """
+.. [citation1] Citation body text.
+.. [*] Footnote body text.
+
+.. raw:: html
+
+   <p>raw html</p>
+"""
+    rst = RestructuredText(rst_text, show_errors=True)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_visit_generated():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_generated(docutils.nodes.generated(text="gen"))
+    assert len(visitor.footer) == 1
+
+
+def test_math_directive_empty_run():
+    from rich_rst import _MathDirective
+    from unittest.mock import MagicMock
+    directive = MagicMock(spec=_MathDirective)
+    directive.arguments = ["   "]
+    directive.content = []
+    res = _MathDirective.run(directive)
+    assert res == []
+
+
+def test_sphinx_role_empty_display_via_rst():
+    rst = RestructuredText("hello :func:`<target>` and :command:`<target>`")
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_emit_version_directive_multi_element_body():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    visitor.admonition_style = "compact"
+    node1 = docutils.nodes.paragraph(text="first")
+    node2 = docutils.nodes.paragraph(text="second")
+    visitor._emit_version_directive("versionadded", "1.0", [node1, node2])
+
+
+def test_render_py_field_list_direct():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+
+    fl = docutils.nodes.field_list()
+    f1 = docutils.nodes.field()
+    f1.append(docutils.nodes.field_name(text="param myparam"))
+    fb1 = docutils.nodes.field_body()
+    fb1.append(docutils.nodes.paragraph(text="first desc"))
+    f1.append(fb1)
+
+    f2 = docutils.nodes.field()
+    f2.append(docutils.nodes.field_name(text="param myparam"))
+    fb2 = docutils.nodes.field_body()
+    fb2.append(docutils.nodes.paragraph(text="second desc"))
+    f2.append(fb2)
+
+    fl.append(f1)
+    fl.append(f2)
+
+    f3 = docutils.nodes.field()
+    f3.append(docutils.nodes.field_name(text="param otherparam"))
+    fb3 = docutils.nodes.field_body()
+    fb3.append(docutils.nodes.paragraph(text="desc without type"))
+    f3.append(fb3)
+    fl.append(f3)
+
+    f4 = docutils.nodes.field()
+    f4.append(docutils.nodes.field_name(text="raises ValueError"))
+    fb4 = docutils.nodes.field_body()
+    fb4.append(docutils.nodes.paragraph(text=""))
+    f4.append(fb4)
+    fl.append(f4)
+
+    res = visitor._render_py_field_list(fl)
+    assert len(res) > 0
+
+
+def test_c_cpp_signature_none_matches():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    assert visitor._highlight_c_cpp_signature("c", "class", "...") is not None
+
+
+def test_js_signature_none_matches():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    assert visitor._highlight_js_signature("class", "...") is not None
+    assert visitor._highlight_js_signature("attribute", "...") is not None
+    assert visitor._highlight_js_signature("data", "...") is not None
+
+
+def test_highlight_py_signature_direct():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    visitor._highlight_py_signature("function", "def f() -> int, None")
+    visitor._highlight_py_signature("function", "def f() ->   int")
+    visitor._highlight_py_signature("function", "def f(a:   int)")
+    visitor._highlight_py_signature("function", "def f(a: int)")
+    visitor._highlight_py_signature("function", "def f(a:  int)")
+    visitor._highlight_py_signature("function", "def f(a: )")
+
+
+def test_collect_typed_class_attributes_direct():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    class_node = docutils.nodes.Element()
+
+    c1 = py_desc(objtype="attribute", sig="attr1")
+    class_node.append(c1)
+
+    c2 = py_desc(objtype="attribute", sig="attr2 : int")
+    c2.append(docutils.nodes.Text("   "))
+    class_node.append(c2)
+
+    c3 = py_desc(objtype="attribute", sig="attr3 : int")
+    class_node.append(c3)
+
+    attrs, remaining = visitor._collect_typed_class_attributes(class_node)
+    assert len(attrs) == 2
+    visitor._render_py_class_attribute_table(attrs)
+
+
+def test_visit_hlist_block_multiple_renderables():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    node = hlist_block(columns=2)
+    bl = docutils.nodes.bullet_list()
+    li = docutils.nodes.list_item()
+    li.append(docutils.nodes.paragraph(text="p1"))
+    li.append(docutils.nodes.paragraph(text="p2"))
+    bl.append(li)
+    node.append(bl)
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_hlist_block(node)
+
+
+def test_bullet_list_non_text_rendering():
+    rst_text = """
+- .. note::
+     Admonition body
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+    rst_text2 = """
+1. .. note::
+      Admonition body
+"""
+    rst2 = RestructuredText(rst_text2)
+    console.print(rst2)
+
+
+def test_bullet_list_multiple_children_types():
+    rst_text = """
+- First paragraph
+
+  .. note::
+     Note body
+
+- Second paragraph
+
+  .. raw:: html
+     :class: empty
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+    rst_text2 = """
+1. First paragraph
+
+   .. note::
+      Note body
+
+2. Second paragraph
+
+   .. raw:: html
+      :class: empty
+"""
+    rst2 = RestructuredText(rst_text2)
+    console.print(rst2)
+
+
+def test_system_message_empty_snippet():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    node = docutils.nodes.system_message(type="WARNING", level=2, source="test.rst", line=1)
+    node['source'] = 'test.rst'
+    node['line'] = 1
+    node['type'] = 'WARNING'
+    node['level'] = 2
+    node.append(docutils.nodes.literal_block(text="   "))
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_system_message(node)
+
+
+def test_field_table_not_matching():
+    rst_text = """
++---+
+| a |
++---+
+
+:Author: Wasi Master
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_definition_list_block_quote():
+    rst_text = """
+term : classifier1 : classifier2
+    This is definition body.
+    
+        Inside blockquote.
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_option_list_no_description():
+    rst_text = """
+-o
+"""
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_block_quote_non_text_first():
+    rst_text = """
+    .. note:: Note inside blockquote
+    """
+    rst = RestructuredText(rst_text)
+    console = Console(force_terminal=True, width=120)
+    console.print(rst)
+
+
+def test_line_block_non_line():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    node = docutils.nodes.line_block()
+    node.append(docutils.nodes.paragraph(text="not a line"))
+    visitor._render_line_block(node)
+
+
+def test_topic_no_title():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    node = docutils.nodes.topic()
+    node.append(docutils.nodes.paragraph(text="body"))
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_topic(node)
+
+
+def test_topic_empty_body_renderables():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    node = docutils.nodes.topic()
+    node.append(docutils.nodes.title(text="title"))
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_topic(node)
+
+
+def test_sidebar_no_title():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    node = docutils.nodes.sidebar()
+    node.append(docutils.nodes.paragraph(text="body"))
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_sidebar(node)
+
+
+def test_footnote_sub_ref_empty_renderables():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_footnote_reference(docutils.nodes.footnote_reference(text="1"))
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_substitution_reference(docutils.nodes.substitution_reference(text="sub"))
+
+
+def test_problematic_empty_text():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    node = docutils.nodes.problematic(text="")
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_problematic(node)
+
+
+def test_spanning_table_render_cell_lines_direct():
+    from rich_rst import RSTVisitor
+    grid = [
+        [(Text("long_text_to_truncate\n\nother"), 0, 0), None],
+        [None, (None, 0, 0)]
+    ]
+    col_widths = [2, 2]
+    console = Console(force_terminal=True, width=120)
+    res = RSTVisitor._spanning_table(
+        grid=grid,
+        col_widths=col_widths,
+        header_rows=0,
+        title="Table Title",
+        header_style=None,
+        cell_style=None,
+        console=console
+    )
+    assert res is not None
+
+
+def test_table_invalid_child():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    table = docutils.nodes.table()
+    table.append(docutils.nodes.paragraph(text="invalid"))
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_table(table)
+
+
+def test_table_num_cols_zero_empty_tbody():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree("Hello")
+    visitor = RSTVisitor(doc, console=console)
+    tgroup = docutils.nodes.tgroup()
+    tbody = docutils.nodes.tbody()
+    tgroup.append(tbody)
+    table = docutils.nodes.table()
+    table.append(tgroup)
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_table(table)
+
+

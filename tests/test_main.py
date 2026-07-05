@@ -199,11 +199,48 @@ def test_cli_parse_error_handling(monkeypatch, capsys, tmp_path):
     assert 'Fake parse failure' in captured.out
 
 
+def test_cli_parse_error_handling_no_debug(monkeypatch, capsys, tmp_path):
+    rst_file = tmp_path / 'test.rst'
+    rst_file.write_text('Some RST.', encoding='utf-8')
+    monkeypatch.setattr(sys, 'argv', ['rich-rst', str(rst_file)])
+
+    def mock_init(self, *args, **kwargs):
+        raise ValueError('Fake parse failure')
+
+    monkeypatch.setattr('rich_rst.RestructuredText.__init__', mock_init)
+
+    exit_code = main()
+    assert exit_code == 1
+    captured = capsys.readouterr()
+    assert 'Error parsing reStructuredText' in captured.out
+    assert 'Fake parse failure' in captured.out
+
+
 def test_cli_export_exception_handling(monkeypatch, capsys, tmp_path):
     rst_file = tmp_path / 'test.rst'
     rst_file.write_text('Some RST.', encoding='utf-8')
     html_out = tmp_path / 'out.html'
     monkeypatch.setattr(sys, 'argv', ['rich-rst', str(rst_file), '--save-html', str(html_out), '--debug'])
+
+    from rich.console import Console
+
+    def mock_save_html(*args, **kwargs):
+        raise RuntimeError('Fake export failure')
+
+    monkeypatch.setattr(Console, 'save_html', mock_save_html)
+
+    exit_code = main()
+    assert exit_code == 1
+    captured = capsys.readouterr()
+    assert 'Error during export' in captured.out
+    assert 'Fake export failure' in captured.out
+
+
+def test_cli_export_exception_handling_no_debug(monkeypatch, capsys, tmp_path):
+    rst_file = tmp_path / 'test.rst'
+    rst_file.write_text('Some RST.', encoding='utf-8')
+    html_out = tmp_path / 'out.html'
+    monkeypatch.setattr(sys, 'argv', ['rich-rst', str(rst_file), '--save-html', str(html_out)])
 
     from rich.console import Console
 
