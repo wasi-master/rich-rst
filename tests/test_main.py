@@ -29,8 +29,8 @@ def test_cli_reports_file_read_errors(monkeypatch, capsys, error_type, error_mes
     captured = capsys.readouterr()
 
     assert exit_code == 1
-    assert "Input File Error" in captured.out
-    assert f"Could not read {path!r}." in captured.out
+    assert "File Error" in captured.out
+    assert f"Path: {path!r}" in captured.out
     assert "Check that the file exists" in captured.out
     assert "Traceback" not in captured.out
 
