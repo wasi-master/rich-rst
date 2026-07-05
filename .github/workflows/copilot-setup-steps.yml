@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    # Persist the repository state (built docs, installed deps) into the agent snapshot
-    snapshot: true
+    # Note: `snapshot: true` is only supported for organization repositories.
+    # For personal repositories, remove the snapshot line.
     timeout-minutes: 30
 
     steps:
