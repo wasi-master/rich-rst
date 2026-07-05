@@ -68,7 +68,7 @@ class versionmodified(docutils.nodes.General, docutils.nodes.Body, docutils.node
     pass
 
 
-class seealso(docutils.nodes.Admonition, docutils.nodes.Element):
+class seealso(docutils.nodes.Admonition, docutils.nodes.Element):  # type: ignore[misc]
     """Node produced by the seealso directive."""
     pass
 
@@ -133,7 +133,7 @@ class _VersionDirective(docutils.parsers.rst.Directive):
     required_arguments = 1
     optional_arguments = 1
     final_argument_whitespace = True
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
     has_content = True
 
     def run(self) -> List[docutils.nodes.Node]:
@@ -154,7 +154,7 @@ class _SeeAlsoDirective(docutils.parsers.rst.Directive):
     required_arguments = 0
     optional_arguments = 1
     final_argument_whitespace = True
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
     has_content = True
 
     def run(self) -> List[docutils.nodes.Node]:
@@ -173,7 +173,7 @@ class _CodeBlockDirective(docutils.parsers.rst.Directive):
     optional_arguments = 1
     final_argument_whitespace = False
     has_content = True
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'linenos': docutils.parsers.rst.directives.flag,
         'emphasize-lines': docutils.parsers.rst.directives.unchanged,
         'caption': docutils.parsers.rst.directives.unchanged,
@@ -237,7 +237,7 @@ class _CodeBlockDirective(docutils.parsers.rst.Directive):
         # Parse emphasize-lines option into a set of integers for Syntax.highlight_lines
         emphasize = self.options.get('emphasize-lines')
         if emphasize:
-            highlight_lines = set()
+            highlight_lines: set[int] = set()
             for part in emphasize.split(','):
                 part = part.strip()
                 if not part:
@@ -270,7 +270,7 @@ class _MathDirective(docutils.parsers.rst.Directive):
     optional_arguments = 1
     final_argument_whitespace = True
     has_content = True
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'class': docutils.parsers.rst.directives.class_option,
         'name': docutils.parsers.rst.directives.unchanged,
         # Sphinx-specific options. These are accepted and preserved as node
@@ -311,7 +311,7 @@ class _HighlightDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = False
     has_content = False
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'linenothreshold': docutils.parsers.rst.directives.nonnegative_int,
         'force': docutils.parsers.rst.directives.flag,
     }
@@ -327,7 +327,7 @@ class _SilentDirective(docutils.parsers.rst.Directive):
     optional_arguments = 1
     final_argument_whitespace = True
     has_content = True
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
 
     def run(self) -> List[docutils.nodes.Node]:
         return []
@@ -340,7 +340,7 @@ class _CurrentModuleDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = False
     has_content = False
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
 
     def run(self) -> List[docutils.nodes.Node]:
         return []
@@ -353,7 +353,7 @@ class _OnlyDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = True
     has_content = True
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
 
     def run(self) -> List[docutils.nodes.Node]:
         container = docutils.nodes.container()
@@ -369,7 +369,7 @@ class _CenteredDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = True
     has_content = False
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
 
     def run(self) -> List[docutils.nodes.Node]:
         return [centered_block(text=self.arguments[0])]
@@ -382,7 +382,7 @@ class _HlistDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = False
     has_content = True
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'columns': docutils.parsers.rst.directives.nonnegative_int,
     }
 
@@ -410,7 +410,7 @@ class _ToctreeDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = False
     has_content = True
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'maxdepth': docutils.parsers.rst.directives.nonnegative_int,
         'caption': docutils.parsers.rst.directives.unchanged,
         'name': docutils.parsers.rst.directives.unchanged,
@@ -449,7 +449,7 @@ class _LiteralIncludeDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = False
     has_content = False
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'language': docutils.parsers.rst.directives.unchanged,
         'linenos': docutils.parsers.rst.directives.flag,
         'lines': docutils.parsers.rst.directives.unchanged,
@@ -521,7 +521,7 @@ class _ProductionListDirective(docutils.parsers.rst.Directive):
     optional_arguments = 1
     final_argument_whitespace = True
     has_content = True
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
 
     def run(self) -> List[docutils.nodes.Node]:
         if self.content:
@@ -548,7 +548,7 @@ class _IncludeDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = False
     has_content = False
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'encoding': docutils.parsers.rst.directives.unchanged,
         'start-line': docutils.parsers.rst.directives.nonnegative_int,
         'end-line': docutils.parsers.rst.directives.nonnegative_int,
@@ -614,7 +614,7 @@ class _GlossaryDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = False
     has_content = True
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'sorted': docutils.parsers.rst.directives.flag,
     }
 
@@ -640,7 +640,7 @@ class _DeprecatedRemovedDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = False
     has_content = True
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
 
     def run(self) -> List[docutils.nodes.Node]:
         version_str = f"{self.arguments[0]} (removed in {self.arguments[1]})"
@@ -658,7 +658,7 @@ class _AvailabilityDirective(docutils.parsers.rst.Directive):
     optional_arguments = 1
     final_argument_whitespace = True
     has_content = True
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
 
     def run(self) -> List[docutils.nodes.Node]:
         node = availability(version=self.arguments[0])
@@ -680,7 +680,7 @@ class _SoftDeprecatedDirective(docutils.parsers.rst.Directive):
     optional_arguments = 1
     final_argument_whitespace = True
     has_content = True
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
 
     def run(self) -> List[docutils.nodes.Node]:
         node = soft_deprecated(version=self.arguments[0])
@@ -701,7 +701,7 @@ class _ImplDetailDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = False
     has_content = True
-    option_spec = {}
+    option_spec = {}  # type: ignore[assignment,var-annotated]
 
     def run(self) -> List[docutils.nodes.Node]:
         node = impl_detail()
@@ -717,7 +717,7 @@ class _PyObjectDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = True
     has_content = True
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'no-index': docutils.parsers.rst.directives.flag,
         'noindex': docutils.parsers.rst.directives.flag,
         'module': docutils.parsers.rst.directives.unchanged,
@@ -756,7 +756,7 @@ class _AutodocDirective(docutils.parsers.rst.Directive):
     optional_arguments = 0
     final_argument_whitespace = True
     has_content = True
-    option_spec = {
+    option_spec = {  # type: ignore[assignment]
         'members': docutils.parsers.rst.directives.unchanged,
         'undoc-members': docutils.parsers.rst.directives.flag,
         'show-inheritance': docutils.parsers.rst.directives.flag,
@@ -994,34 +994,34 @@ class _FlatTableBuilder:
         fill_cells = 'fill-cells' in self.directive.options
         self.rows = []
         for row_cells in positioned:
-            row: List[Any] = []
+            parsed_row: List[Any] = []
             col_cursor = 0
             for col, cspan, rspan, content in row_cells:
                 while col_cursor < col:
-                    row.append(None)
+                    parsed_row.append(None)
                     col_cursor += 1
-                row.append((cspan, rspan, content))
+                parsed_row.append((cspan, rspan, content))
                 col_cursor += cspan + 1
             missing = self.max_cols - col_cursor
             if missing > 0:
                 if not fill_cells:
-                    if row and row[-1] is not None:
-                        cspan, rspan, content = row[-1]
-                        row[-1] = (cspan + missing, rspan, content)
+                    if parsed_row and parsed_row[-1] is not None:
+                        cspan, rspan, content = parsed_row[-1]
+                        parsed_row[-1] = (cspan + missing, rspan, content)
                     else:
-                        row.append((missing - 1, 0, []))
+                        parsed_row.append((missing - 1, 0, []))
                 else:
                     for _ in range(missing):
-                        row.append((0, 0, [docutils.nodes.comment()]))
-            self.rows.append(row)
+                        parsed_row.append((0, 0, [docutils.nodes.comment()]))
+            self.rows.append(parsed_row)
 
     def _parse_row_item(self, row_item: docutils.nodes.list_item, row_num: int) -> List[Any]:
         row: List[Any] = []
         child_no = 0
         error = False
-        cell_list = None
+        cell_list: Optional[docutils.nodes.bullet_list] = None
 
-        for child in row_item:
+        for child in row_item.children:
             if isinstance(child, (docutils.nodes.comment, docutils.nodes.system_message)):
                 pass
             elif isinstance(child, docutils.nodes.target):
@@ -1040,7 +1040,8 @@ class _FlatTableBuilder:
                 'contain a second-level bullet list.'
             )
 
-        for cell_item in cell_list:
+        assert cell_list is not None
+        for cell_item in cell_list.children:
             cspan, rspan, cell_elements = self._parse_cell_item(cell_item)
             row.append((cspan, rspan, cell_elements))
         return row
@@ -1057,7 +1058,7 @@ class _FlatTableBuilder:
         for elem in list(cell_item.findall(_rowSpan)):
             rspan = elem.get('span')
             elem.parent.remove(elem)
-        return cspan, rspan, list(cell_item)
+        return cspan, rspan, list(cell_item.children)
 
 
 _sphinx_directives_registered = False
@@ -1542,11 +1543,11 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     _custom_visitors: ClassVar[Dict[Type[docutils.nodes.Node], Tuple[Optional[Callable[..., Any]], Optional[Callable[..., Any]]]]] = {}
     _DISPATCH_CACHE_MISS: ClassVar[object] = object()
 
-    _SUPERSCRIPT: ClassVar[Dict[int, Union[int, str, None]]] = str.maketrans(
+    _SUPERSCRIPT: ClassVar[Dict[int, int]] = str.maketrans(
         "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=+-*/×÷",
         "¹²³⁴⁵⁶⁷⁸⁹⁰ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᑫʳˢᵗᵘᵛʷˣʸᶻᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ⁼⁺⁻*/×÷",
     )
-    _SUBSCRIPT: ClassVar[Dict[int, Union[int, str, None]]] = str.maketrans(
+    _SUBSCRIPT: ClassVar[Dict[int, int]] = str.maketrans(
         "1234567890abcdefghijklmnopqrstuvwxyz=+-*/×÷", "₁₂₃₄₅₆₇₈₉₀abcdₑfgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz₌₊₋*/×÷"
     )
 
@@ -1685,32 +1686,32 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self._dispatch_cache_lock = threading.Lock()
 
     def _resolve_visit_handler(self, node_type: Type[docutils.nodes.Node]) -> Callable[[docutils.nodes.Node], Any]:
-        cached = self._visit_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
-        if cached is not self._DISPATCH_CACHE_MISS:
+        cached = self._visit_dispatch_cache.get(node_type)
+        if cached is not None:
             return cached
 
         with self._dispatch_cache_lock:
-            cached = self._visit_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
-            if cached is not self._DISPATCH_CACHE_MISS:
+            cached = self._visit_dispatch_cache.get(node_type)
+            if cached is not None:
                 return cached
             handler = getattr(self, f"visit_{node_type.__name__}", self.unknown_visit)
             self._visit_dispatch_cache[node_type] = handler
             return handler
 
     def _resolve_depart_handler(self, node_type: Type[docutils.nodes.Node]) -> Callable[[docutils.nodes.Node], Any]:
-        cached = self._depart_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
-        if cached is not self._DISPATCH_CACHE_MISS:
+        cached = self._depart_dispatch_cache.get(node_type)
+        if cached is not None:
             return cached
 
         with self._dispatch_cache_lock:
-            cached = self._depart_dispatch_cache.get(node_type, self._DISPATCH_CACHE_MISS)
-            if cached is not self._DISPATCH_CACHE_MISS:
+            cached = self._depart_dispatch_cache.get(node_type)
+            if cached is not None:
                 return cached
             handler = getattr(self, f"depart_{node_type.__name__}", self.unknown_departure)
             self._depart_dispatch_cache[node_type] = handler
             return handler
 
-    def _translate_with_fallback(self, text: str, table: Dict[int, Union[int, str, None]]) -> str:
+    def _translate_with_fallback(self, text: str, table: Dict[int, Any]) -> str:
         """Translate characters using `table` while preserving unmapped/deleted chars."""
         translated_chars: List[str] = []
         for ch in text:
@@ -1735,9 +1736,11 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         return guessed, True
 
     def _find_lexer(self, node: docutils.nodes.Node) -> Tuple[Optional[str], str]:
-        lexer = (
-            node["classes"][1] if len(node.get("classes")) >= 2 else (node["format"] if node.get("format") else None)
-        )
+        lexer = None
+        if isinstance(node, docutils.nodes.Element):
+            lexer = (
+                node["classes"][1] if len(node.get("classes", [])) >= 2 else (node["format"] if node.get("format") else None)
+            )
         if lexer is not None:
             return lexer, "explicit"
         if self.guess_lexer:
@@ -1795,6 +1798,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         return node.astext().replace("\n", " ").strip()
 
     def visit_reference(self, node: docutils.nodes.Node) -> None:
+        assert isinstance(node, docutils.nodes.Element)
         if len(node.children) == 1 and isinstance(node.children[0], docutils.nodes.image):
             return
         refuri = node.attributes.get("refuri")
@@ -2371,7 +2375,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         param_type_style = self.console.get_style("restructuredtext.py_desc.param_type", default="cyan")
         return_style = self.console.get_style("restructuredtext.py_desc.returns", default="none")
 
-        renderables = []
+        renderables: List[Any] = []
 
         if param_order:
             renderables.append(Text("Parameters", style=section_style))
@@ -2422,6 +2426,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _render_py_desc_options(self, node: docutils.nodes.Node) -> List[Any]:
         """Render ``py:*`` directive options as structured metadata."""
+        assert isinstance(node, docutils.nodes.Element)
         options = node.get('options', {}) or {}
         objtype = str(node.get("objtype", "") or "").strip().lower()
         if not options:
@@ -2990,7 +2995,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         columns = node.get('columns', 2) or 2
 
         # Collect all list items from the nested bullet_list
-        items = []
+        items: List[Any] = []
         for child in node.children:
             if isinstance(child, docutils.nodes.bullet_list):
                 for item in child.children:
@@ -3058,6 +3063,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
 
     def _render_inline_with_explanation(self, node: docutils.nodes.Node, style_name: str) -> None:
+        assert isinstance(node, docutils.nodes.Element)
         style = self.console.get_style(style_name, default="underline")
         explanation = node.get("explanation", "")
         text = node.astext().replace("\n", " ")
@@ -3282,7 +3288,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         # - the global `show_line_numbers` is enabled.
         has_highlight = bool(node.get('highlight_lines'))
         explicit_linenos = bool(node.get('linenos', False))
-        show_linenos = explicit_linenos or has_highlight or self.show_line_numbers
+        show_linenos = bool(explicit_linenos or has_highlight or self.show_line_numbers)
 
         start_line = int(node.get('start_line', 1))
 
@@ -3523,7 +3529,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         self.renderables.append(
             Panel(
-                Syntax(node.astext(), "pycon", theme=self.code_theme, line_numbers=self.show_line_numbers),
+                Syntax(node.astext(), "pycon", theme=self.code_theme, line_numbers=bool(self.show_line_numbers)),
                 border_style=style,
                 box=box.SQUARE,
                 title="doctest block",
@@ -3755,7 +3761,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         lexer, _ = self._find_lexer(node)
         text = node.astext()
-        title = ("stripped raw html" if lexer == "html" else "raw " + lexer)
+        title = "stripped raw html" if lexer == "html" else ("raw " + lexer if lexer is not None else "raw")
 
         if lexer == "html":
             text = strip_tags(text)
@@ -3764,7 +3770,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         self.renderables.append(
             Panel(
-                Syntax(text, lexer, theme=self.code_theme, line_numbers=self.show_line_numbers),
+                Syntax(text, lexer, theme=self.code_theme, line_numbers=bool(self.show_line_numbers)),
                 border_style=style,
                 box=box.SQUARE,
                 title=title,
@@ -4184,7 +4190,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 compact_lines: List[Text] = []
                 for line in rendered_lines:
                     line_text = Text.assemble(
-                        *[(seg.text, seg.style) for seg in line if not seg.control]
+                        *[(seg.text, seg.style or Style()) for seg in line if not seg.control]
                     )
                     line_text.rstrip()
                     if line_text.plain.strip():
@@ -4606,7 +4612,7 @@ class RestructuredText(JupyterMixin):
         visitor = RSTVisitor(
             document,
             console=console,
-            code_theme=self.code_theme,
+            code_theme=self.code_theme or "monokai",
             show_line_numbers=self.show_line_numbers,
             guess_lexer=self.guess_lexer,
             default_lexer=self.default_lexer,

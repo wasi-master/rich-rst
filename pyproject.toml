@@ -85,7 +85,7 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-select = ["E", "W", "F", "I", "N", "UP", "YTT", "ASYNC", "TRIO", "C4", "RUF"]
+select = ["E", "W", "F", "I", "N", "UP", "YTT", "ASYNC", "ASYNC1", "C4", "RUF"]
 ignore = [
     "E501",    # Line too long
     "RUF001",  # Ambiguous unicode character in string
@@ -116,4 +116,8 @@ ignore = [
 ignore_missing_imports = true
 warn_unused_ignores = true
 exclude = ["rich_rst/_vendor"]
+
+[[tool.mypy.overrides]]
+module = "rich_rst._vendor.*"
+ignore_errors = true
 
