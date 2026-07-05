@@ -21,17 +21,6 @@ Formatting contract (in-sentence context)
 * ``:sup:`` / ``:superscript:`` → digit/letter translated to superscript Unicode
 """
 from rich.text import Text
-import pytest
-from rich.console import Console
-from rich.console import Console
-from rich.panel import Panel
-from rich.rule import Rule
-from rich.table import Table
-import rich_rst
-import rich_rst._vendor.docutils.core
-from rich_rst._vendor import docutils
-from rich_rst import RestructuredText, RSTVisitor
-from rich_rst import RSTVisitor, RestructuredText
 
 
 def _get_text(make_visitor, rst):

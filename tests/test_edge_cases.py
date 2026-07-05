@@ -1,8 +1,5 @@
 """Edge case and smoke tests for rich-rst."""
-import tempfile
-from pathlib import Path
 
-import pytest
 
 from rich_rst import RestructuredText
 
@@ -178,7 +175,7 @@ class TestCliEdgeCases:
     def test_stdin_rendering(self, tmp_path):
         """Test that stdin input can be rendered."""
         from rich_rst.__main__ import RestructuredText as CliRST
-        
+
         doc = "Test\n====\n\nContent"
         rst = CliRST(doc)
         assert rst is not None
@@ -188,9 +185,9 @@ class TestCliEdgeCases:
         test_file = tmp_path / "test.rst"
         content = "Tëst\n====\n\nWïth spëcial chärs"
         test_file.write_text(content, encoding="utf-8")
-        
+
         from rich_rst.__main__ import RestructuredText as CliRST
-        
+
         with open(test_file, encoding="utf-8") as f:
             rst = CliRST(f.read())
         assert rst is not None

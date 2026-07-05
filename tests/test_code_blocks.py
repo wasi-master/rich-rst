@@ -18,21 +18,15 @@ Formatting contract
   the format name.
 * **Math** content is rendered as plain text (the LaTeX source).
 """
+import pytest
+from rich.console import Console
 from rich.panel import Panel
 from rich.syntax import Syntax
-from rich.text import Text
-from rich.console import Console
 
+import rich_rst
+import rich_rst._vendor.docutils.core
 from rich_rst import RSTVisitor
 from rich_rst._vendor import docutils
-import rich_rst._vendor.docutils.core
-import pytest
-from rich.rule import Rule
-from rich.table import Table
-import rich_rst
-from rich_rst import RestructuredText, RSTVisitor
-from rich_rst import RSTVisitor, RestructuredText
-
 
 # ── Literal blocks ────────────────────────────────────────────────────────────
 

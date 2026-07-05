@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 """
 reStructuredText parser for rich
@@ -6,17 +5,35 @@ reStructuredText parser for rich
 Initial few lines gotten from: https://github.com/willmcgugan/rich/discussions/1263#discussioncomment-808898
 There are a lot of improvements are added by me
 """
-from io import StringIO
-import textwrap
-from html.parser import HTMLParser
 import functools
+import importlib.metadata
 import os
 import re
+import textwrap
 import threading
+from html.parser import HTMLParser
+from io import StringIO
 from typing import Any, Callable, ClassVar, Dict, List, Literal, Optional, Tuple, Type, Union
 
-# Imports from rich_rst._vendor.docutils package for the parsing
-from rich_rst._vendor import docutils
+# Imports from the rich package for the printing
+import rich
+from pygments.lexers import get_lexer_by_name, guess_lexer
+from pygments.util import ClassNotFound
+from rich import box
+from rich.align import Align
+from rich.cells import cell_len
+from rich.console import Console, ConsoleOptions, Group, NewLine, RenderResult
+from rich.jupyter import JupyterMixin
+from rich.panel import Panel
+from rich.rule import Rule
+from rich.segment import Segment
+from rich.style import Style
+from rich.styled import Styled
+from rich.syntax import Syntax, SyntaxTheme
+from rich.table import Table
+from rich.terminal_theme import DEFAULT_TERMINAL_THEME, TerminalTheme
+from rich.text import Text
+
 import rich_rst._vendor.docutils.core
 import rich_rst._vendor.docutils.frontend
 import rich_rst._vendor.docutils.io
@@ -26,29 +43,10 @@ import rich_rst._vendor.docutils.parsers.rst.directives
 import rich_rst._vendor.docutils.parsers.rst.directives.tables
 import rich_rst._vendor.docutils.utils
 
-# Imports from the rich package for the printing
-import rich
-from rich import box
-from rich.align import Align
-from rich.console import Console, ConsoleOptions, RenderResult, NewLine, Group
-from rich.jupyter import JupyterMixin
-from rich.panel import Panel
-from rich.style import Style
-from rich.syntax import Syntax, SyntaxTheme
-from rich.text import Text
-from rich.table import Table
-from rich.rule import Rule
-from rich.segment import Segment
-from rich.cells import cell_len
-from rich.styled import Styled
-from rich.terminal_theme import TerminalTheme, DEFAULT_TERMINAL_THEME
+# Imports from rich_rst._vendor.docutils package for the parsing
+from rich_rst._vendor import docutils
 
-from pygments.lexers import guess_lexer, get_lexer_by_name
-from pygments.util import ClassNotFound
-
-import importlib.metadata
-
-__all__ = ("RST", "ReStructuredText", "reStructuredText", "RestructuredText", "RSTVisitor")
+__all__ = ("RST", "RSTVisitor", "ReStructuredText", "RestructuredText", "reStructuredText")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
 
@@ -1165,8 +1163,8 @@ def _register_sphinx_directives() -> None:
         # flat-table (Linux kernel docs extension)
         docutils.parsers.rst.directives.register_directive('flat-table', _FlatTableDirective)
         # cspan / rspan roles used inside flat-table cells
-        import rich_rst._vendor.docutils.parsers.rst.roles as _roles
         import rich_rst._vendor.docutils.parsers.rst.languages.en as _en
+        import rich_rst._vendor.docutils.parsers.rst.roles as _roles
         _roles.register_canonical_role('cspan', _flat_table_cspan)
         _roles.register_canonical_role('rspan', _flat_table_rspan)
         if hasattr(_en, 'roles'):
@@ -1196,9 +1194,9 @@ def _register_sphinx_roles() -> None:
         if _sphinx_roles_registered:
             return
 
-        from rich_rst._vendor import docutils
-        import rich_rst._vendor.docutils.parsers.rst.roles
         import rich_rst._vendor.docutils.parsers.rst.languages.en
+        import rich_rst._vendor.docutils.parsers.rst.roles
+        from rich_rst._vendor import docutils
 
         def sphinx_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any, options: Optional[Dict[str, Any]] = None, content: Optional[List[str]] = None) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
             """Generic Sphinx role handler that renders as inline literal text."""
@@ -3323,7 +3321,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         # Skip snippets for title formatting errors where the title was already parsed correctly.
         message_text = node.astext().lower()
         is_title_error = any(keyword in message_text for keyword in ("title", "overline", "underline"))
-        
+
         if not is_title_error:
             for child in node.children:
                 if isinstance(child, docutils.nodes.literal_block):
@@ -3749,7 +3747,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.errors.append(
             Panel(
                 Syntax(node.astext(), lexer="rst", theme=self.code_theme),
-                title=f"System Message: Problematic Element",
+                title="System Message: Problematic Element",
                 border_style="bold red",
             ),
         )

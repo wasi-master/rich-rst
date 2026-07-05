@@ -1,7 +1,16 @@
-import docutils, os, sys, re
-import docutils.core, docutils.frontend, docutils.io, docutils.nodes
-import docutils.parsers.rst, docutils.utils, docutils.parsers.rst.roles
+import os
+import re
+import sys
+
+import docutils
+import docutils.core
+import docutils.frontend
+import docutils.io
+import docutils.nodes
+import docutils.parsers.rst
 import docutils.parsers.rst.languages.en
+import docutils.parsers.rst.roles
+import docutils.utils
 
 docutils.core.publish_doctree('Hello *world*')
 base = os.path.dirname(docutils.__file__)

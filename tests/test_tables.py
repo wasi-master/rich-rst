@@ -14,22 +14,11 @@ Formatting contract
   (separator line using ``===``).
 * ``Table.row_count`` equals the number of body rows in the RST table.
 """
-from rich.table import Table
 from rich.console import Group
+from rich.table import Table
 from rich.text import Text
 
 from rich_rst import _register_sphinx_directives
-import pytest
-from rich.console import Console
-from rich.console import Console
-from rich.panel import Panel
-from rich.rule import Rule
-import rich_rst
-import rich_rst._vendor.docutils.core
-from rich_rst._vendor import docutils
-from rich_rst import RestructuredText, RSTVisitor
-from rich_rst import RSTVisitor, RestructuredText
-
 
 # ── Basic table structure ─────────────────────────────────────────────────────
 

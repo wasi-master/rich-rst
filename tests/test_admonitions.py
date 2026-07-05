@@ -27,21 +27,11 @@ Named admonition titles and border styles
 | attention  | "Attention"  | bold black on yellow     |
 +------------+--------------+--------------------------+
 """
-from rich.panel import Panel
-from rich.style import Style
 import pytest
+from rich.console import Console
+from rich.panel import Panel
+
 from rich_rst import RestructuredText, _register_sphinx_directives
-from rich.console import Console
-from rich.console import Console
-from rich.rule import Rule
-from rich.table import Table
-from rich.text import Text
-from rich.text import Text
-import rich_rst
-import rich_rst._vendor.docutils.core
-from rich_rst._vendor import docutils
-from rich_rst import RestructuredText, RSTVisitor
-from rich_rst import RSTVisitor, RestructuredText
 
 
 def _first_panel(make_visitor, directive):
@@ -507,7 +497,7 @@ def test_paragraph_then_admonition_no_phantom_padded_row_under_justify_left():
     already handles. The trailing-newline normalization in
     ``RestructuredText.__rich_console__`` covers intermediate ``Text``s too.
     """
-    from rich.console import Console, ConsoleOptions, ConsoleDimensions
+    from rich.console import ConsoleDimensions, ConsoleOptions
     # Paragraph followed by a compact admonition: the paragraph becomes
     # an intermediate Text, the admonition emits a separate Text. Pre-fix,
     # the paragraph's trailing "\n\n" produced a phantom blank-padded row
@@ -600,8 +590,8 @@ def test_compact_admonition_inside_table_cell(make_visitor):
     """``admonition_style`` must propagate into the table-cell sub-visitor
     (``_render_entry_content`` in ``__init__.py``). Inspect the table cell
     directly because narrow cell widths can truncate the rendered output."""
-    from rich.table import Table as _Table
     from rich.panel import Panel as _Panel
+    from rich.table import Table as _Table
     rst = (
         ".. list-table::\n\n"
         "   * - cell content\n\n"

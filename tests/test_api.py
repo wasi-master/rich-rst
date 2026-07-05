@@ -5,8 +5,9 @@ custom options (code_theme, show_line_numbers, filename, sphinx_compat,
 show_errors), and end-to-end rendering without exceptions.
 """
 import pytest
-
 from rich.console import Console
+from rich.text import Text
+
 from rich_rst import (
     RST,
     ReStructuredText,
@@ -15,11 +16,6 @@ from rich_rst import (
     reStructuredText,
 )
 from rich_rst._vendor import docutils
-import rich_rst._vendor.docutils.core
-from rich_rst import RestructuredText
-from rich.text import Text
-from rich_rst import RSTVisitor
-
 
 # ── Alias names ───────────────────────────────────────────────────────────────
 
@@ -305,8 +301,9 @@ def test_register_visitor_depart_fn_called(make_visitor):
 
 def test_register_visitor_renderable_produced(make_visitor):
     """A registered visit_fn can append renderables to the visitor."""
-    from rich_rst._vendor import docutils as _docutils
     from rich.text import Text
+
+    from rich_rst._vendor import docutils as _docutils
 
     class _GreetNode(_docutils.nodes.General, _docutils.nodes.Body, _docutils.nodes.Element):
         pass

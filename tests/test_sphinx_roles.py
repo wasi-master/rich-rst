@@ -1,4 +1,4 @@
-"""Tests for Sphinx-specific interpreted-text roles.
+r"""Tests for Sphinx-specific interpreted-text roles.
 
 rich-rst registers Sphinx roles (``func``, ``class``, ``meth``, etc.)
 so that Python docstrings render cleanly instead of showing system-message
@@ -17,12 +17,10 @@ When the ``display name <target>`` syntax is used, only the display name
 appears; the target identifier is omitted from the output.
 """
 import pytest
+from rich.console import Console
 from rich.text import Text
 
-from rich_rst import _register_sphinx_roles
-from rich.console import Console
-from rich_rst import _register_sphinx_directives, _register_sphinx_roles
-from rich_rst import RestructuredText
+from rich_rst import RestructuredText, _register_sphinx_directives, _register_sphinx_roles
 
 
 @pytest.fixture(autouse=True)

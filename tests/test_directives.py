@@ -29,17 +29,10 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
-from rich_rst import RestructuredText
-from rich_rst._vendor import docutils
-import rich_rst._vendor.docutils.core
 from rich.theme import Theme
-from rich_rst import RSTVisitor
-import pytest
-from rich.rule import Rule
-import rich_rst
-from rich_rst import RestructuredText, RSTVisitor
-from rich_rst import RSTVisitor, RestructuredText
 
+from rich_rst import RestructuredText, RSTVisitor
+from rich_rst._vendor import docutils
 
 # ── Images ────────────────────────────────────────────────────────────────────
 

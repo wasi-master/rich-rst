@@ -1376,55 +1376,55 @@ DEMOS = [
         "title": "Sphinx Cross-Reference Roles",
         "demos": [
             {
-                "name": "\:func\: role",
+                "name": r"\:func\: role",
                 "rst": "Call :func:`os.path.join` to join paths.",
             },
             {
-                "name": "\:class\: role",
+                "name": r"\:class\: role",
                 "rst": "Use :class:`pathlib.Path` for path handling.",
             },
             {
-                "name": "\:meth\: role",
+                "name": r"\:meth\: role",
                 "rst": "Call :meth:`str.upper` to uppercase a string.",
             },
             {
-                "name": "\:attr\: role",
+                "name": r"\:attr\: role",
                 "rst": "Access :attr:`os.sep` for the path separator.",
             },
             {
-                "name": "\:mod\: role",
+                "name": r"\:mod\: role",
                 "rst": "The :mod:`os.path` module provides path utilities.",
             },
             {
-                "name": "\:exc\: role",
+                "name": r"\:exc\: role",
                 "rst": "Raises :exc:`ValueError` when the input is invalid.",
             },
             {
-                "name": "\:obj\: role",
+                "name": r"\:obj\: role",
                 "rst": "Set :obj:`sys.path` to control module lookup.",
             },
             {
-                "name": "\:data\: role",
+                "name": r"\:data\: role",
                 "rst": "Read :data:`sys.version` for the Python version.",
             },
             {
-                "name": "\:const\: role",
+                "name": r"\:const\: role",
                 "rst": "The value of :const:`math.pi` is approximately 3.14.",
             },
             {
-                "name": "\:term\: role",
+                "name": r"\:term\: role",
                 "rst": "A :term:`decorator` wraps another function.",
             },
             {
-                "name": "\:ref\: role (cross-reference)",
+                "name": r"\:ref\: role (cross-reference)",
                 "rst": "See :ref:`some-label` for details.",
             },
             {
-                "name": "\:doc\: role",
+                "name": r"\:doc\: role",
                 "rst": "Refer to :doc:`installation` for setup instructions.",
             },
             {
-                "name": "\:envvar\: role",
+                "name": r"\:envvar\: role",
                 "rst": "Set :envvar:`PYTHONPATH` before running.",
             },
         ],
@@ -1812,7 +1812,7 @@ def generate() -> str:
             parts.append(_rst_code_block(demo["rst"]))
             try:
                 html_frag = render_rst_to_html_fragment(demo["rst"])
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 html_frag = f"<pre><!-- render error: {exc} --></pre>"
             parts.append(_raw_html_block(html_frag))
 

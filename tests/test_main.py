@@ -1,7 +1,7 @@
 """Tests for the rich-rst CLI entrypoint."""
 
-import sys
 import os
+import sys
 import tempfile
 
 import pytest

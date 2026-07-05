@@ -1,17 +1,4 @@
 """Miscellaneous tests."""
-import pytest
-from rich.console import Console
-from rich.console import Console
-from rich.panel import Panel
-from rich.rule import Rule
-from rich.table import Table
-from rich.text import Text
-from rich.text import Text
-import rich_rst
-import rich_rst._vendor.docutils.core
-from rich_rst._vendor import docutils
-from rich_rst import RestructuredText, RSTVisitor
-from rich_rst import RSTVisitor, RestructuredText
 
 def test_paragraph_containing_system_message(render_text):
     """Test paragraph that contains a system message."""

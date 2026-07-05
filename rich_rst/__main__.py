@@ -6,8 +6,8 @@ from typing import Tuple
 from rich.console import Console
 from rich.panel import Panel
 from rich.terminal_theme import (
-    DIMMED_MONOKAI,
     DEFAULT_TERMINAL_THEME,
+    DIMMED_MONOKAI,
     MONOKAI,
     NIGHT_OWLISH,
     TerminalTheme,
@@ -264,7 +264,7 @@ pre {{
             code = sys.stdin.read()
         else:
             log.debug(f"Reading file: {args.path}")
-            with open(args.path, "rt", encoding=args.encoding) as file_handle:
+            with open(args.path, encoding=args.encoding) as file_handle:
                 code = file_handle.read()
     except OSError as e:
         console.print(
