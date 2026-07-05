@@ -444,3 +444,99 @@ def test_blockquote_with_bullet_list(render_text):
     assert 'Item 2' in out
 
 
+def test_visitor_subclass_registration():
+    from rich_rst import RSTVisitor
+    from rich_rst._vendor import docutils
+    
+    class SubVisitor(RSTVisitor):
+        pass
+        
+    SubVisitor.register_visitor(docutils.nodes.Node, lambda self, node: None)
+    assert docutils.nodes.Node in SubVisitor._custom_visitors
+
+
+def test_dispatch_cache_concurrency(make_visitor):
+    visitor = make_visitor('')
+    from rich_rst._vendor import docutils
+    
+    # Trigger visit cache hit under concurrency simulation by subclassing dict
+    class MockVisitDict(dict):
+        def get(self, key, default=None):
+            # Populate the cache right when get() is called (representing concurrent caching)
+            self[key] = getattr(visitor, 'visit_paragraph')
+            return None
+            
+    visitor._visit_dispatch_cache = MockVisitDict()
+    visitor._resolve_visit_handler(docutils.nodes.paragraph)
+    
+    # Trigger depart cache hit under concurrency simulation by subclassing dict
+    class MockDepartDict(dict):
+        def get(self, key, default=None):
+            self[key] = getattr(visitor, 'depart_paragraph')
+            return None
+            
+    visitor._depart_dispatch_cache = MockDepartDict()
+    visitor._resolve_depart_handler(docutils.nodes.paragraph)
+
+
+def test_translate_with_fallback_none_mapping(make_visitor):
+    visitor = make_visitor('')
+    res = visitor._translate_with_fallback("abc", {ord('a'): None})
+    assert res == "abc"
+
+
+def test_guess_lexer_name_class_not_found(make_visitor):
+    visitor = make_visitor('')
+    lexer, ok = visitor._guess_lexer_name("!!!non-code-garbage!!!")
+    assert not ok
+
+
+def test_format_labelled_node_variants(make_visitor):
+    visitor = make_visitor('')
+    from rich_rst._vendor import docutils
+    
+    # No body, only label
+    node1 = docutils.nodes.footnote()
+    node1 += docutils.nodes.label('', 'MyLabel')
+    res1 = visitor._format_labelled_node(node1)
+    assert res1 == "MyLabel:"
+    
+    # No label, only body
+    node2 = docutils.nodes.footnote()
+    node2 += docutils.nodes.paragraph('', 'MyBody')
+    res2 = visitor._format_labelled_node(node2)
+    assert res2 == "MyBody"
+
+
+def test_named_hyperlink_resolution(render_text):
+    rst = """\
+See `My Link`_.
+
+.. _My Link: https://example.com
+"""
+    out = render_text(rst)
+    assert 'My Link' in out
+
+
+def test_paragraph_with_system_message_parent(make_visitor):
+    visitor = make_visitor('')
+    from rich_rst._vendor import docutils
+    import pytest
+    
+    sys_msg = docutils.nodes.system_message(
+        'Warning message',
+        level=2,
+        type='WARNING',
+        source='test_source',
+        line=1,
+    )
+    p = docutils.nodes.paragraph()
+    sys_msg += p
+    p.parent = sys_msg
+    
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_paragraph(p)
+
+
+
+

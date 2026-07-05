@@ -72,6 +72,7 @@ omit = [
 [tool.coverage.report]
 omit = [
     "rich_rst/_vendor/*",
+    "tests/*",
 ]
 
 [tool.ruff]
