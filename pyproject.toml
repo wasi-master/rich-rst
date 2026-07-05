@@ -45,8 +45,6 @@ dependencies = [
 [project.optional-dependencies]
 docs = [
     "docutils",
-    "rich",
-    "rich_rst",
     "sphinx",
     "sphinx_copybutton",
     "sphinx_rtd_theme"
@@ -54,6 +52,11 @@ docs = [
 tests = [
     "pytest",
     "pytest-cov"
+]
+dev = [
+    "ruff",
+    "mypy",
+    "pre-commit"
 ]
 
 [tool.setuptools]
@@ -70,3 +73,22 @@ omit = [
 omit = [
     "rich_rst/_vendor/*",
 ]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+exclude = [
+    "rich_rst/_vendor",
+    ".venv",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP", "YTT", "ASYNC", "TRIO", "C4", "RUF"]
+
+[tool.mypy]
+ignore_missing_imports = true
+warn_unused_ignores = true
+exclude = ["rich_rst/_vendor"]
+
