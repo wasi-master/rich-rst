@@ -3186,7 +3186,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_bullet_list(self, node) -> None:
         self._render_bullet_list(node, level=0)
-        self.renderables.append(NewLine())
+        is_toc = False
+        parent = getattr(node, "parent", None)
+        while parent is not None:
+            if isinstance(parent, docutils.nodes.topic) and "contents" in parent.get("classes", []):
+                is_toc = True
+                break
+            parent = getattr(parent, "parent", None)
+        if not is_toc:
+            self.renderables.append(NewLine())
         raise docutils.nodes.SkipChildren()
 
     @staticmethod
@@ -3246,7 +3254,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_enumerated_list(self, node) -> None:
         self._render_enumerated_list(node, level=0)
-        self.renderables.append(NewLine())
+        is_toc = False
+        parent = getattr(node, "parent", None)
+        while parent is not None:
+            if isinstance(parent, docutils.nodes.topic) and "contents" in parent.get("classes", []):
+                is_toc = True
+                break
+            parent = getattr(parent, "parent", None)
+        if not is_toc:
+            self.renderables.append(NewLine())
         raise docutils.nodes.SkipChildren()
 
     def visit_literal(self, node) -> None:
@@ -3613,6 +3629,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             body_start = 1
 
         body_renderables = self._collect_body_renderables(children[body_start:])
+
+        if body_renderables and isinstance(body_renderables[-1], Text):
+            body_renderables[-1].rstrip()
 
         if body_renderables:
             self.renderables.append(

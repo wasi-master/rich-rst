@@ -1949,3 +1949,45 @@ def test_simple_table_rowspan_our():
 
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_table(table)
+
+
+def test_toc_newline_coverage():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree('Hello')
+    visitor = RSTVisitor(doc, console=console)
+    
+    # 1. Bullet list in TOC
+    topic = docutils.nodes.topic(classes=["contents"])
+    bullet_list = docutils.nodes.bullet_list()
+    topic.append(bullet_list)
+    bullet_list.parent = topic
+    
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_bullet_list(bullet_list)
+        
+    # 2. Enumerated list in TOC
+    enum_list = docutils.nodes.enumerated_list()
+    topic.append(enum_list)
+    enum_list.parent = topic
+    
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_enumerated_list(enum_list)
+
+    # 3. List with grandparent/ancestor TOC (nested list)
+    nested_list = docutils.nodes.bullet_list()
+    list_item = docutils.nodes.list_item()
+    list_item.parent = bullet_list
+    nested_list.parent = list_item
+    
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_bullet_list(nested_list)
+        
+    # 4. List with parent that is not TOC (to cover parent loop termination)
+    section = docutils.nodes.section()
+    normal_list = docutils.nodes.bullet_list()
+    normal_list.parent = section
+    section.parent = None
+    
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_bullet_list(normal_list)
+

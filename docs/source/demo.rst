@@ -272,11 +272,8 @@ Inline markup in a list
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for important terms</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for emphasis</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">code</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for inline code samples</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Enter</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for key presses</span>
    </span></pre>
    </div>
@@ -553,9 +550,7 @@ Bullet list (dash)
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First item</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Second item</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Third item</span>
    </span></pre>
    </div>
@@ -573,9 +568,7 @@ Bullet list (asterisk)
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Beta</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Gamma</span>
    </span></pre>
    </div>
@@ -596,11 +589,8 @@ Nested bullet list
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Parent item</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Child item one</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Child item two</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Another parent</span>
    </span></pre>
    </div>
@@ -618,9 +608,7 @@ Enumerated list (auto-numbered)
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First step</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 2.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Second step</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 3.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Third step</span>
    </span></pre>
    </div>
@@ -638,9 +626,7 @@ Bullet list (plus sign)
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">One</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Two</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Three</span>
    </span></pre>
    </div>
@@ -665,15 +651,10 @@ Deeply nested bullet list
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 1 item A</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 2 item A1</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">     ▪ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 3 item A1a</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">     ▪ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 3 item A1b</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 2 item A2</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 1 item B</span>
    </span></pre>
    </div>
@@ -691,9 +672,7 @@ Enumerated list (uppercase letters)
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> A.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> B.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Beta</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> C.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Gamma</span>
    </span></pre>
    </div>
@@ -711,9 +690,7 @@ Enumerated list (uppercase roman numerals)
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> I.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Chapter One</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> II.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Chapter Two</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> III.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Chapter Three</span>
    </span></pre>
    </div>
@@ -739,13 +716,9 @@ Mixed ordered and unordered lists
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Steps to install:</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Download the package</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Linux: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">apt install ...</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">macOS: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">brew install ...</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 2.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Run the installer</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 3.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Verify with </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">--version</span>
    </span></pre>
    </div>
@@ -763,9 +736,7 @@ Enumerated list (letters)
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> a.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Apple</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> b.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Banana</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> c.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Cherry</span>
    </span></pre>
    </div>
@@ -783,9 +754,7 @@ Enumerated list (roman numerals)
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> i.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item i</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> ii.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item ii</span>
-
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> iii.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item iii</span>
    </span></pre>
    </div>
@@ -901,9 +870,7 @@ Horizontal list (hlist)
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Beta   </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Gamma</span> 
     <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
-    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
     <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Delta</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Epsilon</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Zeta </span> 
-    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
     <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
    </span></pre>
    </div>
@@ -1566,7 +1533,7 @@ note
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭─────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Note:  </span><span style="color: #ffffff; text-decoration-color: #ffffff">─────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭──────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Note </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a note admonition.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                               </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1585,7 +1552,7 @@ warning
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭───────────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Warning:  </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Warning </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────────────────╮</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a warning.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                       </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                                          </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1604,7 +1571,7 @@ tip
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭─────────────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Tip:  </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">──────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭──────────────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Tip </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">───────────────────────────────────╮</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a tip.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                           </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                                          </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1623,7 +1590,7 @@ important
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭──────────────────────────────</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> IMPORTANT:  </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">───────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭───────────────────────────────</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> IMPORTANT </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">────────────────────────────────╮</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is important.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                                       </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                                                          </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1642,7 +1609,7 @@ hint
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭───────────────────────────────── Hint:  ─────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────────── Hint ──────────────────────────────────╮</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a hint.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">                                                          │</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│                                                                          │</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1661,7 +1628,7 @@ attention
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">╭──────────────────────────────</span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold"> Attention:  </span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">───────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">╭───────────────────────────────</span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold"> Attention </span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">────────────────────────────────╮</span>
    <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">│</span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Pay attention to this.</span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold">                                                   </span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">│</span>
    <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">│</span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold">                                                                          </span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">│</span>
    <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1680,7 +1647,7 @@ caution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff5555; text-decoration-color: #ff5555">╭─────────────────────────────── Caution:  ────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff5555; text-decoration-color: #ff5555">╭──────────────────────────────── Caution ─────────────────────────────────╮</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">│ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Exercise caution here.</span><span style="color: #ff5555; text-decoration-color: #ff5555">                                                   │</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">│                                                                          │</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1699,7 +1666,7 @@ danger
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">╭────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold"> DANGER:  </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">╭─────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold"> DANGER </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">─────────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Danger! Proceed carefully.</span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold">                                               </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1718,7 +1685,7 @@ error
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff5555; text-decoration-color: #ff5555">╭────────────────────────────────</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold"> ERROR:  </span><span style="color: #ff5555; text-decoration-color: #ff5555">─────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff5555; text-decoration-color: #ff5555">╭─────────────────────────────────</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold"> ERROR </span><span style="color: #ff5555; text-decoration-color: #ff5555">──────────────────────────────────╮</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">│</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">An error occurred.</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">                                                       </span><span style="color: #ff5555; text-decoration-color: #ff5555">│</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">│</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold">                                                                          </span><span style="color: #ff5555; text-decoration-color: #ff5555">│</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1738,7 +1705,7 @@ Admonition with bold content (box-char rendering test)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭───────────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Warning:  </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Warning </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────────────────╮</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Never</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> commit secrets to version control. Use environment variables or a </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">secrets manager instead.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                 </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                                          </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
@@ -1759,7 +1726,7 @@ Note with code and emphasis
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭─────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Note:  </span><span style="color: #ffffff; text-decoration-color: #ffffff">─────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭──────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Note </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.exit(0)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to terminate </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">successfully</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, or </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.exit(1)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">failure</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">  </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
@@ -1802,15 +1769,13 @@ Admonition with nested content
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭─────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Note:  </span><span style="color: #ffffff; text-decoration-color: #ffffff">─────────────────────────────────╮</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭──────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Note </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────────╮</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Notes can contain </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, and </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">code</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">They can also contain lists:</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                             </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">item one</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                              </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">item two</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                              </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold">                                                                          </span><span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
@@ -2032,21 +1997,70 @@ Flat Table: Column Span (:cspan:)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">                Quarterly Results                 </span>
-   ┏━━━━━━━━━┳━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Student</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q1</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q2</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q3</span>                        <span style="color:#f8f8f2;font-weight: bold"> </span>┃
-   ┡━━━━━━━━━┻━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Grand total — all students, all quarters</span>       │
-   ├─────────┬────┬────┬────────────────────────────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alice</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">90</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">85</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">92</span>                         │
-   ├─────────┼────┼────┼────────────────────────────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bob</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">80</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">88</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">76</span>                         │
-   └─────────┴────┴────┴────────────────────────────┘
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">             Quarterly Results              </span>
+   ┏━━━━━━━━━┳━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Student</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q1</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q2</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q3</span>                  <span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┡━━━━━━━━━┻━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━━━━┩
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Grand total — all students, all quarters</span> │
+   ├─────────┬────┬────┬──────────────────────┤
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alice</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">90</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">85</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">92</span>                   │
+   ├─────────┼────┼────┼──────────────────────┤
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bob</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">80</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">88</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">76</span>                   │
+   └─────────┴────┴────┴──────────────────────┘
    </span></pre>
    </div>
 
-Flat Table: Row Span (:rspan:)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+flat-table — wide partial column span (:cspan: > 1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+   .. flat-table:: Regional Sales
+      :header-rows: 1
+
+      * - Region
+        - Q1
+        - Q2
+        - Q3
+
+      * - :cspan:`2` North + Central + South combined
+        - 312
+
+      * - North
+        - 42
+        - 55
+        - 61
+
+      * - Central
+        - 78
+        - 90
+        - 83
+
+      * - South
+        - 34
+        - 48
+        - 55
+
+.. raw:: html
+
+   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">              Regional Sales              </span>
+   ┏━━━━━━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━┓
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Region</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q1</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q2</span>               <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q3</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┡━━━━━━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━╇━━━━━┩
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">North + Central + South combined</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">312</span> │
+   ├─────────┬────┬───────────────────┼─────┤
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">North</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">42</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">55</span>                │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">61</span>  │
+   ├─────────┼────┼───────────────────┼─────┤
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Central</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">78</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">90</span>                │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">83</span>  │
+   ├─────────┼────┼───────────────────┼─────┤
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">South</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">34</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">48</span>                │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">55</span>  │
+   └─────────┴────┴───────────────────┴─────┘
+   </span></pre>
+   </div>
+
+flat-table — row span (:rspan:)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2174,13 +2188,13 @@ flat-table — single cell with :cspan: and :rspan: (2×2 block)
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">           2×2 merged cell            </span>
    ┏━━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┓
-   ┃ Task ┃ Mon ┃ Tue ┃ Wed ┃ Thu ┃ Fri ┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Task</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Mon</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Tue</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Wed</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Thu</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Fri</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━┻━━━━━┻━━━━━╇━━━━━┻━━━━━┻━━━━━┩
-   │ Planning         │ Review          │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Planning</span>         │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Review</span>          │
    │                  ├─────────────────┤
-   │                  │ Deploy          │
+   │                  │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Deploy</span>          │
    ├──────────────────┴─────────────────┤
-   │ Others.                            │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Others.</span>                            │
    └────────────────────────────────────┘
    </span></pre>
    </div>
@@ -2209,13 +2223,13 @@ flat-table — :cspan: fills merged column width without inflation
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic"> Team Overview  </span>
    ┏━━━━━━━┳━━━━━━┓
-   ┃ Name  ┃ Role ┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Name</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Role</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━┻━━━━━━┩
-   │ Both columns │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Both columns</span> │
    ├───────┬──────┤
-   │ Alice │ Lead │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alice</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Lead</span> │
    ├───────┼──────┤
-   │ Bob   │ Dev  │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bob</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Dev</span>  │
    └───────┴──────┘
    </span></pre>
    </div>
@@ -2423,7 +2437,7 @@ Date substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-05-12.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-07-05.</span>
    </span></pre>
    </div>
 
@@ -2539,7 +2553,6 @@ topic directive
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭────────────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Interesting Fact </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">────────────────────────────╮</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is the topic body. It can contain any body elements.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                          </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
@@ -2558,15 +2571,10 @@ sidebar directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">╭──────────── Note ────────────╮
-   │ ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━┓ │
-   │ ┃<span style="color:#f8f8f2;font-weight: bold"> Field Name </span>┃<span style="color:#f8f8f2;font-weight: bold"> Field Value </span>┃ │
-   │ ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━┩ │
-   │ │ <span style="color:#f8f8f2;font-weight: bold">Subtitle  </span> │ Side note   │ │
-   │ └────────────┴─────────────┘ │
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sidebar text goes here.</span>      │
-   │                              │
-   ╰──────────────────────────────╯
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">╭───────── Note ──────────╮
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sidebar text goes here.</span> │
+   │                         │
+   ╰─────── Side note ───────╯
    </span></pre>
    </div>
 
@@ -2612,10 +2620,7 @@ contents directive (table of contents)
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭───────────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Table of Contents </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">────────────────────────────╮</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; font-weight: bold; text-decoration: underline">Section A</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                             </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                          </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; font-weight: bold; text-decoration: underline">Section B</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                             </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                          </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                          </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
    <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
    <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                Section A                                 </span><span style="color:#f8f8f2">│</span>

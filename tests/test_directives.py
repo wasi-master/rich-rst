@@ -308,6 +308,22 @@ def test_contents_directive_does_not_render_as_literal_source(render_text):
     assert 'Table of Contents' in out
     assert '.. contents::' not in out
     assert ':depth: 2' not in out
+    # Ensure there is no blank line inside the Table of Contents panel.
+    lines = [line.strip() for line in out.splitlines()]
+    toc_lines = []
+    in_toc = False
+    for line in lines:
+        if 'Table of Contents' in line:
+            in_toc = True
+            continue
+        if in_toc:
+            toc_lines.append(line)
+            if line.startswith('╰') or line.startswith('└'):
+                break
+    assert len(toc_lines) >= 3
+    # Check that the line immediately preceding the closing border contains 'Section B'
+    assert 'Section B' in toc_lines[-2]
+
 
 
 def test_sectnum_directive_does_not_render_as_literal_source(render_text):
