@@ -160,3 +160,19 @@
 
 - Fixed multiple rendering edge cases and regressions in nested lists/quotes, definition-list classifiers, image links, and Sphinx role escaping.
 - Improved vendoring reliability and updated tests/documentation to match new behavior.
+
+## [2.0.2]
+
+- Fix a bug with incorrect rendering for bullet lists
+
+## [2.0.3]
+
+- Include custom pytest fixtures in sdist
+
+## [2.1.0]
+
+- New -S short flag - Shorter alias for HTML export (e.g., rich-rst file.rst -S out.html)
+- New -d, --debug flag - Enable debug logging for troubleshooting parsing and rendering issues
+- Improved error messages — Structured, color-formatted error output with actionable guidance
+- Better exception context and recovery hints
+- Better help text — Clearer descriptions of all CLI options and defaults
