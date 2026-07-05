@@ -3841,8 +3841,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         def _cspan_continues(r: int, c: int) -> bool:
             """True if column c is a cspan continuation of the cell to its left in row r."""
-            if c == 0:
-                return False
             left_origin = _origin(r, c - 1)
             here_origin = _origin(r, c)
             return left_origin is not None and left_origin == here_origin
@@ -4018,9 +4016,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             height = 1
             c = 0
             while c < ncols:
-                if _cspan_continues(r, c):
-                    c += 1
-                    continue
                 cell = grid[r][c]
                 if cell is None:
                     c += 1
@@ -4038,11 +4033,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             line = Text(V)
             c = 0
             while c < ncols:
-                if _cspan_continues(r, c):
-                    # Part of a spanning cell rendered by a previous column.
-                    c += 1
-                    continue
-
                 cell = grid[r][c]
                 if cell is not None:
                     _, csp, _ = cell
@@ -4082,9 +4072,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             """True when a row is fully covered by rowspans from above."""
             c = 0
             while c < ncols:
-                if _cspan_continues(r, c):
-                    c += 1
-                    continue
                 if grid[r][c] is not None:
                     return False
                 if _origin(r, c) is None:
