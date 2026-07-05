@@ -1,0 +1,35 @@
+name: Lint and Type Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install ruff mypy
+
+      - name: Run ruff (lint and format check)
+        run: ruff check . --select=E,W,F,I
+
+      - name: Run ruff format check
+        run: ruff format --check .
+
+      - name: Run mypy type checking
+        run: mypy rich_rst --ignore-missing-imports
