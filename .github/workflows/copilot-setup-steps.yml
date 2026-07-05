@@ -55,7 +55,7 @@ jobs:
             echo "Docs build failed" && false
           fi
 
-      - name: Note: how to preview docs (read-only step)
+      - name: "Note: how to preview docs (read-only step)"
         run: |
           echo "To preview built docs in a Copilot session run:"
           echo "  python -m http.server --directory docs/_build/html 8000"
