@@ -375,7 +375,7 @@ def test_flat_table_cspan_body_structure(render_text):
     )
     out = render_text(rst)
     lines = out.splitlines()
-    grand_line = next((l for l in lines if "Grand total" in l), None)
+    grand_line = next((line for line in lines if "Grand total" in line), None)
     assert grand_line is not None, "Grand total row must be present"
     # Visual merging: only the two outer │ borders remain; no internal separators
     assert grand_line.count("│") == 2, (
@@ -396,7 +396,7 @@ def test_flat_table_cspan_header_structure(render_text):
     )
     out = render_text(rst)
     lines = out.splitlines()
-    header_line = next((l for l in lines if "Score Range" in l), None)
+    header_line = next((line for line in lines if "Score Range" in line), None)
     assert header_line is not None, "Header row with Score Range must be present"
     # 'Grade' must appear to the RIGHT of 'Score Range' on the same line
     assert "Grade" in header_line
@@ -408,7 +408,7 @@ def test_flat_table_cspan_header_structure(render_text):
     )
     # Body data must appear in the correct column order
     assert "Min" in out and "Max" in out and "Letter" in out
-    min_line = next((l for l in lines if "Min" in l), None)
+    min_line = next((line for line in lines if "Min" in line), None)
     assert min_line is not None
     assert "Max" in min_line and "Letter" in min_line
     assert min_line.index("Min") < min_line.index("Max") < min_line.index("Letter")
@@ -434,7 +434,7 @@ def test_flat_table_rspan_header_into_body_column_order(render_text):
     out = render_text(rst)
     lines = out.splitlines()
     # Sub C and Sub D must be on the same line (same body row)
-    sub_c_line = next((l for l in lines if "Sub C" in l), None)
+    sub_c_line = next((line for line in lines if "Sub C" in line), None)
     assert sub_c_line is not None, "Sub C must appear in output"
     assert "Sub D" in sub_c_line, "Sub C and Sub D must be on the same row"
     # Sub C is in col 1 (Sub A column), Sub D is in col 2 (Sub B column).
@@ -470,7 +470,7 @@ def test_flat_table_cspan2_partial_no_internal_borders(render_text):
     )
     out = render_text(rst)
     lines = out.splitlines()
-    merged_line = next((l for l in lines if "Merged ABC" in l), None)
+    merged_line = next((line for line in lines if "Merged ABC" in line), None)
     assert merged_line is not None, "Row containing 'Merged ABC' must be present"
     # Cols 0–2 are merged → no internal │ between them; one border between col 2 and col 3.
     # Expected: │ Merged ABC   │ normal D │  →  3 vertical bars total.
@@ -505,7 +505,7 @@ def test_flat_table_rspan2_separator_all_rows(render_text):
     assert "Third" in out
     # Each item row: col 0 is the rspan placeholder → starts with │ + spaces
     for label in ("First", "Second", "Third"):
-        row = next((l for l in lines if label in l), None)
+        row = next((line for line in lines if label in line), None)
         assert row is not None, f"Row containing '{label}' must be present"
         if label != "First":
             # Rows 2 and 3: col 0 is covered by the rspan → must be empty, not contain label text
@@ -516,14 +516,14 @@ def test_flat_table_rspan2_separator_all_rows(render_text):
                 f"(rspan from 'All three' still active), got {col0_content!r}"
             )
     # The separator between First and Second rows must start with │ (rspan continues col 0)
-    first_line_idx = next(i for i, l in enumerate(lines) if "First" in l)
+    first_line_idx = next(i for i, line in enumerate(lines) if "First" in line)
     sep_line = lines[first_line_idx + 1] if first_line_idx + 1 < len(lines) else ""
     assert sep_line.startswith("│"), (
         "Row separator after 'First' row must start with │ — "
         "col 0 is still spanned by the 3-row rspan"
     )
     # The separator between Second and Third rows must also start with │
-    second_line_idx = next(i for i, l in enumerate(lines) if "Second" in l)
+    second_line_idx = next(i for i, line in enumerate(lines) if "Second" in line)
     sep_line2 = lines[second_line_idx + 1] if second_line_idx + 1 < len(lines) else ""
     assert sep_line2.startswith("│"), (
         "Row separator after 'Second' row must start with │ — "
@@ -565,7 +565,7 @@ def test_flat_table_combined_cspan_rspan_no_internal_border(render_text):
 
     # The continuation row (C2 row) covers cols 0-1 with the Big rspan and
     # puts C2 at col 2.  No internal │ between cols 0 and 1 expected.
-    c2_line = next((l for l in lines if "C2" in l and "Big" not in l), None)
+    c2_line = next((line for line in lines if "C2" in line and "Big" not in line), None)
     assert c2_line is not None, "Row containing C2 (continuation row) must be present"
     assert c2_line.count("│") == 3, (
         f"Combined 2×2 span: continuation row must have exactly 3 │ borders "
@@ -576,7 +576,7 @@ def test_flat_table_combined_cspan_rspan_no_internal_border(render_text):
     # The row separator between Big's row and the continuation row must keep
     # the Big span open: it should start with │ (not ├/└) and have a │ between
     # the two spanned columns (not a junction or horizontal rule).
-    big_line_idx = next((i for i, l in enumerate(lines) if "Big" in l), None)
+    big_line_idx = next((i for i, line in enumerate(lines) if "Big" in line), None)
     assert big_line_idx is not None
     sep = lines[big_line_idx + 1] if big_line_idx + 1 < len(lines) else ""
     assert sep.startswith("│"), (
@@ -602,14 +602,14 @@ def test_flat_table_rspan_body_row_separator(render_text):
     out = render_text(rst)
     lines = out.splitlines()
     # The second body row (Banana row) must exist and col 0 must be empty
-    banana_line = next((l for l in lines if "Banana" in l), None)
+    banana_line = next((line for line in lines if "Banana" in line), None)
     assert banana_line is not None, "Banana row must be present"
     # Col 0 is the Category column; it must be empty in the Banana row
     assert banana_line.startswith("│  "), (
         "Category column must be empty in the Banana row (rspan placeholder)"
     )
     # The separator between Fruit and Banana rows must start with │ (rspan continues col 0)
-    fruit_line_idx = next(i for i, l in enumerate(lines) if "Fruit" in l)
+    fruit_line_idx = next(i for i, line in enumerate(lines) if "Fruit" in line)
     separator_line = lines[fruit_line_idx + 1] if fruit_line_idx + 1 < len(lines) else ""
     assert separator_line.startswith("│"), (
         "Row separator between rspan rows must start with │ — "
@@ -627,10 +627,10 @@ def test_flat_table_title_centering_matches_table_width(render_text):
         "   * - :cspan:`1` Both\n"
     )
     out = render_text(rst)
-    lines = [l.rstrip() for l in out.splitlines()]
+    lines = [line.rstrip() for line in out.splitlines()]
 
-    bottom = next((l for l in reversed(lines) if l.startswith("└")), None)
-    title_line = next((l for l in lines if "Title" in l), None)
+    bottom = next((line for line in reversed(lines) if line.startswith("└")), None)
+    title_line = next((line for line in lines if "Title" in line), None)
     assert bottom is not None, "Bottom border line must be present"
     assert title_line is not None, "Title line must be present"
 
@@ -675,14 +675,14 @@ def test_flat_table_combined_cspan_rspan_fill_cells(render_text):
 
     lines = out.splitlines()
 
-    big_line = next((l for l in lines if "Big" in l), None)
+    big_line = next((line for line in lines if "Big" in line), None)
     assert big_line is not None, "Row containing 'Big' must be present"
     assert big_line.count("│") == 4, (
         f"Big row (cspan=1 over cols 0-1, C1, fill): expected 4 │ borders, "
         f"got {big_line.count('│')} in {big_line!r}"
     )
 
-    c2_line = next((l for l in lines if "C2" in l), None)
+    c2_line = next((line for line in lines if "C2" in line), None)
     assert c2_line is not None, "Row containing C2 must be present"
     assert c2_line.count("│") == 4, (
         f"C2 row (rspan placeholder cols 0-1, C2, fill): expected 4 │ borders, "
@@ -705,7 +705,7 @@ def test_flat_table_combined_cspan_rspan_placeholder_cols_empty(render_text):
     out = render_text(rst)
     lines = out.splitlines()
 
-    c2_line = next((l for l in lines if "C2" in l and "Big" not in l), None)
+    c2_line = next((line for line in lines if "C2" in line and "Big" not in line), None)
     assert c2_line is not None, "Continuation row containing C2 must be present"
 
     first_inner = c2_line.index("│", 1)
@@ -734,7 +734,7 @@ def test_flat_table_combined_cspan_rspan_no_malformed_separator(render_text):
     out = render_text(rst)
     assert "│   ├" not in out, "Separator must not be malformed by combined cspan+rspan"
     lines = out.splitlines()
-    z_line = next((l for l in lines if "z" in l and "w" in l), None)
+    z_line = next((line for line in lines if "z" in line and "w" in line), None)
     assert z_line is not None, "The final body row with z/w must be present"
     sep1 = z_line.index("│", 1)
     assert z_line[1:sep1].strip() == ""
@@ -755,7 +755,7 @@ def test_flat_table_spanning_cell_preserves_inline_styles(make_visitor):
     table_group = next((r for r in visitor.renderables if isinstance(r, Group)), None)
     assert table_group is not None, "Spanning table must render as Group"
     content_line = next(
-        (l for l in table_group.renderables if isinstance(l, Text) and "bold" in l.plain and "italic" in l.plain),
+        (line for line in table_group.renderables if isinstance(line, Text) and "bold" in line.plain and "italic" in line.plain),
         None,
     )
     assert content_line is not None
@@ -779,8 +779,8 @@ def test_flat_table_spanning_cell_multiline_content_keeps_borders(render_text):
     )
     out = render_text(rst)
     lines = out.splitlines()
-    first_idx = next((i for i, l in enumerate(lines) if "first line" in l), None)
-    second_idx = next((i for i, l in enumerate(lines) if "second line" in l), None)
+    first_idx = next((i for i, line in enumerate(lines) if "first line" in line), None)
+    second_idx = next((i for i, line in enumerate(lines) if "second line" in line), None)
     assert first_idx is not None and second_idx is not None, "Both content lines must be present"
     assert second_idx > first_idx, "Second line must render on a later physical row line"
     assert lines[first_idx].startswith("│") and lines[first_idx].endswith("│")
@@ -801,8 +801,8 @@ def test_flat_table_spanning_title_centered_to_rendered_width(make_visitor):
     visitor = make_visitor(rst)
     table_group = next((r for r in visitor.renderables if isinstance(r, Group)), None)
     assert table_group is not None
-    title_line = next((l for l in table_group.renderables if isinstance(l, Text) and "Span Title" in l.plain), None)
-    top_border = next((l for l in table_group.renderables if isinstance(l, Text) and l.plain.startswith("┏")), None)
+    title_line = next((line for line in table_group.renderables if isinstance(line, Text) and "Span Title" in line.plain), None)
+    top_border = next((line for line in table_group.renderables if isinstance(line, Text) and line.plain.startswith("┏")), None)
     assert title_line is not None and top_border is not None
     assert len(title_line.plain) == len(top_border.plain), (
         "Title line width must equal rendered table width"
@@ -831,7 +831,7 @@ def test_flat_table_cspan_no_unnecessary_column_widening(render_text):
 
     lines = out.splitlines()
     bottom = next(
-        (l.rstrip() for l in reversed(lines) if l.startswith("└")),
+        (line.rstrip() for line in reversed(lines) if line.startswith("└")),
         None,
     )
     assert bottom is not None, "Bottom border line must be present"
@@ -862,7 +862,7 @@ def test_flat_table_multi_header_rows_inner_separator_is_heavy(render_text):
     out = render_text(rst)
     lines = out.splitlines()
 
-    header_line_idx = next(i for i, l in enumerate(lines) if "Full-width header" in l)
+    header_line_idx = next(i for i, line in enumerate(lines) if "Full-width header" in line)
     inner_sep = lines[header_line_idx + 1]
 
     assert inner_sep.startswith("┣"), (
@@ -878,7 +878,7 @@ def test_flat_table_multi_header_rows_inner_separator_is_heavy(render_text):
         "Intra-header separator must not contain light ─"
     )
 
-    subheader_line_idx = next(i for i, l in enumerate(lines) if "Full-width subheader" in l)
+    subheader_line_idx = next(i for i, line in enumerate(lines) if "Full-width subheader" in line)
     head_body_sep = lines[subheader_line_idx + 1]
     assert head_body_sep.startswith("┡"), (
         "Header/body separator must still start with transitional ┡"

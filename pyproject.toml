@@ -87,28 +87,28 @@ exclude = [
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "N", "UP", "YTT", "ASYNC", "ASYNC1", "C4", "RUF"]
 ignore = [
-    "E501",    # Line too long
-    "RUF001",  # Ambiguous unicode character in string
-    "RUF002",  # Ambiguous unicode character in docstring
-    "RUF003",  # Ambiguous unicode character in comment
-    "RUF012",  # Mutable class default
+    "E501",    # Line too long (handled by formatter or required for long literal rst strings)
+    "RUF001",  # Ambiguous unicode character in string (required for testing unicode characters/box symbols)
+    "RUF002",  # Ambiguous unicode character in docstring (required for doc examples)
+    "RUF003",  # Ambiguous unicode character in comment (required for documentation/diagram comments)
+    "RUF012",  # Mutable class default (docutils Directive style requires mutable dicts)
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "rich_rst/__init__.py" = [
-    "N801",    # Invalid class name (docutils node subclasses use lowercase)
-    "N802",    # Invalid function name (visitor methods match node names)
-    "N806",    # Non-lowercase variable in function (box/table constants)
-    "N816",    # Mixed-case variable in global scope (legacy/alias exports)
-]
-"tests/*" = [
-    "E741",    # Ambiguous variable name ('l' is commonly used for line/item)
+    "N801",    # Invalid class name (docutils Node subclass naming style)
+    "N802",    # Invalid function name (visitor methods match docutils node class names)
+    "N806",    # Non-lowercase variable in function (table/box border constants TL, TH, etc.)
+    "N816",    # Mixed-case variable in global scope (backwards compatible public aliases)
 ]
 "tests/conftest.py" = [
-    "E402",    # Module level import not at top of file
+    "E402",    # Module level import not at top of file (sys.path manipulation is required here)
 ]
 "tools/generate_demo_page.py" = [
     "E402",    # Module level import not at top of file
+    "N806",    # Non-lowercase variable in function
+]
+"tools/vendor_docutils.py" = [
     "N806",    # Non-lowercase variable in function
 ]
 
