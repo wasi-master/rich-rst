@@ -41,12 +41,3 @@ jobs:
         run: |
           python -m pytest --cov=rich_rst --cov-report term --cov-report xml --junitxml=testresults.xml
           coverage report
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          files: ./coverage.xml
-          flags: unittests
-          fail_ci_if_error: false
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
