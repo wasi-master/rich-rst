@@ -405,3 +405,42 @@ def test_generated_node_handling(render_text):
     rst = 'Some regular content.'
     out = render_text(rst)
     assert 'Some regular content' in out, 'Regular paragraph text must be visible'
+
+
+def test_sphinx_registration_guard():
+    from rich_rst import _sphinx_registration_guard
+    
+    called = []
+    @_sphinx_registration_guard
+    def dummy(x):
+        called.append(x)
+        return x * 2
+        
+    res = dummy(5)
+    assert res == 10
+    assert called == [5]
+
+
+def test_custom_role(render_text):
+    rst = """\
+.. role:: custom
+   :class: my-custom-class
+
+This is a :custom:`custom text` role.
+"""
+    out = render_text(rst)
+    assert 'custom text' in out
+
+
+def test_blockquote_with_bullet_list(render_text):
+    rst = """\
+   This is a blockquote.
+
+   * Item 1
+   * Item 2
+"""
+    out = render_text(rst)
+    assert 'Item 1' in out
+    assert 'Item 2' in out
+
+

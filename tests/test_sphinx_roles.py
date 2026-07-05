@@ -483,3 +483,46 @@ def test_cpp_type_no_crash(make_visitor):
     rst = 'Use :cpp:type:`size_t` for sizes.'
     visitor = make_visitor(rst)
     assert visitor.renderables
+
+
+# ── command, program, and abbr role tests ─────────────────────────────────────
+
+
+def test_command_and_program_roles(make_visitor):
+    # Standard format
+    visitor1 = make_visitor('Run :program:`myprog` or :command:`mycmd`.')
+    assert visitor1.renderables
+    
+    # Bracket format display name <target>
+    visitor2 = make_visitor('Use :program:`Custom Name <myprog>` here.')
+    t = next(r for r in visitor2.renderables if isinstance(r, Text))
+    assert 'Custom Name' in t.plain
+    assert 'myprog' not in t.plain
+
+
+def test_abbr_role_variants(make_visitor):
+    # With explanation
+    visitor1 = make_visitor('Use :abbr:`HTML (HyperText Markup Language)` here.')
+    assert visitor1.renderables
+    
+    # Without explanation
+    visitor2 = make_visitor('Use :abbr:`HTML` here.')
+    assert visitor2.renderables
+
+
+def test_extra_sphinx_roles(make_visitor):
+    # Invalid PEP number
+    visitor_pep = make_visitor('See :pep:`abc`.')
+    assert visitor_pep.renderables
+    
+    # Invalid RFC number
+    visitor_rfc = make_visitor('See :rfc:`xyz`.')
+    assert visitor_rfc.renderables
+    
+    # CVE, CWE, and PyPI roles
+    visitor_cve_cwe_pypi = make_visitor(
+        'Check :cve:`CVE-2024-1234`, :cwe:`79`, and :pypi:`rich-rst`.'
+    )
+    assert visitor_cve_cwe_pypi.renderables
+
+

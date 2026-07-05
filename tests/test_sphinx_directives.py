@@ -713,6 +713,89 @@ def test_literalinclude_lines_option(tmp_path):
     assert 'line4' not in out
 
 
+def test_literalinclude_lines_single_and_encoding(tmp_path):
+    src = tmp_path / 'multi.py'
+    src.write_text('line1\nline2\nline3\n', encoding='utf-8')
+    rst_file = tmp_path / 'doc.rst'
+    rst_file.write_text('.. literalinclude:: multi.py\n   :lines: 2\n   :encoding: utf-8\n')
+
+    from rich.console import Console
+    from rich_rst import RestructuredText
+
+    console = Console(force_terminal=True, width=120, record=True)
+    console.print(
+        RestructuredText(
+            rst_file.read_text(),
+            sphinx_compat=True,
+            filename=str(rst_file),
+        )
+    )
+    out = console.export_text()
+    assert 'line2' in out
+    assert 'line1' not in out
+
+
+def test_include_fallback_base_dir(tmp_path, monkeypatch):
+    import builtins
+    src = tmp_path / 'dummy.rst'
+    src.write_text('content_dummy')
+    
+    original_open = builtins.open
+    def mock_open(file, *args, **kwargs):
+        if 'dummy.rst' in str(file):
+            return original_open(str(src), *args, **kwargs)
+        return original_open(file, *args, **kwargs)
+        
+    monkeypatch.setattr(builtins, 'open', mock_open)
+    
+    from rich.console import Console
+    from rich_rst import RestructuredText
+    
+    console = Console(force_terminal=True, width=120, record=True)
+    console.print(RestructuredText('.. include:: dummy.rst\n', sphinx_compat=True))
+    out = console.export_text()
+    assert 'content_dummy' in out
+
+
+
+
+def test_include_commonpath_value_error(tmp_path, monkeypatch):
+    import os
+    src = tmp_path / 'dummy.rst'
+    src.write_text('content_dummy')
+    
+    def mock_commonpath(paths):
+        raise ValueError('Fake drive mismatch')
+        
+    monkeypatch.setattr(os.path, 'commonpath', mock_commonpath)
+    
+    from rich.console import Console
+    from rich_rst import RestructuredText
+    
+    console = Console(force_terminal=True, width=120, record=True)
+    console.print(
+        RestructuredText(
+            '.. include:: dummy.rst\n',
+            sphinx_compat=True,
+            filename=str(tmp_path / 'doc.rst'),
+        )
+    )
+    out = console.export_text()
+    # Should reject path traversal when commonpath raises ValueError
+    assert 'Rejected include path outside source directory' in out
+
+
+def test_productionlist_empty_and_content_rendering(make_visitor):
+    # Empty productionlist
+    visitor = make_visitor('.. productionlist::\n')
+    assert visitor.renderables
+    
+    # Productionlist with a blank line (content block)
+    visitor_content = make_visitor('.. productionlist::\n\n   rule: value\n')
+    assert visitor_content.renderables
+
+
+
 # ── productionlist ────────────────────────────────────────────────────────────
 
 
@@ -1117,3 +1200,126 @@ def test_autofunction_no_crash(render_text):
     rst = '.. autofunction:: mymodule.my_func\n'
     out = _render(render_text, rst)
     assert isinstance(out, str)
+
+
+# ── toctree and hlist directives ──────────────────────────────────────────────
+
+
+def test_toctree_directive_options_and_rendering(make_visitor):
+    rst = """.. toctree::
+       :maxdepth: 2
+       :numbered: 3
+       :reversed:
+
+       Introduction <intro>
+       guide/installation
+       
+       guide/configuration
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+    assert panels[0].title == 'Contents'
+    
+    # Render the panel to text to verify its content
+    from rich.console import Console
+    console = Console(width=120)
+    with console.capture() as capture:
+        console.print(panels[0])
+    panel_str = capture.get()
+    
+    # We should have introduced children guides under the configuration path/depth count
+    assert 'Introduction' in panel_str
+    assert 'installation' in panel_str
+    assert 'configuration' in panel_str
+
+
+
+def test_toctree_parse_numbered_edge_cases():
+    from rich_rst import _parse_toctree_numbered
+    assert _parse_toctree_numbered(None) == 0
+    assert _parse_toctree_numbered('  ') == 0
+    assert _parse_toctree_numbered('3') == 3
+
+
+def test_hlist_directive_rendering(make_visitor):
+    rst = """.. hlist::
+       :columns: 3
+
+       * item 1
+       * item 2
+       * item 3
+    """
+    visitor = make_visitor(rst)
+    # hlist block produces a custom node or nested lists, let's verify no errors
+    assert visitor.renderables
+
+
+def test_py_desc_without_colon(make_visitor):
+    from rich_rst import _PyObjectDirective
+    from rich_rst._vendor import docutils
+    
+    # Register under a name without a colon
+    docutils.parsers.rst.directives.register_directive('myfunction', _PyObjectDirective)
+    
+    rst = '.. myfunction:: test_func(a, b)\n\n   A custom function.\n'
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+
+
+def test_py_desc_unknown_fields(render_text):
+    rst = """\
+.. py:function:: test_func()
+
+   :my_custom_unknown_field: This is value.
+   :another_custom_field:
+"""
+    out = render_text(rst)
+    # The fields should be rendered under "Other" section
+    assert 'Other' in out
+    assert 'my_custom_unknown_field' in out
+    assert 'another_custom_field' in out
+
+
+def test_js_sig_unmatched_closing_bracket(make_visitor):
+    rst = """\
+.. js:function:: my_js_func(a, b] c)
+"""
+    visitor = make_visitor(rst)
+    assert visitor.renderables
+
+
+def test_py_desc_extra_styles_and_signatures(make_visitor):
+    from rich_rst import _PyObjectDirective
+    from rich_rst._vendor import docutils
+    
+    # Register directives for other domains
+    docutils.parsers.rst.directives.register_directive('cpp:var', _PyObjectDirective)
+    docutils.parsers.rst.directives.register_directive('cpp:enum', _PyObjectDirective)
+    docutils.parsers.rst.directives.register_directive('cpp:unknown', _PyObjectDirective)
+    docutils.parsers.rst.directives.register_directive('c:unknown', _PyObjectDirective)
+    docutils.parsers.rst.directives.register_directive('js:unknown', _PyObjectDirective)
+    docutils.parsers.rst.directives.register_directive('unknown:function', _PyObjectDirective)
+    
+    rst = """\
+.. cpp:var:: int my_var = 42
+
+.. cpp:enum:: MyEnum
+
+.. cpp:unknown:: my_cpp_unknown
+
+.. c:unknown:: my_c_unknown
+
+.. js:unknown:: my_js_unknown
+
+.. unknown:function:: my_unknown_func
+
+.. cpp:var::
+"""
+    visitor = make_visitor(rst)
+    assert visitor.renderables
+
+
+
+

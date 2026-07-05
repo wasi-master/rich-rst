@@ -469,3 +469,107 @@ def test_math_standalone(render_text):
     out = render_text(rst)
     # \\frac{a}{b} is now converted to the Unicode approximation (a/b)
     assert 'a/b' in out, 'Math directive must render \\frac{a}{b} as (a/b)'
+
+
+# ── New code block directive option tests ─────────────────────────────────────
+
+
+def test_code_block_dedent_numeric(make_visitor):
+    rst = """.. code-block:: python
+       :dedent: 4
+
+           def foo():
+               return 1
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    syn = panels[0].renderable
+    assert '    def foo():' not in syn.code
+    assert 'def foo():' in syn.code
+
+
+def test_code_block_dedent_invalid(make_visitor):
+    rst = """.. code-block:: python
+       :dedent: abc
+
+           def foo():
+               return 1
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    syn = panels[0].renderable
+    assert 'def foo():' in syn.code or 'def foo' in syn.code
+
+
+def test_code_block_lineno_start_invalid(monkeypatch, make_visitor):
+    from rich_rst import _CodeBlockDirective
+    monkeypatch.setitem(_CodeBlockDirective.option_spec, 'lineno-start', docutils.parsers.rst.directives.unchanged)
+    rst = """.. code-block:: python
+       :lineno-start: abc
+
+       x = 1
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    syn = panels[0].renderable
+    # should fallback or start at 1
+    assert syn.start_line == 1
+
+
+def test_code_block_number_lines_valid(make_visitor):
+    rst = """.. code-block:: python
+       :number-lines: 5
+
+       x = 1
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    syn = panels[0].renderable
+    assert syn.start_line == 5
+
+
+def test_code_block_number_lines_invalid(monkeypatch, make_visitor):
+    from rich_rst import _CodeBlockDirective
+    monkeypatch.setitem(_CodeBlockDirective.option_spec, 'number-lines', docutils.parsers.rst.directives.unchanged)
+    rst = """.. code-block:: python
+       :number-lines: abc
+
+       x = 1
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    syn = panels[0].renderable
+    assert syn.start_line == 1
+
+
+
+def test_code_block_emphasize_lines_malformed(make_visitor):
+    rst = """.. code-block:: python
+       :emphasize-lines: 1, , 3-4, 5-abc, abc
+
+       a = 1
+       b = 2
+       c = 3
+    """
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    syn = panels[0].renderable
+    assert syn.highlight_lines == {1, 3, 4}
+
+
+def test_code_block_caption(make_visitor):
+    rst = """.. code-block:: python
+       :caption: My Code Caption
+
+       x = 1
+    """
+    visitor = make_visitor(rst)
+    # Verify that the caption option was stored in the node attribute
+    literal_blocks = list(visitor.document.findall(docutils.nodes.literal_block))
+    assert literal_blocks
+    assert literal_blocks[0]['caption'] == 'My Code Caption'
+
+
+
+
+

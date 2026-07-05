@@ -136,3 +136,127 @@ def test_output_flag_error_on_bad_path(monkeypatch, capsys):
 
         exit_code = main()
         assert exit_code == 1
+
+
+# ── New CLI coverage tests ───────────────────────────────────────────────────
+
+
+def test_cli_missing_path_raises_system_exit(monkeypatch):
+    monkeypatch.setattr(sys, 'argv', ['rich-rst'])
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+    assert exc_info.value.code == 2
+
+
+def test_cli_debug_mode_enables_logging(monkeypatch, tmp_path):
+    rst_file = tmp_path / 'test.rst'
+    rst_file.write_text('Hello world.', encoding='utf-8')
+    monkeypatch.setattr(sys, 'argv', ['rich-rst', str(rst_file), '--debug'])
+    
+    # We can also mock basicConfig or logging to ensure no actual global side effects,
+    # but running it verifies the logging block executes.
+    import logging
+    original_basic_config = logging.basicConfig
+    called = []
+    def mock_basic_config(*args, **kwargs):
+        called.append(kwargs)
+        original_basic_config(*args, **kwargs)
+        
+    monkeypatch.setattr(logging, 'basicConfig', mock_basic_config)
+    exit_code = main()
+    assert exit_code == 0
+    assert any(c.get('level') == logging.DEBUG for c in called)
+
+
+def test_cli_stdin_reading(monkeypatch, capsys):
+    import io
+    fake_stdin = io.StringIO('Stdin *content*.')
+    monkeypatch.setattr(sys, 'stdin', fake_stdin)
+    monkeypatch.setattr(sys, 'argv', ['rich-rst', '-'])
+    
+    exit_code = main()
+    assert exit_code == 0
+    captured = capsys.readouterr()
+    assert 'Stdin' in captured.out
+    assert 'content' in captured.out
+
+
+def test_cli_parse_error_handling(monkeypatch, capsys, tmp_path):
+    rst_file = tmp_path / 'test.rst'
+    rst_file.write_text('Some RST.', encoding='utf-8')
+    monkeypatch.setattr(sys, 'argv', ['rich-rst', str(rst_file), '--debug'])
+    
+    def mock_init(self, *args, **kwargs):
+        raise ValueError('Fake parse failure')
+        
+    monkeypatch.setattr('rich_rst.RestructuredText.__init__', mock_init)
+    
+    exit_code = main()
+    assert exit_code == 1
+    captured = capsys.readouterr()
+    assert 'Error parsing reStructuredText' in captured.out
+    assert 'Fake parse failure' in captured.out
+
+
+def test_cli_export_exception_handling(monkeypatch, capsys, tmp_path):
+    rst_file = tmp_path / 'test.rst'
+    rst_file.write_text('Some RST.', encoding='utf-8')
+    html_out = tmp_path / 'out.html'
+    monkeypatch.setattr(sys, 'argv', ['rich-rst', str(rst_file), '--save-html', str(html_out), '--debug'])
+    
+    from rich.console import Console
+    def mock_save_html(*args, **kwargs):
+        raise RuntimeError('Fake export failure')
+        
+    monkeypatch.setattr(Console, 'save_html', mock_save_html)
+    
+    exit_code = main()
+    assert exit_code == 1
+    captured = capsys.readouterr()
+    assert 'Error during export' in captured.out
+    assert 'Fake export failure' in captured.out
+
+
+def test_cli_file_read_error_with_debug(monkeypatch, capsys):
+    path = 'missing_debug.rst'
+    def fake_open(*args, **kwargs):
+        raise FileNotFoundError(path)
+
+    monkeypatch.setattr(sys, 'argv', ['rich-rst', path, '--debug'])
+    monkeypatch.setattr('builtins.open', fake_open)
+
+    exit_code = main()
+    assert exit_code == 1
+    captured = capsys.readouterr()
+    assert 'File Error' in captured.out
+
+
+def test_cli_output_write_error_with_debug(monkeypatch, capsys, tmp_path):
+    rst_file = tmp_path / 'test.rst'
+    rst_file.write_text('Some RST.', encoding='utf-8')
+    out_file = tmp_path / 'out.txt'
+    monkeypatch.setattr(sys, 'argv', ['rich-rst', str(rst_file), '-o', str(out_file), '--debug'])
+    
+    import builtins
+    _real_open = builtins.open
+    def selective_open(path, *args, **kwargs):
+        if str(path) == str(out_file):
+            raise OSError('no space left')
+        return _real_open(path, *args, **kwargs)
+        
+    monkeypatch.setattr('builtins.open', selective_open)
+    exit_code = main()
+    assert exit_code == 1
+    captured = capsys.readouterr()
+    assert 'Error writing output' in captured.out
+
+
+def test_run_main_as_module(monkeypatch):
+    import runpy
+    monkeypatch.setattr(sys, 'argv', ['rich-rst', '--list-html-themes'])
+    try:
+        runpy.run_module('rich_rst.__main__', run_name='__main__')
+    except SystemExit as e:
+        assert e.code == 0
+
+

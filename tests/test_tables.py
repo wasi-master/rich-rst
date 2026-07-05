@@ -1098,3 +1098,203 @@ def test_grid_table(render_text):
     out = render_text(rst)
     assert 'A' in out and 'B' in out, 'Grid table header cells must be visible'
     assert '1' in out and '2' in out, 'Grid table body cells must be visible'
+
+
+# ── flat-table edge-case tests ────────────────────────────────────────────────
+
+
+def test_flat_table_empty_directive(render_text):
+    rst = ".. flat-table::\n"
+    out = render_text(rst, show_errors=True)
+    assert 'content required' in out or 'empty' in out
+
+
+def test_flat_table_invalid_cspan(render_text):
+    rst = """\
+.. flat-table::
+   :widths: 1 1
+
+   * - :cspan:`-1` Cell
+     - B
+"""
+    out = render_text(rst)
+    assert 'non-negative integer' in out or 'cspan' in out
+
+
+def test_flat_table_invalid_rspan(render_text):
+    rst = """\
+.. flat-table::
+   :widths: 1 1
+
+   * - :rspan:`abc` Cell
+     - B
+"""
+    out = render_text(rst)
+    assert 'non-negative integer' in out or 'rspan' in out
+
+
+def test_flat_table_invalid_content(render_text):
+    rst = """\
+.. flat-table::
+
+   Not a bullet list.
+"""
+    import pytest
+    from rich_rst._vendor.docutils.utils import SystemMessagePropagation
+    with pytest.raises(SystemMessagePropagation):
+        render_text(rst)
+
+
+
+
+def test_flat_table_stub_columns(make_visitor):
+    rst = """\
+.. flat-table::
+   :stub-columns: 1
+   :widths: 1 1
+
+   * - Row1Col1
+     - Row1Col2
+"""
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+
+
+def test_flat_table_col_widths_tuple(monkeypatch, make_visitor):
+    # Mock get_column_widths to return a tuple instead of list
+    from rich_rst import _FlatTableDirective
+    original_get_widths = _FlatTableDirective.get_column_widths
+    def mock_get_widths(self, max_cols):
+        return (None, [50, 50])
+    monkeypatch.setattr(_FlatTableDirective, 'get_column_widths', mock_get_widths)
+    
+    rst = """\
+.. flat-table::
+   :widths: 50 50
+
+   * - A
+     - B
+"""
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+
+
+def test_flat_table_empty_row(render_text):
+    rst = """\
+.. flat-table::
+   :widths: 1 1
+
+   * - A
+     - B
+   * -
+"""
+    out = render_text(rst)
+    assert 'A' in out
+
+
+def test_flat_table_comment_target_in_row(make_visitor):
+    # This rst syntax produces comment/target nodes inside the outer list item
+    rst = """\
+.. flat-table::
+   :widths: 1 1
+
+   * .. comment
+     .. _mytarget:
+
+     - A
+     - B
+"""
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+
+
+def test_flat_table_invalid_element_in_row(render_text):
+    rst = """\
+.. flat-table::
+   :widths: 1 1
+
+   * This is an invalid paragraph instead of a bullet list of cells.
+"""
+    import pytest
+    from rich_rst._vendor.docutils.utils import SystemMessagePropagation
+    with pytest.raises(SystemMessagePropagation):
+        render_text(rst)
+
+
+def test_flat_table_empty_cell(make_visitor):
+    rst = """\
+.. flat-table::
+   :widths: 1 1
+
+   * - 
+     - B
+"""
+    visitor = make_visitor(rst)
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+
+
+def test_flat_table_invalid_rspan_negative(render_text):
+    rst = """\
+.. flat-table::
+   :widths: 1 1
+
+   * - :rspan:`-1` Cell
+     - B
+"""
+    out = render_text(rst)
+    assert 'non-negative integer' in out or 'rspan' in out
+
+
+def test_flat_table_empty_parsed_row_mock(monkeypatch, make_visitor):
+    # Mock _parse_row_item to return an empty list only on the second row (row_num == 1)
+    from rich_rst import _FlatTableBuilder
+    original_parse = _FlatTableBuilder._parse_row_item
+    
+    def mock_parse(self, row_item, row_num):
+        if row_num == 1:
+            return []
+        return original_parse(self, row_item, row_num)
+        
+    monkeypatch.setattr(_FlatTableBuilder, '_parse_row_item', mock_parse)
+    
+    rst = """\
+.. flat-table::
+   :widths: 1 1
+
+   * - A
+     - B
+   * - C
+     - D
+"""
+    visitor = make_visitor(rst)
+    assert visitor.renderables
+
+
+def test_table_column_shrinking():
+    # A wide table with spanning cells in a very narrow console (width 10) to trigger _shrink_to_floor
+    rst = """\
++---------------------------------------------+
+| Column 1 and 2 Spanned                      |
++======================+======================+
+| Short                | Very Long Text Value |
++----------------------+----------------------+
+"""
+    from rich.console import Console
+    from rich_rst import RestructuredText
+    console = Console(width=10, force_terminal=True, record=True)
+    console.print(RestructuredText(rst))
+    out = console.export_text()
+    assert 'Column' in out
+
+
+
+
+
+
+
+
+
