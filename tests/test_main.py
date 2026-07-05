@@ -156,6 +156,7 @@ def test_cli_debug_mode_enables_logging(monkeypatch, tmp_path):
     # We can also mock basicConfig or logging to ensure no actual global side effects,
     # but running it verifies the logging block executes.
     import logging
+
     original_basic_config = logging.basicConfig
     called = []
 
@@ -171,6 +172,7 @@ def test_cli_debug_mode_enables_logging(monkeypatch, tmp_path):
 
 def test_cli_stdin_reading(monkeypatch, capsys):
     import io
+
     fake_stdin = io.StringIO('Stdin *content*.')
     monkeypatch.setattr(sys, 'stdin', fake_stdin)
     monkeypatch.setattr(sys, 'argv', ['rich-rst', '-'])
@@ -220,7 +222,9 @@ def test_cli_export_exception_handling(monkeypatch, capsys, tmp_path):
     rst_file = tmp_path / 'test.rst'
     rst_file.write_text('Some RST.', encoding='utf-8')
     html_out = tmp_path / 'out.html'
-    monkeypatch.setattr(sys, 'argv', ['rich-rst', str(rst_file), '--save-html', str(html_out), '--debug'])
+    monkeypatch.setattr(
+        sys, 'argv', ['rich-rst', str(rst_file), '--save-html', str(html_out), '--debug']
+    )
 
     from rich.console import Console
 
@@ -278,6 +282,7 @@ def test_cli_output_write_error_with_debug(monkeypatch, capsys, tmp_path):
     monkeypatch.setattr(sys, 'argv', ['rich-rst', str(rst_file), '-o', str(out_file), '--debug'])
 
     import builtins
+
     real_open = builtins.open
 
     def selective_open(path, *args, **kwargs):
@@ -294,6 +299,7 @@ def test_cli_output_write_error_with_debug(monkeypatch, capsys, tmp_path):
 
 def test_run_main_as_module(monkeypatch):
     import runpy
+
     monkeypatch.setattr(sys, 'argv', ['rich-rst', '--list-html-themes'])
     try:
         runpy.run_module('rich_rst.__main__', run_name='__main__')

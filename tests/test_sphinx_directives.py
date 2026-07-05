@@ -738,6 +738,7 @@ def test_literalinclude_lines_single_and_encoding(tmp_path):
 
 def test_include_fallback_base_dir(tmp_path, monkeypatch):
     import builtins
+
     src = tmp_path / 'dummy.rst'
     src.write_text('content_dummy')
 
@@ -762,6 +763,7 @@ def test_include_fallback_base_dir(tmp_path, monkeypatch):
 
 def test_include_commonpath_value_error(tmp_path, monkeypatch):
     import os
+
     src = tmp_path / 'dummy.rst'
     src.write_text('content_dummy')
 
@@ -1224,6 +1226,7 @@ def test_toctree_directive_options_and_rendering(make_visitor):
 
     # Render the panel to text to verify its content
     from rich.console import Console
+
     console = Console(width=120)
     with console.capture() as capture:
         console.print(panels[0])
@@ -1237,6 +1240,7 @@ def test_toctree_directive_options_and_rendering(make_visitor):
 
 def test_toctree_parse_numbered_edge_cases():
     from rich_rst import _parse_toctree_numbered
+
     assert _parse_toctree_numbered(None) == 0
     assert _parse_toctree_numbered('  ') == 0
     assert _parse_toctree_numbered('3') == 3

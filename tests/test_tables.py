@@ -1104,7 +1104,7 @@ def test_grid_table(render_text):
 
 
 def test_flat_table_empty_directive(render_text):
-    rst = ".. flat-table::\n"
+    rst = '.. flat-table::\n'
     out = render_text(rst, show_errors=True)
     assert 'content required' in out or 'empty' in out
 
@@ -1142,6 +1142,7 @@ def test_flat_table_invalid_content(render_text):
     import pytest
 
     from rich_rst._vendor.docutils.utils import SystemMessagePropagation
+
     with pytest.raises(SystemMessagePropagation):
         render_text(rst)
 
@@ -1166,6 +1167,7 @@ def test_flat_table_col_widths_tuple(monkeypatch, make_visitor):
 
     def mock_get_widths(self, max_cols):
         return (None, [50, 50])
+
     monkeypatch.setattr(_FlatTableDirective, 'get_column_widths', mock_get_widths)
 
     rst = """\
@@ -1220,6 +1222,7 @@ def test_flat_table_invalid_element_in_row(render_text):
     import pytest
 
     from rich_rst._vendor.docutils.utils import SystemMessagePropagation
+
     with pytest.raises(SystemMessagePropagation):
         render_text(rst)
 
@@ -1252,6 +1255,7 @@ def test_flat_table_invalid_rspan_negative(render_text):
 def test_flat_table_empty_parsed_row_mock(monkeypatch, make_visitor):
     # Mock _parse_row_item to return an empty list only on the second row (row_num == 1)
     from rich_rst import _FlatTableBuilder
+
     original_parse = _FlatTableBuilder._parse_row_item
 
     def mock_parse(self, row_item, row_num):
@@ -1286,6 +1290,7 @@ def test_table_column_shrinking():
     from rich.console import Console
 
     from rich_rst import RestructuredText
+
     console = Console(width=10, force_terminal=True, record=True)
     console.print(RestructuredText(rst))
     out = console.export_text()

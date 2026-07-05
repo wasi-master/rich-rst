@@ -482,13 +482,13 @@ def test_dispatch_cache_concurrency(make_visitor):
 
 def test_translate_with_fallback_none_mapping(make_visitor):
     visitor = make_visitor('')
-    res = visitor._translate_with_fallback("abc", {ord('a'): None})
-    assert res == "abc"
+    res = visitor._translate_with_fallback('abc', {ord('a'): None})
+    assert res == 'abc'
 
 
 def test_guess_lexer_name_class_not_found(make_visitor):
     visitor = make_visitor('')
-    _lexer, ok = visitor._guess_lexer_name("!!!non-code-garbage!!!")
+    _lexer, ok = visitor._guess_lexer_name('!!!non-code-garbage!!!')
     assert not ok
 
 
@@ -500,13 +500,13 @@ def test_format_labelled_node_variants(make_visitor):
     node1 = docutils.nodes.footnote()
     node1 += docutils.nodes.label('', 'MyLabel')
     res1 = visitor._format_labelled_node(node1)
-    assert res1 == "MyLabel:"
+    assert res1 == 'MyLabel:'
 
     # No label, only body
     node2 = docutils.nodes.footnote()
     node2 += docutils.nodes.paragraph('', 'MyBody')
     res2 = visitor._format_labelled_node(node2)
-    assert res2 == "MyBody"
+    assert res2 == 'MyBody'
 
 
 def test_named_hyperlink_resolution(render_text):

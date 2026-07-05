@@ -502,7 +502,10 @@ def test_code_block_dedent_invalid(make_visitor):
 
 def test_code_block_lineno_start_invalid(monkeypatch, make_visitor):
     from rich_rst import _CodeBlockDirective
-    monkeypatch.setitem(_CodeBlockDirective.option_spec, 'lineno-start', docutils.parsers.rst.directives.unchanged)
+
+    monkeypatch.setitem(
+        _CodeBlockDirective.option_spec, 'lineno-start', docutils.parsers.rst.directives.unchanged
+    )
     rst = """.. code-block:: python
        :lineno-start: abc
 
@@ -529,7 +532,10 @@ def test_code_block_number_lines_valid(make_visitor):
 
 def test_code_block_number_lines_invalid(monkeypatch, make_visitor):
     from rich_rst import _CodeBlockDirective
-    monkeypatch.setitem(_CodeBlockDirective.option_spec, 'number-lines', docutils.parsers.rst.directives.unchanged)
+
+    monkeypatch.setitem(
+        _CodeBlockDirective.option_spec, 'number-lines', docutils.parsers.rst.directives.unchanged
+    )
     rst = """.. code-block:: python
        :number-lines: abc
 
