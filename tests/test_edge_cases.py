@@ -1,6 +1,5 @@
 """Edge case and smoke tests for rich-rst."""
 
-
 from rich_rst import RestructuredText
 
 
@@ -9,14 +8,14 @@ class TestEdgeCases:
 
     def test_empty_document(self):
         """Test rendering an empty document."""
-        rst = RestructuredText("")
+        rst = RestructuredText('')
         # Should not raise
         assert rst is not None
 
     def test_very_long_line(self):
         """Test handling of very long lines without wrapping."""
-        long_line = "x" * 5000
-        rst = RestructuredText(f"This is a very long line:\n\n{long_line}")
+        long_line = 'x' * 5000
+        rst = RestructuredText(f'This is a very long line:\n\n{long_line}')
         # Should not raise
         assert rst is not None
 
@@ -55,7 +54,7 @@ This document contains Unicode: 你好 مرحبا こんにちは 🚀 ♠️
 
     def test_special_characters_in_code(self):
         """Test code blocks with special characters."""
-        doc = r'''
+        doc = r"""
 Code Example
 ============
 
@@ -64,7 +63,7 @@ Code Example
    # Special chars: <>&"'
    x = "special: \n\t\r"
    regex = r"[a-z]+\d{3}"
-'''
+"""
         rst = RestructuredText(doc)
         assert rst is not None
 
@@ -85,7 +84,9 @@ Bad Markup
 
     def test_large_table(self):
         """Test rendering of a large table."""
-        rows = "\n".join([f"| Cell {i},{j} | Cell {i},{j+1} |" for i in range(50) for j in range(0, 10, 2)])
+        rows = '\n'.join(
+            [f'| Cell {i},{j} | Cell {i},{j + 1} |' for i in range(50) for j in range(0, 10, 2)]
+        )
         doc = f"""
 Large Table
 ===========
@@ -109,25 +110,25 @@ Code
 
    print("hello")
 """
-        for theme in ["monokai", "fruity", "vim", "native"]:
+        for theme in ['monokai', 'fruity', 'vim', 'native']:
             rst = RestructuredText(doc, code_theme=theme)
             assert rst is not None
 
     def test_encoding_edge_cases(self):
         """Test with various special encoding scenarios."""
-        doc = "Café\nNaïve\nResuméé"
+        doc = 'Café\nNaïve\nResuméé'
         rst = RestructuredText(doc)
         assert rst is not None
 
     def test_document_with_only_whitespace(self):
         """Test document with only whitespace."""
-        doc = "   \n\n  \n\t\n   "
+        doc = '   \n\n  \n\t\n   '
         rst = RestructuredText(doc)
         assert rst is not None
 
     def test_mixed_indentation(self):
         """Test document with mixed tabs and spaces."""
-        doc = "Heading\n=======\n\n\tTabbed line\n  Spaced line\n\t  Mixed"
+        doc = 'Heading\n=======\n\n\tTabbed line\n  Spaced line\n\t  Mixed'
         rst = RestructuredText(doc)
         assert rst is not None
 
@@ -137,7 +138,7 @@ class TestHTMLExport:
 
     def test_html_export_basic(self):
         """Test basic HTML export."""
-        doc = "Title\n=====\n\nParagraph with **bold**."
+        doc = 'Title\n=====\n\nParagraph with **bold**.'
         rst = RestructuredText(doc)
         assert rst is not None
 
@@ -176,18 +177,18 @@ class TestCliEdgeCases:
         """Test that stdin input can be rendered."""
         from rich_rst.__main__ import RestructuredText as CliRST
 
-        doc = "Test\n====\n\nContent"
+        doc = 'Test\n====\n\nContent'
         rst = CliRST(doc)
         assert rst is not None
 
     def test_temp_file_encoding(self, tmp_path):
         """Test file with non-default encoding."""
-        test_file = tmp_path / "test.rst"
-        content = "Tëst\n====\n\nWïth spëcial chärs"
-        test_file.write_text(content, encoding="utf-8")
+        test_file = tmp_path / 'test.rst'
+        content = 'Tëst\n====\n\nWïth spëcial chärs'
+        test_file.write_text(content, encoding='utf-8')
 
         from rich_rst.__main__ import RestructuredText as CliRST
 
-        with open(test_file, encoding="utf-8") as f:
+        with open(test_file, encoding='utf-8') as f:
             rst = CliRST(f.read())
         assert rst is not None

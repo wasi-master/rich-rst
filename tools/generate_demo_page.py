@@ -32,6 +32,7 @@ from rich.terminal_theme import TerminalTheme
 
 # ── Dracula theme (matches existing demo HTML files) ───────────────────────
 
+
 def _rgb(r, g, b):
     return (r, g, b)
 
@@ -62,9 +63,9 @@ _DRACULA = TerminalTheme(
 )
 
 # Background colour used for the wrapper div.
-_DRACULA_BG = "#282a36"
+_DRACULA_BG = '#282a36'
 # Foreground colour for the Dracula theme (used as a fallback for unstyled text).
-_DRACULA_FG = "#f8f8f2"
+_DRACULA_FG = '#f8f8f2'
 
 # Width used for all demo renders (matching the existing demos).
 _RENDER_WIDTH = 76
@@ -74,163 +75,160 @@ _RENDER_WIDTH = 76
 DEMOS = [
     # ── 1. Inline markup ─────────────────────────────────────────────────────
     {
-        "title": "Inline Markup",
-        "demos": [
+        'title': 'Inline Markup',
+        'demos': [
             {
-                "name": "Emphasis (italic)",
-                "rst": "*italicised text*",
+                'name': 'Emphasis (italic)',
+                'rst': '*italicised text*',
             },
             {
-                "name": "Strong (bold)",
-                "rst": "**bold text**",
+                'name': 'Strong (bold)',
+                'rst': '**bold text**',
             },
             {
-                "name": "Inline literal (code)",
-                "rst": "Use ``print()`` to display output.",
+                'name': 'Inline literal (code)',
+                'rst': 'Use ``print()`` to display output.',
             },
             {
-                "name": "Hyperlink (external)",
-                "rst": "Visit `Python <https://www.python.org>`_ for more.",
+                'name': 'Hyperlink (external)',
+                'rst': 'Visit `Python <https://www.python.org>`_ for more.',
             },
             {
-                "name": "Anonymous hyperlink",
-                "rst": "See `Rich docs <https://rich.readthedocs.io>`__ for styling.",
+                'name': 'Anonymous hyperlink',
+                'rst': 'See `Rich docs <https://rich.readthedocs.io>`__ for styling.',
             },
             {
-                "name": "Title reference",
-                "rst": "Read `The Zen of Python` for inspiration.",
+                'name': 'Title reference',
+                'rst': 'Read `The Zen of Python` for inspiration.',
             },
             {
-                "name": "Subscript role",
-                "rst": "H\\ :sub:`2`\\ O is water.",
+                'name': 'Subscript role',
+                'rst': 'H\\ :sub:`2`\\ O is water.',
             },
             {
-                "name": "Superscript role",
-                "rst": "E = mc\\ :sup:`2`",
+                'name': 'Superscript role',
+                'rst': 'E = mc\\ :sup:`2`',
             },
             {
-                "name": "Abbreviation role",
-                "rst": ":abbr:`RST (reStructuredText)` is a markup language.",
+                'name': 'Abbreviation role',
+                'rst': ':abbr:`RST (reStructuredText)` is a markup language.',
             },
             {
-                "name": "Keyboard role",
-                "rst": "Press :kbd:`Ctrl+C` to copy.",
+                'name': 'Keyboard role',
+                'rst': 'Press :kbd:`Ctrl+C` to copy.',
             },
             {
-                "name": "GUI label role",
-                "rst": "Click :guilabel:`OK` to confirm.",
+                'name': 'GUI label role',
+                'rst': 'Click :guilabel:`OK` to confirm.',
             },
             {
-                "name": "Menu selection role",
-                "rst": "Go to :menuselection:`File --> Save As`.",
+                'name': 'Menu selection role',
+                'rst': 'Go to :menuselection:`File --> Save As`.',
             },
             {
-                "name": "File role",
-                "rst": "Edit :file:`/etc/hosts` with sudo.",
+                'name': 'File role',
+                'rst': 'Edit :file:`/etc/hosts` with sudo.',
             },
             {
-                "name": "Sample (samp) role",
-                "rst": "Type :samp:`ping {host}` in the terminal.",
+                'name': 'Sample (samp) role',
+                'rst': 'Type :samp:`ping {host}` in the terminal.',
             },
             {
-                "name": "Command role",
-                "rst": "Run :command:`python -m pytest`.",
+                'name': 'Command role',
+                'rst': 'Run :command:`python -m pytest`.',
             },
             {
-                "name": "Program role",
-                "rst": ":program:`git` is a distributed version control system.",
+                'name': 'Program role',
+                'rst': ':program:`git` is a distributed version control system.',
             },
             {
-                "name": "All inline styles combined",
-                "rst": textwrap.dedent("""\
+                'name': 'All inline styles combined',
+                'rst': textwrap.dedent("""\
                     *Italic*, **bold**, ``literal``, :kbd:`Ctrl+C`,
                     :guilabel:`OK`, :menuselection:`File --> Open`,
                     :file:`~/.bashrc`, :command:`ls -la`,
                     and :sup:`superscript`."""),
             },
             {
-                "name": "Inline markup in a list",
-                "rst": textwrap.dedent("""\
+                'name': 'Inline markup in a list',
+                'rst': textwrap.dedent("""\
                     - Use **bold** for important terms
                     - Use *italic* for emphasis
                     - Use ``code`` for inline code samples
                     - Use :kbd:`Enter` for key presses"""),
             },
             {
-                "name": "PEP reference role",
-                "rst": "See :pep:`8` for Python style guidelines.",
+                'name': 'PEP reference role',
+                'rst': 'See :pep:`8` for Python style guidelines.',
             },
             {
-                "name": "RFC reference role",
-                "rst": "HTTP is described in :rfc:`2616`.",
+                'name': 'RFC reference role',
+                'rst': 'HTTP is described in :rfc:`2616`.',
             },
             {
-                "name": "Definition (dfn) role",
-                "rst": "A :dfn:`docstring` is a string literal that documents a Python object.",
+                'name': 'Definition (dfn) role',
+                'rst': 'A :dfn:`docstring` is a string literal that documents a Python object.',
             },
             {
-                "name": "CVE reference role",
-                "rst": "This vulnerability is tracked as :cve:`2024-3094`."
+                'name': 'CVE reference role',
+                'rst': 'This vulnerability is tracked as :cve:`2024-3094`.',
+            },
+            {'name': 'CWE reference role', 'rst': 'This bug is categorized under :cwe:`79`.'},
+            {
+                'name': 'PyPI project reference role',
+                'rst': 'Install the package from :pypi:`requests`.',
             },
             {
-                "name": "CWE reference role",
-                "rst": "This bug is categorized under :cwe:`79`."
-            },
-            {
-                "name": "PyPI project reference role",
-                "rst": "Install the package from :pypi:`requests`."
-            },
-            {
-                "name": "Math role (inline)",
-                "rst": "The area of a circle is :math:`\\pi r^2`.",
+                'name': 'Math role (inline)',
+                'rst': 'The area of a circle is :math:`\\pi r^2`.',
             },
         ],
     },
     # ── 2. Paragraphs and sections ────────────────────────────────────────────
     {
-        "title": "Paragraphs and Sections",
-        "demos": [
+        'title': 'Paragraphs and Sections',
+        'demos': [
             {
-                "name": "Plain paragraph",
-                "rst": textwrap.dedent("""\
+                'name': 'Plain paragraph',
+                'rst': textwrap.dedent("""\
                     This is a plain paragraph.  Paragraphs are separated
                     by blank lines.
 
                     A second paragraph follows here."""),
             },
             {
-                "name": "Section headings (all 6 levels)",
-                "rst": "\n".join(
+                'name': 'Section headings (all 6 levels)',
+                'rst': '\n'.join(
                     [
-                        "Level 1 Title",
-                        "=============",
-                        "Some body text under level 1.",
-                        "",
-                        "Level 2 Title",
-                        "-------------",
-                        "Some body text under level 2.",
-                        "",
-                        "Level 3 Title",
-                        "~~~~~~~~~~~~~",
-                        "Some body text under level 3.",
-                        "",
-                        "Level 4 Title",
-                        "^^^^^^^^^^^^^",
-                        "Some body text under level 4.",
-                        "",
-                        "Level 5 Title",
+                        'Level 1 Title',
+                        '=============',
+                        'Some body text under level 1.',
+                        '',
+                        'Level 2 Title',
+                        '-------------',
+                        'Some body text under level 2.',
+                        '',
+                        'Level 3 Title',
+                        '~~~~~~~~~~~~~',
+                        'Some body text under level 3.',
+                        '',
+                        'Level 4 Title',
+                        '^^^^^^^^^^^^^',
+                        'Some body text under level 4.',
+                        '',
+                        'Level 5 Title',
                         '"' * 13,
-                        "Some body text under level 5.",
-                        "",
-                        "Level 6 Title",
+                        'Some body text under level 5.',
+                        '',
+                        'Level 6 Title',
                         "'" * 13,
-                        "Some body text under level 6.",
+                        'Some body text under level 6.',
                     ]
                 ),
             },
             {
-                "name": "Section with overline decoration",
-                "rst": textwrap.dedent("""\
+                'name': 'Section with overline decoration',
+                'rst': textwrap.dedent("""\
                     ##################
                     Part-level heading
                     ##################
@@ -238,8 +236,8 @@ DEMOS = [
                     Body text below the overlined heading."""),
             },
             {
-                "name": "Document subtitle",
-                "rst": textwrap.dedent("""\
+                'name': 'Document subtitle',
+                'rst': textwrap.dedent("""\
                     My Document
                     ===========
 
@@ -249,8 +247,8 @@ DEMOS = [
                     Body text."""),
             },
             {
-                "name": "Multiple paragraphs with transitions",
-                "rst": textwrap.dedent("""\
+                'name': 'Multiple paragraphs with transitions',
+                'rst': textwrap.dedent("""\
                     First paragraph before the transition.
 
                     ----
@@ -265,25 +263,25 @@ DEMOS = [
     },
     # ── 3. Lists ──────────────────────────────────────────────────────────────
     {
-        "title": "Lists",
-        "demos": [
+        'title': 'Lists',
+        'demos': [
             {
-                "name": "Bullet list (dash)",
-                "rst": textwrap.dedent("""\
+                'name': 'Bullet list (dash)',
+                'rst': textwrap.dedent("""\
                     - First item
                     - Second item
                     - Third item"""),
             },
             {
-                "name": "Bullet list (asterisk)",
-                "rst": textwrap.dedent("""\
+                'name': 'Bullet list (asterisk)',
+                'rst': textwrap.dedent("""\
                     * Alpha
                     * Beta
                     * Gamma"""),
             },
             {
-                "name": "Nested bullet list",
-                "rst": textwrap.dedent("""\
+                'name': 'Nested bullet list',
+                'rst': textwrap.dedent("""\
                     - Parent item
 
                       - Child item one
@@ -292,22 +290,22 @@ DEMOS = [
                     - Another parent"""),
             },
             {
-                "name": "Enumerated list (auto-numbered)",
-                "rst": textwrap.dedent("""\
+                'name': 'Enumerated list (auto-numbered)',
+                'rst': textwrap.dedent("""\
                     #. First step
                     #. Second step
                     #. Third step"""),
             },
             {
-                "name": "Bullet list (plus sign)",
-                "rst": textwrap.dedent("""\
+                'name': 'Bullet list (plus sign)',
+                'rst': textwrap.dedent("""\
                     + One
                     + Two
                     + Three"""),
             },
             {
-                "name": "Deeply nested bullet list",
-                "rst": textwrap.dedent("""\
+                'name': 'Deeply nested bullet list',
+                'rst': textwrap.dedent("""\
                     - Level 1 item A
 
                       - Level 2 item A1
@@ -320,22 +318,22 @@ DEMOS = [
                     - Level 1 item B"""),
             },
             {
-                "name": "Enumerated list (uppercase letters)",
-                "rst": textwrap.dedent("""\
+                'name': 'Enumerated list (uppercase letters)',
+                'rst': textwrap.dedent("""\
                     A. Alpha
                     B. Beta
                     C. Gamma"""),
             },
             {
-                "name": "Enumerated list (uppercase roman numerals)",
-                "rst": textwrap.dedent("""\
+                'name': 'Enumerated list (uppercase roman numerals)',
+                'rst': textwrap.dedent("""\
                     I.  Chapter One
                     II.  Chapter Two
                     III. Chapter Three"""),
             },
             {
-                "name": "Mixed ordered and unordered lists",
-                "rst": textwrap.dedent("""\
+                'name': 'Mixed ordered and unordered lists',
+                'rst': textwrap.dedent("""\
                     Steps to install:
 
                     1. Download the package
@@ -347,22 +345,22 @@ DEMOS = [
                     3. Verify with ``--version``"""),
             },
             {
-                "name": "Enumerated list (letters)",
-                "rst": textwrap.dedent("""\
+                'name': 'Enumerated list (letters)',
+                'rst': textwrap.dedent("""\
                     a. Apple
                     b. Banana
                     c. Cherry"""),
             },
             {
-                "name": "Enumerated list (roman numerals)",
-                "rst": textwrap.dedent("""\
+                'name': 'Enumerated list (roman numerals)',
+                'rst': textwrap.dedent("""\
                     i. Item i
                     ii. Item ii
                     iii. Item iii"""),
             },
             {
-                "name": "Definition list",
-                "rst": textwrap.dedent("""\
+                'name': 'Definition list',
+                'rst': textwrap.dedent("""\
                     term
                         Definition of the term.
 
@@ -371,8 +369,8 @@ DEMOS = [
                         multiple lines."""),
             },
             {
-                "name": "Definition list with classifier",
-                "rst": textwrap.dedent("""\
+                'name': 'Definition list with classifier',
+                'rst': textwrap.dedent("""\
                     term : string
                         A string-typed term.
 
@@ -380,22 +378,22 @@ DEMOS = [
                         An integer count."""),
             },
             {
-                "name": "Field list",
-                "rst": textwrap.dedent("""\
+                'name': 'Field list',
+                'rst': textwrap.dedent("""\
                     :Name: John Doe
                     :Email: john@example.com
                     :Role: Developer"""),
             },
             {
-                "name": "Option list",
-                "rst": textwrap.dedent("""\
+                'name': 'Option list',
+                'rst': textwrap.dedent("""\
                     -v, --verbose    Enable verbose output.
                     -o FILE          Write output to FILE.
                     --help           Show this help message."""),
             },
             {
-                "name": "Horizontal list (hlist)",
-                "rst": textwrap.dedent("""\
+                'name': 'Horizontal list (hlist)',
+                'rst': textwrap.dedent("""\
                     .. hlist::
                        :columns: 3
 
@@ -410,11 +408,11 @@ DEMOS = [
     },
     # ── 4. Block markup ───────────────────────────────────────────────────────
     {
-        "title": "Block Markup",
-        "demos": [
+        'title': 'Block Markup',
+        'demos': [
             {
-                "name": "Block quote",
-                "rst": textwrap.dedent("""\
+                'name': 'Block quote',
+                'rst': textwrap.dedent("""\
                     Normal paragraph.
 
                         This is an indented block quote.
@@ -422,31 +420,31 @@ DEMOS = [
                         -- Attribution"""),
             },
             {
-                "name": "Line block",
-                "rst": textwrap.dedent("""\
+                'name': 'Line block',
+                'rst': textwrap.dedent("""\
                     | The first line of a poem.
                     | The second line continues.
                     |   An indented third line."""),
             },
             {
-                "name": "Doctest block",
-                "rst": textwrap.dedent("""\
+                'name': 'Doctest block',
+                'rst': textwrap.dedent("""\
                     >>> print("Hello, world!")
                     Hello, world!
                     >>> 1 + 1
                     2"""),
             },
             {
-                "name": "Literal block (indented)",
-                "rst": textwrap.dedent("""\
+                'name': 'Literal block (indented)',
+                'rst': textwrap.dedent("""\
                     Example code::
 
                         def greet(name):
                             print(f"Hello, {name}!")"""),
             },
             {
-                "name": "Compound directive",
-                "rst": textwrap.dedent("""\
+                'name': 'Compound directive',
+                'rst': textwrap.dedent("""\
                     .. compound::
 
                        The first sentence of a paragraph.
@@ -455,16 +453,16 @@ DEMOS = [
                        rendered as a single logical paragraph."""),
             },
             {
-                "name": "Parsed literal block",
-                "rst": textwrap.dedent("""\
+                'name': 'Parsed literal block',
+                'rst': textwrap.dedent("""\
                     .. parsed-literal::
 
                        **Bold** and *italic* inside a literal block.
                        Also ``code`` here."""),
             },
             {
-                "name": "Epigraph directive",
-                "rst": textwrap.dedent("""\
+                'name': 'Epigraph directive',
+                'rst': textwrap.dedent("""\
                     .. epigraph::
 
                        No man is an island,
@@ -473,8 +471,8 @@ DEMOS = [
                        -- John Donne"""),
             },
             {
-                "name": "Highlights directive",
-                "rst": textwrap.dedent("""\
+                'name': 'Highlights directive',
+                'rst': textwrap.dedent("""\
                     .. highlights::
 
                        Key takeaways:
@@ -483,8 +481,8 @@ DEMOS = [
                        - Document everything."""),
             },
             {
-                "name": "Pull-quote directive",
-                "rst": textwrap.dedent("""\
+                'name': 'Pull-quote directive',
+                'rst': textwrap.dedent("""\
                     .. pull-quote::
 
                        The best way to predict the future
@@ -496,11 +494,11 @@ DEMOS = [
     },
     # ── 5. Code blocks ────────────────────────────────────────────────────────
     {
-        "title": "Code Blocks",
-        "demos": [
+        'title': 'Code Blocks',
+        'demos': [
             {
-                "name": "code-block with language",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block with language',
+                'rst': textwrap.dedent("""\
                     .. code-block:: python
 
                        def factorial(n):
@@ -509,8 +507,8 @@ DEMOS = [
                            return n * factorial(n - 1)"""),
             },
             {
-                "name": "code-block with line numbers",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block with line numbers',
+                'rst': textwrap.dedent("""\
                     .. code-block:: python
                        :linenos:
 
@@ -519,8 +517,8 @@ DEMOS = [
                        print(x + y)"""),
             },
             {
-                "name": "code-block with lineno-start",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block with lineno-start',
+                'rst': textwrap.dedent("""\
                     .. code-block:: python
                        :linenos:
                        :lineno-start: 10
@@ -529,8 +527,8 @@ DEMOS = [
                        y = 2"""),
             },
             {
-                "name": "code-block with emphasize-lines",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block with emphasize-lines',
+                'rst': textwrap.dedent("""\
                     .. code-block:: python
                        :emphasize-lines: 3,5
 
@@ -541,8 +539,8 @@ DEMOS = [
                            print('...but this one is.')"""),
             },
             {
-                "name": "code-block with name",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block with name',
+                'rst': textwrap.dedent("""\
                     .. code-block:: python
                        :name: example-id
 
@@ -550,8 +548,8 @@ DEMOS = [
                        y = 2"""),
             },
             {
-                "name": "code-block with dedent",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block with dedent',
+                'rst': textwrap.dedent("""\
                     .. code-block:: python
                        :dedent:
 
@@ -559,16 +557,16 @@ DEMOS = [
                                return 1"""),
             },
             {
-                "name": "code-block: bash",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block: bash',
+                'rst': textwrap.dedent("""\
                     .. code-block:: bash
 
                        pip install rich-rst
                        python -m rich_rst README.rst"""),
             },
             {
-                "name": "code-block: JSON",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block: JSON',
+                'rst': textwrap.dedent("""\
                     .. code-block:: json
 
                        {
@@ -578,8 +576,8 @@ DEMOS = [
                        }"""),
             },
             {
-                "name": "code-block: YAML",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block: YAML',
+                'rst': textwrap.dedent("""\
                     .. code-block:: yaml
 
                        name: rich-rst
@@ -588,24 +586,24 @@ DEMOS = [
                          - docutils>=0.17"""),
             },
             {
-                "name": "sourcecode alias",
-                "rst": textwrap.dedent("""\
+                'name': 'sourcecode alias',
+                'rst': textwrap.dedent("""\
                     .. sourcecode:: javascript
 
                        const greet = (name) => `Hello, ${name}!`;
                        console.log(greet('World'));"""),
             },
             {
-                "name": "code alias (no language)",
-                "rst": textwrap.dedent("""\
+                'name': 'code alias (no language)',
+                'rst': textwrap.dedent("""\
                     .. code::
 
                        plain text block
                        no syntax highlighting"""),
             },
             {
-                "name": "code-block: C",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block: C',
+                'rst': textwrap.dedent("""\
                     .. code-block:: c
 
                        #include <stdio.h>
@@ -616,8 +614,8 @@ DEMOS = [
                        }"""),
             },
             {
-                "name": "code-block: Java",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block: Java',
+                'rst': textwrap.dedent("""\
                     .. code-block:: java
 
                        public class Hello {
@@ -627,8 +625,8 @@ DEMOS = [
                        }"""),
             },
             {
-                "name": "code-block: TypeScript",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block: TypeScript',
+                'rst': textwrap.dedent("""\
                     .. code-block:: typescript
 
                        function greet(name: string): string {
@@ -637,8 +635,8 @@ DEMOS = [
                        console.log(greet("World"));"""),
             },
             {
-                "name": "code-block: SQL",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block: SQL',
+                'rst': textwrap.dedent("""\
                     .. code-block:: sql
 
                        SELECT name, email
@@ -648,8 +646,8 @@ DEMOS = [
                        LIMIT 10;"""),
             },
             {
-                "name": "code-block: HTML",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block: HTML',
+                'rst': textwrap.dedent("""\
                     .. code-block:: html
 
                        <!doctype html>
@@ -659,8 +657,8 @@ DEMOS = [
                        </html>"""),
             },
             {
-                "name": "code-block: Rust",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block: Rust',
+                'rst': textwrap.dedent("""\
                     .. code-block:: rust
 
                        fn main() {
@@ -669,8 +667,8 @@ DEMOS = [
                        }"""),
             },
             {
-                "name": "code-block with caption",
-                "rst": textwrap.dedent("""\
+                'name': 'code-block with caption',
+                'rst': textwrap.dedent("""\
                     .. code-block:: python
                        :caption: example.py
 
@@ -679,8 +677,8 @@ DEMOS = [
                            return a + b"""),
             },
             {
-                "name": "productionlist directive",
-                "rst": textwrap.dedent("""\
+                'name': 'productionlist directive',
+                'rst': textwrap.dedent("""\
                     .. productionlist::
 
                        statement  : expression NEWLINE
@@ -691,97 +689,97 @@ DEMOS = [
     },
     # ── 6. Admonitions ────────────────────────────────────────────────────────
     {
-        "title": "Admonitions",
-        "demos": [
+        'title': 'Admonitions',
+        'demos': [
             {
-                "name": "note",
-                "rst": textwrap.dedent("""\
+                'name': 'note',
+                'rst': textwrap.dedent("""\
                     .. note::
 
                        This is a note admonition."""),
             },
             {
-                "name": "warning",
-                "rst": textwrap.dedent("""\
+                'name': 'warning',
+                'rst': textwrap.dedent("""\
                     .. warning::
 
                        This is a warning."""),
             },
             {
-                "name": "tip",
-                "rst": textwrap.dedent("""\
+                'name': 'tip',
+                'rst': textwrap.dedent("""\
                     .. tip::
 
                        This is a tip."""),
             },
             {
-                "name": "important",
-                "rst": textwrap.dedent("""\
+                'name': 'important',
+                'rst': textwrap.dedent("""\
                     .. important::
 
                        This is important."""),
             },
             {
-                "name": "hint",
-                "rst": textwrap.dedent("""\
+                'name': 'hint',
+                'rst': textwrap.dedent("""\
                     .. hint::
 
                        This is a hint."""),
             },
             {
-                "name": "attention",
-                "rst": textwrap.dedent("""\
+                'name': 'attention',
+                'rst': textwrap.dedent("""\
                     .. attention::
 
                        Pay attention to this."""),
             },
             {
-                "name": "caution",
-                "rst": textwrap.dedent("""\
+                'name': 'caution',
+                'rst': textwrap.dedent("""\
                     .. caution::
 
                        Exercise caution here."""),
             },
             {
-                "name": "danger",
-                "rst": textwrap.dedent("""\
+                'name': 'danger',
+                'rst': textwrap.dedent("""\
                     .. danger::
 
                        Danger! Proceed carefully."""),
             },
             {
-                "name": "error",
-                "rst": textwrap.dedent("""\
+                'name': 'error',
+                'rst': textwrap.dedent("""\
                     .. error::
 
                        An error occurred."""),
             },
             {
-                "name": "Admonition with bold content (box-char rendering test)",
-                "rst": textwrap.dedent("""\
+                'name': 'Admonition with bold content (box-char rendering test)',
+                'rst': textwrap.dedent("""\
                     .. warning::
 
                        **Never** commit secrets to version control.
                        Use environment variables or a secrets manager instead."""),
             },
             {
-                "name": "Note with code and emphasis",
-                "rst": textwrap.dedent("""\
+                'name': 'Note with code and emphasis',
+                'rst': textwrap.dedent("""\
                     .. note::
 
                        Call ``sys.exit(0)`` to terminate *successfully*,
                        or ``sys.exit(1)`` for **failure**."""),
             },
             {
-                "name": "Generic admonition with custom title",
-                "rst": textwrap.dedent("""\
+                'name': 'Generic admonition with custom title',
+                'rst': textwrap.dedent("""\
                     .. admonition:: Did you know?
 
                        rich-rst supports all currently documented RST elements."""),
             },
             {
-                "name": "Admonition with nested content",
-                "rst": textwrap.dedent("""\
+                'name': 'Admonition with nested content',
+                'rst': textwrap.dedent("""\
                     .. note::
 
                        Notes can contain **bold**, *italic*, and ``code``.
@@ -795,11 +793,11 @@ DEMOS = [
     },
     # ── 7. Tables ─────────────────────────────────────────────────────────────
     {
-        "title": "Tables",
-        "demos": [
+        'title': 'Tables',
+        'demos': [
             {
-                "name": "Simple table with header",
-                "rst": textwrap.dedent("""\
+                'name': 'Simple table with header',
+                'rst': textwrap.dedent("""\
                     =====  =====  ======
                     Col A  Col B  Col C
                     =====  =====  ======
@@ -808,8 +806,8 @@ DEMOS = [
                     =====  =====  ======"""),
             },
             {
-                "name": "Grid table with row spanning",
-                "rst": textwrap.dedent("""\
+                'name': 'Grid table with row spanning',
+                'rst': textwrap.dedent("""\
                     +------------+------------+
                     | Column 1   | Column 2   |
                     +============+============+
@@ -819,8 +817,8 @@ DEMOS = [
                     +------------+------------+"""),
             },
             {
-                "name": "Wider grid table",
-                "rst": textwrap.dedent("""\
+                'name': 'Wider grid table',
+                'rst': textwrap.dedent("""\
                     +--------+-------+------+---------+
                     | Name   | Type  | Size | Default |
                     +========+=======+======+=========+
@@ -832,8 +830,8 @@ DEMOS = [
                     +--------+-------+------+---------+"""),
             },
             {
-                "name": "list-table directive",
-                "rst": textwrap.dedent("""\
+                'name': 'list-table directive',
+                'rst': textwrap.dedent("""\
                     .. list-table:: Comparison
                        :header-rows: 1
                        :widths: 30 35 35
@@ -849,8 +847,8 @@ DEMOS = [
                          - 1k+"""),
             },
             {
-                "name": "CSV Table",
-                "rst": textwrap.dedent("""\
+                'name': 'CSV Table',
+                'rst': textwrap.dedent("""\
                     .. csv-table:: Data
                        :header: "Name", "Value", "Unit"
                        :widths: 20, 20, 20
@@ -860,8 +858,8 @@ DEMOS = [
                        "Mass", "9.109e-31", "kg" """),
             },
             {
-                "name": "Flat Table: Basic with Stub Column",
-                "rst": textwrap.dedent("""\
+                'name': 'Flat Table: Basic with Stub Column',
+                'rst': textwrap.dedent("""\
                     .. flat-table:: Linux Kernel Subsystems
                        :header-rows: 1
                        :stub-columns: 1
@@ -883,8 +881,8 @@ DEMOS = [
                          - VFS layer and filesystem drivers"""),
             },
             {
-                "name": "Flat Table: Column Span (:cspan:)",
-                "rst": textwrap.dedent("""\
+                'name': 'Flat Table: Column Span (:cspan:)',
+                'rst': textwrap.dedent("""\
                     .. flat-table:: Quarterly Results
                        :header-rows: 1
 
@@ -906,8 +904,8 @@ DEMOS = [
                          - 76"""),
             },
             {
-                "name": "flat-table — wide partial column span (:cspan: > 1)",
-                "rst": textwrap.dedent("""\
+                'name': 'flat-table — wide partial column span (:cspan: > 1)',
+                'rst': textwrap.dedent("""\
                     .. flat-table:: Regional Sales
                        :header-rows: 1
 
@@ -935,8 +933,8 @@ DEMOS = [
                          - 55"""),
             },
             {
-                "name": "flat-table — row span (:rspan:)",
-                "rst": textwrap.dedent("""\
+                'name': 'flat-table — row span (:rspan:)',
+                'rst': textwrap.dedent("""\
                     .. flat-table:: Produce Prices
                        :header-rows: 1
 
@@ -959,8 +957,8 @@ DEMOS = [
                          - $1.25"""),
             },
             {
-                "name": "Flat Table: Combined :cspan: and :rspan:",
-                "rst": textwrap.dedent("""\
+                'name': 'Flat Table: Combined :cspan: and :rspan:',
+                'rst': textwrap.dedent("""\
                     .. flat-table:: Combined Spans
                        :header-rows: 3
 
@@ -988,11 +986,11 @@ DEMOS = [
                        * - Cell 1
                          - Cell 2
                          - Cell 4
-                         - """), # TODO: Empty column to fix missing separator.
+                         - """),  # TODO: Empty column to fix missing separator.
             },
             {
-                "name": "flat-table — single cell with :cspan: and :rspan: (2×2 block)",
-                "rst": textwrap.dedent("""\
+                'name': 'flat-table — single cell with :cspan: and :rspan: (2×2 block)',
+                'rst': textwrap.dedent("""\
                     .. flat-table:: 2×2 merged cell
                        :header-rows: 1
 
@@ -1011,8 +1009,8 @@ DEMOS = [
                        * - Others."""),
             },
             {
-                "name": "flat-table — :cspan: fills merged column width without inflation",
-                "rst": textwrap.dedent("""\
+                'name': 'flat-table — :cspan: fills merged column width without inflation',
+                'rst': textwrap.dedent("""\
                     .. flat-table:: Team Overview
                        :header-rows: 1
 
@@ -1031,18 +1029,18 @@ DEMOS = [
     },
     # ── 8. Footnotes and citations ────────────────────────────────────────────
     {
-        "title": "Footnotes and Citations",
-        "demos": [
+        'title': 'Footnotes and Citations',
+        'demos': [
             {
-                "name": "Manual footnote",
-                "rst": textwrap.dedent("""\
+                'name': 'Manual footnote',
+                'rst': textwrap.dedent("""\
                     See the footnote [1]_ for details.
 
                     .. [1] This is the footnote text."""),
             },
             {
-                "name": "Auto-numbered footnote",
-                "rst": textwrap.dedent("""\
+                'name': 'Auto-numbered footnote',
+                'rst': textwrap.dedent("""\
                     First reference [#]_.
                     Second reference [#]_.
 
@@ -1050,22 +1048,22 @@ DEMOS = [
                     .. [#] Second auto footnote."""),
             },
             {
-                "name": "Named auto footnote",
-                "rst": textwrap.dedent("""\
+                'name': 'Named auto footnote',
+                'rst': textwrap.dedent("""\
                     See [#note]_ for details.
 
                     .. [#note] The named auto footnote."""),
             },
             {
-                "name": "Symbol footnote",
-                "rst": textwrap.dedent("""\
+                'name': 'Symbol footnote',
+                'rst': textwrap.dedent("""\
                     Marked with a symbol [*]_.
 
                     .. [*] Symbol footnote text."""),
             },
             {
-                "name": "Citation",
-                "rst": textwrap.dedent("""\
+                'name': 'Citation',
+                'rst': textwrap.dedent("""\
                     As described in [Doe2023]_.
 
                     .. [Doe2023] John Doe. *Python Patterns*. 2023."""),
@@ -1074,22 +1072,22 @@ DEMOS = [
     },
     # ── 9. Hyperlinks and targets ─────────────────────────────────────────────
     {
-        "title": "Hyperlinks and Targets",
-        "demos": [
+        'title': 'Hyperlinks and Targets',
+        'demos': [
             {
-                "name": "Standalone hyperlink",
-                "rst": "Visit https://python.org for more.",
+                'name': 'Standalone hyperlink',
+                'rst': 'Visit https://python.org for more.',
             },
             {
-                "name": "External hyperlink (named)",
-                "rst": textwrap.dedent("""\
+                'name': 'External hyperlink (named)',
+                'rst': textwrap.dedent("""\
                     Read the `Rich documentation`_.
 
                     .. _Rich documentation: https://rich.readthedocs.io"""),
             },
             {
-                "name": "Internal cross-reference (indirect target)",
-                "rst": textwrap.dedent("""\
+                'name': 'Internal cross-reference (indirect target)',
+                'rst': textwrap.dedent("""\
                     Jump to `Target Section`_.
 
                     Target Section
@@ -1098,40 +1096,40 @@ DEMOS = [
                     Content here."""),
             },
             {
-                "name": "Anonymous hyperlink",
-                "rst": textwrap.dedent("""\
+                'name': 'Anonymous hyperlink',
+                'rst': textwrap.dedent("""\
                     See `this page <https://example.com>`__ for details."""),
             },
         ],
     },
     # ── 10. Substitutions ─────────────────────────────────────────────────────
     {
-        "title": "Substitutions",
-        "demos": [
+        'title': 'Substitutions',
+        'demos': [
             {
-                "name": "Text substitution",
-                "rst": textwrap.dedent("""\
+                'name': 'Text substitution',
+                'rst': textwrap.dedent("""\
                     |project| is written in Python.
 
                     .. |project| replace:: rich-rst"""),
             },
             {
-                "name": "Date substitution",
-                "rst": textwrap.dedent("""\
+                'name': 'Date substitution',
+                'rst': textwrap.dedent("""\
                     Generated on |today|.
 
                     .. |today| date:: %Y-%m-%d"""),
             },
             {
-                "name": "Unicode substitution",
-                "rst": textwrap.dedent("""\
+                'name': 'Unicode substitution',
+                'rst': textwrap.dedent("""\
                     Copyright |copy| 2024 The Authors.
 
                     .. |copy| unicode:: U+00A9 .. copyright sign"""),
             },
             {
-                "name": "Image substitution",
-                "rst": textwrap.dedent("""\
+                'name': 'Image substitution',
+                'rst': textwrap.dedent("""\
                     Click the |logo| icon.
 
                     .. |logo| image:: https://example.com/logo.png
@@ -1141,18 +1139,18 @@ DEMOS = [
     },
     # ── 11. Images and figures ────────────────────────────────────────────────
     {
-        "title": "Images and Figures",
-        "demos": [
+        'title': 'Images and Figures',
+        'demos': [
             {
-                "name": "image directive",
-                "rst": textwrap.dedent("""\
+                'name': 'image directive',
+                'rst': textwrap.dedent("""\
                     .. image:: https://example.com/photo.png
                        :alt: A photo
                        :width: 400px"""),
             },
             {
-                "name": "figure directive",
-                "rst": textwrap.dedent("""\
+                'name': 'figure directive',
+                'rst': textwrap.dedent("""\
                     .. figure:: https://example.com/chart.png
                        :alt: A chart
                        :width: 600px
@@ -1160,8 +1158,8 @@ DEMOS = [
                        Figure caption goes here."""),
             },
             {
-                "name": "figure with legend",
-                "rst": textwrap.dedent("""\
+                'name': 'figure with legend',
+                'rst': textwrap.dedent("""\
                     .. figure:: https://example.com/diagram.png
                        :alt: Diagram
 
@@ -1173,19 +1171,19 @@ DEMOS = [
     },
     # ── 12. Document structure ────────────────────────────────────────────────
     {
-        "title": "Document Structure Directives",
-        "demos": [
+        'title': 'Document Structure Directives',
+        'demos': [
             {
-                "name": "topic directive",
-                "rst": textwrap.dedent("""\
+                'name': 'topic directive',
+                'rst': textwrap.dedent("""\
                     .. topic:: Interesting Fact
 
                        This is the topic body.
                        It can contain any body elements."""),
             },
             {
-                "name": "sidebar directive",
-                "rst": textwrap.dedent("""\
+                'name': 'sidebar directive',
+                'rst': textwrap.dedent("""\
                     .. sidebar:: Note
 
                        :Subtitle: Side note
@@ -1193,15 +1191,15 @@ DEMOS = [
                        Sidebar text goes here."""),
             },
             {
-                "name": "rubric directive",
-                "rst": textwrap.dedent("""\
+                'name': 'rubric directive',
+                'rst': textwrap.dedent("""\
                     .. rubric:: An Unnumbered Heading
 
                     Following paragraph."""),
             },
             {
-                "name": "contents directive (table of contents)",
-                "rst": textwrap.dedent("""\
+                'name': 'contents directive (table of contents)',
+                'rst': textwrap.dedent("""\
                     .. contents:: Table of Contents
                        :depth: 2
 
@@ -1216,8 +1214,8 @@ DEMOS = [
                     Content B."""),
             },
             {
-                "name": "sectnum directive",
-                "rst": textwrap.dedent("""\
+                'name': 'sectnum directive',
+                'rst': textwrap.dedent("""\
                     .. sectnum::
 
                     Overview
@@ -1227,22 +1225,22 @@ DEMOS = [
                     -------"""),
             },
             {
-                "name": "header directive",
-                "rst": textwrap.dedent("""\
+                'name': 'header directive',
+                'rst': textwrap.dedent("""\
                     .. header:: My Document Header
 
                     Main content."""),
             },
             {
-                "name": "footer directive",
-                "rst": textwrap.dedent("""\
+                'name': 'footer directive',
+                'rst': textwrap.dedent("""\
                     Main content.
 
                     .. footer:: Page |page|"""),
             },
             {
-                "name": "centered directive",
-                "rst": textwrap.dedent("""\
+                'name': 'centered directive',
+                'rst': textwrap.dedent("""\
                     .. centered:: IMPORTANT NOTICE
 
                     Body text."""),
@@ -1251,22 +1249,22 @@ DEMOS = [
     },
     # ── 13. Math ──────────────────────────────────────────────────────────────
     {
-        "title": "Math",
-        "demos": [
+        'title': 'Math',
+        'demos': [
             {
-                "name": "Inline math role",
-                "rst": "The Pythagorean theorem: :math:`a^2 + b^2 = c^2`.",
+                'name': 'Inline math role',
+                'rst': 'The Pythagorean theorem: :math:`a^2 + b^2 = c^2`.',
             },
             {
-                "name": "math directive (display)",
-                "rst": textwrap.dedent("""\
+                'name': 'math directive (display)',
+                'rst': textwrap.dedent("""\
                     .. math::
 
                        \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}"""),
             },
             {
-                "name": "math directive (labeled)",
-                "rst": textwrap.dedent("""\
+                'name': 'math directive (labeled)',
+                'rst': textwrap.dedent("""\
                     .. math:: E = mc^2
                        :label: einstein"""),
             },
@@ -1274,11 +1272,11 @@ DEMOS = [
     },
     # ── 14. docinfo field list ────────────────────────────────────────────────
     {
-        "title": "Document Info (docinfo)",
-        "demos": [
+        'title': 'Document Info (docinfo)',
+        'demos': [
             {
-                "name": "Standard docinfo fields",
-                "rst": textwrap.dedent("""\
+                'name': 'Standard docinfo fields',
+                'rst': textwrap.dedent("""\
                     My Report
                     =========
 
@@ -1292,8 +1290,8 @@ DEMOS = [
                     Body of the document."""),
             },
             {
-                "name": "Authors list",
-                "rst": textwrap.dedent("""\
+                'name': 'Authors list',
+                'rst': textwrap.dedent("""\
                     :Authors: - Alice
                               - Bob
                               - Carol
@@ -1304,11 +1302,11 @@ DEMOS = [
     },
     # ── 15. Comments ─────────────────────────────────────────────────────────
     {
-        "title": "Comments",
-        "demos": [
+        'title': 'Comments',
+        'demos': [
             {
-                "name": "RST comment (invisible)",
-                "rst": textwrap.dedent("""\
+                'name': 'RST comment (invisible)',
+                'rst': textwrap.dedent("""\
                     Before comment.
 
                     .. This is an RST comment and should not appear in output.
@@ -1319,18 +1317,18 @@ DEMOS = [
     },
     # ── 16. Raw directive ─────────────────────────────────────────────────────
     {
-        "title": "Raw Directive",
-        "demos": [
+        'title': 'Raw Directive',
+        'demos': [
             {
-                "name": "raw html directive",
-                "rst": textwrap.dedent("""\
+                'name': 'raw html directive',
+                'rst': textwrap.dedent("""\
                     .. raw:: html
 
                        <strong>Bold via raw HTML</strong>"""),
             },
             {
-                "name": "raw latex directive",
-                "rst": textwrap.dedent("""\
+                'name': 'raw latex directive',
+                'rst': textwrap.dedent("""\
                     .. raw:: latex
 
                        \\textbf{Bold via LaTeX}"""),
@@ -1339,32 +1337,32 @@ DEMOS = [
     },
     # ── 17. Sphinx version directives ─────────────────────────────────────────
     {
-        "title": "Sphinx Version Directives",
-        "demos": [
+        'title': 'Sphinx Version Directives',
+        'demos': [
             {
-                "name": "versionadded",
-                "rst": textwrap.dedent("""\
+                'name': 'versionadded',
+                'rst': textwrap.dedent("""\
                     .. versionadded:: 2.1
 
                        This feature was added in version 2.1."""),
             },
             {
-                "name": "versionchanged",
-                "rst": textwrap.dedent("""\
+                'name': 'versionchanged',
+                'rst': textwrap.dedent("""\
                     .. versionchanged:: 3.0
 
                        The API changed in version 3.0."""),
             },
             {
-                "name": "deprecated",
-                "rst": textwrap.dedent("""\
+                'name': 'deprecated',
+                'rst': textwrap.dedent("""\
                     .. deprecated:: 1.5
 
                        Use the new API instead."""),
             },
             {
-                "name": "deprecated-removed",
-                "rst": textwrap.dedent("""\
+                'name': 'deprecated-removed',
+                'rst': textwrap.dedent("""\
                     .. deprecated-removed:: 1.5 2.0
 
                        Removed in 2.0. Use the new API."""),
@@ -1373,69 +1371,69 @@ DEMOS = [
     },
     # ── 18. Sphinx cross-reference roles ──────────────────────────────────────
     {
-        "title": "Sphinx Cross-Reference Roles",
-        "demos": [
+        'title': 'Sphinx Cross-Reference Roles',
+        'demos': [
             {
-                "name": r"\:func\: role",
-                "rst": "Call :func:`os.path.join` to join paths.",
+                'name': r'\:func\: role',
+                'rst': 'Call :func:`os.path.join` to join paths.',
             },
             {
-                "name": r"\:class\: role",
-                "rst": "Use :class:`pathlib.Path` for path handling.",
+                'name': r'\:class\: role',
+                'rst': 'Use :class:`pathlib.Path` for path handling.',
             },
             {
-                "name": r"\:meth\: role",
-                "rst": "Call :meth:`str.upper` to uppercase a string.",
+                'name': r'\:meth\: role',
+                'rst': 'Call :meth:`str.upper` to uppercase a string.',
             },
             {
-                "name": r"\:attr\: role",
-                "rst": "Access :attr:`os.sep` for the path separator.",
+                'name': r'\:attr\: role',
+                'rst': 'Access :attr:`os.sep` for the path separator.',
             },
             {
-                "name": r"\:mod\: role",
-                "rst": "The :mod:`os.path` module provides path utilities.",
+                'name': r'\:mod\: role',
+                'rst': 'The :mod:`os.path` module provides path utilities.',
             },
             {
-                "name": r"\:exc\: role",
-                "rst": "Raises :exc:`ValueError` when the input is invalid.",
+                'name': r'\:exc\: role',
+                'rst': 'Raises :exc:`ValueError` when the input is invalid.',
             },
             {
-                "name": r"\:obj\: role",
-                "rst": "Set :obj:`sys.path` to control module lookup.",
+                'name': r'\:obj\: role',
+                'rst': 'Set :obj:`sys.path` to control module lookup.',
             },
             {
-                "name": r"\:data\: role",
-                "rst": "Read :data:`sys.version` for the Python version.",
+                'name': r'\:data\: role',
+                'rst': 'Read :data:`sys.version` for the Python version.',
             },
             {
-                "name": r"\:const\: role",
-                "rst": "The value of :const:`math.pi` is approximately 3.14.",
+                'name': r'\:const\: role',
+                'rst': 'The value of :const:`math.pi` is approximately 3.14.',
             },
             {
-                "name": r"\:term\: role",
-                "rst": "A :term:`decorator` wraps another function.",
+                'name': r'\:term\: role',
+                'rst': 'A :term:`decorator` wraps another function.',
             },
             {
-                "name": r"\:ref\: role (cross-reference)",
-                "rst": "See :ref:`some-label` for details.",
+                'name': r'\:ref\: role (cross-reference)',
+                'rst': 'See :ref:`some-label` for details.',
             },
             {
-                "name": r"\:doc\: role",
-                "rst": "Refer to :doc:`installation` for setup instructions.",
+                'name': r'\:doc\: role',
+                'rst': 'Refer to :doc:`installation` for setup instructions.',
             },
             {
-                "name": r"\:envvar\: role",
-                "rst": "Set :envvar:`PYTHONPATH` before running.",
+                'name': r'\:envvar\: role',
+                'rst': 'Set :envvar:`PYTHONPATH` before running.',
             },
         ],
     },
     # ── 19. Python domain directives ──────────────────────────────────────────
     {
-        "title": "Python Domain Directives",
-        "demos": [
+        'title': 'Python Domain Directives',
+        'demos': [
             {
-                "name": "py:function",
-                "rst": textwrap.dedent("""\
+                'name': 'py:function',
+                'rst': textwrap.dedent("""\
                     .. py:function:: greet(name: str) -> str
 
                        Return a greeting for *name*.
@@ -1446,8 +1444,8 @@ DEMOS = [
                        :rtype: str"""),
             },
             {
-                "name": "py:class",
-                "rst": textwrap.dedent("""\
+                'name': 'py:class',
+                'rst': textwrap.dedent("""\
                     .. py:class:: MyClass(value)
 
                        A simple example class.
@@ -1456,45 +1454,45 @@ DEMOS = [
                        :type value: int"""),
             },
             {
-                "name": "py:method",
-                "rst": textwrap.dedent("""\
+                'name': 'py:method',
+                'rst': textwrap.dedent("""\
                     .. py:method:: MyClass.process(data)
 
                        Process the given *data*."""),
             },
             {
-                "name": "py:attribute",
-                "rst": textwrap.dedent("""\
+                'name': 'py:attribute',
+                'rst': textwrap.dedent("""\
                     .. py:attribute:: MyClass.value
                        :type: int
 
                        The current value."""),
             },
             {
-                "name": "py:data",
-                "rst": textwrap.dedent("""\
+                'name': 'py:data',
+                'rst': textwrap.dedent("""\
                     .. py:data:: MAX_RETRIES
                        :value: 3
 
                        Maximum number of retry attempts."""),
             },
             {
-                "name": "py:exception",
-                "rst": textwrap.dedent("""\
+                'name': 'py:exception',
+                'rst': textwrap.dedent("""\
                     .. py:exception:: MyError
 
                        Raised when something goes wrong."""),
             },
             {
-                "name": "py:module",
-                "rst": textwrap.dedent("""\
+                'name': 'py:module',
+                'rst': textwrap.dedent("""\
                     .. py:module:: mypackage.core
 
                        Core functionality for mypackage."""),
             },
             {
-                "name": "py:decorator",
-                "rst": textwrap.dedent("""\
+                'name': 'py:decorator',
+                'rst': textwrap.dedent("""\
                     .. py:decorator:: cached(func)
 
                        Cache the return value of *func*."""),
@@ -1503,11 +1501,11 @@ DEMOS = [
     },
     # ── 20. seealso directive ─────────────────────────────────────────────────
     {
-        "title": "See Also",
-        "demos": [
+        'title': 'See Also',
+        'demos': [
             {
-                "name": "seealso directive",
-                "rst": textwrap.dedent("""\
+                'name': 'seealso directive',
+                'rst': textwrap.dedent("""\
                     .. seealso::
 
                        :func:`os.path.join`, :class:`pathlib.Path`"""),
@@ -1516,11 +1514,11 @@ DEMOS = [
     },
     # ── 21. toctree (Sphinx) ──────────────────────────────────────────────────
     {
-        "title": "Toctree (Sphinx)",
-        "demos": [
+        'title': 'Toctree (Sphinx)',
+        'demos': [
             {
-                "name": "toctree directive",
-                "rst": textwrap.dedent("""\
+                'name': 'toctree directive',
+                'rst': textwrap.dedent("""\
                     .. toctree::
                        :maxdepth: 2
                        :caption: Contents
@@ -1530,8 +1528,8 @@ DEMOS = [
                        api"""),
             },
             {
-                "name": "toctree with numbered entries",
-                "rst": textwrap.dedent("""\
+                'name': 'toctree with numbered entries',
+                'rst': textwrap.dedent("""\
                     .. toctree::
                        :numbered:
 
@@ -1539,16 +1537,16 @@ DEMOS = [
                        guide/installation
                        guide/usage
                        guide/api"""),
-            }
+            },
         ],
     },
     # ── 22. glossary ─────────────────────────────────────────────────────────
     {
-        "title": "Glossary",
-        "demos": [
+        'title': 'Glossary',
+        'demos': [
             {
-                "name": "glossary directive",
-                "rst": textwrap.dedent("""\
+                'name': 'glossary directive',
+                'rst': textwrap.dedent("""\
                     .. glossary::
 
                        RST
@@ -1558,8 +1556,8 @@ DEMOS = [
                            A documentation generator for Python projects."""),
             },
             {
-                "name": "glossary (sorted)",
-                "rst": textwrap.dedent("""\
+                'name': 'glossary (sorted)',
+                'rst': textwrap.dedent("""\
                     .. glossary::
                        :sorted:
 
@@ -1573,11 +1571,11 @@ DEMOS = [
     },
     # ── 23. Mixed Sphinx roles ────────────────────────────────────────────────
     {
-        "title": "Mixed Sphinx Roles in Prose",
-        "demos": [
+        'title': 'Mixed Sphinx Roles in Prose',
+        'demos': [
             {
-                "name": "Mixed roles in a paragraph",
-                "rst": textwrap.dedent("""\
+                'name': 'Mixed roles in a paragraph',
+                'rst': textwrap.dedent("""\
                     Use :func:`json.dumps` or :func:`json.loads` to serialize data.
                     The :class:`dict` type maps :class:`str` keys to values.
                     See :pep:`484` for type hints and :pep:`526` for variable annotations.
@@ -1589,6 +1587,7 @@ DEMOS = [
 
 
 # ── Rendering helpers ─────────────────────────────────────────────────────────
+
 
 def render_rst_to_html_fragment(rst_source: str) -> str:
     """Render *rst_source* with rich-rst and return an embeddable HTML snippet.
@@ -1620,9 +1619,9 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
     )
     rst_obj = RestructuredText(
         rst_source,
-        code_theme="dracula",
+        code_theme='dracula',
         show_errors=False,
-        default_lexer="text",
+        default_lexer='text',
     )
     # Keep Rich's normal wrapping behavior so panel bodies wrap instead of clipping.
     console.print(rst_obj)
@@ -1631,7 +1630,7 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
     # Extract the <pre> block (contains the entire rendered output).
     match = re.search(r'<pre[^>]*>.*?</pre>', html, re.DOTALL)
     if not match:
-        return "<pre><!-- render failed --></pre>"
+        return '<pre><!-- render failed --></pre>'
     pre_block = match.group(0)
 
     # ── Fix 1: replace <code> with <span style="color:…"> ───────────────────
@@ -1710,17 +1709,15 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
                 continue
             if i % 2 == 1:  # box-char run: drop bold
                 result.append(f'<span style="{style_no_bold}">{part}</span>')
-            else:            # text run: keep full style (bold intact)
+            else:  # text run: keep full style (bold intact)
                 result.append(f'<span style="{style}">{part}</span>')
         return ''.join(result)
-
 
     # ── Fix 5: lighten low-contrast Dracula foreground variant ───────────────
     # Some plain output text (notably doctest results) is emitted as #44475a,
     # which is too close to the Dracula background for the docs page.
     # Remap it to a higher-contrast gray requested for demo readability.
     pre_block = pre_block.replace('#44475a', '#949494')
-
 
     pre_block = re.sub(
         r'<span\s+style="([^"]*)">([^<]*)</span>',
@@ -1744,29 +1741,30 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
 
 # ── RST generation helpers ────────────────────────────────────────────────────
 
+
 def _heading(text: str, char: str) -> str:
-    return f"{text}\n{char * len(text)}\n"
+    return f'{text}\n{char * len(text)}\n'
 
 
 def _indent(text: str, spaces: int = 3) -> str:
-    prefix = " " * spaces
-    return "\n".join(prefix + line if line.strip() else "" for line in text.splitlines())
+    prefix = ' ' * spaces
+    return '\n'.join(prefix + line if line.strip() else '' for line in text.splitlines())
 
 
 def _rst_code_block(source: str) -> str:
-    lines = [".. code-block:: rst", ""]
+    lines = ['.. code-block:: rst', '']
     for line in source.splitlines():
-        lines.append("   " + line if line else "")
-    lines.append("")
-    return "\n".join(lines) + "\n"
+        lines.append('   ' + line if line else '')
+    lines.append('')
+    return '\n'.join(lines) + '\n'
 
 
 def _raw_html_block(html_fragment: str) -> str:
-    lines = [".. raw:: html", ""]
+    lines = ['.. raw:: html', '']
     for line in html_fragment.splitlines():
-        lines.append("   " + line if line else "")
-    lines.append("")
-    return "\n".join(lines) + "\n"
+        lines.append('   ' + line if line else '')
+    lines.append('')
+    return '\n'.join(lines) + '\n'
 
 
 # ── Page generator ────────────────────────────────────────────────────────────
@@ -1801,34 +1799,35 @@ _FOOTER = """\
 def generate() -> str:
     parts = [_HEADER]
 
-    total = sum(len(section["demos"]) for section in DEMOS)
-    print(f"Rendering {total} demos across {len(DEMOS)} sections …")
+    total = sum(len(section['demos']) for section in DEMOS)
+    print(f'Rendering {total} demos across {len(DEMOS)} sections …')
 
     for section in DEMOS:
-        parts.append(_heading(section["title"], "-") + "\n")
-        for demo in section["demos"]:
-            print(f"  • {section['title']} / {demo['name']}")
-            parts.append(_heading(demo["name"], "~") + "\n")
-            parts.append(_rst_code_block(demo["rst"]))
+        parts.append(_heading(section['title'], '-') + '\n')
+        for demo in section['demos']:
+            print(f'  • {section["title"]} / {demo["name"]}')
+            parts.append(_heading(demo['name'], '~') + '\n')
+            parts.append(_rst_code_block(demo['rst']))
             try:
-                html_frag = render_rst_to_html_fragment(demo["rst"])
+                html_frag = render_rst_to_html_fragment(demo['rst'])
             except Exception as exc:
-                html_frag = f"<pre><!-- render error: {exc} --></pre>"
+                html_frag = f'<pre><!-- render error: {exc} --></pre>'
             parts.append(_raw_html_block(html_frag))
 
     parts.append(_FOOTER)
-    return "".join(parts)
+    return ''.join(parts)
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 
+
 def main() -> None:
-    output_path = REPO_ROOT / "docs" / "source" / "demo.rst"
-    print(f"Writing to {output_path}")
+    output_path = REPO_ROOT / 'docs' / 'source' / 'demo.rst'
+    print(f'Writing to {output_path}')
     content = generate()
-    output_path.write_text(content, encoding="utf-8")
-    print("Done.")
+    output_path.write_text(content, encoding='utf-8')
+    print('Done.')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

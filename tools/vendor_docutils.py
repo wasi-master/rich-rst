@@ -19,9 +19,9 @@ tpath = os.path.join(base, 'transforms')
 
 
 REQUIRED_DOCUTILS_RELATIVE_FILES = {
-  # Directive modules under parsers/rst/directives/parts.py import
-  # transforms.parts; keep this explicit so vendoring cannot regress.
-  'docutils/transforms/parts.py',
+    # Directive modules under parsers/rst/directives/parts.py import
+    # transforms.parts; keep this explicit so vendoring cannot regress.
+    'docutils/transforms/parts.py',
 }
 
 
@@ -38,7 +38,7 @@ def rewrite_vendored_source(content):
     # First rewrite direct imports to the vendored module path.
     content = re.sub(
         r'^([ \t]*)import\s+docutils\.(\S+)([ \t]*)$',
-      r'\1import rich_rst._vendor.docutils.\2\3',
+        r'\1import rich_rst._vendor.docutils.\2\3',
         content,
         flags=re.MULTILINE,
     )
@@ -51,16 +51,18 @@ def rewrite_vendored_source(content):
     from_line_tpl = '{indent}from rich_rst._vendor import docutils\n'
     previous_block_indent = None
     for line in lines:
-      match = import_line_re.match(line)
-      if match:
-        indent = match.group(1)
-        needed_from = from_line_tpl.format(indent=indent)
-        if previous_block_indent != indent and (not rewritten_lines or rewritten_lines[-1] != needed_from):
-          rewritten_lines.append(needed_from)
-        previous_block_indent = indent
-      else:
-        previous_block_indent = None
-      rewritten_lines.append(line)
+        match = import_line_re.match(line)
+        if match:
+            indent = match.group(1)
+            needed_from = from_line_tpl.format(indent=indent)
+            if previous_block_indent != indent and (
+                not rewritten_lines or rewritten_lines[-1] != needed_from
+            ):
+                rewritten_lines.append(needed_from)
+            previous_block_indent = indent
+        else:
+            previous_block_indent = None
+        rewritten_lines.append(line)
     content = ''.join(rewritten_lines)
 
     # 3) import docutils [as alias]
@@ -82,7 +84,7 @@ def rewrite_vendored_source(content):
     )
     for prefix in literal_prefixes:
         content = re.sub(
-            fr'(?<!rich_rst\._vendor\.)(?<=["\']){re.escape(prefix)}',
+            rf'(?<!rich_rst\._vendor\.)(?<=["\']){re.escape(prefix)}',
             f'rich_rst._vendor.{prefix}',
             content,
         )
@@ -120,6 +122,7 @@ def patch_project_imports(paths):
 
     return patched
 
+
 # Collect all files
 mods = sorted([m for m in sys.modules if m.startswith('docutils')])
 files = set()
@@ -136,21 +139,20 @@ for f in os.listdir(dpath):
 
 # Always vendor required transform modules used by vendored directives.
 for f in os.listdir(tpath):
-  if f.endswith('.py') and f == 'parts.py':
-    p = os.path.join(tpath, f)
-    files.add(p)
+    if f.endswith('.py') and f == 'parts.py':
+        p = os.path.join(tpath, f)
+        files.add(p)
 
 files = sorted(files)
 
 # Fail fast if any explicitly required module was not selected.
 vendored_rel_files = {
-  os.path.relpath(path, os.path.dirname(base)).replace(os.sep, '/')
-  for path in files
+    os.path.relpath(path, os.path.dirname(base)).replace(os.sep, '/') for path in files
 }
 missing_required = sorted(REQUIRED_DOCUTILS_RELATIVE_FILES - vendored_rel_files)
 if missing_required:
-  missing_msg = ', '.join(missing_required)
-  raise RuntimeError(f"Vendoring set is missing required modules: {missing_msg}")
+    missing_msg = ', '.join(missing_required)
+    raise RuntimeError(f'Vendoring set is missing required modules: {missing_msg}')
 
 vendor_dir = './rich_rst/_vendor'
 os.makedirs(vendor_dir, exist_ok=True)
@@ -168,8 +170,8 @@ for src_path in files:
     with open(dst_path, 'w') as f:
         f.write(content)
 
-print(f"Vendored {len(files)} files to {vendor_dir}")
-print("Sample directory structure:")
+print(f'Vendored {len(files)} files to {vendor_dir}')
+print('Sample directory structure:')
 for root, dirs, filenames in os.walk(vendor_dir):
     dirs.sort()
     level = root.replace(vendor_dir, '').count(os.sep)
@@ -181,9 +183,9 @@ for root, dirs, filenames in os.walk(vendor_dir):
 
 # Rewrite imports in local project files so vendoring requires no manual edits.
 patched_project_files = patch_project_imports(['./rich_rst', './tests'])
-print(f"Patched imports in {len(patched_project_files)} source/test files")
+print(f'Patched imports in {len(patched_project_files)} source/test files')
 for file_path in patched_project_files:
-    print(f"  {file_path}")
+    print(f'  {file_path}')
 
 # Create VENDORED.md
 vendored_md_content = """# Vendored Dependencies
@@ -298,7 +300,7 @@ vendored_md_path = './VENDORED.md'
 if not os.path.exists(vendored_md_path):
     with open(vendored_md_path, 'w') as f:
         f.write(vendored_md_content)
-    print(f"Created {vendored_md_path}")
+    print(f'Created {vendored_md_path}')
 
 # Create rich_rst/_vendor/License.txt
 license_txt_content = """================================================================================
@@ -538,4 +540,4 @@ license_txt_path = os.path.join(vendor_dir, 'License.txt')
 if not os.path.exists(license_txt_path):
     with open(license_txt_path, 'w') as f:
         f.write(license_txt_content)
-    print(f"Created {license_txt_path}")
+    print(f'Created {license_txt_path}')

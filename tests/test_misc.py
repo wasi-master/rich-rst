@@ -1,12 +1,14 @@
 """Miscellaneous tests."""
 
+
 def test_paragraph_containing_system_message(render_text):
     """Test paragraph that contains a system message."""
     rst = """\
 Before error :unknown_role:`content` after error.
 """
     out = render_text(rst, show_errors=True, sphinx_compat=False)
-    assert "System Message" in out
+    assert 'System Message' in out
+
 
 def test_complex_mixed_content(render_text):
     """Test complex document with mixed content types."""
@@ -58,9 +60,10 @@ Final Section
 Ending content.
 """
     out = render_text(rst)
-    assert "Main Title" in out
-    assert "Author" in out
-    assert "Hello" in out
+    assert 'Main Title' in out
+    assert 'Author' in out
+    assert 'Hello' in out
+
 
 def test_rst_with_all_inline_markup(render_text):
     """Test RST with all inline markup types combined."""
@@ -77,7 +80,8 @@ Also includes :sub:`subscript`, :sup:`superscript` and references to `some targe
 Line with `emphasis`_, **strong**, and ``code`` in one go.
 """
     out = render_text(rst)
-    assert "Markup" in out
+    assert 'Markup' in out
+
 
 def test_mixed_formatting_and_elements(render_text):
     """Test document with mixed formatting throughout."""
@@ -104,7 +108,8 @@ After code, regular text continues.
 * List item two
 """
     out = render_text(rst)
-    assert "Mixed" in out
+    assert 'Mixed' in out
+
 
 def test_long_document_rendering(render_text):
     """Test rendering of a longer document to ensure it completes."""
@@ -123,9 +128,10 @@ Example::
 
    code_{i}()
 """)
-    rst = "\n\n".join(sections)
+    rst = '\n\n'.join(sections)
     out = render_text(rst)
-    assert "Section" in out
+    assert 'Section' in out
+
 
 def test_entire_document_with_all_element_types(render_text):
     """Test complete document with as many element types as possible."""
@@ -185,7 +191,8 @@ Footer Test
 .. footer:: Footer text
 """
     out = render_text(rst)
-    assert "Complete Document" in out
+    assert 'Complete Document' in out
+
 
 def test_complex_comprehensive_document(render_text):
     """Test very comprehensive document using all major features."""
@@ -280,7 +287,8 @@ See the `Python docs`_ for more.
 .. footer:: Page footer text
 """
     out = render_text(rst)
-    assert "Full Documentation" in out
+    assert 'Full Documentation' in out
+
 
 def test_rendering_with_errors_disabled(render_text):
     """Test rendering with error display disabled."""
@@ -288,7 +296,8 @@ def test_rendering_with_errors_disabled(render_text):
 Some text with :unknown:`unknown role`.
 """
     out = render_text(rst, show_errors=False, sphinx_compat=False)
-    assert "System Message" not in out
+    assert 'System Message' not in out
+
 
 def test_rendering_without_sphinx_compat(render_text):
     """Test rendering without Sphinx compatibility."""
@@ -296,7 +305,8 @@ def test_rendering_without_sphinx_compat(render_text):
 Normal RST content.
 """
     out = render_text(rst, sphinx_compat=False)
-    assert "Normal RST content" in out, "Plain text content must be visible without sphinx_compat"
+    assert 'Normal RST content' in out, 'Plain text content must be visible without sphinx_compat'
+
 
 def test_render_all_rst_roles(render_text):
     """Test rendering with various RST roles."""
@@ -306,9 +316,10 @@ Text with :emphasis:`emphasis`, :strong:`strong`, and :literal:`literal`.
 Also :ref:`reference` and :doc:`document`.
 """
     out = render_text(rst)
-    assert "emphasis" in out, ":emphasis: role content must be visible"
-    assert "strong" in out, ":strong: role content must be visible"
-    assert "literal" in out, ":literal: role content must be visible"
+    assert 'emphasis' in out, ':emphasis: role content must be visible'
+    assert 'strong' in out, ':strong: role content must be visible'
+    assert 'literal' in out, ':literal: role content must be visible'
+
 
 def test_render_with_syntax_error(render_text):
     """Test rendering malformed RST."""
@@ -318,15 +329,17 @@ Unclosed ``literal
 This should still render.
 """
     out = render_text(rst, show_errors=True)
-    assert "still render" in out, "Content after syntax error must still be visible"
+    assert 'still render' in out, 'Content after syntax error must still be visible'
+
 
 def test_very_long_line(render_text):
     """Test rendering with very long line."""
-    long_text = "word " * 100
-    rst = f"This is a very long line:\n\n{long_text}"
+    long_text = 'word ' * 100
+    rst = f'This is a very long line:\n\n{long_text}'
     out = render_text(rst)
-    assert "This is a very long line" in out, "Leading text must be visible"
-    assert "word" in out, "Long-line body words must be visible"
+    assert 'This is a very long line' in out, 'Leading text must be visible'
+    assert 'word' in out, 'Long-line body words must be visible'
+
 
 def test_many_nested_elements(render_text):
     """Test document with many nested elements."""
@@ -352,39 +365,43 @@ Nested lists:
    b. B
 """
     out = render_text(rst)
-    assert "Title" in out, "Section title must be visible"
-    assert "One" in out, "Enumerated list item must be visible"
-    assert "Two" in out, "Second enumerated list item must be visible"
-    assert "Alpha" in out, "Nested bullet item must be visible"
+    assert 'Title' in out, 'Section title must be visible'
+    assert 'One' in out, 'Enumerated list item must be visible'
+    assert 'Two' in out, 'Second enumerated list item must be visible'
+    assert 'Alpha' in out, 'Nested bullet item must be visible'
+
 
 def test_empty_document(render_text):
     """Test rendering completely empty document produces a string without raising."""
-    rst = ""
+    rst = ''
     out = render_text(rst)
-    assert isinstance(out, str), "Rendering an empty document must return a string"
+    assert isinstance(out, str), 'Rendering an empty document must return a string'
+
 
 def test_minimal_valid_document(render_text):
     """Test minimal valid document."""
-    rst = "Simple text."
+    rst = 'Simple text.'
     out = render_text(rst)
-    assert "Simple text" in out
+    assert 'Simple text' in out
+
 
 def test_direct_api_usage(render_text):
     """Test direct API usage through render_text with various options."""
-    rst = "Text"
+    rst = 'Text'
     out = render_text(
         rst,
-        code_theme="vim",
+        code_theme='vim',
         show_line_numbers=False,
         guess_lexer=False,
-        default_lexer="bash",
+        default_lexer='bash',
         sphinx_compat=True,
-        show_errors=True
+        show_errors=True,
     )
-    assert "Text" in out
+    assert 'Text' in out
+
 
 def test_generated_node_handling(render_text):
     """Test generated nodes (typically auto-generated content)."""
-    rst = "Some regular content."
+    rst = 'Some regular content.'
     out = render_text(rst)
-    assert "Some regular content" in out, "Regular paragraph text must be visible"
+    assert 'Some regular content' in out, 'Regular paragraph text must be visible'

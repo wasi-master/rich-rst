@@ -16,269 +16,279 @@ Formatting contract
 * Both bullet and enumerated lists append a ``NewLine`` renderable after
   the last item.
 """
+
 from rich.console import NewLine
 from rich.text import Text
 
 # ── Bullet lists ─────────────────────────────────────────────────────────────
 
+
 def test_bullet_list_single_item_visible(render_text):
-    assert "single item" in render_text("* single item\n")
+    assert 'single item' in render_text('* single item\n')
 
 
 def test_bullet_list_multiple_items_all_visible(render_text):
-    out = render_text("* alpha\n* beta\n* gamma\n")
-    assert "alpha" in out
-    assert "beta" in out
-    assert "gamma" in out
+    out = render_text('* alpha\n* beta\n* gamma\n')
+    assert 'alpha' in out
+    assert 'beta' in out
+    assert 'gamma' in out
 
 
 def test_bullet_list_items_render_without_blank_lines_between_entries(render_text):
-    out = render_text("* alpha\n* beta\n* gamma\n")
-    assert out.splitlines() == [" • alpha", " • beta", " • gamma"]
+    out = render_text('* alpha\n* beta\n* gamma\n')
+    assert out.splitlines() == [' • alpha', ' • beta', ' • gamma']
 
 
 def test_bullet_list_marker_plain_text_is_bullet_char(make_visitor):
-    visitor = make_visitor("* item\n")
+    visitor = make_visitor('* item\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain.lstrip().startswith("•")]
+    markers = [t for t in texts if t.plain.lstrip().startswith('•')]
     assert markers, "Bullet list must produce a Text starting with '•'"
 
 
 def test_bullet_list_marker_style_is_bold_yellow(make_visitor):
-    visitor = make_visitor("* item\n")
+    visitor = make_visitor('* item\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain.lstrip().startswith("•")]
+    markers = [t for t in texts if t.plain.lstrip().startswith('•')]
     assert markers
     # The marker style becomes the base style of the combined text
-    assert str(markers[0].style) == "bold yellow", (
+    assert str(markers[0].style) == 'bold yellow', (
         f"Bullet marker style must be 'bold yellow', got {markers[0].style!r}"
     )
 
 
 def test_bullet_list_followed_by_newline(make_visitor):
-    visitor = make_visitor("* item\n")
+    visitor = make_visitor('* item\n')
     newlines = [r for r in visitor.renderables if isinstance(r, NewLine)]
-    assert newlines, "Bullet list must be followed by a NewLine renderable"
+    assert newlines, 'Bullet list must be followed by a NewLine renderable'
 
 
 def test_bullet_list_dash_syntax(render_text):
-    out = render_text("- first\n- second\n")
-    assert "first" in out
-    assert "second" in out
+    out = render_text('- first\n- second\n')
+    assert 'first' in out
+    assert 'second' in out
 
 
 def test_bullet_list_plus_syntax(render_text):
-    out = render_text("+ one\n+ two\n")
-    assert "one" in out
-    assert "two" in out
+    out = render_text('+ one\n+ two\n')
+    assert 'one' in out
+    assert 'two' in out
 
 
 # ── Enumerated lists ──────────────────────────────────────────────────────────
 
+
 def test_enumerated_list_single_item_visible(render_text):
-    assert "first" in render_text("#. first\n")
+    assert 'first' in render_text('#. first\n')
 
 
 def test_enumerated_list_multiple_items_all_visible(render_text):
-    out = render_text("#. one\n#. two\n#. three\n")
-    assert "one" in out
-    assert "two" in out
-    assert "three" in out
+    out = render_text('#. one\n#. two\n#. three\n')
+    assert 'one' in out
+    assert 'two' in out
+    assert 'three' in out
 
 
 def test_enumerated_list_items_render_without_blank_lines_between_entries(render_text):
-    out = render_text("#. one\n#. two\n#. three\n")
-    assert out.splitlines() == [" 1. one", " 2. two", " 3. three"]
+    out = render_text('#. one\n#. two\n#. three\n')
+    assert out.splitlines() == [' 1. one', ' 2. two', ' 3. three']
 
 
 def test_enumerated_list_first_marker_plain_text(make_visitor):
-    visitor = make_visitor("#. item\n")
+    visitor = make_visitor('#. item\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
     # Marker is " 1." (space + digit + suffix)
-    markers = [t for t in texts if t.plain.strip() == "1."]
+    markers = [t for t in texts if t.plain.strip() == '1.']
     assert markers, "First enumerated marker must contain '1.'"
 
 
 def test_enumerated_list_marker_style_is_bold_yellow(make_visitor):
-    visitor = make_visitor("#. item\n")
+    visitor = make_visitor('#. item\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain.strip().rstrip(".").isdigit()]
+    markers = [t for t in texts if t.plain.strip().rstrip('.').isdigit()]
     assert markers
-    assert str(markers[0].style) == "bold yellow", (
+    assert str(markers[0].style) == 'bold yellow', (
         f"Enumerated marker style must be 'bold yellow', got {markers[0].style!r}"
     )
 
 
 def test_enumerated_list_multiple_markers_increment(make_visitor):
-    visitor = make_visitor("#. one\n#. two\n#. three\n")
+    visitor = make_visitor('#. one\n#. two\n#. three\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain.strip().rstrip(".").isdigit()]
-    nums = [int(t.plain.strip().rstrip(".")) for t in markers]
-    assert sorted(nums) == [1, 2, 3], f"Markers must be 1, 2, 3; got {nums}"
+    markers = [t for t in texts if t.plain.strip().rstrip('.').isdigit()]
+    nums = [int(t.plain.strip().rstrip('.')) for t in markers]
+    assert sorted(nums) == [1, 2, 3], f'Markers must be 1, 2, 3; got {nums}'
 
 
 def test_enumerated_list_explicit_numbers(render_text):
-    out = render_text("1. alpha\n2. beta\n3. gamma\n")
-    assert "alpha" in out
-    assert "beta" in out
-    assert "gamma" in out
+    out = render_text('1. alpha\n2. beta\n3. gamma\n')
+    assert 'alpha' in out
+    assert 'beta' in out
+    assert 'gamma' in out
 
 
 def test_enumerated_list_followed_by_newline(make_visitor):
-    visitor = make_visitor("#. item\n")
+    visitor = make_visitor('#. item\n')
     newlines = [r for r in visitor.renderables if isinstance(r, NewLine)]
-    assert newlines, "Enumerated list must be followed by a NewLine renderable"
+    assert newlines, 'Enumerated list must be followed by a NewLine renderable'
 
 
 def test_enumerated_list_alpha(render_text):
-    out = render_text("a. alpha\nb. beta\n")
-    assert "alpha" in out
-    assert "beta" in out
+    out = render_text('a. alpha\nb. beta\n')
+    assert 'alpha' in out
+    assert 'beta' in out
 
 
 # ── Nested bullet lists ───────────────────────────────────────────────────────
 
+
 def test_nested_bullet_both_levels_visible(render_text):
-    out = render_text("* outer\n\n  * inner\n")
-    assert "outer" in out
-    assert "inner" in out
+    out = render_text('* outer\n\n  * inner\n')
+    assert 'outer' in out
+    assert 'inner' in out
 
 
 def test_nested_bullet_level2_uses_open_circle_marker(make_visitor):
-    visitor = make_visitor("* outer\n\n  * inner\n")
+    visitor = make_visitor('* outer\n\n  * inner\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    l2_markers = [t for t in texts if "∘" in t.plain]
+    l2_markers = [t for t in texts if '∘' in t.plain]
     assert l2_markers, "Level-2 bullet must use the '∘' open-circle marker"
 
 
 def test_nested_bullet_level1_uses_bullet_marker(make_visitor):
-    visitor = make_visitor("* outer\n\n  * inner\n")
+    visitor = make_visitor('* outer\n\n  * inner\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    l1_markers = [t for t in texts if t.plain.lstrip().startswith("•")]
+    l1_markers = [t for t in texts if t.plain.lstrip().startswith('•')]
     assert l1_markers, "Level-1 bullet must use the '•' filled-circle marker"
 
 
 def test_nested_bullet_inner_indented_further(render_text):
-    rst = "* outer\n\n  * inner\n"
+    rst = '* outer\n\n  * inner\n'
     out = render_text(rst)
-    outer_col = out.index("outer")
-    inner_col = out.index("inner")
-    assert inner_col > outer_col, "Inner bullet must be indented further than outer"
+    outer_col = out.index('outer')
+    inner_col = out.index('inner')
+    assert inner_col > outer_col, 'Inner bullet must be indented further than outer'
 
 
 def test_nested_bullet_three_levels(render_text):
-    out = render_text("* a\n\n  * b\n\n    * c\n")
-    assert "a" in out
-    assert "b" in out
-    assert "c" in out
+    out = render_text('* a\n\n  * b\n\n    * c\n')
+    assert 'a' in out
+    assert 'b' in out
+    assert 'c' in out
 
 
 # ── Nested enumerated lists ───────────────────────────────────────────────────
 
+
 def test_nested_enumerated_both_levels_visible(render_text):
-    out = render_text("#. outer\n\n   #. inner\n")
-    assert "outer" in out
-    assert "inner" in out
+    out = render_text('#. outer\n\n   #. inner\n')
+    assert 'outer' in out
+    assert 'inner' in out
 
 
 def test_nested_enumerated_inner_marker_is_number_one(make_visitor):
-    visitor = make_visitor("#. outer\n\n   #. inner\n")
+    visitor = make_visitor('#. outer\n\n   #. inner\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
     # Both outer and inner start from 1
-    markers_1 = [t for t in texts if t.plain.strip() == "1."]
-    assert len(markers_1) == 2, "Each enumerated level starts at 1"
+    markers_1 = [t for t in texts if t.plain.strip() == '1.']
+    assert len(markers_1) == 2, 'Each enumerated level starts at 1'
 
 
 # ── Mixed nesting ─────────────────────────────────────────────────────────────
 
+
 def test_bullet_list_inside_enumerated(render_text):
-    rst = "#. numbered\n\n   * bullet sub-item\n"
+    rst = '#. numbered\n\n   * bullet sub-item\n'
     out = render_text(rst)
-    assert "numbered" in out
-    assert "bullet sub-item" in out
+    assert 'numbered' in out
+    assert 'bullet sub-item' in out
 
 
 def test_enumerated_list_inside_bullet(render_text):
-    rst = "* bullet\n\n  #. numbered sub-item\n"
+    rst = '* bullet\n\n  #. numbered sub-item\n'
     out = render_text(rst)
-    assert "bullet" in out
-    assert "numbered sub-item" in out
+    assert 'bullet' in out
+    assert 'numbered sub-item' in out
 
 
 # ── Lists containing code blocks ──────────────────────────────────────────────
 
+
 def test_bullet_list_item_with_code_block(render_text):
-    assert "print" in render_text("* item with code::\n\n    print('hello')\n")
+    assert 'print' in render_text("* item with code::\n\n    print('hello')\n")
 
 
 def test_enumerated_list_item_with_code_block(render_text):
-    assert "x = 1" in render_text("#. step one::\n\n    x = 1\n")
+    assert 'x = 1' in render_text('#. step one::\n\n    x = 1\n')
 
 
 # ── Start index ───────────────────────────────────────────────────────────────
 
+
 def test_enumerated_list_custom_start_index(make_visitor):
-    visitor = make_visitor("3. three\n4. four\n5. five\n")
+    visitor = make_visitor('3. three\n4. four\n5. five\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
-    markers = [t for t in texts if t.plain.strip().rstrip(".").isdigit()]
-    nums = [int(t.plain.strip().rstrip(".")) for t in markers]
-    assert nums == [3, 4, 5], f"List starting at 3 must render markers 3, 4, 5; got {nums}"
+    markers = [t for t in texts if t.plain.strip().rstrip('.').isdigit()]
+    nums = [int(t.plain.strip().rstrip('.')) for t in markers]
+    assert nums == [3, 4, 5], f'List starting at 3 must render markers 3, 4, 5; got {nums}'
 
 
 def test_enumerated_list_custom_start_content_visible(render_text):
-    out = render_text("3. three\n4. four\n")
-    assert "three" in out
-    assert "four" in out
+    out = render_text('3. three\n4. four\n')
+    assert 'three' in out
+    assert 'four' in out
 
 
 # ── Non-Arabic numerals ───────────────────────────────────────────────────────
 
+
 def test_enumerated_list_loweralpha_markers(make_visitor):
-    visitor = make_visitor("a. alpha\nb. beta\nc. gamma\n")
+    visitor = make_visitor('a. alpha\nb. beta\nc. gamma\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
     stripped = [t.plain.strip() for t in texts]
-    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
-    labels = [p.rstrip(".") for p in marker_plains]
-    assert labels == ["a", "b", "c"], f"Lowercase alpha markers must be a, b, c; got {labels}"
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == '.']
+    labels = [p.rstrip('.') for p in marker_plains]
+    assert labels == ['a', 'b', 'c'], f'Lowercase alpha markers must be a, b, c; got {labels}'
 
 
 def test_enumerated_list_upperalpha_markers(make_visitor):
-    visitor = make_visitor("A. Alpha\nB. Beta\nC. Gamma\n")
+    visitor = make_visitor('A. Alpha\nB. Beta\nC. Gamma\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
     stripped = [t.plain.strip() for t in texts]
-    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
-    labels = [p.rstrip(".") for p in marker_plains]
-    assert labels == ["A", "B", "C"], f"Uppercase alpha markers must be A, B, C; got {labels}"
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == '.']
+    labels = [p.rstrip('.') for p in marker_plains]
+    assert labels == ['A', 'B', 'C'], f'Uppercase alpha markers must be A, B, C; got {labels}'
 
 
 def test_enumerated_list_lowerroman_markers(make_visitor):
-    visitor = make_visitor("i. one\nii. two\niii. three\n")
+    visitor = make_visitor('i. one\nii. two\niii. three\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
     stripped = [t.plain.strip() for t in texts]
-    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
-    labels = [p.rstrip(".") for p in marker_plains]
-    assert labels == ["i", "ii", "iii"], f"Lowercase roman markers must be i, ii, iii; got {labels}"
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == '.']
+    labels = [p.rstrip('.') for p in marker_plains]
+    assert labels == ['i', 'ii', 'iii'], f'Lowercase roman markers must be i, ii, iii; got {labels}'
 
 
 def test_enumerated_list_upperroman_markers(make_visitor):
-    visitor = make_visitor("I. ONE\nII. TWO\nIII. THREE\n")
+    visitor = make_visitor('I. ONE\nII. TWO\nIII. THREE\n')
     texts = [r for r in visitor.renderables if isinstance(r, Text)]
     stripped = [t.plain.strip() for t in texts]
-    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == "."]
-    labels = [p.rstrip(".") for p in marker_plains]
-    assert labels == ["I", "II", "III"], f"Uppercase roman markers must be I, II, III; got {labels}"
+    marker_plains = [s for s in stripped if len(s) >= 2 and s[-1] == '.']
+    labels = [p.rstrip('.') for p in marker_plains]
+    assert labels == ['I', 'II', 'III'], f'Uppercase roman markers must be I, II, III; got {labels}'
 
 
 def test_enumerated_list_loweralpha_content_visible(render_text):
-    out = render_text("a. first\nb. second\n")
-    assert "first" in out
-    assert "second" in out
+    out = render_text('a. first\nb. second\n')
+    assert 'first' in out
+    assert 'second' in out
 
 
 def test_enumerated_list_lowerroman_content_visible(render_text):
-    out = render_text("i. one\nii. two\n")
-    assert "one" in out
-    assert "two" in out
+    out = render_text('i. one\nii. two\n')
+    assert 'one' in out
+    assert 'two' in out
+
 
 def test_multiple_authors_docinfo(render_text):
     """Test docinfo with multiple author elements."""
@@ -294,8 +304,9 @@ def test_multiple_authors_docinfo(render_text):
 :Copyright: 2024 ACME
 """
     out = render_text(rst)
-    assert "Author" in out
-    assert "Organization" in out
+    assert 'Author' in out
+    assert 'Organization' in out
+
 
 def test_docinfo_single_author(render_text):
     """Test docinfo with single author."""
@@ -304,8 +315,9 @@ def test_docinfo_single_author(render_text):
 :Date: 2024-06-15
 """
     out = render_text(rst)
-    assert "Author" in out
-    assert "Charlie" in out
+    assert 'Author' in out
+    assert 'Charlie' in out
+
 
 def test_multiple_field_merging(render_text):
     """Test that multiple field blocks merge into same table."""
@@ -319,8 +331,9 @@ Some paragraph.
 :Status: Draft
 """
     out = render_text(rst)
-    assert "Author" in out
-    assert "Version" in out
+    assert 'Author' in out
+    assert 'Version' in out
+
 
 def test_field_list_standalone(render_text):
     """Test field list outside of docinfo."""
@@ -334,8 +347,9 @@ Content before.
 Content after.
 """
     out = render_text(rst)
-    assert "Field1" in out
-    assert "Value1" in out
+    assert 'Field1' in out
+    assert 'Value1' in out
+
 
 def test_address_docinfo(render_text):
     """Test address field in docinfo."""
@@ -346,8 +360,9 @@ def test_address_docinfo(render_text):
 :Contact: info@example.com
 """
     out = render_text(rst)
-    assert "Address" in out, "Address field name must appear in the table"
-    assert "123" in out, "Address field value must appear in the table"
+    assert 'Address' in out, 'Address field name must appear in the table'
+    assert '123' in out, 'Address field value must appear in the table'
+
 
 def test_option_list_with_arguments(render_text):
     """Test option list with arguments."""
@@ -360,10 +375,11 @@ def test_option_list_with_arguments(render_text):
    Boolean flag
 """
     out = render_text(rst)
-    assert "-a" in out, "Option -a must be visible"
-    assert "Description of -a option" in out, "Option -a description must be rendered"
-    assert "-c" in out, "Option -c must be visible"
-    assert "Boolean flag" in out, "Option -c description must be rendered"
+    assert '-a' in out, 'Option -a must be visible'
+    assert 'Description of -a option' in out, 'Option -a description must be rendered'
+    assert '-c' in out, 'Option -c must be visible'
+    assert 'Boolean flag' in out, 'Option -c description must be rendered'
+
 
 def test_option_list_single_option(render_text):
     """Test option list with single option."""
@@ -372,8 +388,9 @@ def test_option_list_single_option(render_text):
    Enable verbose output
 """
     out = render_text(rst)
-    assert "--verbose" in out, "Option flag --verbose must be visible"
-    assert "Enable verbose output" in out, "Option description must be rendered"
+    assert '--verbose' in out, 'Option flag --verbose must be visible'
+    assert 'Enable verbose output' in out, 'Option description must be rendered'
+
 
 def test_complex_option_list(render_text):
     """Test complex option list with various formats."""
@@ -393,11 +410,12 @@ Command Options
    Use configuration from FILE
 """
     out = render_text(rst)
-    assert "-h" in out, "Option -h must be visible"
-    assert "Show this help message" in out, "Option -h description must be rendered"
-    assert "--verbose" in out, "Option --verbose must be visible"
-    assert "Enable verbose output" in out, "Option --verbose description must be rendered"
-    assert "--quiet" in out, "Option --quiet must be visible"
+    assert '-h' in out, 'Option -h must be visible'
+    assert 'Show this help message' in out, 'Option -h description must be rendered'
+    assert '--verbose' in out, 'Option --verbose must be visible'
+    assert 'Enable verbose output' in out, 'Option --verbose description must be rendered'
+    assert '--quiet' in out, 'Option --quiet must be visible'
+
 
 def test_bullet_list_with_nested_enumerated_list(render_text):
     """Test bullet list containing enumerated list."""
@@ -413,7 +431,8 @@ def test_bullet_list_with_nested_enumerated_list(render_text):
   2. Numbered 2.2
 """
     out = render_text(rst)
-    assert "Bullet" in out
+    assert 'Bullet' in out
+
 
 def test_enumerated_list_with_nested_bullet_list(render_text):
     """Test enumerated list containing bullet list."""
@@ -428,7 +447,8 @@ def test_enumerated_list_with_nested_bullet_list(render_text):
    * Nested bullet C
 """
     out = render_text(rst)
-    assert "First" in out
+    assert 'First' in out
+
 
 def test_triple_nested_lists(render_text):
     """Test three levels of list nesting."""
@@ -445,9 +465,10 @@ def test_triple_nested_lists(render_text):
 * Level 1-2
 """
     out = render_text(rst)
-    assert "Level 1-1" in out, "First-level list item must be visible"
-    assert "Level 2-1" in out, "Second-level nested list item must be visible"
-    assert "Level 3-1" in out, "Third-level nested list item must be visible"
+    assert 'Level 1-1' in out, 'First-level list item must be visible'
+    assert 'Level 2-1' in out, 'Second-level nested list item must be visible'
+    assert 'Level 3-1' in out, 'Third-level nested list item must be visible'
+
 
 def test_list_with_code_block(render_text):
     """Test list containing code block."""
@@ -461,8 +482,9 @@ def test_list_with_code_block(render_text):
 * Third item
 """
     out = render_text(rst)
-    assert "Second item with code" in out, "List item text must be visible"
-    assert "def hello" in out, "Code block content inside list item must be visible"
+    assert 'Second item with code' in out, 'List item text must be visible'
+    assert 'def hello' in out, 'Code block content inside list item must be visible'
+
 
 def test_bullet_list_with_only_code_blocks(render_text):
     """Test bullet list containing only code blocks."""
@@ -476,8 +498,9 @@ def test_bullet_list_with_only_code_blocks(render_text):
      code block 2
 """
     out = render_text(rst)
-    assert "code block 1" in out, "First code block content must be visible"
-    assert "code block 2" in out, "Second code block content must be visible"
+    assert 'code block 1' in out, 'First code block content must be visible'
+    assert 'code block 2' in out, 'Second code block content must be visible'
+
 
 def test_enumerated_list_with_only_code_blocks(render_text):
     """Test enumerated list containing only code blocks."""
@@ -491,8 +514,9 @@ def test_enumerated_list_with_only_code_blocks(render_text):
       another code block
 """
     out = render_text(rst)
-    assert "code block here" in out, "First code block content must be visible"
-    assert "another code block" in out, "Second code block content must be visible"
+    assert 'code block here' in out, 'First code block content must be visible'
+    assert 'another code block' in out, 'Second code block content must be visible'
+
 
 def test_very_deep_enumerated_list_nesting(render_text):
     """Test very deeply nested enumerated lists."""
@@ -506,4 +530,4 @@ def test_very_deep_enumerated_list_nesting(render_text):
          1. Item 1.1.1.1
 """
     out = render_text(rst)
-    assert "Item" in out
+    assert 'Item' in out

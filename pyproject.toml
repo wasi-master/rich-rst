@@ -112,6 +112,10 @@ ignore = [
     "N806",    # Non-lowercase variable in function
 ]
 
+[tool.ruff.format]
+quote-style = "single"
+exclude = ["rich_rst/__init__.py"]
+
 [tool.mypy]
 ignore_missing_imports = true
 warn_unused_ignores = true

@@ -10,6 +10,7 @@ Shared pytest fixtures for the rich-rst test suite.
     Renders RST markup through the public :class:`RestructuredText` API and
     returns the exported plain text.  Use this for content / output assertions.
 """
+
 import sys
 from pathlib import Path
 
@@ -27,19 +28,20 @@ from rich_rst._vendor import docutils
 @pytest.fixture
 def make_visitor():
     """Factory fixture: parse RST and return a walked RSTVisitor."""
+
     def _make(rst_text, **kwargs):
         document = docutils.core.publish_doctree(
             rst_text,
-            settings_overrides={"report_level": 69, "halt_level": 69},
+            settings_overrides={'report_level': 69, 'halt_level': 69},
         )
         console = Console(force_terminal=True, width=120, record=True)
         visitor = RSTVisitor(
             document,
             console=console,
-            code_theme="monokai",
+            code_theme='monokai',
             show_line_numbers=False,
             guess_lexer=False,
-            default_lexer="python",
+            default_lexer='python',
             **kwargs,
         )
         document.walkabout(visitor)
@@ -51,6 +53,7 @@ def make_visitor():
 @pytest.fixture
 def render_text():
     """Factory fixture: render RST markup and return plain text output."""
+
     def _render(markup, **kwargs):
         console = Console(force_terminal=True, width=120, record=True)
         console.print(RestructuredText(markup, **kwargs))

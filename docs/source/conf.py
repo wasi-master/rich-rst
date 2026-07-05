@@ -38,7 +38,10 @@ extensions = [
 ]
 
 # Add the locations and names of other projects that should be linked to in this documentation.
-intersphinx_mapping = {'python': ('https://docs.python.org/3', None), 'rich': ('https://rich.readthedocs.io/en/stable/', None)}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'rich': ('https://rich.readthedocs.io/en/stable/', None),
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -68,9 +71,9 @@ html_static_path = ['_static']
 # overwrite the builtin files
 html_extra_path = ['_extra']
 # Add any files that contain extra custom css
-html_css_files = ["custom.css"]
+html_css_files = ['custom.css']
 # Specify the logo of the documentation.
-html_logo = "_static/logo.png"
+html_logo = '_static/logo.png'
 # Config for sphinxawesome_theme
 # html_permalinks_icon = '<span>#</span>'
 # html_collapsible_definitions = True
@@ -87,9 +90,9 @@ html_theme_options = {
     'display_version': True,
 }
 html_context = {
-  "display_github": True, # Add 'Edit on Github' link instead of 'View page source'
-  "github_user": "wasi-master",
-  "github_repo": project,
-  "github_version": "main",
-  "conf_py_path": "/docs/source/",
+    'display_github': True,  # Add 'Edit on Github' link instead of 'View page source'
+    'github_user': 'wasi-master',
+    'github_repo': project,
+    'github_version': 'main',
+    'conf_py_path': '/docs/source/',
 }
