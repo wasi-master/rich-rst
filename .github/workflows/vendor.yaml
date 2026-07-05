@@ -1,0 +1,48 @@
+name: Check and Update Vendored Docutils
+
+on:
+  schedule:
+    # Run monthly on the 1st at 00:00 UTC
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  vendor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -e ".[tests]"
+          pip install docutils
+
+      - name: Run vendor script
+        run: python tools/vendor_docutils.py
+
+      - name: Run tests
+        run: python -m pytest
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "chore: update vendored docutils"
+          title: "chore: update vendored docutils"
+          body: |
+            Automated update of vendored docutils dependencies.
+            Please verify:
+            - [ ] All tests pass
+            - [ ] No new GPL/proprietary dependencies were added
+            - [ ] VENDORED.md has been reviewed
+          branch: vendor/docutils-update
+          delete-branch: true
