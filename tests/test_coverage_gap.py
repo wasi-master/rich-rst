@@ -1,22 +1,22 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 from pygments.util import ClassNotFound
 from rich.console import Console
 from rich.text import Text
-from rich.panel import Panel
-from rich.table import Table
-from rich_rst import RestructuredText, RSTVisitor
-from rich_rst._vendor import docutils
-import rich_rst
+
 from rich_rst import (
-    availability,
-    soft_deprecated,
-    py_desc,
-    hlist_block,
-    toctree_stub,
+    RestructuredText,
+    RSTVisitor,
     _colSpan,
     _rowSpan,
+    availability,
+    hlist_block,
+    py_desc,
+    soft_deprecated,
+    toctree_stub,
 )
+from rich_rst._vendor import docutils
 
 
 class MockDict(dict):
@@ -74,13 +74,13 @@ def test_guess_lexer_name_exception():
 def test_indirect_link_references():
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
-    
+
     ref_node = docutils.nodes.reference(text="some link", refname="mylink")
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_reference(ref_node)
-    
+
     assert "mylink" in visitor.refname_to_renderable
-    
+
     target_node = docutils.nodes.target(refuri="http://example.com", names=["mylink"])
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_target(target_node)
@@ -97,10 +97,10 @@ def test_paragraph_in_system_message():
     para = docutils.nodes.paragraph(text="System message details")
     sys_msg.append(para)
     para.parent = sys_msg
-    
+
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(sys_msg, console=console)
-    
+
     with patch.object(visitor, "visit_system_message", return_value=None):
         with pytest.raises(docutils.nodes.SkipChildren):
             visitor.visit_paragraph(para)
@@ -152,11 +152,11 @@ def test_custom_directives_degraded():
     # Version directives without versions degrading to normal admonitions
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
-    
+
     avail = availability()
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_availability(avail)
-        
+
     soft_dep = soft_deprecated()
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_soft_deprecated(soft_dep)
@@ -167,7 +167,7 @@ def test_py_fields_rendering():
     doc = docutils.core.publish_doctree("Hello")
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(doc, console=console)
-    
+
     # Field list with a field having less than 2 children (empty/short fields)
     fl_empty = docutils.nodes.field_list()
     f_empty = docutils.nodes.field()
@@ -223,17 +223,17 @@ def test_signature_highlighters():
     # Empty signatures and highlighters for various domains
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
-    
+
     # C/C++ empty signature
     assert len(visitor._highlight_c_cpp_signature("c", "function", "")) == 0
-    
+
     # JS empty signature
     assert len(visitor._highlight_js_signature("function", "")) == 0
-    
+
     # JS signature with keywords and styling
     js_sig = visitor._highlight_js_signature("function", "async function test()")
     assert len(js_sig) > 0
-    
+
     # JS signature attributes
     js_attr = visitor._highlight_js_signature("attribute", "myAttr")
     assert len(js_attr) > 0
@@ -246,27 +246,27 @@ def test_py_signature_bracket_scans():
     # Bracket-aware scanning logic in python signature parsing
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
-    
+
     # Arrow scan with bracket depth
     sig1 = "def foo() ->  list[str, int] "
     res1 = visitor._highlight_py_signature("function", sig1)
     assert len(res1) > 0
-    
+
     # Arrow scan unmatched closing bracket
     sig2 = "def foo() -> list]"
     res2 = visitor._highlight_py_signature("function", sig2)
     assert len(res2) > 0
-    
+
     # Colon param spaces
     sig3 = "foo(param:  int)"
     res3 = visitor._highlight_py_signature("function", sig3)
     assert len(res3) > 0
-    
+
     # Colon param continue on delimiter
     sig4 = "foo(param: )"
     res4 = visitor._highlight_py_signature("function", sig4)
     assert len(res4) > 0
-    
+
     # Colon param brackets and spaces
     sig5 = "foo(param:  list[str])"
     res5 = visitor._highlight_py_signature("function", sig5)
@@ -284,13 +284,13 @@ def test_collect_typed_class_attributes():
     # Collect typed py attributes
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
-    
+
     class_node = docutils.nodes.Element()
     child = py_desc(objtype="attribute", sig="attr : int")
     child.append(docutils.nodes.field_list())
     class_node.append(child)
-    
-    attrs, remaining = visitor._collect_typed_class_attributes(class_node)
+
+    attrs, _remaining = visitor._collect_typed_class_attributes(class_node)
     assert len(attrs) == 1
     assert attrs[0][0] == "attr"
     assert attrs[0][1] == "int"
@@ -311,30 +311,30 @@ def test_visit_hlist_block():
     doc = docutils.core.publish_doctree("Hello")
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(doc, console=console)
-    
+
     # Hlist_block without items
     node_empty = hlist_block(columns=2)
     doc.append(node_empty)
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_hlist_block(node_empty)
-        
+
     # Items with multiple renderables and padding
     node = hlist_block(columns=3)
     bl = docutils.nodes.bullet_list()
-    
+
     li1 = docutils.nodes.list_item()
     bl.append(li1)
-    
+
     li2 = docutils.nodes.list_item()
     p1 = docutils.nodes.paragraph(text="p1")
     p2 = docutils.nodes.paragraph(text="p2")
     li2.append(p1)
     li2.append(p2)
     bl.append(li2)
-    
+
     node.append(bl)
     doc.append(node)
-    
+
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_hlist_block(node)
 
@@ -381,11 +381,11 @@ def test_visit_authors():
     # Multiple authors docinfo field rendering
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
-    
+
     authors_node = docutils.nodes.authors()
     authors_node.append(docutils.nodes.author(text="Author 1"))
     authors_node.append(docutils.nodes.author(text="Author 2"))
-    
+
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_authors(authors_node)
 
@@ -492,7 +492,7 @@ def test_table_spans_and_edge_cases():
     console = Console(force_terminal=True, width=120)
     doc = docutils.core.publish_doctree("Hello")
     visitor = RSTVisitor(doc, console=console)
-    
+
     table1 = docutils.nodes.table()
     table1.append(tgroup)
     with pytest.raises(docutils.nodes.SkipChildren):
@@ -507,7 +507,7 @@ def test_table_spans_and_edge_cases():
     tgroup_full.append(thead)
 
     tbody = docutils.nodes.tbody()
-    
+
     # Row 1: has rowspan and colspan
     r1 = docutils.nodes.row()
     e1 = docutils.nodes.entry(morerows=1, morecols=1)
@@ -517,13 +517,13 @@ def test_table_spans_and_edge_cases():
     e2.append(docutils.nodes.paragraph(text="normal"))
     r1.append(e2)
     tbody.append(r1)
-    
+
     # Row 2: empty row to trigger rowspan occupancies and empty pad
     r2 = docutils.nodes.row()
     tbody.append(r2)
-    
+
     tgroup_full.append(tbody)
-    
+
     table2 = docutils.nodes.table()
     table2.append(tgroup_full)
     with pytest.raises(docutils.nodes.SkipChildren):
@@ -534,32 +534,32 @@ def test_table_advanced_spans():
     console = Console(force_terminal=True, width=120)
     doc = docutils.core.publish_doctree("Hello")
     visitor = RSTVisitor(doc, console=console)
-    
+
     tgroup = docutils.nodes.tgroup(cols=3)
     thead = docutils.nodes.thead()
     tr_head = docutils.nodes.row()
     tr_head.append(docutils.nodes.entry(morecols=1))
     thead.append(tr_head)
     tgroup.append(thead)
-    
+
     tbody = docutils.nodes.tbody()
-    
+
     r1 = docutils.nodes.row()
     e1 = docutils.nodes.entry(morerows=1)
     e1.append(docutils.nodes.paragraph(text="rowspan cell"))
     r1.append(e1)
-    
+
     r2 = docutils.nodes.row()
-    
+
     tbody.append(r1)
     tbody.append(r2)
-    
+
     tbody.children = MockChildrenList(tbody.children)
     tgroup.append(tbody)
-    
+
     table = docutils.nodes.table()
     table.append(tgroup)
-    
+
     # Set occupied cells and row spans to execute loop 4452-4455
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_table(table)
@@ -567,15 +567,15 @@ def test_table_advanced_spans():
 
 def test_table_width_shrinking_edge_cases():
     console = Console(force_terminal=True, width=120)
-    
+
     import builtins
     original_min = builtins.min
-    
+
     def mock_min(*args, **kwargs):
         if len(args) == 3 and args[2] == 9999:
             return 0
         return original_min(*args, **kwargs)
-        
+
     with patch("rich_rst.min", mock_min):
 
         tgroup = docutils.nodes.tgroup(cols=2)
@@ -583,7 +583,7 @@ def test_table_width_shrinking_edge_cases():
         colspec2 = docutils.nodes.colspec(colwidth=10)
         tgroup.append(colspec1)
         tgroup.append(colspec2)
-        
+
         thead = docutils.nodes.thead()
         tr_head = docutils.nodes.row()
         e_head1 = docutils.nodes.entry()
@@ -594,7 +594,7 @@ def test_table_width_shrinking_edge_cases():
         tr_head.append(e_head2)
         thead.append(tr_head)
         tgroup.append(thead)
-        
+
         tbody = docutils.nodes.tbody()
         r = docutils.nodes.row()
         e = docutils.nodes.entry(morerows=1)
@@ -604,20 +604,20 @@ def test_table_width_shrinking_edge_cases():
         e_wide.append(docutils.nodes.paragraph(text="very_long_cell_text"))
         r.append(e_wide)
         tbody.append(r)
-        
+
         # Grid table generation with entry is None inside spans-active layout
         r2 = docutils.nodes.row()
         tbody.append(r2)
         tgroup.append(tbody)
-        
+
         doc = docutils.core.publish_doctree("Hello")
         visitor = RSTVisitor(doc, console=console)
         mock_options = visitor.console.options.update(max_width=1)
-        
+
         from unittest.mock import PropertyMock
         with patch.object(Console, "options", new_callable=PropertyMock) as mock_opts:
             mock_opts.return_value = mock_options
-            
+
             table = docutils.nodes.table()
             table.append(tgroup)
             with pytest.raises(docutils.nodes.SkipChildren):
@@ -628,8 +628,6 @@ def test_table_width_shrinking_edge_cases():
                 console.print(r)
 
 
-
-
 def test_branch_coverage_various_directives():
     rst_text = """
 .. code-block:: python
@@ -637,7 +635,7 @@ def test_branch_coverage_various_directives():
 
    print("hello")
 
-.. math::  
+.. math::
 
 .. only:: html
 

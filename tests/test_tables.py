@@ -1140,11 +1140,10 @@ def test_flat_table_invalid_content(render_text):
    Not a bullet list.
 """
     import pytest
+
     from rich_rst._vendor.docutils.utils import SystemMessagePropagation
     with pytest.raises(SystemMessagePropagation):
         render_text(rst)
-
-
 
 
 def test_flat_table_stub_columns(make_visitor):
@@ -1164,11 +1163,11 @@ def test_flat_table_stub_columns(make_visitor):
 def test_flat_table_col_widths_tuple(monkeypatch, make_visitor):
     # Mock get_column_widths to return a tuple instead of list
     from rich_rst import _FlatTableDirective
-    original_get_widths = _FlatTableDirective.get_column_widths
+
     def mock_get_widths(self, max_cols):
         return (None, [50, 50])
     monkeypatch.setattr(_FlatTableDirective, 'get_column_widths', mock_get_widths)
-    
+
     rst = """\
 .. flat-table::
    :widths: 50 50
@@ -1219,6 +1218,7 @@ def test_flat_table_invalid_element_in_row(render_text):
    * This is an invalid paragraph instead of a bullet list of cells.
 """
     import pytest
+
     from rich_rst._vendor.docutils.utils import SystemMessagePropagation
     with pytest.raises(SystemMessagePropagation):
         render_text(rst)
@@ -1229,7 +1229,7 @@ def test_flat_table_empty_cell(make_visitor):
 .. flat-table::
    :widths: 1 1
 
-   * - 
+   * -
      - B
 """
     visitor = make_visitor(rst)
@@ -1253,14 +1253,14 @@ def test_flat_table_empty_parsed_row_mock(monkeypatch, make_visitor):
     # Mock _parse_row_item to return an empty list only on the second row (row_num == 1)
     from rich_rst import _FlatTableBuilder
     original_parse = _FlatTableBuilder._parse_row_item
-    
+
     def mock_parse(self, row_item, row_num):
         if row_num == 1:
             return []
         return original_parse(self, row_item, row_num)
-        
+
     monkeypatch.setattr(_FlatTableBuilder, '_parse_row_item', mock_parse)
-    
+
     rst = """\
 .. flat-table::
    :widths: 1 1
@@ -1284,17 +1284,9 @@ def test_table_column_shrinking():
 +----------------------+----------------------+
 """
     from rich.console import Console
+
     from rich_rst import RestructuredText
     console = Console(width=10, force_terminal=True, record=True)
     console.print(RestructuredText(rst))
     out = console.export_text()
     assert 'Column' in out
-
-
-
-
-
-
-
-
-

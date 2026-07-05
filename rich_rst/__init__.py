@@ -34,18 +34,12 @@ from rich.terminal_theme import DEFAULT_TERMINAL_THEME, TerminalTheme
 from rich.text import Text
 
 import rich_rst._vendor.docutils.core
-import rich_rst._vendor.docutils.frontend
-import rich_rst._vendor.docutils.io
-import rich_rst._vendor.docutils.nodes
-import rich_rst._vendor.docutils.parsers.rst
-import rich_rst._vendor.docutils.parsers.rst.directives
-import rich_rst._vendor.docutils.parsers.rst.directives.tables
-import rich_rst._vendor.docutils.utils  # noqa: F401
+import rich_rst._vendor.docutils.utils
 
 # Imports from rich_rst._vendor.docutils package for the parsing
 from rich_rst._vendor import docutils
 
-__all__ = ("RST", "RSTVisitor", "ReStructuredText", "RestructuredText", "reStructuredText")
+__all__ = ("RST", "RSTVisitor", "ReStructuredText", "RestructuredText", "reStructuredText", "rich_rst")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
 __version__ = importlib.metadata.version(__package__ or __name__)
 
@@ -1193,7 +1187,6 @@ def _register_sphinx_roles() -> None:
         if _sphinx_roles_registered:
             return
 
-        import rich_rst._vendor.docutils.parsers.rst.languages.en
         import rich_rst._vendor.docutils.parsers.rst.roles  # noqa: F401
         from rich_rst._vendor import docutils
 
@@ -1261,10 +1254,10 @@ def _register_sphinx_roles() -> None:
             node = docutils.nodes.strong(rawtext, display_text)
             return [node], []
 
-        for _role_name in ('command', 'program'):
-            docutils.parsers.rst.roles.register_canonical_role(_role_name, _bold_literal_role)
+        for role_name in ('command', 'program'):
+            docutils.parsers.rst.roles.register_canonical_role(role_name, _bold_literal_role)
             if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-                docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
+                docutils.parsers.rst.languages.en.roles[role_name] = role_name
 
         # `:dfn:` → emphasis (italic)
         def _dfn_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any, options: Optional[Dict[str, Any]] = None, content: Optional[List[str]] = None) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
@@ -1276,10 +1269,10 @@ def _register_sphinx_roles() -> None:
             docutils.parsers.rst.languages.en.roles['dfn'] = 'dfn'
 
         # `:abbr:` → abbreviation node with explanation
-        _abbr_re = re.compile(r'\((.*)\)$', re.DOTALL)
+        abbr_re = re.compile(r'\((.*)\)$', re.DOTALL)
 
         def _abbr_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any, options: Optional[Dict[str, Any]] = None, content: Optional[List[str]] = None) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
-            matched = _abbr_re.search(text)
+            matched = abbr_re.search(text)
             if matched:
                 abbr_text = text[:matched.start()].strip()
                 explanation = matched.group(1)
@@ -1304,17 +1297,17 @@ def _register_sphinx_roles() -> None:
             docutils.parsers.rst.languages.en.roles['menuselection'] = 'menuselection'
 
         # `:samp:` and `:file:` → literal with {} stripped
-        _braces_re = re.compile(r'\{([^}]*)\}')
+        braces_re = re.compile(r'\{([^}]*)\}')
 
         def _samp_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any, options: Optional[Dict[str, Any]] = None, content: Optional[List[str]] = None) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
-            clean = _braces_re.sub(r'\1', text)
+            clean = braces_re.sub(r'\1', text)
             node = docutils.nodes.literal(rawtext, clean)
             return [node], []
 
-        for _role_name in ('samp', 'file'):
-            docutils.parsers.rst.roles.register_canonical_role(_role_name, _samp_role)
+        for role_name in ('samp', 'file'):
+            docutils.parsers.rst.roles.register_canonical_role(role_name, _samp_role)
             if hasattr(docutils.parsers.rst.languages.en, 'roles'):
-                docutils.parsers.rst.languages.en.roles[_role_name] = _role_name
+                docutils.parsers.rst.languages.en.roles[role_name] = role_name
 
         # `:pep:` → clickable PEP link
         def _pep_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any, options: Optional[Dict[str, Any]] = None, content: Optional[List[str]] = None) -> Tuple[List[docutils.nodes.Node], List[docutils.nodes.system_message]]:
@@ -1367,7 +1360,6 @@ def _register_sphinx_roles() -> None:
         if hasattr(docutils.parsers.rst.languages.en, 'roles'):
             docutils.parsers.rst.languages.en.roles['cve'] = 'cve'
 
-
         # `:cwe:` → clickable CWE link
         def _cwe_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any,
                     options: Optional[Dict[str, Any]] = None,
@@ -1382,7 +1374,6 @@ def _register_sphinx_roles() -> None:
         docutils.parsers.rst.roles.register_canonical_role('cwe', _cwe_role)
         if hasattr(docutils.parsers.rst.languages.en, 'roles'):
             docutils.parsers.rst.languages.en.roles['cwe'] = 'cwe'
-
 
         # `:pypi:` → clickable PyPI project link
         def _pypi_role(name: str, rawtext: str, text: str, lineno: int, inliner: Any,
@@ -3061,7 +3052,6 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             style=Style(link=link, color="#6088ff"),
         )
 
-
     def _render_inline_with_explanation(self, node: docutils.nodes.Node, style_name: str) -> None:
         assert isinstance(node, docutils.nodes.Element)
         style = self.console.get_style(style_name, default="underline")
@@ -3072,14 +3062,11 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self._append_inline_text(text, style)
         raise docutils.nodes.SkipChildren()
 
-
     def visit_abbreviation(self, node) -> None:
         self._render_inline_with_explanation(node, "restructuredtext.abbreviation")
 
-
     def visit_acronym(self, node) -> None:
         self._render_inline_with_explanation(node, "restructuredtext.acronym")
-
 
     def visit_image(self, node) -> None:
         self.renderables.append(self._make_image_text(node))

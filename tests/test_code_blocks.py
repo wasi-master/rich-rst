@@ -25,7 +25,6 @@ from rich.panel import Panel
 from rich.syntax import Syntax
 
 import rich_rst
-import rich_rst._vendor.docutils.core
 from rich_rst import RSTVisitor
 from rich_rst._vendor import docutils
 
@@ -542,7 +541,6 @@ def test_code_block_number_lines_invalid(monkeypatch, make_visitor):
     assert syn.start_line == 1
 
 
-
 def test_code_block_emphasize_lines_malformed(make_visitor):
     rst = """.. code-block:: python
        :emphasize-lines: 1, , 3-4, 5-abc, abc
@@ -568,8 +566,3 @@ def test_code_block_caption(make_visitor):
     literal_blocks = list(visitor.document.findall(docutils.nodes.literal_block))
     assert literal_blocks
     assert literal_blocks[0]['caption'] == 'My Code Caption'
-
-
-
-
-

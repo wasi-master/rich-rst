@@ -1689,11 +1689,11 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
     # For spans whose entire content is box chars (e.g. a pure horizontal
     # border) the split degenerates to a single no-bold span.
     # For spans with no box chars the span is left unchanged.
-    _BOX_SPLIT_RE = re.compile(r'([\u2500-\u257f]+)')
+    BOX_SPLIT_RE = re.compile(r'([\u2500-\u257f]+)')
 
     def _fix_bold_in_box_span(m: re.Match) -> str:
         style, content = m.group(1), m.group(2)
-        if 'font-weight: bold' not in style or not _BOX_SPLIT_RE.search(content):
+        if 'font-weight: bold' not in style or not BOX_SPLIT_RE.search(content):
             return m.group(0)
         # Build a variant of the style without bold for box-char segments.
         style_no_bold = re.sub(r';\s*font-weight:\s*bold', '', style)
@@ -1702,7 +1702,7 @@ def render_rst_to_html_fragment(rst_source: str) -> str:
         # Split on runs of box-drawing chars.  With a capturing group,
         # re.split gives alternating [non-box, BOX, non-box, BOX, …] where
         # odd-indexed items are the captured box-char runs.
-        parts = _BOX_SPLIT_RE.split(content)
+        parts = BOX_SPLIT_RE.split(content)
         result = []
         for i, part in enumerate(parts):
             if not part:
