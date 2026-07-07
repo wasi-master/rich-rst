@@ -799,3 +799,32 @@ def test_admonition_with_nested_lists_and_code(render_text):
     out = render_text(rst)
     assert 'Warning' in out, "Warning admonition must render with 'Warning' panel title"
     assert 'important information' in out, 'Warning body must be visible'
+
+
+def test_no_empty_line_inside_panel_admonition(make_visitor):
+    """Test that panel admonitions strip trailing newlines from their last body renderable."""
+    visitor = make_visitor('.. note::\n\n   Body text.\n', admonition_style='panel')
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+    panel = panels[0]
+    from rich.console import Group
+    from rich.text import Text
+    assert isinstance(panel.renderable, Group)
+    last_renderable = panel.renderable.renderables[-1]
+    assert isinstance(last_renderable, Text)
+    assert not last_renderable.plain.endswith('\n')
+
+
+def test_no_empty_line_inside_version_directive_panel(make_visitor):
+    """Test that version directive panels strip trailing newlines from their last body renderable."""
+    visitor = make_visitor('.. versionadded:: 1.0\n\n   Body text.\n', admonition_style='panel')
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+    panel = panels[0]
+    from rich.console import Group
+    from rich.text import Text
+    assert isinstance(panel.renderable, Group)
+    last_renderable = panel.renderable.renderables[-1]
+    assert isinstance(last_renderable, Text)
+    assert not last_renderable.plain.endswith('\n')
+

@@ -1991,6 +1991,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _emit_panel_admonition(self, *, panel_title: str, style: Style, body_children: List[docutils.nodes.Node]) -> None:
         body = self._render_admonition_body(body_children)
+        if body and isinstance(body[-1], Text):
+            body[-1].rstrip()
         self.renderables.append(
             Panel(Group(*body) if body else "", title=panel_title, style=style, border_style=style)
         )
@@ -2094,6 +2096,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if self.admonition_style == "panel":
             panel_title = panel_title_map.get(type_, f"{type_} {version}")
             body = self._render_admonition_body(body_children)
+            if body and isinstance(body[-1], Text):
+                body[-1].rstrip()
             self.renderables.append(
                 Panel(Group(*body) if body else "", title=panel_title, style=style, border_style=style)
             )
