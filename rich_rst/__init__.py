@@ -1994,7 +1994,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if body and isinstance(body[-1], Text):
             body[-1].rstrip()
         self.renderables.append(
-            Panel(Group(*body) if body else "", title=panel_title, style=style, border_style=style)
+            Panel(Group(*body) if body else "", title=panel_title, border_style=style)
         )
 
     def _emit_compact_admonition(self, *, title: str, glyph: str, style: Style, body_children: List[docutils.nodes.Node]) -> None:
@@ -2099,7 +2099,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if body and isinstance(body[-1], Text):
                 body[-1].rstrip()
             self.renderables.append(
-                Panel(Group(*body) if body else "", title=panel_title, style=style, border_style=style)
+                Panel(Group(*body) if body else "", title=panel_title, border_style=style)
             )
             return
 

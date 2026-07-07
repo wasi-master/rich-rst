@@ -828,3 +828,14 @@ def test_no_empty_line_inside_version_directive_panel(make_visitor):
     assert isinstance(last_renderable, Text)
     assert not last_renderable.plain.endswith('\n')
 
+
+def test_strong_in_panel_admonition_does_not_inherit_border_color(make_visitor):
+    """Test that strong/bold text in panel admonition doesn't inherit the border color/style."""
+    visitor = make_visitor('.. warning::\n\n   **Never** commit secrets.\n', admonition_style='panel')
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+    panel = panels[0]
+    # Check that style=None (or not warning style) on the Panel so text doesn't inherit it.
+    assert panel.style is None or str(panel.style) == 'none'
+
+
