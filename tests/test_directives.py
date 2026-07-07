@@ -1088,3 +1088,41 @@ def test_sidebar_no_trailing_newline_in_panel(make_visitor):
     assert isinstance(last_renderable, Text)
     assert not last_renderable.plain.endswith('\n')
 
+
+def test_header_and_footer_preserve_markup(make_visitor):
+    """Test that headers and footers render using sub-visitors to preserve inline markup."""
+    visitor = make_visitor('.. header:: Header **bold**\n\n.. footer:: Footer **bold**\n')
+    from rich.align import Align
+    from rich.console import Group
+    from rich.text import Text
+    # Check header
+    header_panels = [r for r in visitor.renderables if isinstance(r, Panel) and r.title == 'caption']
+    assert header_panels
+    header_panel = header_panels[0]
+    assert isinstance(header_panel.renderable, Align)
+    assert isinstance(header_panel.renderable.renderable, Group)
+    header_text = header_panel.renderable.renderable.renderables[0]
+    assert isinstance(header_text, Text)
+    # Ensure bold markup is preserved in spans
+    assert any(s.style.bold for s in header_text._spans)
+
+    # Check footer
+    assert visitor.footer
+    footer_align = visitor.footer[0]
+    assert isinstance(footer_align, Align)
+    footer_text = footer_align.renderable
+    assert isinstance(footer_text, Text)
+    assert any(s.style.bold for s in footer_text._spans)
+
+
+def test_footer_page_substitution(render_text):
+    """Test that |page| substitution in footer renders as 1."""
+    rst = """\
+.. footer:: Page |page|
+"""
+    out = render_text(rst)
+    assert 'Page 1' in out
+    assert '|page|' not in out
+
+
+

@@ -3811,11 +3811,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_header(self, node) -> None:
         style = self.console.get_style("restructuredtext.caption", default="bold")
-        self.renderables.insert(0, Panel(Align(node.astext(), "center"), title="caption", box=box.DOUBLE, style=style))
+        body = self._render_admonition_body(node.children)
+        body = self._clean_body_for_panel(body)
+        content = Group(*body) if body else ""
+        self.renderables.insert(0, Panel(Align(content, "center"), title="caption", box=box.DOUBLE, style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_footer(self, node) -> None:
-        self.footer.append(Align(node.astext(), "center"))
+        body = self._render_admonition_body(node.children)
+        body = self._clean_body_for_panel(body)
+        for r in body:
+            self.footer.append(Align(r, "center"))
         raise docutils.nodes.SkipChildren()
 
     def visit_footnote_reference(self, node) -> None:
@@ -4707,8 +4713,12 @@ class RestructuredText(JupyterMixin):
         # Use the full docutils publish pipeline so that all standard transforms
         # (substitution resolution, hyperlink resolution, footnote numbering,
         # bibliographic-field promotion, …) are applied before we walk the tree.
+        markup = self.markup
+        if "|page|" in markup and ".. |page|" not in markup:
+            markup += "\n\n.. |page| replace:: 1\n"
+
         document = docutils.core.publish_doctree(
-            self.markup,
+            markup,
             source_path=self.filename,
             settings_overrides={"report_level": 69, "halt_level": 69},
         )

@@ -2658,7 +2658,7 @@ header directive
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔════════════════════════════════</span><span style="color:#f8f8f2;font-weight: bold"> caption </span><span style="color:#f8f8f2">═════════════════════════════════╗</span>
-   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                            My Document Header                            </span><span style="color:#f8f8f2">║</span>
+   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                            </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">My Document Header</span><span style="color:#f8f8f2;font-weight: bold">                            </span><span style="color:#f8f8f2">║</span>
    <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
    </span></pre>
@@ -2678,7 +2678,7 @@ footer directive
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                               Page |page|                                <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Page 1</span>                                  <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
