@@ -1203,29 +1203,29 @@ def test_sidebar_field_list_coverage_gaps():
     doc = docutils.core.publish_doctree('Hello')
     visitor = RSTVisitor(doc, console=console)
     node = docutils.nodes.sidebar()
-    
+
     field_list = docutils.nodes.field_list()
-    
+
     # 1. Field with less than 2 children
     field_short = docutils.nodes.field()
     field_short.append(docutils.nodes.field_name(text='NameOnly'))
     field_list.append(field_short)
-    
+
     # 2. Field with name not equal to "subtitle"
     field_other = docutils.nodes.field()
     field_other.append(docutils.nodes.field_name(text='OtherField'))
     field_other.append(docutils.nodes.field_body(text='value'))
     field_list.append(field_other)
-    
+
     # 3. Field with name "subtitle"
     field_sub = docutils.nodes.field()
     field_sub.append(docutils.nodes.field_name(text='subtitle'))
     field_sub.append(docutils.nodes.field_body(text='My Subtitle'))
     field_list.append(field_sub)
-    
+
     node.append(field_list)
     node.append(docutils.nodes.paragraph(text='body'))
-    
+
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_sidebar(node)
 
@@ -1955,21 +1955,21 @@ def test_toc_newline_coverage():
     console = Console(force_terminal=True, width=120)
     doc = docutils.core.publish_doctree('Hello')
     visitor = RSTVisitor(doc, console=console)
-    
+
     # 1. Bullet list in TOC
-    topic = docutils.nodes.topic(classes=["contents"])
+    topic = docutils.nodes.topic(classes=['contents'])
     bullet_list = docutils.nodes.bullet_list()
     topic.append(bullet_list)
     bullet_list.parent = topic
-    
+
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_bullet_list(bullet_list)
-        
+
     # 2. Enumerated list in TOC
     enum_list = docutils.nodes.enumerated_list()
     topic.append(enum_list)
     enum_list.parent = topic
-    
+
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_enumerated_list(enum_list)
 
@@ -1978,16 +1978,70 @@ def test_toc_newline_coverage():
     list_item = docutils.nodes.list_item()
     list_item.parent = bullet_list
     nested_list.parent = list_item
-    
+
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_bullet_list(nested_list)
-        
+
     # 4. List with parent that is not TOC (to cover parent loop termination)
     section = docutils.nodes.section()
     normal_list = docutils.nodes.bullet_list()
     normal_list.parent = section
     section.parent = None
-    
+
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_bullet_list(normal_list)
 
+
+def test_parsed_literal_coverage():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree('Hello')
+    visitor = RSTVisitor(doc, console=console)
+
+    node = docutils.nodes.literal_block(classes=['parsed-literal'])
+
+    node.append(docutils.nodes.Text('Hello '))
+
+    emp = docutils.nodes.emphasis()
+    emp.append(docutils.nodes.Text('world'))
+    node.append(emp)
+
+    strg = docutils.nodes.strong()
+    strg.append(docutils.nodes.Text('!'))
+    node.append(strg)
+
+    lit = docutils.nodes.literal()
+    lit.append(docutils.nodes.Text('code'))
+    node.append(lit)
+
+    tr = docutils.nodes.title_reference()
+    tr.append(docutils.nodes.Text('title'))
+    node.append(tr)
+
+    ref_uri = docutils.nodes.reference(refuri='http://example.com')
+    ref_uri.append(docutils.nodes.Text('link1'))
+    node.append(ref_uri)
+
+    ref_nouni = docutils.nodes.reference()
+    ref_nouni.append(docutils.nodes.Text('link2'))
+    node.append(ref_nouni)
+
+    inl_class = docutils.nodes.inline(classes=['myclass'])
+    inl_class.append(docutils.nodes.Text('styled'))
+    node.append(inl_class)
+
+    inl_noclass = docutils.nodes.inline()
+    inl_noclass.append(docutils.nodes.Text('plain'))
+    node.append(inl_noclass)
+
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_literal_block(node)
+
+
+def test_parsed_literal_invalid_theme_coverage():
+    console = Console(force_terminal=True, width=120)
+    doc = docutils.core.publish_doctree('Hello')
+    visitor = RSTVisitor(doc, console=console, code_theme=123)
+    node = docutils.nodes.literal_block(classes=['parsed-literal'])
+    node.append(docutils.nodes.Text('Hello'))
+    with pytest.raises(docutils.nodes.SkipChildren):
+        visitor.visit_literal_block(node)

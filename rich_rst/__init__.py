@@ -41,6 +41,7 @@ import rich_rst._vendor.docutils.utils
 
 # Imports from rich_rst._vendor.docutils package for the parsing
 from rich_rst._vendor import docutils
+from rich_rst._vendor.docutils.parsers.rst.roles import normalize_options
 
 __all__ = ("RST", "RSTVisitor", "ReStructuredText", "RestructuredText", "reStructuredText", "rich_rst")
 __author__ = "Arian Mollik Wasi (aka. Wasi Master)"
@@ -772,6 +773,23 @@ class _AutodocDirective(docutils.parsers.rst.Directive):
 
     def run(self) -> List[docutils.nodes.Node]:
         return []
+
+
+class _ParsedLiteralDirective(docutils.parsers.rst.Directive):
+    option_spec = {'class': docutils.parsers.rst.directives.class_option,
+                   'name': docutils.parsers.rst.directives.unchanged}
+    has_content = True
+
+    def run(self):
+        options = normalize_options(self.options)
+        self.assert_has_content()
+        text = '\n'.join(self.content)
+        text_nodes, messages = self.state.inline_text(text, self.lineno)
+        node = docutils.nodes.literal_block(text, '', *text_nodes, **options)
+        node.setdefault('classes', []).append('parsed-literal')
+        node.line = self.content_offset + 1
+        self.add_name(node)
+        return [node, *messages]
 
 
 # ── flat-table directive ───────────────────────────────────────────────────────
@@ -3275,16 +3293,76 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self._append_inline_text(node.astext().replace("\n", " "), style)
         raise docutils.nodes.SkipChildren()
 
+    def _render_parsed_literal_node(self, node: docutils.nodes.Node, parent_style: Optional[Style] = None) -> Text:
+        from rich_rst._vendor.docutils import nodes
+
+        if isinstance(node, nodes.Text):
+            return Text(node.astext(), style=parent_style)
+
+        result = Text()
+        style = parent_style or Style()
+        if isinstance(node, nodes.emphasis):
+            style = style + self.console.get_style("restructuredtext.emphasis", default="italic")
+        elif isinstance(node, nodes.strong):
+            style = style + self.console.get_style("restructuredtext.strong", default="bold")
+        elif isinstance(node, nodes.literal):
+            style = style + self.console.get_style("restructuredtext.inline_codeblock", default="grey78 on grey7")
+        elif isinstance(node, nodes.title_reference):
+            style = style + self.console.get_style("restructuredtext.title_reference", default="italic")
+        elif isinstance(node, nodes.reference):
+            uri = node.get("refuri", "")
+            if uri:
+                style = style + Style(link=uri, color="#6088ff", underline=True)
+            else:
+                style = style + Style(color="#6088ff", underline=True)
+        elif isinstance(node, nodes.inline):
+            classes = node.get('classes', [])
+            style_name = f"restructuredtext.inline.{classes[0]}" if classes else "restructuredtext.inline"
+            style = style + self.console.get_style(style_name, default="none")
+
+        for child in node.children:
+            result.append_text(self._render_parsed_literal_node(child, parent_style=style))
+
+        return result
+
     def visit_literal_block(self, node) -> None:
         style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].rstrip()
             self.renderables[-1].append_text(Text("\n"))
+
+        if "parsed-literal" in node.get("classes", []):
+            content = self._render_parsed_literal_node(node)
+            title = "parsed-literal"
+            names = node.get('names', [])
+            name = node.get('name') or (names[0] if names else None)
+            if name:
+                title = f"{title} — {name}"
+
+            from rich.syntax import Syntax as RichSyntax
+            try:
+                theme = RichSyntax.get_theme(self.code_theme or "monokai")
+                bg_style = theme.get_background_style()
+            except Exception:
+                bg_style = Style()
+
+            self.renderables.append(
+                Panel(
+                    content,
+                    style=bg_style,
+                    border_style=style,
+                    box=box.SQUARE,
+                    title=title,
+                )
+            )
+            raise docutils.nodes.SkipChildren()
+
         lexer, lexer_source = self._find_lexer(node)
         title = lexer if lexer_source == "explicit" else f"{lexer} ({lexer_source})"
         # If the directive supplied a :name: option, include it in the
         # panel title alongside the language identifier.
-        name = node.get('name')
+        names = node.get('names', [])
+        name = node.get('name') or (names[0] if names else None)
         if name:
             title = f"{title} — {name}"
 
@@ -4604,6 +4682,8 @@ class RestructuredText(JupyterMixin):
         if self.sphinx_compat:
             _register_sphinx_roles()
             _register_sphinx_directives()
+
+        docutils.parsers.rst.directives.register_directive('parsed-literal', _ParsedLiteralDirective)
 
         # Use the full docutils publish pipeline so that all standard transforms
         # (substitution resolution, hyperlink resolution, footnote numbering,

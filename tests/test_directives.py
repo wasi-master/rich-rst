@@ -325,7 +325,6 @@ def test_contents_directive_does_not_render_as_literal_source(render_text):
     assert 'Section B' in toc_lines[-2]
 
 
-
 def test_sectnum_directive_does_not_render_as_literal_source(render_text):
     rst = '.. sectnum::\n   :depth: 2\n   :start: 3\n\nSection A\n---------\n\nContent A.\n'
     out = render_text(rst)
@@ -1048,3 +1047,23 @@ def test_footer_element(render_text):
 """
     out = render_text(rst)
     assert isinstance(out, str), 'Rendering must return a string and not raise an exception'
+
+
+def test_parsed_literal_directive(render_text):
+    """Test parsed-literal directive preserves formatting and layout."""
+    rst = """\
+.. parsed-literal::
+   :name: MyParsedLiteral
+
+   This is **bold** text and *italic* text.
+     Indented line with `inline code` and reference_.
+
+.. _reference: https://example.com
+"""
+    out = render_text(rst)
+    assert 'parsed-literal — myparsedliteral' in out
+    assert 'bold' in out
+    assert 'italic' in out
+    assert 'inline code' in out
+    assert 'reference' in out
+    assert '  Indented line' in out
