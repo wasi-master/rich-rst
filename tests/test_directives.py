@@ -1067,3 +1067,24 @@ def test_parsed_literal_directive(render_text):
     assert 'inline code' in out
     assert 'reference' in out
     assert '  Indented line' in out
+
+
+def test_sidebar_no_trailing_newline_in_panel(make_visitor):
+    """Test that sidebar panel strips trailing newlines from its last body renderable."""
+    rst = """\
+.. sidebar:: Note
+   :subtitle: Side note
+
+   Sidebar text goes here.
+"""
+    visitor = make_visitor(rst)
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+    panel = panels[0]
+    from rich.console import Group
+    from rich.text import Text
+    assert isinstance(panel.renderable, Group)
+    last_renderable = panel.renderable.renderables[-1]
+    assert isinstance(last_renderable, Text)
+    assert not last_renderable.plain.endswith('\n')
+
