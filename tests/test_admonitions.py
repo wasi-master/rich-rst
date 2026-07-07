@@ -838,4 +838,23 @@ def test_strong_in_panel_admonition_does_not_inherit_border_color(make_visitor):
     # Check that style=None (or not warning style) on the Panel so text doesn't inherit it.
     assert panel.style is None or str(panel.style) == 'none'
 
+def test_no_empty_line_after_list_inside_admonition(make_visitor):
+    """Test that lists ending inside an admonition have their trailing NewLine objects stripped."""
+    visitor = make_visitor('.. note::\n\n   - item one\n   - item two\n', admonition_style='panel')
+    panels = [r for r in visitor.renderables if isinstance(r, Panel)]
+    assert panels
+    panel = panels[0]
+    from rich.console import Group, NewLine
+    assert isinstance(panel.renderable, Group)
+    assert not isinstance(panel.renderable.renderables[-1], NewLine)
+
+
+def test_clean_body_for_panel_empty_text(make_visitor):
+    """Test that _clean_body_for_panel strips and pops trailing whitespace-only Text elements."""
+    visitor = make_visitor('')
+    from rich.text import Text
+    body = [Text("Content"), Text("   \n\n")]
+    cleaned = visitor._clean_body_for_panel(body)
+    assert len(cleaned) == 1
+    assert cleaned[0].plain == "Content"
 

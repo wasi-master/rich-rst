@@ -1946,6 +1946,22 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             admonition_style=self.admonition_style,
         )
 
+    def _clean_body_for_panel(self, body: List[Any]) -> List[Any]:
+        """Strip trailing newlines and NewLine objects from the end of a panel body."""
+        while body:
+            last = body[-1]
+            if isinstance(last, Text):
+                last.rstrip()
+                if last:
+                    break
+                else:
+                    body.pop()
+            elif isinstance(last, NewLine):
+                body.pop()
+            else:
+                break
+        return body
+
     def _render_admonition_body(self, children: List[docutils.nodes.Node]) -> List[Any]:
         """Render admonition body children using a sub-visitor to preserve inline markup."""
         sub_visitor = self._make_sub_visitor()
@@ -1991,8 +2007,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _emit_panel_admonition(self, *, panel_title: str, style: Style, body_children: List[docutils.nodes.Node]) -> None:
         body = self._render_admonition_body(body_children)
-        if body and isinstance(body[-1], Text):
-            body[-1].rstrip()
+        body = self._clean_body_for_panel(body)
         self.renderables.append(
             Panel(Group(*body) if body else "", title=panel_title, border_style=style)
         )
@@ -2096,8 +2111,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if self.admonition_style == "panel":
             panel_title = panel_title_map.get(type_, f"{type_} {version}")
             body = self._render_admonition_body(body_children)
-            if body and isinstance(body[-1], Text):
-                body[-1].rstrip()
+            body = self._clean_body_for_panel(body)
             self.renderables.append(
                 Panel(Group(*body) if body else "", title=panel_title, border_style=style)
             )
@@ -2900,6 +2914,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 body.extend(self._render_py_field_list(child))
             else:
                 body.extend(self._render_admonition_body([child]))
+        body = self._clean_body_for_panel(body)
         self.renderables.append(
             Panel(Group(*body) if body else "", title=title,
                   style=style, border_style=style)
@@ -2998,6 +3013,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_glossary_block(self, node) -> None:
         style = self.console.get_style("restructuredtext.glossary", default="bold")
         body = self._render_admonition_body(node.children)
+        body = self._clean_body_for_panel(body)
         self.renderables.append(
             Panel(Group(*body) if body else "", title="Glossary", style=style, border_style=style)
         )
@@ -3711,9 +3727,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             body_start = 1
 
         body_renderables = self._collect_body_renderables(children[body_start:])
-
-        if body_renderables and isinstance(body_renderables[-1], Text):
-            body_renderables[-1].rstrip()
+        body_renderables = self._clean_body_for_panel(body_renderables)
 
         if body_renderables:
             self.renderables.append(
@@ -3750,6 +3764,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         # Use _collect_body_renderables so inline markup in the sidebar body is
         # preserved instead of being flattened by astext().
         body_renderables = self._collect_body_renderables(body_children)
+        body_renderables = self._clean_body_for_panel(body_renderables)
         content = Group(*body_renderables) if body_renderables else ""
         self.renderables.append(Panel(content, title=title, subtitle=subtitle, expand=False))
 
