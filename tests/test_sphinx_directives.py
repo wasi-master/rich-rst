@@ -864,6 +864,13 @@ def test_math_nowrap_and_label_options_are_accepted(render_text):
     assert 'E = mc^2' in out
 
 
+def test_math_label_produces_math_einstein_panel(make_visitor):
+    rst = '.. math::\n   :label: einstein\n\n   E = mc^2\n'
+    panels = _panels(make_visitor, rst)
+    assert panels, '.. math:: must produce a Panel'
+    assert panels[0].title == 'math - einstein'
+
+
 # ── deprecated-removed ────────────────────────────────────────────────────────
 
 

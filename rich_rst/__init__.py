@@ -3780,12 +3780,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             self.renderables[-1].rstrip()
             self.renderables[-1].append_text(Text("\n"))
         converted = _convert_math_to_unicode(node.astext())
+        label = node.get("label")
+        title = f"math - {label}" if label else "math"
         self.renderables.append(
             Panel(
                 Text(converted),
                 border_style=style,
                 box=box.SQUARE,
-                title="math",
+                title=title,
             )
         )
         raise docutils.nodes.SkipChildren()
