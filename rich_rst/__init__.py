@@ -312,10 +312,42 @@ class _HighlightDirective(docutils.parsers.rst.Directive):
     option_spec = {  # type: ignore[assignment]
         'linenothreshold': docutils.parsers.rst.directives.nonnegative_int,
         'force': docutils.parsers.rst.directives.flag,
+        'class': docutils.parsers.rst.directives.class_option,
     }
 
     def run(self) -> List[docutils.nodes.Node]:
         return []
+
+
+class _CustomBlockQuote(docutils.parsers.rst.Directive):
+    has_content = True
+    option_spec = {
+        'class': docutils.parsers.rst.directives.class_option,
+    }
+    classes: List[str] = []
+
+    def run(self) -> List[docutils.nodes.Node]:
+        self.assert_has_content()
+        elements = self.state.block_quote(self.content, self.content_offset)
+        for element in elements:
+            if isinstance(element, docutils.nodes.block_quote):
+                for cls in self.classes + self.options.get('class', []):
+                    if cls not in element['classes']:
+                        element['classes'].append(cls)
+        return elements
+
+
+class _Epigraph(_CustomBlockQuote):
+    classes = ['epigraph']
+
+
+class _Highlights(_CustomBlockQuote):
+    classes = ['highlights']
+
+
+class _PullQuote(_CustomBlockQuote):
+    classes = ['pull-quote']
+
 
 
 class _SilentDirective(docutils.parsers.rst.Directive):
@@ -1113,6 +1145,10 @@ def _register_sphinx_directives() -> None:
         docutils.parsers.rst.directives.register_directive('math', _MathDirective)
         # highlight
         docutils.parsers.rst.directives.register_directive('highlight', _HighlightDirective)
+        # block quotes
+        docutils.parsers.rst.directives.register_directive('epigraph', _Epigraph)
+        docutils.parsers.rst.directives.register_directive('highlights', _Highlights)
+        docutils.parsers.rst.directives.register_directive('pull-quote', _PullQuote)
         # silent no-op
         for name in ('index', 'tabularcolumns'):
             docutils.parsers.rst.directives.register_directive(name, _SilentDirective)
@@ -3719,8 +3755,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         for index, paragraph in enumerate(paragraphs):
             if index:
-                self.renderables.append(NewLine())
-                self.renderables.append(NewLine())
+                self.renderables.append(Text("▌", style=marker_style))
             # Use a sub-visitor so inline markup (bold, italic, links, …)
             # inside the paragraph is preserved instead of being flattened by
             # astext().

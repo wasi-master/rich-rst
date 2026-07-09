@@ -30,6 +30,9 @@ from rich.rule import Rule
 from rich.table import Table
 from rich.text import Text
 
+from rich_rst._vendor import docutils
+
+
 # ── Paragraphs ────────────────────────────────────────────────────────────────
 
 
@@ -835,3 +838,125 @@ Reference [Book2024]_.
     assert 'Book2024: A Book Title. Published 2024.' in out, (
         "Citation should render inline as 'label: body'"
     )
+
+
+def test_epigraph_class_option(make_visitor):
+    rst = """\
+.. epigraph::
+   :class: custom-epigraph-class
+
+   No man is an island,
+   entire of itself.
+
+   -- John Donne
+"""
+    visitor = make_visitor(rst)
+    block_quotes = [node for node in visitor.document.findall(docutils.nodes.block_quote)]
+    assert block_quotes
+    bq = block_quotes[0]
+    assert 'epigraph' in bq['classes']
+    assert 'custom-epigraph-class' in bq['classes']
+
+    field_names = [node.astext() for node in visitor.document.findall(docutils.nodes.field_name)]
+    assert 'class' not in field_names
+
+
+def test_highlights_class_option(make_visitor):
+    rst = """\
+.. highlights::
+   :class: custom-highlights-class
+
+   No man is an island.
+"""
+    visitor = make_visitor(rst)
+    block_quotes = [node for node in visitor.document.findall(docutils.nodes.block_quote)]
+    assert block_quotes
+    bq = block_quotes[0]
+    assert 'highlights' in bq['classes']
+    assert 'custom-highlights-class' in bq['classes']
+
+    field_names = [node.astext() for node in visitor.document.findall(docutils.nodes.field_name)]
+    assert 'class' not in field_names
+
+
+def test_pull_quote_class_option(make_visitor):
+    rst = """\
+.. pull-quote::
+   :class: custom-pull-quote-class
+
+   No man is an island.
+"""
+    visitor = make_visitor(rst)
+    block_quotes = [node for node in visitor.document.findall(docutils.nodes.block_quote)]
+    assert block_quotes
+    bq = block_quotes[0]
+    assert 'pull-quote' in bq['classes']
+    assert 'custom-pull-quote-class' in bq['classes']
+
+    field_names = [node.astext() for node in visitor.document.findall(docutils.nodes.field_name)]
+    assert 'class' not in field_names
+
+
+def test_epigraph_with_malformed_attribution_system_message(make_visitor):
+    """line 333->332: elements from state.block_quote() may include non-block_quote
+    nodes (system_message) when attribution contains malformed inline markup.
+    The isinstance check must skip them without error.
+    """
+    rst = """\
+.. epigraph::
+
+   Content here.
+
+   -- `unclosed backtick
+"""
+    visitor = make_visitor(rst)
+    block_quotes = [node for node in visitor.document.findall(docutils.nodes.block_quote)]
+    assert block_quotes, 'epigraph with bad attribution must still produce a block_quote'
+    assert 'epigraph' in block_quotes[0]['classes']
+
+
+def test_epigraph_class_already_present_skips_duplicate(make_visitor):
+    """line 337->336: when :class: repeats the built-in class name the
+    duplicate-guard prevents appending it twice.
+    """
+    rst = """\
+.. epigraph::
+   :class: epigraph
+
+   No man is an island.
+"""
+    visitor = make_visitor(rst)
+    block_quotes = [node for node in visitor.document.findall(docutils.nodes.block_quote)]
+    assert block_quotes
+    bq = block_quotes[0]
+    assert bq['classes'].count('epigraph') == 1, (
+        "'epigraph' must appear exactly once even when passed via :class:"
+    )
+
+
+def test_highlights_class_already_present_skips_duplicate(make_visitor):
+    """line 337->336: same duplicate guard for highlights."""
+    rst = """\
+.. highlights::
+   :class: highlights
+
+   No man is an island.
+"""
+    visitor = make_visitor(rst)
+    block_quotes = [node for node in visitor.document.findall(docutils.nodes.block_quote)]
+    assert block_quotes
+    assert block_quotes[0]['classes'].count('highlights') == 1
+
+
+def test_pull_quote_class_already_present_skips_duplicate(make_visitor):
+    """line 337->336: same duplicate guard for pull-quote."""
+    rst = """\
+.. pull-quote::
+   :class: pull-quote
+
+   No man is an island.
+"""
+    visitor = make_visitor(rst)
+    block_quotes = [node for node in visitor.document.findall(docutils.nodes.block_quote)]
+    assert block_quotes
+    assert block_quotes[0]['classes'].count('pull-quote') == 1
