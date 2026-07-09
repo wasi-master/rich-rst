@@ -54,7 +54,7 @@ Inline literal (code)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">print()</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to display output.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">print()</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> to display output.</span>
    </span></pre>
    </div>
 
@@ -68,7 +68,7 @@ Hyperlink (external)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Visit </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://www.python.org">Python</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for more.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Visit </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://www.python.org">Python</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for more.</span>
    </span></pre>
    </div>
 
@@ -82,7 +82,7 @@ Anonymous hyperlink
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://rich.readthedocs.io">Rich docs</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for styling.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://rich.readthedocs.io">Rich docs</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for styling.</span>
    </span></pre>
    </div>
 
@@ -96,7 +96,7 @@ Title reference
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Read </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">The Zen of Python</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for inspiration.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Read </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-style: italic">The Zen of Python</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for inspiration.</span>
    </span></pre>
    </div>
 
@@ -110,7 +110,7 @@ Subscript role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">H₂O is water.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">H₂O is water.</span>
    </span></pre>
    </div>
 
@@ -124,7 +124,7 @@ Superscript role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">E = mc²</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">E = mc²</span>
    </span></pre>
    </div>
 
@@ -138,7 +138,7 @@ Abbreviation role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;text-decoration: underline">RST (reStructuredText)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is a markup language.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;text-decoration: underline">RST (reStructuredText)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> is a markup language.</span>
    </span></pre>
    </div>
 
@@ -152,7 +152,7 @@ Keyboard role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Press </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Ctrl+C</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to copy.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Press </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Ctrl+C</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> to copy.</span>
    </span></pre>
    </div>
 
@@ -166,7 +166,7 @@ GUI label role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Click </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">OK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to confirm.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Click </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">OK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> to confirm.</span>
    </span></pre>
    </div>
 
@@ -180,7 +180,7 @@ Menu selection role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Go to </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">File ▶ Save As</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Go to </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">File ▶ Save As</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -194,7 +194,7 @@ File role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Edit </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">/etc/hosts</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> with sudo.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Edit </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">/etc/hosts</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> with sudo.</span>
    </span></pre>
    </div>
 
@@ -208,7 +208,7 @@ Sample (samp) role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Type </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">ping host</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> in the terminal.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Type </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">ping host</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> in the terminal.</span>
    </span></pre>
    </div>
 
@@ -222,7 +222,7 @@ Command role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Run </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">python -m pytest</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Run </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-weight: bold">python -m pytest</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -236,7 +236,7 @@ Program role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-weight: bold">git</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is a distributed version control system.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-weight: bold">git</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> is a distributed version control system.</span>
    </span></pre>
    </div>
 
@@ -253,8 +253,8 @@ All inline styles combined
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">Italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color:#f8f8f2;font-weight: bold; font-style: italic">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">literal</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">Ctrl+C</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">OK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">File ▶ Open</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">~/.bashrc</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color:#f8f8f2;font-weight: bold; font-style: italic">ls -la</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, and </span>
-   <span style="color:#f8f8f2;font-style: italic">ˢᵘᵖᵉʳˢᶜʳⁱᵖᵗ</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">Italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, </span><span style="color:#f8f8f2;font-weight: bold; font-style: italic">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">literal</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">Ctrl+C</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">OK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">File ▶ Open</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212; font-style: italic">~/.bashrc</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, </span><span style="color:#f8f8f2;font-weight: bold; font-style: italic">ls -la</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, and </span>
+   <span style="color:#f8f8f2;font-style: italic">ˢᵘᵖᵉʳˢᶜʳⁱᵖᵗ</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -271,10 +271,10 @@ Inline markup in a list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for important terms</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for emphasis</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">code</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for inline code samples</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Enter</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for key presses</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Use </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-weight: bold">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for important terms</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Use </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-style: italic">italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for emphasis</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">code</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for inline code samples</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Enter</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for key presses</span>
    </span></pre>
    </div>
 
@@ -288,7 +288,7 @@ PEP reference role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0008/">PEP 8</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for Python style guidelines.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0008/">PEP 8</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for Python style guidelines.</span>
    </span></pre>
    </div>
 
@@ -302,7 +302,7 @@ RFC reference role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">HTTP is described in </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://datatracker.ietf.org/doc/html/rfc2616">RFC 2616</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">HTTP is described in </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://datatracker.ietf.org/doc/html/rfc2616">RFC 2616</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -316,7 +316,7 @@ Definition (dfn) role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">docstring</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is a string literal that documents a Python object.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">A </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-style: italic">docstring</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> is a string literal that documents a Python object.</span>
    </span></pre>
    </div>
 
@@ -330,7 +330,7 @@ CVE reference role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This vulnerability is tracked as </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://www.cve.org/CVERecord?id=CVE-2024-3094">CVE-2024-3094</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">This vulnerability is tracked as </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://www.cve.org/CVERecord?id=CVE-2024-3094">CVE-2024-3094</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -344,7 +344,7 @@ CWE reference role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This bug is categorized under </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://cwe.mitre.org/data/definitions/79.html">CWE-79</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">This bug is categorized under </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://cwe.mitre.org/data/definitions/79.html">CWE-79</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -358,7 +358,7 @@ PyPI project reference role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Install the package from </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://pypi.org/project/requests/">requests</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Install the package from </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://pypi.org/project/requests/">requests</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -372,7 +372,7 @@ Math role (inline)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The area of a circle is </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">π r^2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">The area of a circle is </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-style: italic">π r^2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -392,9 +392,9 @@ Plain paragraph
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a plain paragraph.  Paragraphs are separated by blank lines.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">This is a plain paragraph.  Paragraphs are separated by blank lines.</span>
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A second paragraph follows here.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">A second paragraph follows here.</span>
    </span></pre>
    </div>
 
@@ -433,28 +433,28 @@ Section headings (all 6 levels)
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
    <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                              Level 1 Title                               </span><span style="color:#f8f8f2">║</span>
    <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 1.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Some body text under level 1.</span>
 
    <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
    <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                              Level 2 Title                               </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 2.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Some body text under level 2.</span>
 
                                   <span style="color:#f8f8f2;font-weight: bold; text-decoration: underline">Level 3 Title</span>                                
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 3.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Some body text under level 3.</span>
 
                                   <span style="color:#f8f8f2;font-weight: bold">Level 4 Title</span>                                
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 4.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Some body text under level 4.</span>
 
                                   <span style="color:#f8f8f2;text-decoration: underline">Level 5 Title</span>                                
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 5.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Some body text under level 5.</span>
 
                                   <span style="color:#f8f8f2;font-style: italic">Level 6 Title</span>                                
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Some body text under level 6.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Some body text under level 6.</span>
    </span></pre>
    </div>
 
@@ -475,7 +475,7 @@ Section with overline decoration
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
    <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                            Part-level heading                            </span><span style="color:#f8f8f2">║</span>
    <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body text below the overlined heading.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Body text below the overlined heading.</span>
    </span></pre>
    </div>
 
@@ -502,7 +502,7 @@ Document subtitle
    <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                             A subtitle here                              </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body text.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Body text.</span>
    </span></pre>
    </div>
 
@@ -524,13 +524,13 @@ Multiple paragraphs with transitions
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First paragraph before the transition.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">First paragraph before the transition.</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">────────────────────────────────────────────────────────────────────────────</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Second paragraph after the first transition.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Second paragraph after the first transition.</span>
 
    <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">────────────────────────────────────────────────────────────────────────────</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Third paragraph after the second transition.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Third paragraph after the second transition.</span>
    </span></pre>
    </div>
 
@@ -549,9 +549,9 @@ Bullet list (dash)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First item</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Second item</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Third item</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">First item</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Second item</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Third item</span>
    </span></pre>
    </div>
 
@@ -567,9 +567,9 @@ Bullet list (asterisk)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Beta</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Gamma</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Alpha</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Beta</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Gamma</span>
    </span></pre>
    </div>
 
@@ -588,10 +588,10 @@ Nested bullet list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Parent item</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Child item one</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Child item two</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Another parent</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Parent item</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Child item one</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Child item two</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Another parent</span>
    </span></pre>
    </div>
 
@@ -607,9 +607,9 @@ Enumerated list (auto-numbered)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First step</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 2.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Second step</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 3.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Third step</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">First step</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 2.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Second step</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 3.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Third step</span>
    </span></pre>
    </div>
 
@@ -625,9 +625,9 @@ Bullet list (plus sign)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">One</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Two</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Three</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">One</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Two</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Three</span>
    </span></pre>
    </div>
 
@@ -650,12 +650,12 @@ Deeply nested bullet list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 1 item A</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 2 item A1</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">     ▪ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 3 item A1a</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">     ▪ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 3 item A1b</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 2 item A2</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Level 1 item B</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Level 1 item A</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Level 2 item A1</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">     ▪ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Level 3 item A1a</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">     ▪ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Level 3 item A1b</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Level 2 item A2</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Level 1 item B</span>
    </span></pre>
    </div>
 
@@ -671,9 +671,9 @@ Enumerated list (uppercase letters)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> A.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> B.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Beta</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> C.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Gamma</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> A.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Alpha</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> B.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Beta</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> C.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Gamma</span>
    </span></pre>
    </div>
 
@@ -689,9 +689,9 @@ Enumerated list (uppercase roman numerals)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> I.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Chapter One</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> II.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Chapter Two</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> III.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Chapter Three</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> I.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Chapter One</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> II.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Chapter Two</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> III.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Chapter Three</span>
    </span></pre>
    </div>
 
@@ -713,13 +713,13 @@ Mixed ordered and unordered lists
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Steps to install:</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Steps to install:</span>
 
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Download the package</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Linux: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">apt install ...</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">macOS: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">brew install ...</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 2.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Run the installer</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 3.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Verify with </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">--version</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 1.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Download the package</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Linux: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">apt install ...</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">   ∘ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">macOS: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">brew install ...</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 2.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Run the installer</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> 3.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Verify with </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">--version</span>
    </span></pre>
    </div>
 
@@ -735,9 +735,9 @@ Enumerated list (letters)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> a.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Apple</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> b.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Banana</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> c.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Cherry</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> a.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Apple</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> b.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Banana</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> c.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Cherry</span>
    </span></pre>
    </div>
 
@@ -753,9 +753,9 @@ Enumerated list (roman numerals)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> i.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item i</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> ii.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item ii</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> iii.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item iii</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> i.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Item i</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> ii.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Item ii</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> iii.</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Item iii</span>
    </span></pre>
    </div>
 
@@ -797,11 +797,11 @@ Definition list with classifier
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">term : <span style="color: #8be9fd; text-decoration-color: #8be9fd">string</span>
-       <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A string-typed term.</span>
+       <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">A string-typed term.</span>
 
 
    count : <span style="color: #8be9fd; text-decoration-color: #8be9fd">int</span>
-       <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">An integer count.</span>
+       <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">An integer count.</span>
    </span></pre>
    </div>
 
@@ -821,11 +821,11 @@ Field list
    ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Field Name </span>┃<span style="color:#f8f8f2;font-weight: bold"> Field Value      </span>┃
    ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
-   │ <span style="color:#f8f8f2;font-weight: bold">Name      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">John Doe        </span> │
+   │ <span style="color:#f8f8f2;font-weight: bold">Name      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">John Doe        </span> │
    ├────────────┼──────────────────┤
    │ <span style="color:#f8f8f2;font-weight: bold">Email     </span> │ <span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="mailto:john@example.com">john@example.com</a></span> │
    ├────────────┼──────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Role      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Developer       </span> │
+   │ <span style="color:#f8f8f2;font-weight: bold">Role      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Developer       </span> │
    └────────────┴──────────────────┘
    </span></pre>
    </div>
@@ -865,14 +865,19 @@ Horizontal list (hlist)
       * Delta
       * Epsilon
       * Zeta
+      * Eta
+      * Theta
+      * Iota
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alpha</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Beta   </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Gamma</span> 
-    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
-    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Delta</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Epsilon</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Zeta </span> 
-    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">     </span> 
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Alpha</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Beta   </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Gamma</span> 
+    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">     </span> 
+    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Delta</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Epsilon</span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Zeta </span> 
+    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">     </span> 
+    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Eta  </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Theta  </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Iota </span> 
+    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">     </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">       </span>  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">     </span> 
    </span></pre>
    </div>
 
@@ -893,9 +898,9 @@ Block quote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Normal paragraph.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Normal paragraph.</span>
 
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">This is an indented block quote.</span>
+   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">This is an indented block quote.</span>
 
    <span style="color: #e4e4e4; text-decoration-color: #e4e4e4">  — Attribution</span>
    </span></pre>
@@ -954,7 +959,7 @@ Literal block (indented)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Example code:</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Example code:</span>
    <span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────── text (default) ─────────────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">def greet(name):</span><span style="color:#f8f8f2;background-color: #282a36">                                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    print(f&quot;Hello, {name}!&quot;)</span><span style="color:#f8f8f2;background-color: #282a36">                                            </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
@@ -968,6 +973,7 @@ Compound directive
 .. code-block:: rst
 
    .. compound::
+      :class: custom-compound-class
 
       The first sentence of a paragraph.
 
@@ -977,10 +983,10 @@ Compound directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The first sentence of a paragraph.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">The first sentence of a paragraph.</span>
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The second paragraph of the compound block, rendered as a single logical </span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">paragraph.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">The second paragraph of the compound block, rendered as a single logical </span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">paragraph.</span>
    </span></pre>
    </div>
 
@@ -990,6 +996,8 @@ Parsed literal block
 .. code-block:: rst
 
    .. parsed-literal::
+      :class: custom-parsed-literal-class
+      :name: custom-parsed-literal-name
 
       **Bold** and *italic* inside a literal block.
       Also ``code`` here.
@@ -997,7 +1005,7 @@ Parsed literal block
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494; background-color: #282a36">┌───────────────────────────── parsed-literal ─────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494; background-color: #282a36">┌────────────── parsed-literal — custom-parsed-literal-name ───────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494; background-color: #282a36">│</span><span style="color:#f8f8f2;background-color: #282a36"> </span><span style="color:#f8f8f2;background-color: #282a36; font-weight: bold">Bold</span><span style="color:#f8f8f2;background-color: #282a36"> and </span><span style="color:#f8f8f2;background-color: #282a36; font-style: italic">italic</span><span style="color:#f8f8f2;background-color: #282a36"> inside a literal block.                                  </span><span style="color: #949494; text-decoration-color: #949494; background-color: #282a36">│</span>
    <span style="color: #949494; text-decoration-color: #949494; background-color: #282a36">│</span><span style="color:#f8f8f2;background-color: #282a36"> Also </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">code</span><span style="color:#f8f8f2;background-color: #282a36"> here.                                                          </span><span style="color: #949494; text-decoration-color: #949494; background-color: #282a36">│</span>
    <span style="color: #949494; text-decoration-color: #949494; background-color: #282a36">└──────────────────────────────────────────────────────────────────────────┘</span>
@@ -1010,6 +1018,7 @@ Epigraph directive
 .. code-block:: rst
 
    .. epigraph::
+      :class: custom-epigraph-class
 
       No man is an island,
       entire of itself.
@@ -1019,7 +1028,7 @@ Epigraph directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">No man is an island, entire of itself.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">No man is an island, entire of itself.</span>
 
    <span style="color: #e4e4e4; text-decoration-color: #e4e4e4">  — John Donne</span>
    </span></pre>
@@ -1031,6 +1040,7 @@ Highlights directive
 .. code-block:: rst
 
    .. highlights::
+      :class: custom-highlights-class
 
       Key takeaways:
 
@@ -1040,11 +1050,10 @@ Highlights directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">Key takeaways:</span>
-
-
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> • </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">Keep it simple.</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Document everything.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">Key takeaways:</span>
+   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌</span>
+   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> • </span><span style="color: #ffffff; text-decoration-color: #ffffff">Keep it simple.</span>
+   <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Document everything.</span>
    </span></pre>
    </div>
 
@@ -1054,6 +1063,7 @@ Pull-quote directive
 .. code-block:: rst
 
    .. pull-quote::
+      :class: custom-pull-quote-class
 
       The best way to predict the future
       is to invent it.
@@ -1063,7 +1073,7 @@ Pull-quote directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #282a36">The best way to predict the future is to invent it.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">The best way to predict the future is to invent it.</span>
 
    <span style="color: #e4e4e4; text-decoration-color: #e4e4e4">  — Alan Kay</span>
    </span></pre>
@@ -1210,82 +1220,16 @@ code-block with dedent
    </span></pre>
    </div>
 
-code-block: bash
-~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. code-block:: bash
-
-      pip install rich-rst
-      python -m rich_rst README.rst
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── bash ──────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">pip install rich-rst</span><span style="color:#f8f8f2;background-color: #282a36">                                                    </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">python -m rich_rst README.rst</span><span style="color:#f8f8f2;background-color: #282a36">                                           </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </span></pre>
-   </div>
-
-code-block: JSON
-~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. code-block:: json
-
-      {
-        "name": "rich-rst",
-        "version": "1.0.0",
-        "description": "RST renderer for Rich"
-      }
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── json ──────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">{</span><span style="color:#f8f8f2;background-color: #282a36">                                                                       </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">&quot;name&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">: </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;rich-rst&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">,</span><span style="color:#f8f8f2;background-color: #282a36">                                                   </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">&quot;version&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">: </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;1.0.0&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">,</span><span style="color:#f8f8f2;background-color: #282a36">                                                   </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">&quot;description&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">: </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;RST renderer for Rich&quot;</span><span style="color:#f8f8f2;background-color: #282a36">                                </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">}</span><span style="color:#f8f8f2;background-color: #282a36">                                                                       </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </span></pre>
-   </div>
-
-code-block: YAML
-~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. code-block:: yaml
-
-      name: rich-rst
-      dependencies:
-        - rich>=10.0
-        - docutils>=0.17
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── yaml ──────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">name</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">: </span><span style="color:#f8f8f2;background-color: #282a36">rich-rst                                                          </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">dependencies</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">:</span><span style="color:#f8f8f2;background-color: #282a36">                                                           </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="color:#f8f8f2;background-color: #282a36">-</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color:#f8f8f2;background-color: #282a36">rich&gt;=10.0                                                          </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  </span><span style="color:#f8f8f2;background-color: #282a36">-</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color:#f8f8f2;background-color: #282a36">docutils&gt;=0.17                                                      </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </span></pre>
-   </div>
-
 sourcecode alias
 ~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
    .. sourcecode:: javascript
+      :class: custom-sourcecode-class
+      :name: custom-sourcecode-id
+      :linenos:
+      :lineno-start: 5
 
       const greet = (name) => `Hello, ${name}!`;
       console.log(greet('World'));
@@ -1293,9 +1237,9 @@ sourcecode alias
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌─────────────────────────────── javascript ───────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">const</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> greet </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> (name) =&gt; </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">`Hello, ${</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">name</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">}!`</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">;</span><span style="color:#f8f8f2;background-color: #282a36">                              </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">console.log(greet(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&#x27;World&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">));</span><span style="color:#f8f8f2;background-color: #282a36">                                            </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌─────────────────── javascript — custom-sourcecode-id ────────────────────┐</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">5 </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">const</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> greet </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> (name) =&gt; </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">`Hello, ${</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">name</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">}!`</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">;</span><span style="color:#f8f8f2;background-color: #282a36">                          </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">6 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">console.log(greet(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&#x27;World&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">));</span><span style="color:#f8f8f2;background-color: #282a36">                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -1306,6 +1250,8 @@ code alias (no language)
 .. code-block:: rst
 
    .. code::
+      :class: custom-code-class
+      :name: custom-code-id
 
       plain text block
       no syntax highlighting
@@ -1313,163 +1259,9 @@ code alias (no language)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────── text (default) ─────────────────────────────┐</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌──────────────────── text (default) — custom-code-id ─────────────────────┐</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">plain text block</span><span style="color:#f8f8f2;background-color: #282a36">                                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">no syntax highlighting</span><span style="color:#f8f8f2;background-color: #282a36">                                                  </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </span></pre>
-   </div>
-
-code-block: C
-~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. code-block:: c
-
-      #include <stdio.h>
-
-      int main(void) {
-          printf("Hello, World!\n");
-          return 0;
-      }
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌─────────────────────────────────── c ────────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">#include</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #6272a4; text-decoration-color: #6272a4; background-color: #282a36">&lt;stdio.h&gt;</span><span style="color:#f8f8f2;background-color: #282a36">                                                      </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color:#f8f8f2;background-color: #282a36">                                                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36">int</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">main</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36">void</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">) {</span><span style="color:#f8f8f2;background-color: #282a36">                                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    printf(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;Hello, World!\n&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">);</span><span style="color:#f8f8f2;background-color: #282a36">                                          </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">;</span><span style="color:#f8f8f2;background-color: #282a36">                                                           </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">}</span><span style="color:#f8f8f2;background-color: #282a36">                                                                       </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </span></pre>
-   </div>
-
-code-block: Java
-~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. code-block:: java
-
-      public class Hello {
-          public static void main(String[] args) {
-              System.out.println("Hello, World!");
-          }
-      }
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── java ──────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">public</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">class</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">Hello</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> {</span><span style="color:#f8f8f2;background-color: #282a36">                                                    </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">public</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">static</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36">void</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">main</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(String</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">[]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> args) {</span><span style="color:#f8f8f2;background-color: #282a36">                            </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">        System.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">out</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">println</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;Hello, World!&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">);</span><span style="color:#f8f8f2;background-color: #282a36">                            </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    }</span><span style="color:#f8f8f2;background-color: #282a36">                                                                   </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">}</span><span style="color:#f8f8f2;background-color: #282a36">                                                                       </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </span></pre>
-   </div>
-
-code-block: TypeScript
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. code-block:: typescript
-
-      function greet(name: string): string {
-          return `Hello, ${name}!`;
-      }
-      console.log(greet("World"));
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌─────────────────────────────── typescript ───────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">function</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> greet(name</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">:</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36">string</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">)</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">:</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36">string</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> {</span><span style="color:#f8f8f2;background-color: #282a36">                                  </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">`Hello, ${</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">name</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">}!`</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">;</span><span style="color:#f8f8f2;background-color: #282a36">                                           </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">}</span><span style="color:#f8f8f2;background-color: #282a36">                                                                       </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">console.log(greet(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;World&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">));</span><span style="color:#f8f8f2;background-color: #282a36">                                            </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </span></pre>
-   </div>
-
-code-block: SQL
-~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. code-block:: sql
-
-      SELECT name, email
-      FROM users
-      WHERE active = TRUE
-      ORDER BY name ASC
-      LIMIT 10;
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── sql ───────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> name, email</span><span style="color:#f8f8f2;background-color: #282a36">                                                      </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> users</span><span style="color:#f8f8f2;background-color: #282a36">                                                              </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> active </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">TRUE</span><span style="color:#f8f8f2;background-color: #282a36">                                                     </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">ORDER</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">BY</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> name </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">ASC</span><span style="color:#f8f8f2;background-color: #282a36">                                                       </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">LIMIT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #ffb86c; text-decoration-color: #ffb86c; background-color: #282a36">10</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">;</span><span style="color:#f8f8f2;background-color: #282a36">                                                               </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </span></pre>
-   </div>
-
-code-block: HTML
-~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. code-block:: html
-
-      <!doctype html>
-      <html lang="en">
-        <head><title>Hello</title></head>
-        <body><h1>Hello, World!</h1></body>
-      </html>
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── html ──────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">&lt;!doctype html&gt;</span><span style="color:#f8f8f2;background-color: #282a36">                                                         </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&lt;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">html</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">lang</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;en&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;</span><span style="color:#f8f8f2;background-color: #282a36">                                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  &lt;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">head</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;&lt;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">title</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;Hello&lt;/</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">title</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;&lt;/</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">head</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;</span><span style="color:#f8f8f2;background-color: #282a36">                                     </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">  &lt;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">body</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;&lt;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">h1</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;Hello, World!&lt;/</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">h1</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;&lt;/</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">body</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;</span><span style="color:#f8f8f2;background-color: #282a36">                                   </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&lt;/</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">html</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&gt;</span><span style="color:#f8f8f2;background-color: #282a36">                                                                 </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
-   </span></pre>
-   </div>
-
-code-block: Rust
-~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. code-block:: rust
-
-      fn main() {
-          let greeting = "Hello, World!";
-          println!("{}", greeting);
-      }
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌────────────────────────────────── rust ──────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">fn</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">main</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">() {</span><span style="color:#f8f8f2;background-color: #282a36">                                                             </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; background-color: #282a36; font-style: italic">let</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> greeting </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;Hello, World!&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">;</span><span style="color:#f8f8f2;background-color: #282a36">                                     </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">println!</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36">&quot;{}&quot;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, greeting);</span><span style="color:#f8f8f2;background-color: #282a36">                                           </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">}</span><span style="color:#f8f8f2;background-color: #282a36">                                                                       </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -1480,19 +1272,26 @@ code-block with caption
 .. code-block:: rst
 
    .. code-block:: python
-      :caption: example.py
+      :linenos:
+      :lineno-start: 10
+      :emphasize-lines: 3
+      :caption: math_utils.py
+      :name: math-utils-code
+      :dedent: 4
+      :force:
+      :class: python-utility-class
 
-      def add(a, b):
-          # This line is emphasised
-          return a + b
+          def add(a, b):
+              # This line is emphasised
+              return a + b
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌───────────────────────────────── python ─────────────────────────────────┐</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">def</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">add</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(a, b):</span><span style="color:#f8f8f2;background-color: #282a36">                                                          </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #6272a4; text-decoration-color: #6272a4; background-color: #282a36"># This line is emphasised</span><span style="color:#f8f8f2;background-color: #282a36">                                           </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
-   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> a </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> b</span><span style="color:#f8f8f2;background-color: #282a36">                                                        </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #949494; text-decoration-color: #949494">┌──────────────────────── python — math-utils-code ────────────────────────┐</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">10 </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">def</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; background-color: #282a36">add</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">(a, b):</span><span style="color:#f8f8f2;background-color: #282a36">                                                     </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">11 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #6272a4; text-decoration-color: #6272a4; background-color: #282a36"># This line is emphasised</span><span style="color:#f8f8f2;background-color: #282a36">                                      </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
+   <span style="color: #949494; text-decoration-color: #949494">│</span> <span style="color: #e3e3df; text-decoration-color: #e3e3df; background-color: #282a36; font-weight: bold">  </span><span style="color: #66676e; text-decoration-color: #66676e; background-color: #282a36">12 </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">    </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">return</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> a </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; background-color: #282a36">+</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> b</span><span style="color:#f8f8f2;background-color: #282a36">                                                   </span> <span style="color: #949494; text-decoration-color: #949494">│</span>
    <span style="color: #949494; text-decoration-color: #949494">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -1502,7 +1301,7 @@ productionlist directive
 
 .. code-block:: rst
 
-   .. productionlist::
+   .. productionlist:: grammar
 
       statement  : expression NEWLINE
       expression : term ('+' term)*
@@ -1522,249 +1321,90 @@ productionlist directive
 Admonitions
 -----------
 
-note
-~~~~
+Admonitions Showcase
+~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
    .. note::
-
-      This is a note admonition.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭──────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Note </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────────╮</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a note admonition.</span>                                               <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-warning
-~~~~~~~
-
-.. code-block:: rst
-
-   .. warning::
-
-      This is a warning.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Warning </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────────────────╮</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a warning.</span>                                                       <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-tip
-~~~
-
-.. code-block:: rst
-
-   .. tip::
-
-      This is a tip.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭──────────────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Tip </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">───────────────────────────────────╮</span>
-   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a tip.</span>                                                           <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
-   <span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-important
-~~~~~~~~~
-
-.. code-block:: rst
-
-   .. important::
-
-      This is important.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭───────────────────────────────</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> IMPORTANT </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">────────────────────────────────╮</span>
-   <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is important.</span>                                                       <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
-   <span style="color: #bd93f9; text-decoration-color: #bd93f9">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-hint
-~~~~
-
-.. code-block:: rst
-
-   .. hint::
-
-      This is a hint.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────────── Hint ──────────────────────────────────╮</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is a hint.</span>                                                          <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-attention
-~~~~~~~~~
-
-.. code-block:: rst
-
-   .. attention::
-
-      Pay attention to this.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">╭───────────────────────────────</span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold"> Attention </span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">────────────────────────────────╮</span>
-   <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Pay attention to this.</span>                                                   <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">│</span>
-   <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-caution
-~~~~~~~
-
-.. code-block:: rst
-
-   .. caution::
-
-      Exercise caution here.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff5555; text-decoration-color: #ff5555">╭──────────────────────────────── Caution ─────────────────────────────────╮</span>
-   <span style="color: #ff5555; text-decoration-color: #ff5555">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Exercise caution here.</span>                                                   <span style="color: #ff5555; text-decoration-color: #ff5555">│</span>
-   <span style="color: #ff5555; text-decoration-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-danger
-~~~~~~
-
-.. code-block:: rst
-
-   .. danger::
-
-      Danger! Proceed carefully.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">╭─────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold"> DANGER </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">─────────────────────────────────╮</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Danger! Proceed carefully.</span>                                               <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">│</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-error
-~~~~~
-
-.. code-block:: rst
-
-   .. error::
-
-      An error occurred.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff5555; text-decoration-color: #ff5555">╭─────────────────────────────────</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold"> ERROR </span><span style="color: #ff5555; text-decoration-color: #ff5555">──────────────────────────────────╮</span>
-   <span style="color: #ff5555; text-decoration-color: #ff5555">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">An error occurred.</span>                                                       <span style="color: #ff5555; text-decoration-color: #ff5555">│</span>
-   <span style="color: #ff5555; text-decoration-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-Admonition with bold content (box-char rendering test)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. warning::
-
-      **Never** commit secrets to version control.
-      Use environment variables or a secrets manager instead.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Warning </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────────────────╮</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span> <span style="color:#f8f8f2;font-weight: bold">Never</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> commit secrets to version control. Use environment variables or a </span> <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">secrets manager instead.</span>                                                 <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-Note with code and emphasis
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. note::
-
       Call ``sys.exit(0)`` to terminate *successfully*,
       or ``sys.exit(1)`` for **failure**.
 
-.. raw:: html
+      Notes can contain **bold**, *italic*, and ``code``.
+      They can also contain lists:
 
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭──────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Note </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────────╮</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.exit(0)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to terminate </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">successfully</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, or </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.exit(1)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">failure</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>  <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
+      - item one
+      - item two
 
-Generic admonition with custom title
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   .. warning::
+      **Never** commit secrets to version control.
+      Use environment variables or a secrets manager instead.
 
-.. code-block:: rst
+   .. tip::
+      This is a tip.
+
+   .. important::
+      This is important.
+
+   .. hint::
+      This is a hint.
+
+   .. attention::
+      Pay attention to this.
+
+   .. caution::
+      Exercise caution here.
+
+   .. danger::
+      Danger! Proceed carefully.
+
+   .. error::
+      An error occurred.
 
    .. admonition:: Did you know?
+      :class: custom-admonition-class
+      :name: custom-admonition-id
 
       rich-rst supports all currently documented RST elements.
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭─────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Did you know? </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────╮</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst supports all currently documented RST elements.</span>                 <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-Admonition with nested content
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. note::
-
-      Notes can contain **bold**, *italic*, and ``code``.
-
-      They can also contain lists:
-
-      - item one
-      - item two
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭──────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Note </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────────╮</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Notes can contain </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-weight: bold">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, and </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">code</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>                                <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.exit(0)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> to terminate </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-style: italic">successfully</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, or </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.exit(1)</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-weight: bold">failure</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>  <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>                                                                          <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">They can also contain lists:</span>                                             <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Notes can contain </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-weight: bold">bold</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-style: italic">italic</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">, and </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">code</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">. They can also contain lists:</span>   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>                                                                          <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">item one</span>                                                              <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">item two</span>                                                              <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">item one</span>                                                              <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">item two</span>                                                              <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Warning </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────────────────╮</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span> <span style="color:#f8f8f2;font-weight: bold">Never</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> commit secrets to version control. Use environment variables or a </span> <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">secrets manager instead.</span>                                                 <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">╭──────────────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Tip </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">───────────────────────────────────╮</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">This is a tip.</span>                                                           <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #bd93f9; text-decoration-color: #bd93f9">╭───────────────────────────────</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> IMPORTANT </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">────────────────────────────────╮</span>
+   <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">This is important.</span>                                                       <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
+   <span style="color: #bd93f9; text-decoration-color: #bd93f9">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────────── Hint ──────────────────────────────────╮</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">This is a hint.</span>                                                          <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">╭───────────────────────────────</span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c; font-weight: bold"> Attention </span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">────────────────────────────────╮</span>
+   <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">│</span><span style="color:#f8f8f2;background-color: #f1fa8c"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #f1fa8c">Pay attention to this.</span><span style="color:#f8f8f2;background-color: #f1fa8c">                                                   </span><span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">│</span>
+   <span style="color: #282a36; text-decoration-color: #282a36; background-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #ff5555; text-decoration-color: #ff5555">╭──────────────────────────────── Caution ─────────────────────────────────╮</span>
+   <span style="color: #ff5555; text-decoration-color: #ff5555">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Exercise caution here.</span>                                                   <span style="color: #ff5555; text-decoration-color: #ff5555">│</span>
+   <span style="color: #ff5555; text-decoration-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">╭─────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555; font-weight: bold"> DANGER </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">─────────────────────────────────╮</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">│</span><span style="color:#f8f8f2;background-color: #ff5555"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #ff5555">Danger! Proceed carefully.</span><span style="color:#f8f8f2;background-color: #ff5555">                                               </span><span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">│</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #ff5555; text-decoration-color: #ff5555">╭─────────────────────────────────</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold"> ERROR </span><span style="color: #ff5555; text-decoration-color: #ff5555">──────────────────────────────────╮</span>
+   <span style="color: #ff5555; text-decoration-color: #ff5555">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">An error occurred.</span>                                                       <span style="color: #ff5555; text-decoration-color: #ff5555">│</span>
+   <span style="color: #ff5555; text-decoration-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">╭─────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> Did you know? </span><span style="color: #ffffff; text-decoration-color: #ffffff">──────────────────────────────╮</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">rich-rst supports all currently documented RST elements.</span>                 <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
@@ -1790,9 +1430,9 @@ Simple table with header
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">┏━━━━━━━┳━━━━━━━┳━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Col A </span>┃<span style="color:#f8f8f2;font-weight: bold"> Col B </span>┃<span style="color:#f8f8f2;font-weight: bold"> Col C </span>┃
    ┡━━━━━━━╇━━━━━━━╇━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">1    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">2    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">3    </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">1    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">2    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">3    </span> │
    ├───────┼───────┼───────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">4    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">5    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">6    </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">4    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">5    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">6    </span> │
    └───────┴───────┴───────┘
    </span></pre>
    </div>
@@ -1814,11 +1454,11 @@ Grid table with row spanning
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">┏━━━━━━━━━━━━┳━━━━━━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Column 1</span>  <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Column 2</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Column 1</span>  <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Column 2</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━━━━━━╇━━━━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Rows 1 &amp; 2</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Row 1</span>    │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Rows 1 &amp; 2</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Row 1</span>    │
    │            ├──────────┤
-   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Row 2</span>    │
+   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Row 2</span>    │
    └────────────┴──────────┘
    </span></pre>
    </div>
@@ -1844,11 +1484,11 @@ Wider grid table
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">┏━━━━━━━━┳━━━━━━┳━━━━━━┳━━━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Name   </span>┃<span style="color:#f8f8f2;font-weight: bold"> Type </span>┃<span style="color:#f8f8f2;font-weight: bold"> Size </span>┃<span style="color:#f8f8f2;font-weight: bold"> Default </span>┃
    ┡━━━━━━━━╇━━━━━━╇━━━━━━╇━━━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">width </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">int </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">4   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">80     </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">width </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">int </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">4   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">80     </span> │
    ├────────┼──────┼──────┼─────────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">height</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">int </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">4   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">24     </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">height</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">int </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">4   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">24     </span> │
    ├────────┼──────┼──────┼─────────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">title </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">str </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">var </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">&#x27;&#x27;     </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">title </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">str </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">var </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">&#x27;&#x27;     </span> │
    └────────┴──────┴──────┴─────────┘
    </span></pre>
    </div>
@@ -1860,7 +1500,11 @@ list-table directive
 
    .. list-table:: Comparison
       :header-rows: 1
+      :stub-columns: 1
       :widths: 30 35 35
+      :align: center
+      :class: custom-list-table-class
+      :name: custom-list-table-name
 
       * - Library
         - Language
@@ -1879,9 +1523,9 @@ list-table directive
    ┏━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Library  </span>┃<span style="color:#f8f8f2;font-weight: bold"> Language </span>┃<span style="color:#f8f8f2;font-weight: bold"> Stars </span>┃
    ┡━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Python  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">50k+ </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">rich    </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Python  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">50k+ </span> │
    ├──────────┼──────────┼───────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Python  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">1k+  </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">rich-rst</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Python  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">1k+  </span> │
    └──────────┴──────────┴───────┘
    </span></pre>
    </div>
@@ -1894,6 +1538,13 @@ CSV Table
    .. csv-table:: Data
       :header: "Name", "Value", "Unit"
       :widths: 20, 20, 20
+      :delim: ,
+      :quote: "
+      :keepspace:
+      :escape: \
+      :class: custom-csv-table-class
+      :name: custom-csv-table-name
+      :align: center
 
       "Speed", "299 792 458", "m/s"
       "Charge", "1.602e-19", "C"
@@ -1902,16 +1553,19 @@ CSV Table
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">             Data              </span>
-   ┏━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> Name   </span>┃<span style="color:#f8f8f2;font-weight: bold"> Value       </span>┃<span style="color:#f8f8f2;font-weight: bold"> Unit </span>┃
-   ┡━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Speed </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">299 792 458</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">m/s </span> │
-   ├────────┼─────────────┼──────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Charge</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">1.602e-19  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">C   </span> │
-   ├────────┼─────────────┼──────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Mass  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">9.109e-31  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">kg  </span> │
-   └────────┴─────────────┴──────┘
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">                                    Data                                    </span>
+   ┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃<span style="color:#f8f8f2;font-weight: bold"> Name   </span>┃<span style="color:#f8f8f2;font-weight: bold"> &quot;Value&quot;                        </span>┃<span style="color:#f8f8f2;font-weight: bold"> &quot;Unit&quot;                         </span>┃
+   ┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Speed </span> │ <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">&quot;299 792 458&quot;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6">               </span> │ <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">&quot;m/s&quot;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6">                       </span> │
+   │        │                                │                                │
+   ├────────┼────────────────────────────────┼────────────────────────────────┤
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Charge</span> │ <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">&quot;1.602e-19&quot;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6">                 </span> │ <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">&quot;C&quot;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6">                         </span> │
+   │        │                                │                                │
+   ├────────┼────────────────────────────────┼────────────────────────────────┤
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Mass  </span> │ <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">&quot;9.109e-31&quot;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6">                 </span> │ <span style="color: #ff79c6; text-decoration-color: #ff79c6">▌ </span><span style="color: #ffffff; text-decoration-color: #ffffff">&quot;kg&quot;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6">                        </span> │
+   │        │                                │                                │
+   └────────┴────────────────────────────────┴────────────────────────────────┘
    </span></pre>
    </div>
 
@@ -1923,6 +1577,10 @@ Flat Table: Basic with Stub Column
    .. flat-table:: Linux Kernel Subsystems
       :header-rows: 1
       :stub-columns: 1
+      :widths: 20 30 50
+      :fill-cells:
+      :class: custom-flat-table-class
+      :name: custom-flat-table-name
 
       * - Subsystem
         - Maintainer
@@ -1947,12 +1605,12 @@ Flat Table: Basic with Stub Column
    ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Subsystem         </span>┃<span style="color:#f8f8f2;font-weight: bold"> Maintainer      </span>┃<span style="color:#f8f8f2;font-weight: bold"> Description                        </span>┃
    ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Networking       </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">David S. Miller</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">TCP/IP stack and network drivers  </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Networking       </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">David S. Miller</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">TCP/IP stack and network drivers  </span> │
    ├───────────────────┼─────────────────┼────────────────────────────────────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Memory Management</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Andrew Morton  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Virtual memory, paging, and       </span> │
-   │                   │                 │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">allocators                        </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Memory Management</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Andrew Morton  </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Virtual memory, paging, and       </span> │
+   │                   │                 │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">allocators                        </span> │
    ├───────────────────┼─────────────────┼────────────────────────────────────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">File Systems     </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Linus Torvalds </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">VFS layer and filesystem drivers  </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">File Systems     </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Linus Torvalds </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">VFS layer and filesystem drivers  </span> │
    └───────────────────┴─────────────────┴────────────────────────────────────┘
    </span></pre>
    </div>
@@ -1987,13 +1645,13 @@ Flat Table: Column Span (:cspan:)
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">             Quarterly Results              </span>
    ┏━━━━━━━━━┳━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Student</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q1</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q2</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q3</span>                  <span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Student</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Q1</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Q2</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Q3</span>                  <span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━━━┻━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Grand total — all students, all quarters</span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Grand total — all students, all quarters</span> │
    ├─────────┬────┬────┬──────────────────────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alice</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">90</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">85</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">92</span>                   │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Alice</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">90</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">85</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">92</span>                   │
    ├─────────┼────┼────┼──────────────────────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bob</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">80</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">88</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">76</span>                   │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Bob</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">80</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">88</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">76</span>                   │
    └─────────┴────┴────┴──────────────────────┘
    </span></pre>
    </div>
@@ -2034,15 +1692,15 @@ flat-table — wide partial column span (:cspan: > 1)
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">              Regional Sales              </span>
    ┏━━━━━━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Region</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q1</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q2</span>               <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Q3</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Region</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Q1</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Q2</span>               <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Q3</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━━━┻━━━━┻━━━━━━━━━━━━━━━━━━━╇━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">North + Central + South combined</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">312</span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">North + Central + South combined</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">312</span> │
    ├─────────┬────┬───────────────────┼─────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">North</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">42</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">55</span>                │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">61</span>  │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">North</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">42</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">55</span>                │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">61</span>  │
    ├─────────┼────┼───────────────────┼─────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Central</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">78</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">90</span>                │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">83</span>  │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Central</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">78</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">90</span>                │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">83</span>  │
    ├─────────┼────┼───────────────────┼─────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">South</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">34</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">48</span>                │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">55</span>  │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">South</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">34</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">48</span>                │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">55</span>  │
    └─────────┴────┴───────────────────┴─────┘
    </span></pre>
    </div>
@@ -2078,15 +1736,15 @@ flat-table — row span (:rspan:)
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">         Produce Prices         </span>
    ┏━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Category</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Item</span>    <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Price</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Category</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Item</span>    <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Price</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Fruit</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Apple</span>    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">$1.00</span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Fruit</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Apple</span>    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">$1.00</span> │
    │           ├──────────┼───────┤
-   │           │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Banana</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">$0.50</span> │
+   │           │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Banana</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">$0.50</span> │
    ├───────────┼──────────┼───────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Vegetable</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Carrot</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">$0.75</span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Vegetable</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Carrot</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">$0.75</span> │
    │           ├──────────┼───────┤
-   │           │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Broccoli</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">$1.25</span> │
+   │           │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Broccoli</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">$1.25</span> │
    └───────────┴──────────┴───────┘
    </span></pre>
    </div>
@@ -2130,21 +1788,21 @@ Flat Table: Combined :cspan: and :rspan:
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">                               Combined Spans                               </span>
    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Full-width title header</span>                                                 <span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Full-width title header</span>                                                 <span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┣━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┫
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">header 1</span>             <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">header 2</span>               <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">header 3</span>              <span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">header 1</span>             <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">header 2</span>               <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">header 3</span>              <span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┣━━━━━━━━━━━┳━━━━━━━━━━━╋━━━━━━━━━━━━┳━━━━━━━━━━━━╋━━━━━━━━━━━━┳━━━━━━━━━━━┫
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sub-heade</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sub-heade</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sub-header</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sub-header</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sub-header</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sub-heade</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">r 1</span>      <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">r 2</span>      <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">3</span>         <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">4</span>         <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">5</span>         <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">r 6</span>      <span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Sub-heade</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Sub-heade</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Sub-header</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Sub-header</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Sub-header</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Sub-heade</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">r 1</span>      <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">r 2</span>      <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">3</span>         <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">4</span>         <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">5</span>         <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">r 6</span>      <span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━━━━━┻━━━━━━━━━━━╇━━━━━━━━━━━━┻━━━━━━━━━━━━╇━━━━━━━━━━━━┻━━━━━━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Big cell spanning 2 </span>  │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Large cell spanning 2 </span>  │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Large cell spanning 4 </span> │
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rows and 2 column</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">columns</span>                 │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">columns</span>                │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Big cell spanning 2 </span>  │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Large cell spanning 2 </span>  │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Large cell spanning 4 </span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">rows and 2 column</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">columns</span>                 │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">columns</span>                │
    │                       ├────────────┬────────────┼────────────────────────┤
-   │                       │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Tall cell </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Cell 3</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Big cell spanning 2 </span>   │
-   │                       │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">spanning 2</span> │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rows and 3 columns</span>     │
-   │                       │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rows</span>       │            │                        │
+   │                       │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Tall cell </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Cell 3</span>     │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Big cell spanning 2 </span>   │
+   │                       │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">spanning 2</span> │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">rows and 3 columns</span>     │
+   │                       │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">rows</span>       │            │                        │
    ├───────────┬───────────┤            ├────────────┤                        │
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Cell 1</span>    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Cell 2</span>    │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Cell 4</span>     │                        │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Cell 1</span>    │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Cell 2</span>    │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Cell 4</span>     │                        │
    └───────────┴───────────┴────────────┴────────────┴────────────────────────┘
    </span></pre>
    </div>
@@ -2176,13 +1834,13 @@ flat-table — single cell with :cspan: and :rspan: (2×2 block)
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic">           2×2 merged cell            </span>
    ┏━━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Task</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Mon</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Tue</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Wed</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Thu</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Fri</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Task</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Mon</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Tue</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Wed</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Thu</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Fri</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━┻━━━━━┻━━━━━╇━━━━━┻━━━━━┻━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Planning</span>         │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Review</span>          │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Planning</span>         │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Review</span>          │
    │                  ├─────────────────┤
-   │                  │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Deploy</span>          │
+   │                  │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Deploy</span>          │
    ├──────────────────┴─────────────────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Others.</span>                            │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Others.</span>                            │
    └────────────────────────────────────┘
    </span></pre>
    </div>
@@ -2211,13 +1869,13 @@ flat-table — :cspan: fills merged column width without inflation
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-style: italic"> Team Overview  </span>
    ┏━━━━━━━┳━━━━━━┓
-   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Name</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Role</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
+   ┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Name</span> <span style="color:#f8f8f2;font-weight: bold"> </span>┃<span style="color:#f8f8f2;font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Role</span><span style="color:#f8f8f2;font-weight: bold"> </span>┃
    ┡━━━━━━━┻━━━━━━┩
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Both columns</span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Both columns</span> │
    ├───────┬──────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alice</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Lead</span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Alice</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Lead</span> │
    ├───────┼──────┤
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bob</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Dev</span>  │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Bob</span>   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Dev</span>  │
    └───────┴──────┘
    </span></pre>
    </div>
@@ -2237,7 +1895,7 @@ Manual footnote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See the footnote </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">See the footnote </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for details.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1: This is the footnote text.                                            <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
@@ -2258,7 +1916,7 @@ Auto-numbered footnote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">First reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">. Second reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[2]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">First reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">. Second reference </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc">[2]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1: First auto footnote.                                                  <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 2: Second auto footnote.                                                 <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
@@ -2278,7 +1936,7 @@ Named auto footnote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">See </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc">[1]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for details.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> 1: The named auto footnote.                                              <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
@@ -2297,7 +1955,7 @@ Symbol footnote
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Marked with a symbol </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">[*]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Marked with a symbol </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc">[*]</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> *: Symbol footnote text.                                                 <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
@@ -2316,7 +1974,7 @@ Citation
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">As described in </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc; background-color: #282a36">Doe2023</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">As described in </span><span style="color: #bcbcbc; text-decoration-color: #bcbcbc">Doe2023</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌──────────────────────────────── citation ────────────────────────────────┐</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span> Doe2023: John Doe. Python Patterns. 2023.                                <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
@@ -2336,7 +1994,7 @@ Standalone hyperlink
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Visit </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://python.org">https://python.org</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for more.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Visit </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://python.org">https://python.org</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for more.</span>
    </span></pre>
    </div>
 
@@ -2352,7 +2010,7 @@ External hyperlink (named)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Read the </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://rich.readthedocs.io">Rich documentation</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Read the </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://rich.readthedocs.io">Rich documentation</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -2371,12 +2029,12 @@ Internal cross-reference (indirect target)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Jump to </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline">Target Section</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Jump to </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline">Target Section</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
 
    <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
    <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                              Target Section                              </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content here.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Content here.</span>
    </span></pre>
    </div>
 
@@ -2390,7 +2048,7 @@ Anonymous hyperlink
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://example.com">this page</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://example.com">this page</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for details.</span>
    </span></pre>
    </div>
 
@@ -2409,7 +2067,7 @@ Text substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">rich-rst is written in Python.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">rich-rst is written in Python.</span>
    </span></pre>
    </div>
 
@@ -2425,7 +2083,7 @@ Date substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-07-09.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Generated on 2026-07-09.</span>
    </span></pre>
    </div>
 
@@ -2441,7 +2099,7 @@ Unicode substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Copyright © 2024 The Authors.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Copyright © 2024 The Authors.</span>
    </span></pre>
    </div>
 
@@ -2458,7 +2116,7 @@ Image substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Click the </span>🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">Logo</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> icon.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Click the </span>🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">Logo</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> icon.</span>
    </span></pre>
    </div>
 
@@ -2472,12 +2130,20 @@ image directive
 
    .. image:: https://example.com/photo.png
       :alt: A photo
+      :height: 300px
       :width: 400px
+      :scale: 50%
+      :align: center
+      :target: https://example.com
+      :class: custom-image-class
+      :name: custom-image-id
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">A photo</a></span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="https://example.com
+      :class: custom-image-class
+      :name: custom-image-id">A photo</a></span>
    </span></pre>
    </div>
 
@@ -2488,7 +2154,15 @@ figure directive
 
    .. figure:: https://example.com/chart.png
       :alt: A chart
+      :height: 400px
       :width: 600px
+      :scale: 75%
+      :align: center
+      :target: https://example.com
+      :class: custom-figure-class
+      :name: custom-figure-id
+      :figwidth: 500px
+      :figclass: custom-figure-container-class
 
       Figure caption goes here.
 
@@ -2496,7 +2170,7 @@ figure directive
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭─ Figure caption goes here. ─╮</span>
-   <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span> 🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="Image">A chart</a></span>                  <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
+   <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span> 🌆 <span style="color: #6088ff; text-decoration-color: #6088ff"><a href="https://example.com">A chart</a></span>                  <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
    <span style="color: #bd93f9; text-decoration-color: #bd93f9">╰─────────────────────────────╯</span>
    </span></pre>
    </div>
@@ -2508,6 +2182,8 @@ figure with legend
 
    .. figure:: https://example.com/diagram.png
       :alt: Diagram
+      :figwidth: image
+      :class: custom-figure-legend-class
 
       Caption text.
 
@@ -2532,6 +2208,8 @@ topic directive
 .. code-block:: rst
 
    .. topic:: Interesting Fact
+      :class: custom-topic-class
+      :name: custom-topic-id
 
       This is the topic body.
       It can contain any body elements.
@@ -2540,7 +2218,7 @@ topic directive
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭────────────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Interesting Fact </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">────────────────────────────╮</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This is the topic body. It can contain any body elements.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">This is the topic body. It can contain any body elements.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
@@ -2551,8 +2229,9 @@ sidebar directive
 .. code-block:: rst
 
    .. sidebar:: Note
-
-      :Subtitle: Side note
+      :subtitle: Side note
+      :class: custom-sidebar-class
+      :name: custom-sidebar-id
 
       Sidebar text goes here.
 
@@ -2560,7 +2239,7 @@ sidebar directive
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">╭───────── Note ──────────╮
-   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Sidebar text goes here.</span> │
+   │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Sidebar text goes here.</span> │
    ╰─────── Side note ───────╯
    </span></pre>
    </div>
@@ -2571,6 +2250,8 @@ rubric directive
 .. code-block:: rst
 
    .. rubric:: An Unnumbered Heading
+      :class: custom-rubric-class
+      :name: custom-rubric-id
 
    Following paragraph.
 
@@ -2580,7 +2261,7 @@ rubric directive
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #909194; text-decoration-color: #909194; font-style: italic">╭──────────────────────────────────────────────────────────────────────────╮</span>
    <span style="color: #909194; text-decoration-color: #909194; font-style: italic">│                          An Unnumbered Heading                           │</span>
    <span style="color: #909194; text-decoration-color: #909194; font-style: italic">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Following paragraph.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Following paragraph.</span>
    </span></pre>
    </div>
 
@@ -2591,6 +2272,9 @@ contents directive (table of contents)
 
    .. contents:: Table of Contents
       :depth: 2
+      :local:
+      :backlinks: entry
+      :class: custom-contents-class
 
    Section A
    ---------
@@ -2612,12 +2296,12 @@ contents directive (table of contents)
    <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
    <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                Section A                                 </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content A.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Content A.</span>
 
    <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
    <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                                Section B                                 </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Content B.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Content B.</span>
    </span></pre>
    </div>
 
@@ -2627,6 +2311,10 @@ sectnum directive
 .. code-block:: rst
 
    .. sectnum::
+      :depth: 3
+      :start: 1
+      :prefix: Section-
+      :suffix: .
 
    Overview
    --------
@@ -2638,10 +2326,10 @@ sectnum directive
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
-   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                               1   Overview                               </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                          Section-1.   Overview                           </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
    <span style="color:#f8f8f2">╭──────────────────────────────────────────────────────────────────────────╮</span>
-   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                               2   Details                                </span><span style="color:#f8f8f2">│</span>
+   <span style="color:#f8f8f2">│</span><span style="color:#f8f8f2;font-weight: bold">                           Section-2.   Details                           </span><span style="color:#f8f8f2">│</span>
    <span style="color:#f8f8f2">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
@@ -2659,9 +2347,9 @@ header directive
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔════════════════════════════════</span><span style="color:#f8f8f2;font-weight: bold"> caption </span><span style="color:#f8f8f2">═════════════════════════════════╗</span>
-   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                            </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">My Document Header</span><span style="color:#f8f8f2;font-weight: bold">                            </span><span style="color:#f8f8f2">║</span>
+   <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                            </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">My Document Header</span><span style="color:#f8f8f2;font-weight: bold">                            </span><span style="color:#f8f8f2">║</span>
    <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Main content.</span>
    </span></pre>
    </div>
 
@@ -2677,9 +2365,9 @@ footer directive
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Main content.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Main content.</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">┌───────────────────────────────── Footer ─────────────────────────────────┐</span>
-   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Page 1</span>                                  <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
+   <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>                                  <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Page 1</span>                                  <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">│</span>
    <span style="color: #bcbcbc; text-decoration-color: #bcbcbc">└──────────────────────────────────────────────────────────────────────────┘</span>
    </span></pre>
    </div>
@@ -2697,7 +2385,7 @@ centered directive
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">                              <span style="color:#f8f8f2;font-weight: bold">IMPORTANT NOTICE</span>                              
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body text.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Body text.</span>
    </span></pre>
    </div>
 
@@ -2714,7 +2402,7 @@ Inline math role
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The Pythagorean theorem: </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">a^2 + b^2 = c^2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">The Pythagorean theorem: </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; font-style: italic">a^2 + b^2 = c^2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">.</span>
    </span></pre>
    </div>
 
@@ -2743,6 +2431,9 @@ math directive (labeled)
 
    .. math:: E = mc^2
       :label: einstein
+      :nowrap:
+      :class: custom-math-class
+      :name: custom-math-id
 
 .. raw:: html
 
@@ -2783,19 +2474,19 @@ Standard docinfo fields
    ┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Field Name   </span>┃<span style="color:#f8f8f2;font-weight: bold"> Field Value     </span>┃
    ┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
-   │ <span style="color:#f8f8f2;font-weight: bold">Author      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Jane Smith</span>      │
+   │ <span style="color:#f8f8f2;font-weight: bold">Author      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Jane Smith</span>      │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Date        </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">2024-01-15</span>      │
+   │ <span style="color:#f8f8f2;font-weight: bold">Date        </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">2024-01-15</span>      │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Version     </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">1.0</span>             │
+   │ <span style="color:#f8f8f2;font-weight: bold">Version     </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">1.0</span>             │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Status      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Draft</span>           │
+   │ <span style="color:#f8f8f2;font-weight: bold">Status      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Draft</span>           │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Copyright   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">2024 Jane Smith</span> │
+   │ <span style="color:#f8f8f2;font-weight: bold">Copyright   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">2024 Jane Smith</span> │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Organization</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">ACME Corp</span>       │
+   │ <span style="color:#f8f8f2;font-weight: bold">Organization</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">ACME Corp</span>       │
    └──────────────┴─────────────────┘
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body of the document.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Body of the document.</span>
    </span></pre>
    </div>
 
@@ -2817,11 +2508,11 @@ Authors list
    ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Field Name </span>┃<span style="color:#f8f8f2;font-weight: bold"> Field Value </span>┃
    ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
-   │ <span style="color:#f8f8f2;font-weight: bold">Authors   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alice</span>       │
-   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bob</span>         │
-   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Carol</span>       │
+   │ <span style="color:#f8f8f2;font-weight: bold">Authors   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Alice</span>       │
+   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Bob</span>         │
+   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Carol</span>       │
    └────────────┴─────────────┘
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body text.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Body text.</span>
    </span></pre>
    </div>
 
@@ -2842,9 +2533,9 @@ RST comment (invisible)
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Before comment.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Before comment.</span>
 
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">After comment.</span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">After comment.</span>
    </span></pre>
    </div>
 
@@ -2857,6 +2548,7 @@ raw html directive
 .. code-block:: rst
 
    .. raw:: html
+      :class: custom-raw-class
 
       <strong>Bold via raw HTML</strong>
 
@@ -2875,6 +2567,7 @@ raw latex directive
 .. code-block:: rst
 
    .. raw:: latex
+      :class: custom-raw-class
 
       \textbf{Bold via LaTeX}
 
@@ -2890,8 +2583,8 @@ raw latex directive
 Sphinx Version Directives
 -------------------------
 
-versionadded
-~~~~~~~~~~~~
+Sphinx Version Directives Showcase
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -2899,55 +2592,13 @@ versionadded
 
       This feature was added in version 2.1.
 
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭───────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> New in version 2.1 </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">───────────────────────────╮</span>
-   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">This feature was added in version 2.1.</span>                                   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
-   <span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-versionchanged
-~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
    .. versionchanged:: 3.0
 
       The API changed in version 3.0.
 
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭─────────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Changed in version 3.0 </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">─────────────────────────╮</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The API changed in version 3.0.</span>                                          <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-deprecated
-~~~~~~~~~~
-
-.. code-block:: rst
-
    .. deprecated:: 1.5
 
       Use the new API instead.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭──────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Deprecated since version 1.5 </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">──────────────────────╮</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use the new API instead.</span>                                                 <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-deprecated-removed
-~~~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
 
    .. deprecated-removed:: 1.5 2.0
 
@@ -2956,8 +2607,17 @@ deprecated-removed
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff5555; text-decoration-color: #ff5555">╭─────────────</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold"> Deprecated since version 1.5 (removed in 2.0) </span><span style="color: #ff5555; text-decoration-color: #ff5555">──────────────╮</span>
-   <span style="color: #ff5555; text-decoration-color: #ff5555">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Removed in 2.0. Use the new API.</span>                                         <span style="color: #ff5555; text-decoration-color: #ff5555">│</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭───────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> New in version 2.1 </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">───────────────────────────╮</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">This feature was added in version 2.1.</span>                                   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">╭─────────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Changed in version 3.0 </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">─────────────────────────╮</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">The API changed in version 3.0.</span>                                          <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭──────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> Deprecated since version 1.5 </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">──────────────────────╮</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Use the new API instead.</span>                                                 <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <span style="color: #ff5555; text-decoration-color: #ff5555">╭─────────────</span><span style="color: #ff5555; text-decoration-color: #ff5555; font-weight: bold"> Deprecated since version 1.5 (removed in 2.0) </span><span style="color: #ff5555; text-decoration-color: #ff5555">──────────────╮</span>
+   <span style="color: #ff5555; text-decoration-color: #ff5555">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Removed in 2.0. Use the new API.</span>                                         <span style="color: #ff5555; text-decoration-color: #ff5555">│</span>
    <span style="color: #ff5555; text-decoration-color: #ff5555">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
@@ -2965,353 +2625,388 @@ deprecated-removed
 Sphinx Cross-Reference Roles
 ----------------------------
 
-\:func\: role
-~~~~~~~~~~~~~
+Sphinx Cross-Reference Roles Showcase
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
-   Call :func:`os.path.join` to join paths.
+   Sphinx cross-reference roles render as inline literals. Here is a showcase of all supported roles:
+
+   - Function: :func:`os.path.join`
+   - Class: :class:`pathlib.Path`
+   - Method: :meth:`str.upper`
+   - Attribute: :attr:`os.sep`
+   - Module: :mod:`os.path`
+   - Exception: :exc:`ValueError`
+   - Object: :obj:`sys.path`
+   - Data: :data:`sys.version`
+   - Constant: :const:`math.pi`
+   - Term: :term:`decorator`
+   - Reference: :ref:`some-label`
+   - Document: :doc:`installation`
+   - Environment Variable: :envvar:`PYTHONPATH`
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path.join</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to join paths.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Sphinx cross-reference roles render as inline literals. Here is a showcase </span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">of all supported roles:</span>
+
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Function: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path.join</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Class: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">pathlib.Path</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Method: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">str.upper</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Attribute: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.sep</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Module: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Exception: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">ValueError</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Object: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.path</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Data: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.version</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Constant: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">math.pi</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Term: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">decorator</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Reference: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">some-label</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Document: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">installation</span>
+   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Environment Variable: </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">PYTHONPATH</span>
    </span></pre>
    </div>
 
-\:class\: role
-~~~~~~~~~~~~~~
+Python Domain Showcase
+----------------------
+
+Python domain showcase
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
-   Use :class:`pathlib.Path` for path handling.
+   .. py:class:: App(config)
+      :module: mypackage.app
+      :platform: Unix, Windows
+      :synopsis: High-level application object.
+      :noindex:
+      :canonical: mypackage.app.App
+
+      App ties together the main runtime pieces.
+
+      .. py:attribute:: App.name
+         :type: str
+         :value: demo
+
+         Human-readable application name.
+
+      .. py:property:: App.ready
+         :type: bool
+
+         Whether the application is ready to serve requests.
+
+      .. py:method:: App.run(self, *args, **kwargs) -> int
+         :async:
+
+         Run the application event loop.
+
+      .. py:classmethod:: App.build(cls, config) -> App
+         :final:
+
+         Construct an application instance.
+
+      .. py:staticmethod:: App.version() -> str
+
+         Return the current version string.
+
+      .. py:data:: App.DEFAULT_TIMEOUT
+         :type: float
+         :value: 3.5
+
+         Default timeout in seconds.
+
+      .. py:function:: parse_config(text) -> dict[str, str]
+         :deprecated:
+         :canonical: mypackage.app.parse_config
+
+         Parse configuration text.
+
+         :param text: Raw configuration text.
+         :returns: A mapping of configuration keys.
+         :rtype: dict[str, str]
+
+      .. py:exception:: AppError
+         :platform: OS Independent
+
+         Base exception for application errors.
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">pathlib.Path</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for path handling.</span>
-   </span></pre>
-   </div>
-
-\:meth\: role
-~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   Call :meth:`str.upper` to uppercase a string.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">str.upper</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to uppercase a string.</span>
-   </span></pre>
-   </div>
-
-\:attr\: role
-~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   Access :attr:`os.sep` for the path separator.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Access </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.sep</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for the path separator.</span>
-   </span></pre>
-   </div>
-
-\:mod\: role
-~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   The :mod:`os.path` module provides path utilities.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> module provides path utilities.</span>
-   </span></pre>
-   </div>
-
-\:exc\: role
-~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   Raises :exc:`ValueError` when the input is invalid.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Raises </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">ValueError</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> when the input is invalid.</span>
-   </span></pre>
-   </div>
-
-\:obj\: role
-~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   Set :obj:`sys.path` to control module lookup.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Set </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.path</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to control module lookup.</span>
-   </span></pre>
-   </div>
-
-\:data\: role
-~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   Read :data:`sys.version` for the Python version.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Read </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">sys.version</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for the Python version.</span>
-   </span></pre>
-   </div>
-
-\:const\: role
-~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   The value of :const:`math.pi` is approximately 3.14.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The value of </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">math.pi</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> is approximately 3.14.</span>
-   </span></pre>
-   </div>
-
-\:term\: role
-~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   A :term:`decorator` wraps another function.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">decorator</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> wraps another function.</span>
-   </span></pre>
-   </div>
-
-\:ref\: role (cross-reference)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   See :ref:`some-label` for details.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">See </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">some-label</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for details.</span>
-   </span></pre>
-   </div>
-
-\:doc\: role
-~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   Refer to :doc:`installation` for setup instructions.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Refer to </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">installation</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for setup instructions.</span>
-   </span></pre>
-   </div>
-
-\:envvar\: role
-~~~~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   Set :envvar:`PYTHONPATH` before running.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Set </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">PYTHONPATH</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> before running.</span>
-   </span></pre>
-   </div>
-
-Python Domain Directives
-------------------------
-
-py:function
-~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. py:function:: greet(name: str) -> str
-
-      Return a greeting for *name*.
-
-      :param name: The name to greet.
-      :type name: str
-      :returns: A greeting string.
-      :rtype: str
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff79c6; text-decoration-color: #ff79c6">╭───────────────────</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> [function] greet(name: </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">str</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">) </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">-&gt;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">str</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">───────────────────╮</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Return a greeting for </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">name</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                              </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                                                          </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> Parameters                                                               </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">   name: </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">str</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                                              </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">     The name to greet.                                                   </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                                                          </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> Returns                                                                  </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">   str: A greeting string.                                                </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-py:class
-~~~~~~~~
-
-.. code-block:: rst
-
-   .. py:class:: MyClass(value)
-
-      A simple example class.
-
-      :param value: Initial value.
-      :type value: int
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭─────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> [class] MyClass(value) </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">─────────────────────────╮</span>
-   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">A simple example class.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                  </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭──────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> [class] App(config) </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">───────────────────────────╮</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Attributes                                                               </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   name: </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">str</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                              </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">     Human-readable application name.                                     </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   ready: </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">bool</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                            </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">     Whether the application is ready to serve requests.                  </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   DEFAULT_TIMEOUT: </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">float</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                 </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">     Default timeout in seconds.                                          </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                                          </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
-   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Parameters                                                               </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
-   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   value: </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">int</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                             </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
-   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">     Initial value.                                                       </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Details                                                                  </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Module: mypackage.app                                                  </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Canonical: mypackage.app.App                                           </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Platform: Unix, Windows                                                </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Synopsis: High-level application object.                               </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Flags: noindex                                                         </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                                          </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">App ties together the main runtime pieces.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                               </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                                          </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭───────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> [method] App.run(</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">self</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">, *args, **kwargs) </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">-&gt;</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> int </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">───────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Details                                                              </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">   Flags: async                                                       </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                      </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Run the application event loop.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                      </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> [classmethod] App.build(</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">cls</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">, config) </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">-&gt;</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> App </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">─────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Details                                                              </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">   Flags: final                                                       </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                      </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Construct an application instance.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                   </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> [staticmethod] App.version() </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">-&gt;</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> str </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">─────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Return the current version string.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                   </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╭──────────</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> [function] parse_config(text) </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">-&gt;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">dict[str, str]</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">───────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> Details                                                              </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">   Canonical: mypackage.app.parse_config                              </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">   Flags: deprecated                                                  </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                                                      </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Parse configuration text.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                            </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                                                      </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> Parameters                                                           </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">   text                                                               </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">     Raw configuration text.                                          </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                                                      </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> Returns                                                              </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">   dict[str, str]: A mapping of configuration keys.                   </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> [exception] AppError </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">────────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Details                                                              </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Platform: OS Independent                                           </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                                      </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Base exception for application errors.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                               </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
 
-py:method
-~~~~~~~~~
+C Domain Showcase
+-----------------
+
+C domain showcase
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
-   .. py:method:: MyClass.process(data)
+   .. c:struct:: Config
+      :synopsis: Runtime configuration for the C API.
+      :noindex:
 
-      Process the given *data*.
+      .. c:member:: int timeout
+
+         Timeout in seconds.
+
+      .. c:member:: const char *name
+
+         Display name.
+
+      .. c:enum:: Mode
+
+         .. c:enumerator:: MODE_FAST
+
+            Fast mode.
+
+         .. c:enumerator:: MODE_SAFE
+
+            Safe mode.
+
+      .. c:function:: int init_config(struct Config *config)
+
+         Initialize a configuration object.
+
+      .. c:macro:: DEFAULT_TIMEOUT
+
+         Default timeout value.
+
+      .. c:var:: int g_config_ready
+
+         Indicates whether the configuration is ready.
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭─────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> [method] MyClass.process(data) </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">─────────────────────╮</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Process the given </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">data</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                  </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-py:attribute
-~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. py:attribute:: MyClass.value
-      :type: int
-
-      The current value.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭─────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [attribute] MyClass.value: </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">int</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────╮</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">The current value.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                       </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-py:data
-~~~~~~~
-
-.. code-block:: rst
-
-   .. py:data:: MAX_RETRIES
-      :value: 3
-
-      Maximum number of retry attempts.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭─────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [data] MAX_RETRIES = </span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">3</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────────╮</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Maximum number of retry attempts.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                        </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span>
-   <span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────────╯</span>
-   </span></pre>
-   </div>
-
-py:exception
-~~~~~~~~~~~~
-
-.. code-block:: rst
-
-   .. py:exception:: MyError
-
-      Raised when something goes wrong.
-
-.. raw:: html
-
-   <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭──────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> [exception] MyError </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">───────────────────────────╮</span>
-   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Raised when something goes wrong.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                        </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭────────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> [struct] Config </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">─────────────────────────────╮</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Details                                                                  </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Synopsis: Runtime configuration for the C API.                         </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Flags: noindex                                                         </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                                          </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭────────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> [member] </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">int</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> timeout </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">────────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Timeout in seconds.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                  </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭─────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> [member] </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">const</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">char</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> *name </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">──────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Display name.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                        </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [enum] Mode </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭─────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [enumerator] MODE_FAST </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────╮</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Fast mode.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                       </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────╯</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭─────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [enumerator] MODE_SAFE </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────╮</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Safe mode.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                       </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────╯</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╭─────────</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> [function] </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">int</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> init_config(</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">struct</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> Config *config) </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">──────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Initialize a configuration object.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                   </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╭──────────────────────</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> [macro] DEFAULT_TIMEOUT </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">───────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Default timeout value.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                               </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭──────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> [var] </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">int</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> g_config_ready </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">──────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Indicates whether the configuration is ready.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                        </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
    <span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
 
-py:module
-~~~~~~~~~
+C++ Domain Showcase
+-------------------
+
+C++ domain showcase
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
-   .. py:module:: mypackage.core
+   .. cpp:class:: App
+      :synopsis: A small C++ application wrapper.
+      :noindex:
 
-      Core functionality for mypackage.
+      .. cpp:member:: std::string name
+
+         Application name.
+
+      .. cpp:member:: std::size_t count
+
+         Number of processed items.
+
+      .. cpp:enum:: Mode
+
+         .. cpp:enumerator:: Mode::Fast
+
+            Fast mode.
+
+         .. cpp:enumerator:: Mode::Safe
+
+            Safe mode.
+
+      .. cpp:function:: int run(App &app)
+
+         Run the app.
+
+      .. cpp:alias:: StringMap = std::unordered_map<std::string, std::string>
+
+         Convenience alias for string maps.
+
+      .. cpp:concept:: ConvertibleToString
+
+         A concept for string-like types.
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭────────────────────────</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> [module] mypackage.core </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">─────────────────────────╮</span>
-   <span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Core functionality for mypackage.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                        </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span>
-   <span style="color: #bd93f9; text-decoration-color: #bd93f9">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭──────────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> [class] App </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">───────────────────────────────╮</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Details                                                                  </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Synopsis: A small C++ application wrapper.                             </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Flags: noindex                                                         </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                                          </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭─────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> [member] </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">std</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">::</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">string name </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">──────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Application name.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                    </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭─────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> [member] </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">std</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">::</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">size_t count </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">─────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Number of processed items.</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                           </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [enum] Mode </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [enumerator] </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">Mode</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">::Fast </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────╮</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Fast mode.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                       </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────╯</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [enumerator] </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">Mode</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">::Safe </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────╮</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Safe mode.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                       </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────╯</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╭────────────────────</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> [function] </span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">int</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> run(App &amp;app) </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Run the app.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                                         </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">╭──</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> [alias] StringMap </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">=</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">std</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">::</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">unordered_map&lt;</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">std</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">::</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">string, </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">std</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">::</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">string&gt; </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">──╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Convenience alias for string maps.</span><span style="color: #bd93f9; text-decoration-color: #bd93f9; font-weight: bold">                                   </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #bd93f9; text-decoration-color: #bd93f9">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╭───────────────────</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> [concept] ConvertibleToString </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">A concept for string-like types.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                     </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
 
-py:decorator
-~~~~~~~~~~~~
+JavaScript Domain Showcase
+--------------------------
+
+JavaScript domain showcase
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: rst
 
-   .. py:decorator:: cached(func)
+   .. js:class:: App(config)
+      :module: mypkg.app
+      :synopsis: Browser or runtime application wrapper.
+      :noindex:
 
-      Cache the return value of *func*.
+      .. js:attribute:: App.name
+
+         The application name.
+
+      .. js:method:: App.run(args)
+         :async:
+
+         Run the app.
+
+      .. js:data:: App.VERSION
+
+         Current version string.
+
+      .. js:function:: parseConfig(text)
+
+         Parse configuration text.
+
+      .. js:module:: mypkg.app
+
+         The module that exports the application.
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ff79c6; text-decoration-color: #ff79c6">╭────────────────────────</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> [decorator] cached(func) </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">────────────────────────╮</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Cache the return value of </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36; font-style: italic">func</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                          </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span>
-   <span style="color: #ff79c6; text-decoration-color: #ff79c6">╰──────────────────────────────────────────────────────────────────────────╯</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭──────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> [class] App(config) </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">───────────────────────────╮</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> Details                                                                  </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Module: mypkg.app                                                      </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Synopsis: Browser or runtime application wrapper.                      </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">   Flags: noindex                                                         </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                                                                          </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [attribute] App.name </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">────────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">The application name.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                                </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╭───────────────────────</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> [method] App</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">run(args) </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">───────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> Details                                                              </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">   Flags: async                                                       </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                                                      </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Run the app.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                                         </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╭─────────────────────────</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> [data] App.VERSION </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">─────────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Current version string.</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">                                              </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╭────────────────────</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> [function] parseConfig(text) </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Parse configuration text.</span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">                                            </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #ff79c6; text-decoration-color: #ff79c6">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">╭─────────────────────────</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> [module] </span><span style="color: #ff79c6; text-decoration-color: #ff79c6; font-weight: bold">mypkg</span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">app </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">─────────────────────────╮</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">The module that exports the application.</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold">                             </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────╯</span><span style="color: #50fa7b; text-decoration-color: #50fa7b; font-weight: bold"> </span><span style="color: #50fa7b; text-decoration-color: #50fa7b">│</span>
+   <span style="color: #50fa7b; text-decoration-color: #50fa7b">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
 
@@ -3331,7 +3026,7 @@ seealso directive
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #ffffff; text-decoration-color: #ffffff">╭────────────────────────────────</span><span style="color: #ffffff; text-decoration-color: #ffffff; font-weight: bold"> See Also </span><span style="color: #ffffff; text-decoration-color: #ffffff">────────────────────────────────╮</span>
-   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path.join</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">pathlib.Path</span>                                               <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
+   <span style="color: #ffffff; text-decoration-color: #ffffff">│</span> <span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">os.path.join</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #121212">, </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">pathlib.Path</span>                                               <span style="color: #ffffff; text-decoration-color: #ffffff">│</span>
    <span style="color: #ffffff; text-decoration-color: #ffffff">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
@@ -3347,18 +3042,27 @@ toctree directive
    .. toctree::
       :maxdepth: 2
       :caption: Contents
+      :name: custom-toctree-name
+      :titlesonly:
+      :glob:
+      :hidden:
+      :includehidden:
+      :reversed:
+      :numbered: 2
 
-      installation
-      usage
-      api
+      Installation Guide <installation>
+      Usage Instructions <usage>
+      API Reference <api>
+      guide/Advanced Topics <guide/api>
 
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #8be9fd; text-decoration-color: #8be9fd">╭────────────────────────────────</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> Contents </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">────────────────────────────────╮</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • installation</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                          </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • usage</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                 </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
-   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold"> • api</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                                   </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">  0.1. guide/Advanced Topics</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                             </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">1. API Reference</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                         </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">2. Usage Instructions</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                    </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
+   <span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold"> </span><span style="color: #f1fa8c; text-decoration-color: #f1fa8c; font-weight: bold">3. Installation Guide</span><span style="color: #8be9fd; text-decoration-color: #8be9fd; font-weight: bold">                                                    </span><span style="color: #8be9fd; text-decoration-color: #8be9fd">│</span>
    <span style="color: #8be9fd; text-decoration-color: #8be9fd">╰──────────────────────────────────────────────────────────────────────────╯</span>
    </span></pre>
    </div>
@@ -3460,9 +3164,9 @@ Mixed roles in a paragraph
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">json.dumps</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> or </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">json.loads</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to serialize data. The </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">dict</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> type maps </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">str</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> keys </span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">to values. See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0484/">PEP 484</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for type hints and </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0526/">PEP 526</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> for variable annotations. </span>
-   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Press </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Ctrl+D</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> or call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">exit</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36"> to quit the REPL.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Use </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">json.dumps</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> or </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">json.loads</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> to serialize data. The </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">dict</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> type maps </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">str</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> keys </span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">to values. See </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0484/">PEP 484</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for type hints and </span><span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="https://peps.python.org/pep-0526/">PEP 526</a></span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> for variable annotations. </span>
+   <span style="color: #f8f8f2; text-decoration-color: #f8f8f2">Press </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">Ctrl+D</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> or call </span><span style="color: #c6c6c6; text-decoration-color: #c6c6c6; background-color: #121212">exit</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2"> to quit the REPL.</span>
    </span></pre>
    </div>
 

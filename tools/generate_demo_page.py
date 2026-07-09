@@ -402,7 +402,10 @@ DEMOS = [
                        * Gamma
                        * Delta
                        * Epsilon
-                       * Zeta"""),
+                       * Zeta
+                       * Eta
+                       * Theta
+                       * Iota"""),
             },
         ],
     },
@@ -446,6 +449,7 @@ DEMOS = [
                 'name': 'Compound directive',
                 'rst': textwrap.dedent("""\
                     .. compound::
+                       :class: custom-compound-class
 
                        The first sentence of a paragraph.
 
@@ -456,6 +460,8 @@ DEMOS = [
                 'name': 'Parsed literal block',
                 'rst': textwrap.dedent("""\
                     .. parsed-literal::
+                       :class: custom-parsed-literal-class
+                       :name: custom-parsed-literal-name
 
                        **Bold** and *italic* inside a literal block.
                        Also ``code`` here."""),
@@ -464,6 +470,7 @@ DEMOS = [
                 'name': 'Epigraph directive',
                 'rst': textwrap.dedent("""\
                     .. epigraph::
+                       :class: custom-epigraph-class
 
                        No man is an island,
                        entire of itself.
@@ -474,6 +481,7 @@ DEMOS = [
                 'name': 'Highlights directive',
                 'rst': textwrap.dedent("""\
                     .. highlights::
+                       :class: custom-highlights-class
 
                        Key takeaways:
 
@@ -484,6 +492,7 @@ DEMOS = [
                 'name': 'Pull-quote directive',
                 'rst': textwrap.dedent("""\
                     .. pull-quote::
+                       :class: custom-pull-quote-class
 
                        The best way to predict the future
                        is to invent it.
@@ -557,38 +566,13 @@ DEMOS = [
                                return 1"""),
             },
             {
-                'name': 'code-block: bash',
-                'rst': textwrap.dedent("""\
-                    .. code-block:: bash
-
-                       pip install rich-rst
-                       python -m rich_rst README.rst"""),
-            },
-            {
-                'name': 'code-block: JSON',
-                'rst': textwrap.dedent("""\
-                    .. code-block:: json
-
-                       {
-                         "name": "rich-rst",
-                         "version": "1.0.0",
-                         "description": "RST renderer for Rich"
-                       }"""),
-            },
-            {
-                'name': 'code-block: YAML',
-                'rst': textwrap.dedent("""\
-                    .. code-block:: yaml
-
-                       name: rich-rst
-                       dependencies:
-                         - rich>=10.0
-                         - docutils>=0.17"""),
-            },
-            {
                 'name': 'sourcecode alias',
                 'rst': textwrap.dedent("""\
                     .. sourcecode:: javascript
+                       :class: custom-sourcecode-class
+                       :name: custom-sourcecode-id
+                       :linenos:
+                       :lineno-start: 5
 
                        const greet = (name) => `Hello, ${name}!`;
                        console.log(greet('World'));"""),
@@ -597,89 +581,33 @@ DEMOS = [
                 'name': 'code alias (no language)',
                 'rst': textwrap.dedent("""\
                     .. code::
+                       :class: custom-code-class
+                       :name: custom-code-id
 
                        plain text block
                        no syntax highlighting"""),
             },
             {
-                'name': 'code-block: C',
-                'rst': textwrap.dedent("""\
-                    .. code-block:: c
-
-                       #include <stdio.h>
-
-                       int main(void) {
-                           printf("Hello, World!\\n");
-                           return 0;
-                       }"""),
-            },
-            {
-                'name': 'code-block: Java',
-                'rst': textwrap.dedent("""\
-                    .. code-block:: java
-
-                       public class Hello {
-                           public static void main(String[] args) {
-                               System.out.println("Hello, World!");
-                           }
-                       }"""),
-            },
-            {
-                'name': 'code-block: TypeScript',
-                'rst': textwrap.dedent("""\
-                    .. code-block:: typescript
-
-                       function greet(name: string): string {
-                           return `Hello, ${name}!`;
-                       }
-                       console.log(greet("World"));"""),
-            },
-            {
-                'name': 'code-block: SQL',
-                'rst': textwrap.dedent("""\
-                    .. code-block:: sql
-
-                       SELECT name, email
-                       FROM users
-                       WHERE active = TRUE
-                       ORDER BY name ASC
-                       LIMIT 10;"""),
-            },
-            {
-                'name': 'code-block: HTML',
-                'rst': textwrap.dedent("""\
-                    .. code-block:: html
-
-                       <!doctype html>
-                       <html lang="en">
-                         <head><title>Hello</title></head>
-                         <body><h1>Hello, World!</h1></body>
-                       </html>"""),
-            },
-            {
-                'name': 'code-block: Rust',
-                'rst': textwrap.dedent("""\
-                    .. code-block:: rust
-
-                       fn main() {
-                           let greeting = "Hello, World!";
-                           println!("{}", greeting);
-                       }"""),
-            },
-            {
                 'name': 'code-block with caption',
                 'rst': textwrap.dedent("""\
                     .. code-block:: python
-                       :caption: example.py
+                       :linenos:
+                       :lineno-start: 10
+                       :emphasize-lines: 3
+                       :caption: math_utils.py
+                       :name: math-utils-code
+                       :dedent: 4
+                       :force:
+                       :class: python-utility-class
 
-                       def add(a, b):
-                           # This line is emphasised
-                           return a + b"""),
+                           def add(a, b):
+                               # This line is emphasised
+                               return a + b"""),
             },
             {
                 'name': 'productionlist directive',
                 'rst': textwrap.dedent("""\
-                    .. productionlist::
+                    .. productionlist:: grammar
 
                        statement  : expression NEWLINE
                        expression : term ('+' term)*
@@ -692,102 +620,48 @@ DEMOS = [
         'title': 'Admonitions',
         'demos': [
             {
-                'name': 'note',
+                'name': 'Admonitions Showcase',
                 'rst': textwrap.dedent("""\
                     .. note::
-
-                       This is a note admonition."""),
-            },
-            {
-                'name': 'warning',
-                'rst': textwrap.dedent("""\
-                    .. warning::
-
-                       This is a warning."""),
-            },
-            {
-                'name': 'tip',
-                'rst': textwrap.dedent("""\
-                    .. tip::
-
-                       This is a tip."""),
-            },
-            {
-                'name': 'important',
-                'rst': textwrap.dedent("""\
-                    .. important::
-
-                       This is important."""),
-            },
-            {
-                'name': 'hint',
-                'rst': textwrap.dedent("""\
-                    .. hint::
-
-                       This is a hint."""),
-            },
-            {
-                'name': 'attention',
-                'rst': textwrap.dedent("""\
-                    .. attention::
-
-                       Pay attention to this."""),
-            },
-            {
-                'name': 'caution',
-                'rst': textwrap.dedent("""\
-                    .. caution::
-
-                       Exercise caution here."""),
-            },
-            {
-                'name': 'danger',
-                'rst': textwrap.dedent("""\
-                    .. danger::
-
-                       Danger! Proceed carefully."""),
-            },
-            {
-                'name': 'error',
-                'rst': textwrap.dedent("""\
-                    .. error::
-
-                       An error occurred."""),
-            },
-            {
-                'name': 'Admonition with bold content (box-char rendering test)',
-                'rst': textwrap.dedent("""\
-                    .. warning::
-
-                       **Never** commit secrets to version control.
-                       Use environment variables or a secrets manager instead."""),
-            },
-            {
-                'name': 'Note with code and emphasis',
-                'rst': textwrap.dedent("""\
-                    .. note::
-
                        Call ``sys.exit(0)`` to terminate *successfully*,
-                       or ``sys.exit(1)`` for **failure**."""),
-            },
-            {
-                'name': 'Generic admonition with custom title',
-                'rst': textwrap.dedent("""\
-                    .. admonition:: Did you know?
-
-                       rich-rst supports all currently documented RST elements."""),
-            },
-            {
-                'name': 'Admonition with nested content',
-                'rst': textwrap.dedent("""\
-                    .. note::
+                       or ``sys.exit(1)`` for **failure**.
 
                        Notes can contain **bold**, *italic*, and ``code``.
-
                        They can also contain lists:
 
                        - item one
-                       - item two"""),
+                       - item two
+
+                    .. warning::
+                       **Never** commit secrets to version control.
+                       Use environment variables or a secrets manager instead.
+
+                    .. tip::
+                       This is a tip.
+
+                    .. important::
+                       This is important.
+
+                    .. hint::
+                       This is a hint.
+
+                    .. attention::
+                       Pay attention to this.
+
+                    .. caution::
+                       Exercise caution here.
+
+                    .. danger::
+                       Danger! Proceed carefully.
+
+                    .. error::
+                       An error occurred.
+
+                    .. admonition:: Did you know?
+                       :class: custom-admonition-class
+                       :name: custom-admonition-id
+
+                       rich-rst supports all currently documented RST elements."""),
             },
         ],
     },
@@ -834,7 +708,11 @@ DEMOS = [
                 'rst': textwrap.dedent("""\
                     .. list-table:: Comparison
                        :header-rows: 1
+                       :stub-columns: 1
                        :widths: 30 35 35
+                       :align: center
+                       :class: custom-list-table-class
+                       :name: custom-list-table-name
 
                        * - Library
                          - Language
@@ -852,6 +730,13 @@ DEMOS = [
                     .. csv-table:: Data
                        :header: "Name", "Value", "Unit"
                        :widths: 20, 20, 20
+                       :delim: ,
+                       :quote: "
+                       :keepspace:
+                       :escape: \\
+                       :class: custom-csv-table-class
+                       :name: custom-csv-table-name
+                       :align: center
 
                        "Speed", "299 792 458", "m/s"
                        "Charge", "1.602e-19", "C"
@@ -863,6 +748,10 @@ DEMOS = [
                     .. flat-table:: Linux Kernel Subsystems
                        :header-rows: 1
                        :stub-columns: 1
+                       :widths: 20 30 50
+                       :fill-cells:
+                       :class: custom-flat-table-class
+                       :name: custom-flat-table-name
 
                        * - Subsystem
                          - Maintainer
@@ -1146,14 +1035,28 @@ DEMOS = [
                 'rst': textwrap.dedent("""\
                     .. image:: https://example.com/photo.png
                        :alt: A photo
-                       :width: 400px"""),
+                       :height: 300px
+                       :width: 400px
+                       :scale: 50%
+                       :align: center
+                       :target: https://example.com
+                       :class: custom-image-class
+                       :name: custom-image-id"""),
             },
             {
                 'name': 'figure directive',
                 'rst': textwrap.dedent("""\
                     .. figure:: https://example.com/chart.png
                        :alt: A chart
+                       :height: 400px
                        :width: 600px
+                       :scale: 75%
+                       :align: center
+                       :target: https://example.com
+                       :class: custom-figure-class
+                       :name: custom-figure-id
+                       :figwidth: 500px
+                       :figclass: custom-figure-container-class
 
                        Figure caption goes here."""),
             },
@@ -1162,6 +1065,8 @@ DEMOS = [
                 'rst': textwrap.dedent("""\
                     .. figure:: https://example.com/diagram.png
                        :alt: Diagram
+                       :figwidth: image
+                       :class: custom-figure-legend-class
 
                        Caption text.
 
@@ -1177,6 +1082,8 @@ DEMOS = [
                 'name': 'topic directive',
                 'rst': textwrap.dedent("""\
                     .. topic:: Interesting Fact
+                       :class: custom-topic-class
+                       :name: custom-topic-id
 
                        This is the topic body.
                        It can contain any body elements."""),
@@ -1185,8 +1092,9 @@ DEMOS = [
                 'name': 'sidebar directive',
                 'rst': textwrap.dedent("""\
                     .. sidebar:: Note
-
-                       :Subtitle: Side note
+                       :subtitle: Side note
+                       :class: custom-sidebar-class
+                       :name: custom-sidebar-id
 
                        Sidebar text goes here."""),
             },
@@ -1194,6 +1102,8 @@ DEMOS = [
                 'name': 'rubric directive',
                 'rst': textwrap.dedent("""\
                     .. rubric:: An Unnumbered Heading
+                       :class: custom-rubric-class
+                       :name: custom-rubric-id
 
                     Following paragraph."""),
             },
@@ -1202,6 +1112,9 @@ DEMOS = [
                 'rst': textwrap.dedent("""\
                     .. contents:: Table of Contents
                        :depth: 2
+                       :local:
+                       :backlinks: entry
+                       :class: custom-contents-class
 
                     Section A
                     ---------
@@ -1217,6 +1130,10 @@ DEMOS = [
                 'name': 'sectnum directive',
                 'rst': textwrap.dedent("""\
                     .. sectnum::
+                       :depth: 3
+                       :start: 1
+                       :prefix: Section-
+                       :suffix: .
 
                     Overview
                     --------
@@ -1266,7 +1183,10 @@ DEMOS = [
                 'name': 'math directive (labeled)',
                 'rst': textwrap.dedent("""\
                     .. math:: E = mc^2
-                       :label: einstein"""),
+                       :label: einstein
+                       :nowrap:
+                       :class: custom-math-class
+                       :name: custom-math-id"""),
             },
         ],
     },
@@ -1323,6 +1243,7 @@ DEMOS = [
                 'name': 'raw html directive',
                 'rst': textwrap.dedent("""\
                     .. raw:: html
+                       :class: custom-raw-class
 
                        <strong>Bold via raw HTML</strong>"""),
             },
@@ -1330,6 +1251,7 @@ DEMOS = [
                 'name': 'raw latex directive',
                 'rst': textwrap.dedent("""\
                     .. raw:: latex
+                       :class: custom-raw-class
 
                        \\textbf{Bold via LaTeX}"""),
             },
@@ -1340,29 +1262,20 @@ DEMOS = [
         'title': 'Sphinx Version Directives',
         'demos': [
             {
-                'name': 'versionadded',
+                'name': 'Sphinx Version Directives Showcase',
                 'rst': textwrap.dedent("""\
                     .. versionadded:: 2.1
 
-                       This feature was added in version 2.1."""),
-            },
-            {
-                'name': 'versionchanged',
-                'rst': textwrap.dedent("""\
+                       This feature was added in version 2.1.
+
                     .. versionchanged:: 3.0
 
-                       The API changed in version 3.0."""),
-            },
-            {
-                'name': 'deprecated',
-                'rst': textwrap.dedent("""\
+                       The API changed in version 3.0.
+
                     .. deprecated:: 1.5
 
-                       Use the new API instead."""),
-            },
-            {
-                'name': 'deprecated-removed',
-                'rst': textwrap.dedent("""\
+                       Use the new API instead.
+
                     .. deprecated-removed:: 1.5 2.0
 
                        Removed in 2.0. Use the new API."""),
@@ -1374,132 +1287,212 @@ DEMOS = [
         'title': 'Sphinx Cross-Reference Roles',
         'demos': [
             {
-                'name': r'\:func\: role',
-                'rst': 'Call :func:`os.path.join` to join paths.',
-            },
-            {
-                'name': r'\:class\: role',
-                'rst': 'Use :class:`pathlib.Path` for path handling.',
-            },
-            {
-                'name': r'\:meth\: role',
-                'rst': 'Call :meth:`str.upper` to uppercase a string.',
-            },
-            {
-                'name': r'\:attr\: role',
-                'rst': 'Access :attr:`os.sep` for the path separator.',
-            },
-            {
-                'name': r'\:mod\: role',
-                'rst': 'The :mod:`os.path` module provides path utilities.',
-            },
-            {
-                'name': r'\:exc\: role',
-                'rst': 'Raises :exc:`ValueError` when the input is invalid.',
-            },
-            {
-                'name': r'\:obj\: role',
-                'rst': 'Set :obj:`sys.path` to control module lookup.',
-            },
-            {
-                'name': r'\:data\: role',
-                'rst': 'Read :data:`sys.version` for the Python version.',
-            },
-            {
-                'name': r'\:const\: role',
-                'rst': 'The value of :const:`math.pi` is approximately 3.14.',
-            },
-            {
-                'name': r'\:term\: role',
-                'rst': 'A :term:`decorator` wraps another function.',
-            },
-            {
-                'name': r'\:ref\: role (cross-reference)',
-                'rst': 'See :ref:`some-label` for details.',
-            },
-            {
-                'name': r'\:doc\: role',
-                'rst': 'Refer to :doc:`installation` for setup instructions.',
-            },
-            {
-                'name': r'\:envvar\: role',
-                'rst': 'Set :envvar:`PYTHONPATH` before running.',
+                'name': 'Sphinx Cross-Reference Roles Showcase',
+                'rst': textwrap.dedent("""\
+                    Sphinx cross-reference roles render as inline literals. Here is a showcase of all supported roles:
+
+                    - Function: :func:`os.path.join`
+                    - Class: :class:`pathlib.Path`
+                    - Method: :meth:`str.upper`
+                    - Attribute: :attr:`os.sep`
+                    - Module: :mod:`os.path`
+                    - Exception: :exc:`ValueError`
+                    - Object: :obj:`sys.path`
+                    - Data: :data:`sys.version`
+                    - Constant: :const:`math.pi`
+                    - Term: :term:`decorator`
+                    - Reference: :ref:`some-label`
+                    - Document: :doc:`installation`
+                    - Environment Variable: :envvar:`PYTHONPATH`"""),
             },
         ],
     },
-    # ── 19. Python domain directives ──────────────────────────────────────────
+    # ── 19. Python domain showcase ────────────────────────────────────────────
     {
-        'title': 'Python Domain Directives',
+        'title': 'Python Domain Showcase',
         'demos': [
             {
-                'name': 'py:function',
+                'name': 'Python domain showcase',
                 'rst': textwrap.dedent("""\
-                    .. py:function:: greet(name: str) -> str
+                    .. py:class:: App(config)
+                       :module: mypackage.app
+                       :platform: Unix, Windows
+                       :synopsis: High-level application object.
+                       :noindex:
+                       :canonical: mypackage.app.App
 
-                       Return a greeting for *name*.
+                       App ties together the main runtime pieces.
 
-                       :param name: The name to greet.
-                       :type name: str
-                       :returns: A greeting string.
-                       :rtype: str"""),
-            },
-            {
-                'name': 'py:class',
-                'rst': textwrap.dedent("""\
-                    .. py:class:: MyClass(value)
+                       .. py:attribute:: App.name
+                          :type: str
+                          :value: demo
 
-                       A simple example class.
+                          Human-readable application name.
 
-                       :param value: Initial value.
-                       :type value: int"""),
-            },
-            {
-                'name': 'py:method',
-                'rst': textwrap.dedent("""\
-                    .. py:method:: MyClass.process(data)
+                       .. py:property:: App.ready
+                          :type: bool
 
-                       Process the given *data*."""),
-            },
-            {
-                'name': 'py:attribute',
-                'rst': textwrap.dedent("""\
-                    .. py:attribute:: MyClass.value
-                       :type: int
+                          Whether the application is ready to serve requests.
 
-                       The current value."""),
-            },
-            {
-                'name': 'py:data',
-                'rst': textwrap.dedent("""\
-                    .. py:data:: MAX_RETRIES
-                       :value: 3
+                       .. py:method:: App.run(self, *args, **kwargs) -> int
+                          :async:
 
-                       Maximum number of retry attempts."""),
-            },
-            {
-                'name': 'py:exception',
-                'rst': textwrap.dedent("""\
-                    .. py:exception:: MyError
+                          Run the application event loop.
 
-                       Raised when something goes wrong."""),
-            },
-            {
-                'name': 'py:module',
-                'rst': textwrap.dedent("""\
-                    .. py:module:: mypackage.core
+                       .. py:classmethod:: App.build(cls, config) -> App
+                          :final:
 
-                       Core functionality for mypackage."""),
-            },
-            {
-                'name': 'py:decorator',
-                'rst': textwrap.dedent("""\
-                    .. py:decorator:: cached(func)
+                          Construct an application instance.
 
-                       Cache the return value of *func*."""),
+                       .. py:staticmethod:: App.version() -> str
+
+                          Return the current version string.
+
+                       .. py:data:: App.DEFAULT_TIMEOUT
+                          :type: float
+                          :value: 3.5
+
+                          Default timeout in seconds.
+
+                       .. py:function:: parse_config(text) -> dict[str, str]
+                          :deprecated:
+                          :canonical: mypackage.app.parse_config
+
+                          Parse configuration text.
+
+                          :param text: Raw configuration text.
+                          :returns: A mapping of configuration keys.
+                          :rtype: dict[str, str]
+
+                       .. py:exception:: AppError
+                          :platform: OS Independent
+
+                          Base exception for application errors."""),
             },
         ],
     },
-    # ── 20. seealso directive ─────────────────────────────────────────────────
+    # ── 20. C domain showcase ────────────────────────────────────────────────
+    {
+        'title': 'C Domain Showcase',
+        'demos': [
+            {
+                'name': 'C domain showcase',
+                'rst': textwrap.dedent("""\
+                    .. c:struct:: Config
+                       :synopsis: Runtime configuration for the C API.
+                       :noindex:
+
+                       .. c:member:: int timeout
+
+                          Timeout in seconds.
+
+                       .. c:member:: const char *name
+
+                          Display name.
+
+                       .. c:enum:: Mode
+
+                          .. c:enumerator:: MODE_FAST
+
+                             Fast mode.
+
+                          .. c:enumerator:: MODE_SAFE
+
+                             Safe mode.
+
+                       .. c:function:: int init_config(struct Config *config)
+
+                          Initialize a configuration object.
+
+                       .. c:macro:: DEFAULT_TIMEOUT
+
+                          Default timeout value.
+
+                       .. c:var:: int g_config_ready
+
+                          Indicates whether the configuration is ready."""),
+            },
+        ],
+    },
+    # ── 21. C++ domain showcase ──────────────────────────────────────────────
+    {
+        'title': 'C++ Domain Showcase',
+        'demos': [
+            {
+                'name': 'C++ domain showcase',
+                'rst': textwrap.dedent("""\
+                    .. cpp:class:: App
+                       :synopsis: A small C++ application wrapper.
+                       :noindex:
+
+                       .. cpp:member:: std::string name
+
+                          Application name.
+
+                       .. cpp:member:: std::size_t count
+
+                          Number of processed items.
+
+                       .. cpp:enum:: Mode
+
+                          .. cpp:enumerator:: Mode::Fast
+
+                             Fast mode.
+
+                          .. cpp:enumerator:: Mode::Safe
+
+                             Safe mode.
+
+                       .. cpp:function:: int run(App &app)
+
+                          Run the app.
+
+                       .. cpp:alias:: StringMap = std::unordered_map<std::string, std::string>
+
+                          Convenience alias for string maps.
+
+                       .. cpp:concept:: ConvertibleToString
+
+                          A concept for string-like types."""),
+            },
+        ],
+    },
+    # ── 22. JavaScript domain showcase ──────────────────────────────────────
+    {
+        'title': 'JavaScript Domain Showcase',
+        'demos': [
+            {
+                'name': 'JavaScript domain showcase',
+                'rst': textwrap.dedent("""\
+                    .. js:class:: App(config)
+                       :module: mypkg.app
+                       :synopsis: Browser or runtime application wrapper.
+                       :noindex:
+
+                       .. js:attribute:: App.name
+
+                          The application name.
+
+                       .. js:method:: App.run(args)
+                          :async:
+
+                          Run the app.
+
+                       .. js:data:: App.VERSION
+
+                          Current version string.
+
+                       .. js:function:: parseConfig(text)
+
+                          Parse configuration text.
+
+                       .. js:module:: mypkg.app
+
+                          The module that exports the application."""),
+            },
+        ],
+    },
+    # ── 23. seealso directive ───────────────────────────────────────────────
     {
         'title': 'See Also',
         'demos': [
@@ -1512,7 +1505,7 @@ DEMOS = [
             }
         ],
     },
-    # ── 21. toctree (Sphinx) ──────────────────────────────────────────────────
+    # ── 24. toctree (Sphinx) ─────────────────────────────────────────────────
     {
         'title': 'Toctree (Sphinx)',
         'demos': [
@@ -1522,10 +1515,18 @@ DEMOS = [
                     .. toctree::
                        :maxdepth: 2
                        :caption: Contents
+                       :name: custom-toctree-name
+                       :titlesonly:
+                       :glob:
+                       :hidden:
+                       :includehidden:
+                       :reversed:
+                       :numbered: 2
 
-                       installation
-                       usage
-                       api"""),
+                       Installation Guide <installation>
+                       Usage Instructions <usage>
+                       API Reference <api>
+                       guide/Advanced Topics <guide/api>"""),
             },
             {
                 'name': 'toctree with numbered entries',
@@ -1540,7 +1541,7 @@ DEMOS = [
             },
         ],
     },
-    # ── 22. glossary ─────────────────────────────────────────────────────────
+    # ── 25. glossary ─────────────────────────────────────────────────────────
     {
         'title': 'Glossary',
         'demos': [
@@ -1569,7 +1570,7 @@ DEMOS = [
             },
         ],
     },
-    # ── 23. Mixed Sphinx roles ────────────────────────────────────────────────
+    # ── 26. Mixed Sphinx roles ───────────────────────────────────────────────
     {
         'title': 'Mixed Sphinx Roles in Prose',
         'demos': [
