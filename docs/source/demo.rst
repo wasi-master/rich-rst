@@ -817,14 +817,15 @@ Field list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-weight: bold">      Document Information       </span>
+   ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Field Name </span>┃<span style="color:#f8f8f2;font-weight: bold"> Field Value      </span>┃
    ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
-   │ <span style="color:#f8f8f2;font-weight: bold">Name      </span> │ John Doe         │
+   │ <span style="color:#f8f8f2;font-weight: bold">Name      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">John Doe        </span> │
    ├────────────┼──────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Email     </span> │ john@example.com │
+   │ <span style="color:#f8f8f2;font-weight: bold">Email     </span> │ <span style="color: #bd93f9; text-decoration-color: #bd93f9; background-color: #282a36; text-decoration: underline"><a href="mailto:john@example.com">john@example.com</a></span> │
    ├────────────┼──────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Role      </span> │ Developer        │
+   │ <span style="color:#f8f8f2;font-weight: bold">Role      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Developer       </span> │
    └────────────┴──────────────────┘
    </span></pre>
    </div>
@@ -2424,7 +2425,7 @@ Date substitution
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-07-07.</span>
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Generated on 2026-07-09.</span>
    </span></pre>
    </div>
 
@@ -2778,20 +2779,21 @@ Standard docinfo fields
    <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2">╔══════════════════════════════════════════════════════════════════════════╗</span>
    <span style="color:#f8f8f2">║</span><span style="color:#f8f8f2;font-weight: bold">                                My Report                                 </span><span style="color:#f8f8f2">║</span>
    <span style="color:#f8f8f2">╚══════════════════════════════════════════════════════════════════════════╝</span>
+   <span style="color:#f8f8f2;font-weight: bold">       Document Information       </span>
    ┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Field Name   </span>┃<span style="color:#f8f8f2;font-weight: bold"> Field Value     </span>┃
    ┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
-   │ <span style="color:#f8f8f2;font-weight: bold">Author      </span> │ Jane Smith      │
+   │ <span style="color:#f8f8f2;font-weight: bold">Author      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Jane Smith</span>      │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Date        </span> │ 2024-01-15      │
+   │ <span style="color:#f8f8f2;font-weight: bold">Date        </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">2024-01-15</span>      │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Version     </span> │ 1.0             │
+   │ <span style="color:#f8f8f2;font-weight: bold">Version     </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">1.0</span>             │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Status      </span> │ Draft           │
+   │ <span style="color:#f8f8f2;font-weight: bold">Status      </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Draft</span>           │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Copyright   </span> │ 2024 Jane Smith │
+   │ <span style="color:#f8f8f2;font-weight: bold">Copyright   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">2024 Jane Smith</span> │
    ├──────────────┼─────────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Organization</span> │ ACME Corp       │
+   │ <span style="color:#f8f8f2;font-weight: bold">Organization</span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">ACME Corp</span>       │
    └──────────────┴─────────────────┘
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body of the document.</span>
    </span></pre>
@@ -2811,14 +2813,13 @@ Authors list
 .. raw:: html
 
    <div style="background:#282a36;border-radius:6px;padding:12px 16px;margin:8px 0 16px 0;overflow-x:auto;">
-   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2">┏━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+   <pre style="white-space:pre;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color:#f8f8f2"><span style="color:#f8f8f2;font-weight: bold">    Document Information    </span>
+   ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
    ┃<span style="color:#f8f8f2;font-weight: bold"> Field Name </span>┃<span style="color:#f8f8f2;font-weight: bold"> Field Value </span>┃
    ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
-   │ <span style="color:#f8f8f2;font-weight: bold">Author    </span> │ Alice       │
-   ├────────────┼─────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Author    </span> │ Bob         │
-   ├────────────┼─────────────┤
-   │ <span style="color:#f8f8f2;font-weight: bold">Author    </span> │ Carol       │
+   │ <span style="color:#f8f8f2;font-weight: bold">Authors   </span> │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Alice</span>       │
+   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Bob</span>         │
+   │            │ <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Carol</span>       │
    └────────────┴─────────────┘
    <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #282a36">Body text.</span>
    </span></pre>

@@ -2045,3 +2045,63 @@ def test_parsed_literal_invalid_theme_coverage():
     node.append(docutils.nodes.Text('Hello'))
     with pytest.raises(docutils.nodes.SkipChildren):
         visitor.visit_literal_block(node)
+
+
+def test_dummy_reporter_methods_coverage():
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    reporter = visitor.document.reporter
+    assert reporter is not None
+    reporter.info("info")
+    reporter.warning("warning")
+    reporter.error("error")
+    reporter.severe("severe")
+
+
+def test_docinfo_non_text_block_element_coverage(render_text):
+    # covers isinstance(r, Text) is False in _render_docinfo_value
+    rst = """
+:My Field:
+  .. code-block:: python
+
+     x = 1
+
+Body.
+"""
+    out = render_text(rst)
+    assert 'x = 1' in out
+
+
+def test_docinfo_empty_block_element_coverage(render_text):
+    # covers body_renderables being empty (returns "") in _render_docinfo_value
+    rst = """
+:My Field:
+  ..
+
+Body.
+"""
+    out = render_text(rst)
+    assert 'My Field' in out
+
+
+def test_render_docinfo_value_non_text_inline_part_coverage():
+    # covers combined.append(str(part)) in _render_docinfo_value
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    from unittest.mock import MagicMock
+    mock_node = MagicMock()
+    mock_node.children = [docutils.nodes.emphasis()]
+    visitor._render_child_inline = MagicMock(return_value=["string part"])
+    val = visitor._render_docinfo_value(mock_node)
+    assert val.plain == "string part"
+
+
+def test_add_to_field_table_string_coverage():
+    # covers isinstance(field_value, str) in _add_to_field_table
+    from rich.table import Table
+    console = Console(force_terminal=True, width=120)
+    visitor = RSTVisitor(docutils.nodes.document(None, None), console=console)
+    visitor._add_to_field_table("Test Name", "Test Value String")
+    assert len(visitor.renderables) == 1
+    assert isinstance(visitor.renderables[0], Table)
+

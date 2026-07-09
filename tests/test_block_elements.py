@@ -281,6 +281,13 @@ def test_docinfo_table_has_field_name_and_value_columns(make_visitor):
     )
 
 
+def test_docinfo_table_has_title(make_visitor):
+    visitor = make_visitor(':Author: Bob\n\nBody.\n')
+    tables = [r for r in visitor.renderables if isinstance(r, Table)]
+    assert tables
+    assert tables[0].title.plain == 'Document Information'
+
+
 def test_docinfo_author_in_output(render_text):
     assert 'Jane Doe' in render_text(':Author: Jane Doe\n\nBody.\n')
 
@@ -296,6 +303,32 @@ def test_docinfo_three_fields_table_row_count(make_visitor):
     visitor = make_visitor(':Author: A\n:Date: D\n:Version: V\n\nBody.\n')
     tables = [r for r in visitor.renderables if isinstance(r, Table)]
     assert tables[0].row_count == 3
+
+
+def test_docinfo_authors_list_rendering(render_text):
+    rst = ':Authors: - Alice\n          - Bob\n          - Carol\n\nBody.\n'
+    out = render_text(rst)
+    assert 'Authors' in out
+    assert 'Alice' in out
+    assert 'Bob' in out
+    assert 'Carol' in out
+    # "Authors" header should be present, but not "Author" repeated multiple times
+    assert 'Author ' not in out
+    assert 'Author |' not in out
+
+
+def test_docinfo_rich_text_preservation(render_text):
+    rst = ':Author: **Jane Smith**\n\nBody.\n'
+    out = render_text(rst)
+    assert 'Jane Smith' in out
+
+
+def test_docinfo_custom_field_list(render_text):
+    rst = ':My Custom List:\n  - Alice\n  - Bob\n\nBody.\n'
+    out = render_text(rst)
+    assert 'My Custom List' in out
+    assert 'Alice' in out
+    assert 'Bob' in out
 
 
 # ── Bullet list structure ─────────────────────────────────────────────────────

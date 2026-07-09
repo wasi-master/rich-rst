@@ -1673,6 +1673,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         admonition_style: Literal["panel", "compact"] = "panel",
     ) -> None:
         super().__init__(document)
+        if self.document is not None and getattr(self.document, "reporter", None) is None:
+            class DummyReporter:
+                def debug(self, *args, **kwargs): pass
+                def info(self, *args, **kwargs): pass
+                def warning(self, *args, **kwargs): pass
+                def error(self, *args, **kwargs): pass
+                def severe(self, *args, **kwargs): pass
+            self.document.reporter = DummyReporter()  # type: ignore[assignment]
         self.console: Console = console
         self.code_theme: Union[str, SyntaxTheme] = code_theme
         self.show_line_numbers: Optional[bool] = show_line_numbers
@@ -1684,6 +1692,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         self.guess_lexer: Optional[bool] = guess_lexer
         self.default_lexer: Optional[str] = _validate_default_lexer_name(default_lexer)
         self.refname_to_renderable: Dict[str, Tuple[Text, int, int]] = {}
+        self._in_docinfo = False
         # Tracks the most recent ``Text`` produced by ``depart_paragraph`` (i.e.
         # an actual prose paragraph in this visitor's scope), so that
         # ``_append_inline_to_prev_paragraph`` can distinguish a paragraph from
@@ -3441,65 +3450,108 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                             self.renderables.append(Text(snippet, end=""))
         raise docutils.nodes.SkipChildren()
 
-    def _add_to_field_table(self, field_name: str, field_value: str) -> None:
+    def _render_docinfo_value(self, node: docutils.nodes.Node) -> Any:
+        has_block_element = any(
+            not isinstance(child, (docutils.nodes.Inline, docutils.nodes.Text))
+            for child in node.children
+        )
+        if has_block_element:
+            body_renderables = self._render_admonition_body(node.children)
+            body_renderables = self._clean_body_for_panel(body_renderables)
+            for r in body_renderables:
+                if isinstance(r, Text):
+                    r.rstrip()
+                    r.end = "\n"
+            if len(body_renderables) == 1:
+                return body_renderables[0]
+            elif len(body_renderables) > 1:
+                return Group(*body_renderables)
+            return ""
+
+        parts = []
+        for child in node.children:
+            parts.extend(self._render_child_inline(child))
+
+        combined = Text()
+        for part in parts:
+            if isinstance(part, Text):
+                combined.append_text(part)
+            else:
+                combined.append(str(part))
+        return combined
+
+    def _add_to_field_table(self, field_name: str, field_value: Any) -> None:
         """Add a row to the shared field table, creating it if necessary."""
         field_name_style = self.console.get_style("restructuredtext.field_name", default="bold")
         field_value_style = self.console.get_style("restructuredtext.field_value", default="none")
+        if isinstance(field_value, str):
+            val = Text(field_value, style=field_value_style)
+        else:
+            val = field_value
         if self.renderables and isinstance(self.renderables[-1], Table):
             possible_table = self.renderables[-1]
             if (possible_table.columns[0].header == "Field Name") and (possible_table.columns[1].header == "Field Value"):
-                possible_table.add_row(Text(field_name, style=field_name_style), Text(field_value, style=field_value_style))
+                possible_table.add_row(Text(field_name, style=field_name_style), val)
                 return
         table = Table("Field Name", "Field Value", show_lines=True)
-        table.add_row(Text(field_name, style=field_name_style), Text(field_value, style=field_value_style))
+        if getattr(self, "_in_docinfo", False):
+            docinfo_title_style = self.console.get_style("restructuredtext.docinfo_title", default="bold")
+            table.title = Text("Document Information", style=docinfo_title_style)
+        table.add_row(Text(field_name, style=field_name_style), val)
         self.renderables.append(table)
 
     def visit_field(self, node) -> None:
-        self._add_to_field_table(node.children[0].astext(), node.children[1].astext())
+        self._add_to_field_table(node.children[0].astext(), self._render_docinfo_value(node.children[1]))
         raise docutils.nodes.SkipChildren()
 
     def visit_docinfo(self, node) -> None:
-        pass  # let the visitor descend into child docinfo nodes
+        self._in_docinfo = True
+
+    def depart_docinfo(self, node) -> None:
+        self._in_docinfo = False
 
     def visit_author(self, node) -> None:
-        self._add_to_field_table("Author", node.astext())
+        self._add_to_field_table("Author", self._render_docinfo_value(node))
         raise docutils.nodes.SkipChildren()
 
     def visit_authors(self, node) -> None:
+        author_texts = []
         for author in node.children:
-            self._add_to_field_table("Author", author.astext())
+            author_texts.append(self._render_docinfo_value(author))
+        combined_text = Text("\n").join(author_texts)
+        self._add_to_field_table("Authors", combined_text)
         raise docutils.nodes.SkipChildren()
 
     def visit_organization(self, node) -> None:
-        self._add_to_field_table("Organization", node.astext())
+        self._add_to_field_table("Organization", self._render_docinfo_value(node))
         raise docutils.nodes.SkipChildren()
 
     def visit_address(self, node) -> None:
-        self._add_to_field_table("Address", node.astext())
+        self._add_to_field_table("Address", self._render_docinfo_value(node))
         raise docutils.nodes.SkipChildren()
 
     def visit_contact(self, node) -> None:
-        self._add_to_field_table("Contact", node.astext())
+        self._add_to_field_table("Contact", self._render_docinfo_value(node))
         raise docutils.nodes.SkipChildren()
 
     def visit_version(self, node) -> None:
-        self._add_to_field_table("Version", node.astext())
+        self._add_to_field_table("Version", self._render_docinfo_value(node))
         raise docutils.nodes.SkipChildren()
 
     def visit_revision(self, node) -> None:
-        self._add_to_field_table("Revision", node.astext())
+        self._add_to_field_table("Revision", self._render_docinfo_value(node))
         raise docutils.nodes.SkipChildren()
 
     def visit_status(self, node) -> None:
-        self._add_to_field_table("Status", node.astext())
+        self._add_to_field_table("Status", self._render_docinfo_value(node))
         raise docutils.nodes.SkipChildren()
 
     def visit_date(self, node) -> None:
-        self._add_to_field_table("Date", node.astext())
+        self._add_to_field_table("Date", self._render_docinfo_value(node))
         raise docutils.nodes.SkipChildren()
 
     def visit_copyright(self, node) -> None:
-        self._add_to_field_table("Copyright", node.astext())
+        self._add_to_field_table("Copyright", self._render_docinfo_value(node))
         raise docutils.nodes.SkipChildren()
 
     def visit_definition_list(self, node) -> None:
