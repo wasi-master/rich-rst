@@ -2468,6 +2468,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         assert isinstance(node, docutils.nodes.Element)
         options = node.get('options', {}) or {}
         objtype = str(node.get("objtype", "") or "").strip().lower()
+        domain = str(node.get("domain", "py") or "").strip().lower()
         if not options:
             return []
 
@@ -2487,6 +2488,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         rows = []
         for key, label in label_map.items():
+            if domain in {"py", "js"} and objtype in {"attribute", "property", "data", "variable"} and key in {"type", "value"}:
+                continue
             value = options.get(key)
             if value is not None and value != '':
                 rows.append((label, str(value)))
@@ -2700,7 +2703,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if leaf_match is not None:
                 rendered.stylize(name_style, leaf_match.start(1), leaf_match.end(1))
         elif normalized_objtype == "attribute":
-            attribute_match = re.search(r"([A-Za-z_$][A-Za-z0-9_$]*)\s*$", signature)
+            attribute_match = re.search(r"([A-Za-z_$][A-Za-z0-9_$]*)\s*(?::|=|$)", signature)
             if attribute_match is not None:
                 rendered.stylize(name_style, attribute_match.start(1), attribute_match.end(1))
         elif normalized_objtype == "data":
@@ -2905,8 +2908,19 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         domain = node.get('domain', 'py')
         objtype = node.get('objtype', 'object')
         sig = node.get('sig', '')
+
+        sig_for_title = sig
+        if domain in {"py", "js"} and objtype in {"attribute", "property", "data", "variable"}:
+            options = node.get('options', {}) or {}
+            attr_type = options.get('type')
+            attr_value = options.get('value')
+            if attr_type:
+                sig_for_title += f": {attr_type}"
+            if attr_value is not None and attr_value != '':
+                sig_for_title += f" = {attr_value}"
+
         style = self._py_desc_panel_style(objtype, domain=domain)
-        title = self._render_py_desc_title(domain=domain, objtype=objtype, signature=sig)
+        title = self._render_py_desc_title(domain=domain, objtype=objtype, signature=sig_for_title)
         body = []
         body_children: List[docutils.nodes.Node]
 

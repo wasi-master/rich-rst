@@ -977,14 +977,19 @@ def test_py_field_list_sections_do_not_render_as_tables(make_visitor):
 def test_py_data_value_option_is_visible(render_text):
     rst = '.. py:data:: MAX_RETRIES\n   :value: 3\n\n   Maximum number of retry attempts.\n'
     out = _render(render_text, rst)
-    assert 'Details' in out
-    assert 'Value' in out
-    assert '3' in out
+    assert 'MAX_RETRIES = 3' in out
+    assert 'Details' not in out
+    assert 'Value' not in out
     assert 'Maximum number of retry attempts.' in out
 
 
 def test_py_data_details_do_not_render_as_table(make_visitor):
-    rst = '.. py:data:: MAX_RETRIES\n   :value: 3\n\n   Maximum number of retry attempts.\n'
+    rst = (
+        '.. py:data:: MAX_RETRIES\n'
+        '   :value: 3\n'
+        '   :module: pkg.config\n\n'
+        '   Maximum number of retry attempts.\n'
+    )
     panel = _first_panel(make_visitor, rst)
     assert isinstance(panel.renderable, Group)
     assert not any(isinstance(r, Table) for r in panel.renderable.renderables)
@@ -993,9 +998,9 @@ def test_py_data_details_do_not_render_as_table(make_visitor):
 def test_py_attribute_type_option_is_visible(render_text):
     rst = '.. py:attribute:: MyClass.value\n   :type: int\n\n   The current value.\n'
     out = _render(render_text, rst)
-    assert 'Details' in out
-    assert 'Type' in out
-    assert 'int' in out
+    assert 'MyClass.value: int' in out
+    assert 'Details' not in out
+    assert 'Type' not in out
     assert 'The current value.' in out
 
 
