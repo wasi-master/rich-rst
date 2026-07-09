@@ -233,6 +233,19 @@ def test_rubric_text_in_align_renderable(make_visitor):
     )
 
 
+def test_rubric_options_allow_following_paragraph(render_text):
+    rst = """\
+.. rubric:: An Unnumbered Heading
+   :class: custom-rubric-class
+   :name: custom-rubric-id
+
+Following paragraph.
+"""
+    out = render_text(rst)
+    assert 'An Unnumbered Heading' in out
+    assert 'Following paragraph.' in out
+
+
 # ── Field lists ───────────────────────────────────────────────────────────────
 
 
@@ -1123,6 +1136,5 @@ def test_footer_page_substitution(render_text):
     out = render_text(rst)
     assert 'Page 1' in out
     assert '|page|' not in out
-
 
 
