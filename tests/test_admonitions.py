@@ -176,6 +176,22 @@ def test_attention_border_style(make_visitor):
     assert bs.bgcolor is not None and bs.bgcolor.name == 'yellow'
 
 
+def test_attention_panel_style_has_yellow_background(make_visitor):
+    ps = _first_panel(make_visitor, 'attention').style
+    assert ps.bgcolor is not None and ps.bgcolor.name == 'yellow'
+
+
+def test_danger_panel_style_has_red_background(make_visitor):
+    ps = _first_panel(make_visitor, 'danger').style
+    assert ps.bgcolor is not None and ps.bgcolor.name == 'red'
+
+
+def test_note_panel_style_has_no_background(make_visitor):
+    # note uses bold white (no background), so panel body should not have a bgcolor.
+    ps = _first_panel(make_visitor, 'note').style
+    assert ps.bgcolor is None
+
+
 # ── Generic admonition with custom title ─────────────────────────────────────
 
 

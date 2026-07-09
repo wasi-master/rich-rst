@@ -1930,7 +1930,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def visit_Text(self, node) -> None:
         style = self.console.get_style(
             "restructuredtext.text",
-            default="default on default not bold not italic not underline",
+            default="default not bold not italic not underline",
         )
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].append_text(Text(node.astext().replace("\n", " "), style=style, end=" "))
@@ -2053,8 +2053,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     def _emit_panel_admonition(self, *, panel_title: str, style: Style, body_children: List[docutils.nodes.Node]) -> None:
         body = self._render_admonition_body(body_children)
         body = self._clean_body_for_panel(body)
+        # Apply the background colour (if any) to the whole panel so that
+        # admonitions like "attention" (on yellow) and "danger" (on red) fill
+        # the panel body with the expected background, not the terminal default.
+        panel_style = Style(bgcolor=style.bgcolor) if style.bgcolor else Style.null()
         self.renderables.append(
-            Panel(Group(*body) if body else "", title=panel_title, border_style=style)
+            Panel(Group(*body) if body else "", title=panel_title, style=panel_style, border_style=style)
         )
 
     def _emit_compact_admonition(self, *, title: str, glyph: str, style: Style, body_children: List[docutils.nodes.Node]) -> None:
