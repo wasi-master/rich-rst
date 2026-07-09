@@ -1007,6 +1007,7 @@ def test_py_attribute_type_option_is_visible(render_text):
 def test_py_function_additional_options_are_visible(render_text):
     rst = (
         '.. py:function:: pkg.compute(x)\n'
+        '   :async:\n'
         '   :module: pkg.core\n'
         '   :annotation: static\n'
         '   :canonical: pkg.core.compute\n'
@@ -1014,10 +1015,22 @@ def test_py_function_additional_options_are_visible(render_text):
         '   Compute something.\n'
     )
     out = _render(render_text, rst)
+    assert 'Flags: async, deprecated' in out
     assert 'Module' in out and 'pkg.core' in out
     assert 'Annotation' in out and 'static' in out
     assert 'Canonical' in out and 'pkg.core.compute' in out
-    assert 'Flags' in out and 'deprecated' in out
+
+
+def test_py_function_details_do_not_render_as_table(make_visitor):
+    rst = (
+        '.. py:function:: pkg.compute(x)\n'
+        '   :async:\n'
+        '   :module: pkg.core\n'
+        '   :deprecated:\n\n'
+        '   Compute something.\n'
+    )
+    visitor = make_visitor(rst)
+    assert not any(isinstance(renderable, Table) for renderable in visitor.renderables)
 
 
 @pytest.mark.parametrize(

@@ -2548,22 +2548,15 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         meta_name_style = self.console.get_style("restructuredtext.py_desc.meta_name", default="bold")
         meta_value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
 
-        if objtype == "data":
-            renderables: List[Any] = [Text("Details", style=section_style)]
-            for property_name, property_value in rows:
-                line = Text("  ")
-                line.append(property_name, style=meta_name_style)
-                line.append(": ")
-                line.append(property_value, style=meta_value_style)
-                renderables.append(line)
-            renderables.append(NewLine())
-            return renderables
-
-        table = Table("Property", "Value", show_lines=True)
+        renderables: List[Any] = [Text("Details", style=section_style)]
         for property_name, property_value in rows:
-            table.add_row(Text(property_name, style=meta_name_style), Text(property_value, style=meta_value_style))
-
-        return [Text("Details", style=section_style), table, NewLine()]
+            line = Text("  ")
+            line.append(property_name, style=meta_name_style)
+            line.append(": ")
+            line.append(property_value, style=meta_value_style)
+            renderables.append(line)
+        renderables.append(NewLine())
+        return renderables
 
     def _py_desc_panel_style(self, objtype: str, domain: str = "py") -> Style:
         """Return panel style based on object type and domain."""
