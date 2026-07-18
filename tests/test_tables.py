@@ -16,6 +16,7 @@ Formatting contract
 """
 
 from rich.console import Group
+from rich.style import Style
 from rich.table import Table
 from rich.text import Text
 
@@ -723,9 +724,15 @@ def test_flat_table_spanning_cell_preserves_inline_styles(make_visitor):
         None,
     )
     assert content_line is not None
-    bold_spans = [s for s in content_line.spans if s.style.bold]
-    italic_spans = [s for s in content_line.spans if s.style.italic]
-    code_spans = [s for s in content_line.spans if s.style.bgcolor is not None]
+    # Span styles may be str or Style depending on the rich version; normalize
+    # so the attribute checks below work on both.
+    styled_spans = [
+        (s, Style.parse(s.style) if isinstance(s.style, str) else s.style)
+        for s in content_line.spans
+    ]
+    bold_spans = [s for s, style in styled_spans if style.bold]
+    italic_spans = [s for s, style in styled_spans if style.italic]
+    code_spans = [s for s, style in styled_spans if style.bgcolor is not None]
     assert any('bold' in content_line.plain[s.start : s.end] for s in bold_spans)
     assert any('italic' in content_line.plain[s.start : s.end] for s in italic_spans)
     assert any('code' in content_line.plain[s.start : s.end] for s in code_spans)

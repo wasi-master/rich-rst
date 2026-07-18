@@ -30,6 +30,7 @@ import pytest
 from rich.align import Align
 from rich.console import Group
 from rich.panel import Panel
+from rich.style import Style
 from rich.table import Table
 from rich.text import Text
 
@@ -1059,8 +1060,14 @@ def _span_covers_token(title: Text, token: str, predicate):
     except ValueError:
         return False
     end = start + len(token)
+    # Span styles may be str or Style depending on the rich version (older
+    # rich records the base style of appended Text as a plain-str span);
+    # normalize so predicates always receive a Style.
     return any(
-        span.start <= start and span.end >= end and predicate(span.style) for span in title.spans
+        span.start <= start
+        and span.end >= end
+        and predicate(Style.parse(span.style) if isinstance(span.style, str) else span.style)
+        for span in title.spans
     )
 
 
