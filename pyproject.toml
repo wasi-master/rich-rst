@@ -97,6 +97,9 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "rich_rst/__init__.py" = [
+    "N816",    # Mixed-case variable in global scope (backwards compatible public aliases)
+]
+"rich_rst/_*.py" = [
     "N801",    # Invalid class name (docutils Node subclass naming style)
     "N802",    # Invalid function name (visitor methods match docutils node class names)
     "N806",    # Non-lowercase variable in function (table/box border constants TL, TH, etc.)
@@ -115,7 +118,15 @@ ignore = [
 
 [tool.ruff.format]
 quote-style = "single"
-exclude = ["rich_rst/__init__.py"]
+exclude = [
+    "rich_rst/__init__.py",
+    "rich_rst/_directives.py",
+    "rich_rst/_document.py",
+    "rich_rst/_nodes.py",
+    "rich_rst/_roles.py",
+    "rich_rst/_utils.py",
+    "rich_rst/_visitor.py",
+]
 
 [tool.mypy]
 ignore_missing_imports = true

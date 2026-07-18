@@ -65,7 +65,7 @@ def test_guess_lexer_name_exception():
     console = Console(force_terminal=True, width=120)
     visitor = RSTVisitor(doc, console=console, guess_lexer=True)
 
-    with patch('rich_rst.guess_lexer', side_effect=ClassNotFound):
+    with patch('rich_rst._visitor.guess_lexer', side_effect=ClassNotFound):
         lexer, was_guessed = visitor._guess_lexer_name('some text')
         assert lexer == 'python'
         assert not was_guessed
@@ -578,7 +578,7 @@ def test_table_width_shrinking_edge_cases():
             return 0
         return original_min(*args, **kwargs)
 
-    with patch('rich_rst.min', mock_min):
+    with patch('rich_rst._visitor.min', mock_min):
         tgroup = docutils.nodes.tgroup(cols=2)
         colspec1 = docutils.nodes.colspec(colwidth=5)
         colspec2 = docutils.nodes.colspec(colwidth=10)
@@ -675,8 +675,8 @@ def test_sphinx_registration_no_roles_attr():
         orig_roles = _en.roles
         delattr(_en, 'roles')
         try:
-            rich_rst._sphinx_roles_registered = False
-            rich_rst._sphinx_directives_registered = False
+            rich_rst._roles._sphinx_roles_registered = False
+            rich_rst._directives._sphinx_directives_registered = False
             rich_rst._register_sphinx_roles()
             rich_rst._register_sphinx_directives()
         finally:
