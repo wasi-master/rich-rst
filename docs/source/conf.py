@@ -96,3 +96,13 @@ html_context = {
     'github_version': 'main',
     'conf_py_path': '/docs/source/',
 }
+
+man_pages = [
+    (
+        master_doc,
+        project,
+        project,
+        [author],
+        3,
+    ),
+]
