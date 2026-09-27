@@ -1,5 +1,6 @@
 """The public RestructuredText renderable."""
-from typing import Literal, Optional, Union
+import threading
+from typing import Any, Dict, Literal, Optional, Union
 
 # Imports from the rich package for the printing
 from rich import box
@@ -18,6 +19,37 @@ from rich_rst._roles import _register_sphinx_roles
 from rich_rst._utils import _validate_default_lexer_name
 from rich_rst._vendor import docutils
 from rich_rst._visitor import RSTVisitor
+
+# Building docutils' settings parser (optparse setup for every component plus
+# reading config files) costs as much as parsing a short document, so build it
+# once per distinct set of overrides and only take fresh default values per render.
+_settings_parsers: Dict[bool, Any] = {}
+_settings_parsers_lock = threading.Lock()
+
+
+def _get_docutils_settings(allow_file_access: bool) -> Any:
+    """Return a fresh docutils settings object for one ``publish_doctree`` call."""
+    option_parser = _settings_parsers.get(allow_file_access)
+    if option_parser is None:
+        with _settings_parsers_lock:
+            option_parser = _settings_parsers.get(allow_file_access)
+            if option_parser is None:
+                publisher = docutils.core.Publisher(reader="standalone", parser="restructuredtext", writer="null")
+                option_parser = publisher._setup_settings_parser(
+                    report_level=69,
+                    halt_level=69,
+                    # Gates every directive that reads external files or URLs.
+                    file_insertion_enabled=allow_file_access,
+                    # publish_doctree's default when it builds settings itself.
+                    traceback=True,
+                )
+                _settings_parsers[allow_file_access] = option_parser
+    settings = option_parser.get_default_values()
+    # Values copies the defaults shallowly; don't let one render mutate a list another sees.
+    for name, value in vars(settings).items():
+        if isinstance(value, list):
+            setattr(settings, name, list(value))
+    return settings
 
 
 class RestructuredText(JupyterMixin):
@@ -178,12 +210,7 @@ class RestructuredText(JupyterMixin):
         document = docutils.core.publish_doctree(
             markup,
             source_path=self.filename,
-            settings_overrides={
-                "report_level": 69,
-                "halt_level": 69,
-                # Gates every directive that reads external files or URLs.
-                "file_insertion_enabled": self.allow_file_access,
-            },
+            settings=_get_docutils_settings(bool(self.allow_file_access)),
         )
 
         # Render the RST `document` using Rich.

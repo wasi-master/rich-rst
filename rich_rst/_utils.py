@@ -1,4 +1,5 @@
 """Small shared helpers: lexer validation, HTML stripping, LaTeX-to-Unicode."""
+import functools
 import re
 from html.parser import HTMLParser
 from io import StringIO
@@ -11,14 +12,22 @@ from pygments.util import ClassNotFound
 # Imports from rich_rst._vendor.docutils package for the parsing
 
 
+@functools.lru_cache(maxsize=64)
+def _is_known_lexer_name(name: str) -> bool:
+    """Return whether *name* is a Pygments lexer alias (memoized; the lookup scans every lexer)."""
+    try:
+        get_lexer_by_name(name)
+    except ClassNotFound:
+        return False
+    return True
+
+
 def _validate_default_lexer_name(default_lexer: Optional[str]) -> Optional[str]:
     """Validate that ``default_lexer`` is a known Pygments lexer alias."""
     if default_lexer is None:
         return default_lexer
-    try:
-        get_lexer_by_name(default_lexer)
-    except ClassNotFound as error:
-        raise ValueError(f"Unknown Pygments lexer name: {default_lexer!r}") from error
+    if not _is_known_lexer_name(default_lexer):
+        raise ValueError(f"Unknown Pygments lexer name: {default_lexer!r}")
     return default_lexer
 
 

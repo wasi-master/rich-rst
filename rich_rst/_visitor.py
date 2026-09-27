@@ -180,7 +180,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 def severe(self, *args, **kwargs): pass
             self.document.reporter = DummyReporter()  # type: ignore[assignment]
         self.console: Console = console
+        # Memo for ``_get_style``; valid only for ``_style_cache_console``.
+        self._style_cache: Dict[Tuple[str, Optional[Union[str, Style]]], Style] = {}
+        self._style_cache_console: Optional[Console] = None
         self.code_theme: Union[str, SyntaxTheme] = code_theme
+        # ``(code_theme, resolved theme)``; see ``_syntax_theme``.
+        self._resolved_code_theme: Optional[Tuple[Union[str, SyntaxTheme], SyntaxTheme]] = None
         self.show_line_numbers: Optional[bool] = show_line_numbers
         self.admonition_style: Literal["panel", "compact"] = admonition_style
         self.renderables: List[Any] = []
@@ -229,6 +234,38 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             handler = getattr(self, f"depart_{node_type.__name__}", self.unknown_departure)
             self._depart_dispatch_cache[node_type] = handler
             return handler
+
+    def _get_style(self, name: str, default: Optional[Union[str, Style]] = None) -> Style:
+        """Memoized ``self.console.get_style``.
+
+        The ``restructuredtext.*`` names are usually absent from the theme, and
+        rich resolves each miss by raising and catching a parse error, which is
+        several times slower than a hit and happens for nearly every node.
+        """
+        if self._style_cache_console is not self.console:
+            self._style_cache = {}
+            self._style_cache_console = self.console
+        key = (name, default)
+        style = self._style_cache.get(key)
+        if style is None:
+            style = self.console.get_style(name, default=default)
+            # Rich hands out a fresh copy (with a new link id) of linked styles.
+            if not style.link:
+                self._style_cache[key] = style
+        return style
+
+    @property
+    def _syntax_theme(self) -> SyntaxTheme:
+        """``code_theme`` resolved to a :class:`SyntaxTheme`, shared by every code block.
+
+        Passing the theme name to each :class:`Syntax` would build a new theme
+        per block and discard its per-token style cache each time.
+        """
+        resolved = self._resolved_code_theme
+        if resolved is None or resolved[0] is not self.code_theme:
+            resolved = (self.code_theme, Syntax.get_theme(self.code_theme or "monokai"))
+            self._resolved_code_theme = resolved
+        return resolved[1]
 
     def _translate_with_fallback(self, text: str, table: Dict[int, Any]) -> str:
         """Translate characters using `table` while preserving unmapped/deleted chars."""
@@ -287,7 +324,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         ]
         index = min(level, len(heading_levels) - 1)
         style_name, default_style, panel_box = heading_levels[index]
-        style = self.console.get_style(style_name, default=default_style)
+        style = self._get_style(style_name, default=default_style)
         if panel_box is None:
             self.renderables.append(Align(Text(text, style=style), "center"))
             self.renderables.append(NewLine())
@@ -321,7 +358,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if len(node.children) == 1 and isinstance(node.children[0], docutils.nodes.image):
             return
         refuri = node.attributes.get("refuri")
-        style = self.console.get_style("restructuredtext.reference", default="blue underline on default")
+        style = self._get_style("restructuredtext.reference", default="blue underline on default")
         if refuri:
             style = style.update_link(refuri)
         renderable = Text(node.astext().replace("\n", " "), style=style, end="")
@@ -379,18 +416,18 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_subtitle(self, node) -> None:
         """Render document subtitle with ROUNDED box styling."""
-        style = self.console.get_style("restructuredtext.subtitle", default="bold")
+        style = self._get_style("restructuredtext.subtitle", default="bold")
         self.renderables.append(Panel(Align(node.astext(), "center"), box=box.ROUNDED, style=style, border_style=style))
         self.renderables.append(NewLine())
         raise docutils.nodes.SkipChildren()
 
     def visit_rubric(self, node) -> None:
-        style = self.console.get_style("restructuredtext.rubric", default="italic dim")
+        style = self._get_style("restructuredtext.rubric", default="italic dim")
         self.renderables.append(Panel(Align(node.astext(), "center"), box=box.ROUNDED, style=style, border_style=style))
         raise docutils.nodes.SkipChildren()
 
     def visit_Text(self, node) -> None:
-        style = self.console.get_style(
+        style = self._get_style(
             "restructuredtext.text",
             default="default not bold not italic not underline",
         )
@@ -424,7 +461,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         style_name = (
             f"restructuredtext.inline.{classes[0]}" if classes else "restructuredtext.inline"
         )
-        style = self.console.get_style(style_name, default="none")
+        style = self._get_style(style_name, default="none")
         text = node.astext().replace("\n", " ")
         self._append_inline_text(text, style)
         raise docutils.nodes.SkipChildren()
@@ -443,7 +480,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _make_sub_visitor(self) -> "RSTVisitor":
         """Create a fresh sub-visitor that shares this visitor's configuration."""
-        return RSTVisitor(
+        sub_visitor = RSTVisitor(
             self.document,
             console=self.console,
             code_theme=self.code_theme,
@@ -452,6 +489,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             default_lexer=self.default_lexer,
             admonition_style=self.admonition_style,
         )
+        # Share one resolved theme (and its token-style cache) and the style
+        # memo across the tree.
+        sub_visitor._resolved_code_theme = (self.code_theme, self._syntax_theme)
+        if self._style_cache_console is self.console:
+            sub_visitor._style_cache = self._style_cache
+            sub_visitor._style_cache_console = self.console
+        return sub_visitor
 
     def _clean_body_for_panel(self, body: List[Any]) -> List[Any]:
         """Strip trailing newlines and NewLine objects from the end of a panel body."""
@@ -502,7 +546,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         panel title in panel mode and as the inline prefix label (followed by
         ``": "``) in compact mode.
         """
-        style = self.console.get_style(style_name, default=default_style)
+        style = self._get_style(style_name, default=default_style)
         if self.admonition_style == "compact":
             self._emit_compact_admonition(title=title, glyph=glyph, style=style, body_children=body_children)
         else:
@@ -617,7 +661,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             "soft-deprecated": "⚠ ",
         }
         style_name, default_style = style_map.get(type_, ("restructuredtext.versionadded", "bold green"))
-        style = self.console.get_style(style_name, default=default_style)
+        style = self._get_style(style_name, default=default_style)
 
         if self.admonition_style == "panel":
             panel_title = panel_title_map.get(type_, f"{type_} {version}")
@@ -833,7 +877,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         pass
 
     def visit_centered_block(self, node) -> None:
-        style = self.console.get_style("restructuredtext.centered", default="bold")
+        style = self._get_style("restructuredtext.centered", default="bold")
         text = node.get('text', '')
         self.renderables.append(Align(Text(text, style=style), "center"))
         raise docutils.nodes.SkipChildren()
@@ -911,10 +955,10 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if not (param_order or returns_desc or returns_type or raises_items or unknown_items):
             return self._render_admonition_body([field_list_node])
 
-        section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
-        param_name_style = self.console.get_style("restructuredtext.py_desc.param_name", default="bold")
-        param_type_style = self.console.get_style("restructuredtext.py_desc.param_type", default="cyan")
-        return_style = self.console.get_style("restructuredtext.py_desc.returns", default="none")
+        section_style = self._get_style("restructuredtext.py_desc.section", default="bold")
+        param_name_style = self._get_style("restructuredtext.py_desc.param_name", default="bold")
+        param_type_style = self._get_style("restructuredtext.py_desc.param_type", default="cyan")
+        return_style = self._get_style("restructuredtext.py_desc.returns", default="none")
 
         renderables: List[Any] = []
 
@@ -1006,9 +1050,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if not rows:
             return []
 
-        section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
-        meta_name_style = self.console.get_style("restructuredtext.py_desc.meta_name", default="bold")
-        meta_value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
+        section_style = self._get_style("restructuredtext.py_desc.section", default="bold")
+        meta_name_style = self._get_style("restructuredtext.py_desc.meta_name", default="bold")
+        meta_value_style = self._get_style("restructuredtext.py_desc.meta_value", default="none")
 
         renderables: List[Any] = [Text("Details", style=section_style)]
         for property_name, property_value in rows:
@@ -1075,7 +1119,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 default_style = "bold white"
         else:
             default_style = "bold white"
-        return self.console.get_style(style_name, default=default_style)
+        return self._get_style(style_name, default=default_style)
 
     def _highlight_c_cpp_signature(self, domain: str, objtype: str, signature: str) -> Text:
         """Apply custom syntax highlighting to C/C++ domain signatures."""
@@ -1101,11 +1145,11 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         normalized_domain = (domain or "c").strip().lower()
         normalized_objtype = (objtype or "").strip().lower()
-        type_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.type", default="bright_cyan")
-        name_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.name", default="bold")
-        namespace_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.namespace", default="magenta")
-        operator_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.operator", default="bold yellow")
-        number_style = self.console.get_style(f"restructuredtext.{normalized_domain}_desc.signature.number", default="green")
+        type_style = self._get_style(f"restructuredtext.{normalized_domain}_desc.signature.type", default="bright_cyan")
+        name_style = self._get_style(f"restructuredtext.{normalized_domain}_desc.signature.name", default="bold")
+        namespace_style = self._get_style(f"restructuredtext.{normalized_domain}_desc.signature.namespace", default="magenta")
+        operator_style = self._get_style(f"restructuredtext.{normalized_domain}_desc.signature.operator", default="bold yellow")
+        number_style = self._get_style(f"restructuredtext.{normalized_domain}_desc.signature.number", default="green")
 
         keywords = c_keywords if normalized_domain == "c" else (c_keywords | cpp_keywords)
         keyword_pattern = r"\b(?:{})\b".format("|".join(sorted(re.escape(keyword) for keyword in keywords)))
@@ -1165,11 +1209,11 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         })
 
         normalized_objtype = (objtype or "").strip().lower()
-        keyword_style = self.console.get_style("restructuredtext.js_desc.signature.keyword", default="bright_cyan")
-        name_style = self.console.get_style("restructuredtext.js_desc.signature.name", default="bold")
-        namespace_style = self.console.get_style("restructuredtext.js_desc.signature.namespace", default="magenta")
-        operator_style = self.console.get_style("restructuredtext.js_desc.signature.operator", default="bold yellow")
-        number_style = self.console.get_style("restructuredtext.js_desc.signature.number", default="green")
+        keyword_style = self._get_style("restructuredtext.js_desc.signature.keyword", default="bright_cyan")
+        name_style = self._get_style("restructuredtext.js_desc.signature.name", default="bold")
+        namespace_style = self._get_style("restructuredtext.js_desc.signature.namespace", default="magenta")
+        operator_style = self._get_style("restructuredtext.js_desc.signature.operator", default="bold yellow")
+        number_style = self._get_style("restructuredtext.js_desc.signature.number", default="green")
 
         keyword_pattern = r"\b(?:{})\b".format("|".join(sorted(re.escape(keyword) for keyword in js_keywords)))
         for match in re.finditer(keyword_pattern, signature):
@@ -1214,12 +1258,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         if not signature:
             return rendered
 
-        self_and_cls_style = self.console.get_style("restructuredtext.py_desc.signature.self_and_cls", default="bright_magenta")
-        arrow_style = self.console.get_style("restructuredtext.py_desc.signature.arrow", default="bold yellow")
-        type_style = self.console.get_style("restructuredtext.py_desc.signature.type", default="cyan")
-        name_style = self.console.get_style("restructuredtext.py_desc.signature.name", default="bold")
-        bool_style = self.console.get_style("restructuredtext.py_desc.signature.bool", default="magenta")
-        int_style = self.console.get_style("restructuredtext.py_desc.signature.int", default="green")
+        self_and_cls_style = self._get_style("restructuredtext.py_desc.signature.self_and_cls", default="bright_magenta")
+        arrow_style = self._get_style("restructuredtext.py_desc.signature.arrow", default="bold yellow")
+        type_style = self._get_style("restructuredtext.py_desc.signature.type", default="cyan")
+        name_style = self._get_style("restructuredtext.py_desc.signature.name", default="bold")
+        bool_style = self._get_style("restructuredtext.py_desc.signature.bool", default="magenta")
+        int_style = self._get_style("restructuredtext.py_desc.signature.int", default="green")
 
         if objtype in {
             "function", "method", "classmethod", "staticmethod",
@@ -1320,7 +1364,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _render_py_desc_title(self, domain: str, objtype: str, signature: str) -> Text:
         """Render a styled panel title for Python/C/C++/JS domain objects."""
-        prefix_style = self.console.get_style("restructuredtext.py_desc.title_prefix", default="bold")
+        prefix_style = self._get_style("restructuredtext.py_desc.title_prefix", default="bold")
         title = Text(f"[{objtype}] ", style=prefix_style)
         normalized_domain = (domain or "py").strip().lower()
         if normalized_domain in {"c", "cpp"}:
@@ -1381,10 +1425,10 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _render_py_class_attribute_table(self, rows: List[Tuple[str, str, str]]) -> List[Any]:
         """Render typed class attributes as an indented list."""
-        section_style = self.console.get_style("restructuredtext.py_desc.section", default="bold")
-        name_style = self.console.get_style("restructuredtext.py_desc.param_name", default="bold")
-        type_style = self.console.get_style("restructuredtext.py_desc.param_type", default="cyan")
-        value_style = self.console.get_style("restructuredtext.py_desc.meta_value", default="none")
+        section_style = self._get_style("restructuredtext.py_desc.section", default="bold")
+        name_style = self._get_style("restructuredtext.py_desc.param_name", default="bold")
+        type_style = self._get_style("restructuredtext.py_desc.param_type", default="cyan")
+        value_style = self._get_style("restructuredtext.py_desc.meta_value", default="none")
 
         renderables: List[Any] = [Text("Attributes", style=section_style)]
         for attr_name, attr_type, attr_description in rows:
@@ -1443,14 +1487,14 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         pass
 
     def visit_toctree_stub(self, node) -> None:
-        style = self.console.get_style("restructuredtext.toctree", default="bold cyan")
+        style = self._get_style("restructuredtext.toctree", default="bold cyan")
         caption = node.get('caption', 'Contents')
         entries = list(node.get('entries', []))
         maxdepth = node.get('maxdepth', 0)  # 0 means unlimited
         reversed_entries = node.get('reversed', False)
         numbered_enabled = node.get('numbered_enabled', False)
         numbered_depth = node.get('numbered', 0)
-        marker_style = self.console.get_style("restructuredtext.bullet_list_marker", default="bold yellow")
+        marker_style = self._get_style("restructuredtext.bullet_list_marker", default="bold yellow")
 
         if reversed_entries:
             entries.reverse()
@@ -1500,7 +1544,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         pass
 
     def visit_literalinclude_stub(self, node) -> None:
-        style = self.console.get_style("restructuredtext.literalinclude", default="grey58")
+        style = self._get_style("restructuredtext.literalinclude", default="grey58")
         filename = node.get('filename', '<unknown file>')
         content = node.get('content', None)
 
@@ -1511,7 +1555,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             linenos = node.get('linenos', self.show_line_numbers)
             self.renderables.append(
                 Panel(
-                    Syntax(content, language, theme=self.code_theme, line_numbers=linenos),
+                    Syntax(content, language, theme=self._syntax_theme, line_numbers=linenos),
                     title=filename,
                     border_style=style,
                     box=box.SQUARE,
@@ -1529,7 +1573,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         pass
 
     def visit_glossary_block(self, node) -> None:
-        style = self.console.get_style("restructuredtext.glossary", default="bold")
+        style = self._get_style("restructuredtext.glossary", default="bold")
         body = self._render_admonition_body(node.children)
         body = self._clean_body_for_panel(body)
         self.renderables.append(
@@ -1578,24 +1622,24 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         pass
 
     def visit_subscript(self, node) -> None:
-        style = self.console.get_style("restructuredtext.subscript", default="none")
+        style = self._get_style("restructuredtext.subscript", default="none")
         translated = self._translate_with_fallback(node.astext(), self._SUBSCRIPT)
         self._append_inline_text(translated, style)
         raise docutils.nodes.SkipChildren()
 
     def visit_superscript(self, node) -> None:
-        style = self.console.get_style("restructuredtext.superscript", default="none")
+        style = self._get_style("restructuredtext.superscript", default="none")
         translated = self._translate_with_fallback(node.astext(), self._SUPERSCRIPT)
         self._append_inline_text(translated, style)
         raise docutils.nodes.SkipChildren()
 
     def visit_emphasis(self, node) -> None:
-        style = self.console.get_style("restructuredtext.emphasis", default="italic")
+        style = self._get_style("restructuredtext.emphasis", default="italic")
         self._append_inline_text(node.astext().replace("\n", " "), style)
         raise docutils.nodes.SkipChildren()
 
     def visit_strong(self, node) -> None:
-        style = self.console.get_style("restructuredtext.strong", default="bold")
+        style = self._get_style("restructuredtext.strong", default="bold")
         self._append_inline_text(node.astext().replace("\n", " "), style)
         raise docutils.nodes.SkipChildren()
 
@@ -1613,7 +1657,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _render_inline_with_explanation(self, node: docutils.nodes.Node, style_name: str) -> None:
         assert isinstance(node, docutils.nodes.Element)
-        style = self.console.get_style(style_name, default="underline")
+        style = self._get_style(style_name, default="underline")
         explanation = node.get("explanation", "")
         text = node.astext().replace("\n", " ")
         if explanation:
@@ -1648,8 +1692,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         caption = caption_node.astext() if caption_node is not None else None
         legend_text = legend_node.astext().replace("\n", " ") if legend_node is not None else None
 
-        border_style = self.console.get_style("restructuredtext.figure_border", default="blue")
-        legend_style = self.console.get_style("restructuredtext.figure_legend", default="dim")
+        border_style = self._get_style("restructuredtext.figure_border", default="blue")
+        legend_style = self._get_style("restructuredtext.figure_legend", default="dim")
         body_renderable = (
             Group(image_text, Text(legend_text, style=legend_style))
             if legend_text is not None
@@ -1696,8 +1740,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _render_bullet_list(self, node: docutils.nodes.bullet_list, level: int = 0) -> None:
         """Recursively render a bullet list with support for unlimited nesting and any child elements."""
-        marker_style = self.console.get_style("restructuredtext.bullet_list_marker", default="bold yellow")
-        text_style = self.console.get_style("restructuredtext.bullet_list_text", default="none")
+        marker_style = self._get_style("restructuredtext.bullet_list_marker", default="bold yellow")
+        text_style = self._get_style("restructuredtext.bullet_list_text", default="none")
         indent = "  " * level
         marker = self._BULLET_LIST_MARKERS[min(level, len(self._BULLET_LIST_MARKERS) - 1)]
         for list_item in node.children:
@@ -1770,8 +1814,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _render_enumerated_list(self, node: docutils.nodes.enumerated_list, level: int = 0) -> None:
         """Recursively render an enumerated list with support for unlimited nesting and any child elements."""
-        marker_style = self.console.get_style("restructuredtext.enumerated_list_marker", default="bold yellow")
-        text_style = self.console.get_style("restructuredtext.enumerated_text", default="none")
+        marker_style = self._get_style("restructuredtext.enumerated_list_marker", default="bold yellow")
+        text_style = self._get_style("restructuredtext.enumerated_text", default="none")
         indent = "  " * level
         enumtype = node.get("enumtype", "arabic")
         prefix = node.get("prefix", "")
@@ -1822,12 +1866,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_literal(self, node) -> None:
-        style = self.console.get_style("restructuredtext.inline_codeblock", default="grey78 on grey7")
+        style = self._get_style("restructuredtext.inline_codeblock", default="grey78 on grey7")
         self._append_inline_text(node.astext().replace("\n", " "), style)
         raise docutils.nodes.SkipChildren()
 
     def visit_title_reference(self, node) -> None:
-        style = self.console.get_style("restructuredtext.title_reference", default="italic")
+        style = self._get_style("restructuredtext.title_reference", default="italic")
         self._append_inline_text(node.astext().replace("\n", " "), style)
         raise docutils.nodes.SkipChildren()
 
@@ -1840,13 +1884,13 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         result = Text()
         style = parent_style or Style()
         if isinstance(node, nodes.emphasis):
-            style = style + self.console.get_style("restructuredtext.emphasis", default="italic")
+            style = style + self._get_style("restructuredtext.emphasis", default="italic")
         elif isinstance(node, nodes.strong):
-            style = style + self.console.get_style("restructuredtext.strong", default="bold")
+            style = style + self._get_style("restructuredtext.strong", default="bold")
         elif isinstance(node, nodes.literal):
-            style = style + self.console.get_style("restructuredtext.inline_codeblock", default="grey78 on grey7")
+            style = style + self._get_style("restructuredtext.inline_codeblock", default="grey78 on grey7")
         elif isinstance(node, nodes.title_reference):
-            style = style + self.console.get_style("restructuredtext.title_reference", default="italic")
+            style = style + self._get_style("restructuredtext.title_reference", default="italic")
         elif isinstance(node, nodes.reference):
             uri = node.get("refuri", "")
             if uri:
@@ -1856,7 +1900,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         elif isinstance(node, nodes.inline):
             classes = node.get('classes', [])
             style_name = f"restructuredtext.inline.{classes[0]}" if classes else "restructuredtext.inline"
-            style = style + self.console.get_style(style_name, default="none")
+            style = style + self._get_style(style_name, default="none")
 
         for child in node.children:
             result.append_text(self._render_parsed_literal_node(child, parent_style=style))
@@ -1864,7 +1908,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         return result
 
     def visit_literal_block(self, node) -> None:
-        style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
+        style = self._get_style("restructuredtext.literal_block_border", default="grey58")
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].rstrip()
             self.renderables[-1].append_text(Text("\n"))
@@ -1877,10 +1921,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
             if name:
                 title = f"{title} — {name}"
 
-            from rich.syntax import Syntax as RichSyntax
             try:
-                theme = RichSyntax.get_theme(self.code_theme or "monokai")
-                bg_style = theme.get_background_style()
+                bg_style = self._syntax_theme.get_background_style()
             except Exception:
                 bg_style = Style()
 
@@ -1919,7 +1961,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 Syntax(
                     node.astext(),
                     lexer,
-                    theme=self.code_theme,
+                    theme=self._syntax_theme,
                     line_numbers=show_linenos,
                     start_line=start_line,
                     highlight_lines=node.get('highlight_lines'),
@@ -1991,8 +2033,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def _add_to_field_table(self, field_name: str, field_value: Any) -> None:
         """Add a row to the shared field table, creating it if necessary."""
-        field_name_style = self.console.get_style("restructuredtext.field_name", default="bold")
-        field_value_style = self.console.get_style("restructuredtext.field_value", default="none")
+        field_name_style = self._get_style("restructuredtext.field_name", default="bold")
+        field_value_style = self._get_style("restructuredtext.field_value", default="none")
         if isinstance(field_value, str):
             val = Text(field_value, style=field_value_style)
         else:
@@ -2004,7 +2046,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 return
         table = Table("Field Name", "Field Value", show_lines=True)
         if getattr(self, "_in_docinfo", False):
-            docinfo_title_style = self.console.get_style("restructuredtext.docinfo_title", default="bold")
+            docinfo_title_style = self._get_style("restructuredtext.docinfo_title", default="bold")
             table.title = Text("Document Information", style=docinfo_title_style)
         table.add_row(Text(field_name, style=field_name_style), val)
         self.renderables.append(table)
@@ -2064,9 +2106,9 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_definition_list(self, node) -> None:
-        term_style = self.console.get_style("restructuredtext.term_style", default="none")
-        classifier_style = self.console.get_style("restructuredtext.classifier_style", default="cyan")
-        definitions_style = self.console.get_style("restructuredtext.definitions_style", default="none")
+        term_style = self._get_style("restructuredtext.term_style", default="none")
+        classifier_style = self._get_style("restructuredtext.classifier_style", default="cyan")
+        definitions_style = self._get_style("restructuredtext.definitions_style", default="none")
         for child in node.children:
             child_children = child.children
             if not child_children:
@@ -2160,12 +2202,12 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_option_list(self, node) -> None:
-        option_string_style = self.console.get_style("restructuredtext.option_string", default="none")
-        option_argument_style = self.console.get_style("restructuredtext.option_argument", default="none")
-        option_child_text_separator_style = self.console.get_style(
+        option_string_style = self._get_style("restructuredtext.option_string", default="none")
+        option_argument_style = self._get_style("restructuredtext.option_argument", default="none")
+        option_child_text_separator_style = self._get_style(
             "restructuredtext.option_child_text_separator", default="none"
         )
-        option_description_style = self.console.get_style("restructuredtext.option_description", default="none")
+        option_description_style = self._get_style("restructuredtext.option_description", default="none")
         for option_list_item in node.children:
             option_group, description = option_list_item.children
             # option_group.child_text_separator.join(map(lambda x: x.astext(), option_group.children)))
@@ -2191,10 +2233,10 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_doctest_block(self, node) -> None:
-        style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
+        style = self._get_style("restructuredtext.literal_block_border", default="grey58")
         self.renderables.append(
             Panel(
-                Syntax(node.astext(), "pycon", theme=self.code_theme, line_numbers=bool(self.show_line_numbers)),
+                Syntax(node.astext(), "pycon", theme=self._syntax_theme, line_numbers=bool(self.show_line_numbers)),
                 border_style=style,
                 box=box.SQUARE,
                 title="doctest block",
@@ -2203,11 +2245,11 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_block_quote(self, node) -> None:
-        text_style = self.console.get_style("restructuredtext.blockquote_text", default="white")
-        marker_style = self.console.get_style(
+        text_style = self._get_style("restructuredtext.blockquote_text", default="white")
+        marker_style = self._get_style(
             "restructuredtext.blockquote_attribution_marker", default="bright_magenta"
         )
-        author_style = self.console.get_style("restructuredtext.blockquote_attribution_text", default="grey89")
+        author_style = self._get_style("restructuredtext.blockquote_attribution_text", default="grey89")
         children = list(node.children)
         attribution = children[-1] if children and isinstance(children[-1], docutils.nodes.attribution) else None
         paragraphs = children[:-1] if attribution else children
@@ -2278,7 +2320,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         return result
 
     def visit_topic(self, node) -> None:
-        style = self.console.get_style("restructuredtext.topic", default="bold cyan")
+        style = self._get_style("restructuredtext.topic", default="bold cyan")
         children = list(node.children)
         title = ""
         body_start = 0
@@ -2331,11 +2373,11 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_transition(self, node) -> None:
-        style = self.console.get_style("restructuredtext.hr", default="yellow")
+        style = self._get_style("restructuredtext.hr", default="yellow")
         self.renderables.append(Rule(style=style))
 
     def visit_math_block(self, node) -> None:
-        style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
+        style = self._get_style("restructuredtext.literal_block_border", default="grey58")
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].rstrip()
             self.renderables[-1].append_text(Text("\n"))
@@ -2354,7 +2396,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_math(self, node) -> None:
         """Render inline math with Unicode approximations where possible."""
-        style = self.console.get_style("restructuredtext.math", default="italic")
+        style = self._get_style("restructuredtext.math", default="italic")
         converted = _convert_math_to_unicode(node.astext().replace("\n", " "))
         self._append_inline_text(converted, style)
         raise docutils.nodes.SkipChildren()
@@ -2364,7 +2406,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_citation_reference(self, node) -> None:
-        style = self.console.get_style("restructuredtext.citation_reference", default="grey74")
+        style = self._get_style("restructuredtext.citation_reference", default="grey74")
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].append(node.astext().replace("\n", " "), style=style)
             raise docutils.nodes.SkipChildren()
@@ -2372,7 +2414,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_header(self, node) -> None:
-        style = self.console.get_style("restructuredtext.caption", default="bold")
+        style = self._get_style("restructuredtext.caption", default="bold")
         body = self._render_admonition_body(node.children)
         body = self._clean_body_for_panel(body)
         content = Group(*body) if body else ""
@@ -2387,7 +2429,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_footnote_reference(self, node) -> None:
-        style = self.console.get_style("restructuredtext.footnote_reference", default="grey74")
+        style = self._get_style("restructuredtext.footnote_reference", default="grey74")
         newline = '\n'
         text = f"[{node.astext().replace(newline, ' ')}]"
         if self.renderables and isinstance(self.renderables[-1], Text):
@@ -2397,7 +2439,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_substitution_reference(self, node) -> None:
-        style = self.console.get_style("restructuredtext.substitution_reference", default="none")
+        style = self._get_style("restructuredtext.substitution_reference", default="none")
         text = node.astext().replace("\n", " ")
         if self.renderables and isinstance(self.renderables[-1], Text):
             self.renderables[-1].append(text, style=style)
@@ -2424,7 +2466,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
     def visit_problematic(self, node) -> None:
         # Keep problematic inline source visible in the main render output.
-        problematic_style = self.console.get_style("restructuredtext.problematic", default="none")
+        problematic_style = self._get_style("restructuredtext.problematic", default="none")
         problematic_text = node.astext().replace("\n", " ")
         if problematic_text:
             if self.renderables and isinstance(self.renderables[-1], Text):
@@ -2434,7 +2476,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         self.errors.append(
             Panel(
-                Syntax(node.astext(), lexer="rst", theme=self.code_theme),
+                Syntax(node.astext(), lexer="rst", theme=self._syntax_theme),
                 title="System Message: Problematic Element",
                 border_style="bold red",
             ),
@@ -2442,7 +2484,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
         raise docutils.nodes.SkipChildren()
 
     def visit_raw(self, node) -> None:
-        style = self.console.get_style("restructuredtext.literal_block_border", default="grey58")
+        style = self._get_style("restructuredtext.literal_block_border", default="grey58")
         lexer, _ = self._find_lexer(node)
         text = node.astext()
         title = "stripped raw html" if lexer == "html" else ("raw " + lexer if lexer is not None else "raw")
@@ -2454,7 +2496,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
         self.renderables.append(
             Panel(
-                Syntax(text, lexer, theme=self.code_theme, line_numbers=bool(self.show_line_numbers)),
+                Syntax(text, lexer, theme=self._syntax_theme, line_numbers=bool(self.show_line_numbers)),
                 border_style=style,
                 box=box.SQUARE,
                 title=title,
@@ -2796,8 +2838,8 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
     # ── table visitor ─────────────────────────────────────────────────────
 
     def visit_table(self, node) -> None:
-        header_style = self.console.get_style("restructuredtext.table_header", default="bold")
-        cell_style = self.console.get_style("restructuredtext.table_cell", default="none")
+        header_style = self._get_style("restructuredtext.table_header", default="bold")
+        cell_style = self._get_style("restructuredtext.table_cell", default="none")
 
         # Extract optional caption/title and the tgroup
         title = None
@@ -2985,16 +3027,17 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
 
             # ── calculate column widths from non-spanning cells ───────────────
             # Per-table-call cache; dropped after this visit_table invocation.
-            # Keep identity pairs instead of id(...) keys so reuse of object ids
-            # can never return stale data.
-            rendered_plain_lines_cache: List[Tuple[Any, List[str]]] = []
+            # Keyed by id() for O(1) lookups; each entry also holds the
+            # renderable itself, so its id can't be reused while cached and the
+            # identity check below can never return stale data.
+            rendered_plain_lines_cache: Dict[int, Tuple[Any, List[str]]] = {}
 
             def _rendered_plain_lines(renderable: Any) -> List[str]:
                 if renderable is None:
                     return []
-                for cached_renderable, cached_lines in rendered_plain_lines_cache:
-                    if cached_renderable is renderable:
-                        return cached_lines
+                cached = rendered_plain_lines_cache.get(id(renderable))
+                if cached is not None and cached[0] is renderable:
+                    return cached[1]
                 lines = self.console.render_lines(
                     renderable,
                     options=self.console.options.update(width=2048, max_width=2048),
@@ -3005,7 +3048,7 @@ class RSTVisitor(docutils.nodes.SparseNodeVisitor):
                 for line in lines:
                     plain = "".join(seg.text for seg in line if not seg.control)
                     plain_lines.append(plain)
-                rendered_plain_lines_cache.append((renderable, plain_lines))
+                rendered_plain_lines_cache[id(renderable)] = (renderable, plain_lines)
                 return plain_lines
 
             def _plain_w(renderable: Any) -> int:
