@@ -48,6 +48,11 @@ class RestructuredText(JupyterMixin):
         ``"panel"`` (default) emits a bordered Rich :class:`~rich.panel.Panel` per directive.
         ``"compact"`` collapses each directive to a styled inline title prefix, making the
         output suitable for narrow contexts such as CLI ``--help`` panels.
+    allow_file_access : bool
+        Allow directives that read other files (``include``, ``literalinclude``,
+        ``raw`` and ``csv-table`` with ``:file:`` or ``:url:``). Defaults to False.
+        Only enable this for trusted markup: it lets the document read files
+        with the permissions of the rendering process.
     """
 
     def __init__(
@@ -61,6 +66,7 @@ class RestructuredText(JupyterMixin):
         sphinx_compat: Optional[bool] = True,
         filename: Optional[str] = "<rst-document>",
         admonition_style: Literal["panel", "compact"] = "panel",
+        allow_file_access: bool = False,
     ) -> None:
         if admonition_style not in ("panel", "compact"):
             raise ValueError(
@@ -75,6 +81,7 @@ class RestructuredText(JupyterMixin):
         self.sphinx_compat: Optional[bool] = sphinx_compat
         self.filename: Optional[str] = filename
         self.admonition_style: Literal["panel", "compact"] = admonition_style
+        self.allow_file_access: bool = allow_file_access
 
     def render_to_string(self, width: Optional[int] = None, *, force_terminal: bool = False) -> str:
         """Render the RST markup to a plain string.
@@ -171,7 +178,12 @@ class RestructuredText(JupyterMixin):
         document = docutils.core.publish_doctree(
             markup,
             source_path=self.filename,
-            settings_overrides={"report_level": 69, "halt_level": 69},
+            settings_overrides={
+                "report_level": 69,
+                "halt_level": 69,
+                # Gates every directive that reads external files or URLs.
+                "file_insertion_enabled": self.allow_file_access,
+            },
         )
 
         # Render the RST `document` using Rich.

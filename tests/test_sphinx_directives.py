@@ -673,6 +673,7 @@ def test_literalinclude_reads_actual_file(tmp_path, render_text):
             rst_file.read_text(),
             sphinx_compat=True,
             filename=str(rst_file),
+            allow_file_access=True,
         )
     )
     out = console.export_text()
@@ -705,6 +706,7 @@ def test_literalinclude_lines_option(tmp_path):
             rst_file.read_text(),
             sphinx_compat=True,
             filename=str(rst_file),
+            allow_file_access=True,
         )
     )
     out = console.export_text()
@@ -730,6 +732,7 @@ def test_literalinclude_lines_single_and_encoding(tmp_path):
             rst_file.read_text(),
             sphinx_compat=True,
             filename=str(rst_file),
+            allow_file_access=True,
         )
     )
     out = console.export_text()
@@ -757,7 +760,7 @@ def test_include_fallback_base_dir(tmp_path, monkeypatch):
     from rich_rst import RestructuredText
 
     console = Console(force_terminal=True, width=120, record=True)
-    console.print(RestructuredText('.. include:: dummy.rst\n', sphinx_compat=True))
+    console.print(RestructuredText('.. include:: dummy.rst\n', sphinx_compat=True, allow_file_access=True))
     out = console.export_text()
     assert 'content_dummy' in out
 
@@ -783,6 +786,7 @@ def test_include_commonpath_value_error(tmp_path, monkeypatch):
             '.. include:: dummy.rst\n',
             sphinx_compat=True,
             filename=str(tmp_path / 'doc.rst'),
+            allow_file_access=True,
         )
     )
     out = console.export_text()

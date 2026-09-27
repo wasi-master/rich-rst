@@ -389,8 +389,50 @@ class _ToctreeDirective(docutils.parsers.rst.Directive):
         return [node]
 
 
+def _file_access_enabled(directive: docutils.parsers.rst.Directive) -> bool:
+    """Return whether the document allows directives to read external files."""
+    return bool(getattr(directive.state.document.settings, 'file_insertion_enabled', False))
+
+
+def _resolve_confined_path(directive: docutils.parsers.rst.Directive, rel_path: str) -> Optional[str]:
+    """Resolve *rel_path* against the source document's directory.
+
+    Returns ``None`` when the resolved path (after following symlinks) falls
+    outside that directory.  In-memory markup resolves against the current
+    working directory.
+    """
+    source_file = directive.state_machine.get_source(directive.lineno)
+    if source_file and source_file not in ('<string>', '<stdin>', '<rst-document>'):
+        base_dir = os.path.dirname(os.path.abspath(source_file))
+    else:
+        base_dir = os.getcwd()
+
+    base_dir = os.path.realpath(base_dir)
+    abs_path = os.path.realpath(os.path.join(base_dir, rel_path))
+
+    try:
+        common = os.path.commonpath([abs_path, base_dir])
+    except ValueError:
+        # commonpath raises ValueError on Windows when paths are on
+        # different drives — treat that as a traversal attempt.
+        return None
+    if common != base_dir:
+        return None
+    return abs_path
+
+
+def _file_access_warning(text: str) -> docutils.nodes.warning:
+    stub = docutils.nodes.warning()
+    stub += docutils.nodes.paragraph(text=text)
+    return stub
+
+
 class _LiteralIncludeDirective(docutils.parsers.rst.Directive):
-    """Handles ``.. literalinclude::``."""
+    """Handles ``.. literalinclude::``.
+
+    The file is only read when file access is enabled, and must resolve to a
+    path inside the source document's directory.
+    """
 
     required_arguments = 1
     optional_arguments = 0
@@ -419,15 +461,18 @@ class _LiteralIncludeDirective(docutils.parsers.rst.Directive):
         node = literalinclude_stub()
         node['filename'] = self.arguments[0]
 
+        # Without file access the visitor renders a placeholder panel.
+        if not _file_access_enabled(self):
+            return [node]
+
         # Attempt to resolve and read the referenced file so the visitor can
         # render real content instead of a mere placeholder.
         rel_path = self.arguments[0]
-        source_file = self.state_machine.get_source(self.lineno)
-        if source_file and source_file not in ('<string>', '<stdin>', '<rst-document>'):
-            base_dir = os.path.dirname(os.path.abspath(source_file))
-            abs_path = os.path.join(base_dir, rel_path)
-        else:
-            abs_path = os.path.abspath(rel_path)
+        abs_path = _resolve_confined_path(self, rel_path)
+        if abs_path is None:
+            return [_file_access_warning(
+                f"Rejected literalinclude path outside source directory: {rel_path!r}"
+            )]
 
         language = self.options.get('language', '')
         encoding = self.options.get('encoding', 'utf-8')
@@ -485,9 +530,9 @@ class _ProductionListDirective(docutils.parsers.rst.Directive):
 class _IncludeDirective(docutils.parsers.rst.Directive):
     """Handles ``.. include::`` — reads an external RST file and inlines it.
 
-    Paths are resolved relative to the source document.  When ``safe_include``
-    is ``True`` (the default), path traversal outside the source directory is
-    rejected.  If the file cannot be read the directive emits a warning
+    Paths are resolved relative to the source document, and paths outside the
+    source directory (including via symlinks) are rejected.  If file access is
+    disabled or the file cannot be read, the directive emits a warning
     admonition instead of raising an error.
     """
 
@@ -503,27 +548,16 @@ class _IncludeDirective(docutils.parsers.rst.Directive):
 
     def run(self) -> List[docutils.nodes.Node]:
         rel_path = self.arguments[0]
-        source_file = self.state_machine.get_source(self.lineno)
-        if source_file and source_file not in ('<string>', '<stdin>', '<rst-document>'):
-            base_dir = os.path.dirname(os.path.abspath(source_file))
-        else:
-            base_dir = os.getcwd()
+        if not _file_access_enabled(self):
+            return [_file_access_warning(
+                f"File access is disabled; not including {rel_path!r} (see allow_file_access)"
+            )]
 
-        abs_path = os.path.normpath(os.path.join(base_dir, rel_path))
-
-        # Safety: reject path traversal outside the base directory.
-        try:
-            common = os.path.commonpath([abs_path, base_dir])
-        except ValueError:
-            # commonpath raises ValueError on Windows when paths are on
-            # different drives — treat that as a traversal attempt.
-            common = None
-        if common != base_dir:
-            stub = docutils.nodes.warning()
-            stub += docutils.nodes.paragraph(
-                text=f"Rejected include path outside source directory: {rel_path!r}"
-            )
-            return [stub]
+        abs_path = _resolve_confined_path(self, rel_path)
+        if abs_path is None:
+            return [_file_access_warning(
+                f"Rejected include path outside source directory: {rel_path!r}"
+            )]
 
         encoding = self.options.get('encoding', 'utf-8')
         start_line = self.options.get('start-line', None)

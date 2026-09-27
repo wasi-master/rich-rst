@@ -540,6 +540,7 @@ def test_include_directive_renders_included_file(tmp_path):
         filename=str(document),
         sphinx_compat=True,
         show_errors=True,
+        allow_file_access=True,
     ).render_to_string(width=100, force_terminal=True)
     assert 'Included paragraph.' in output
 
@@ -557,6 +558,7 @@ def test_include_directive_start_end_line_options(tmp_path):
         filename=str(document),
         sphinx_compat=True,
         show_errors=True,
+        allow_file_access=True,
     ).render_to_string(width=100, force_terminal=True)
     assert 'line2' in output
     assert 'line3' in output
@@ -576,6 +578,7 @@ def test_include_directive_rejects_path_traversal(tmp_path):
         filename=str(document),
         sphinx_compat=True,
         show_errors=True,
+        allow_file_access=True,
     ).render_to_string(width=100, force_terminal=True)
     assert 'Rejected include path outside source directory' in output
 
@@ -590,6 +593,7 @@ def test_include_directive_unicode_decode_error_shows_warning(tmp_path):
         filename=str(document),
         sphinx_compat=True,
         show_errors=True,
+        allow_file_access=True,
     ).render_to_string(width=100, force_terminal=True)
     assert "Could not include file: 'bad.rst'" in output
 

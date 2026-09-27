@@ -162,6 +162,13 @@ def parse_arguments() -> argparse.Namespace:
         help='display reStructuredText parsing errors',
     )
     parser.add_argument(
+        '--allow-file-access',
+        action='store_true',
+        dest='allow_file_access',
+        help='let directives such as include and literalinclude read other files '
+        '(only use with trusted input)',
+    )
+    parser.add_argument(
         '--admonition-style',
         dest='admonition_style',
         type=str,
@@ -294,6 +301,7 @@ pre {{
             show_errors=args.show_errors,
             filename=args.path if args.path != '-' else '<stdin>',
             admonition_style=args.admonition_style,
+            allow_file_access=args.allow_file_access,
         )
     except Exception as e:
         console.print(
