@@ -16,7 +16,7 @@ jobs:
       url: https://pypi.org/p/rich-rst
     permissions:
       id-token: write
-      contents: read
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +39,21 @@ jobs:
           pip install twine
           twine check dist/*
 
+      - name: Extract release notes
+        id: notes
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          awk -v heading="## [$version]" '
+            index($0, heading) == 1 { found = 1; next }
+            found && /^#+ \[/ { exit }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "::error::No '## [$version]' section in CHANGELOG.md"
+            exit 1
+          fi
+
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -47,8 +62,9 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
+          name: Version ${{ steps.notes.outputs.version }}
           draft: false
           prerelease: false
-          body_path: CHANGELOG.md
+          body_path: release-notes.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
