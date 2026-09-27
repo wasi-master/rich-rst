@@ -86,6 +86,9 @@ Options
        ``python``).
    * - ``-se``, ``--show-errors``
      - Show RST parse errors and warnings.
+   * - ``--allow-file-access``
+     - Let directives such as ``include`` and ``literalinclude`` read other
+       files. Only use with trusted input.
    * - ``--admonition-style``
      - How to render admonitions (``panel`` or ``compact``, default: ``panel``).
    * - ``--html-theme``

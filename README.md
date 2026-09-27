@@ -52,7 +52,9 @@ This is a **test** document.
 print(RestructuredText(document))
 ```
 
-The main constructor options are `code_theme`, `show_line_numbers`, `show_errors`, `guess_lexer`, `default_lexer`, `sphinx_compat`, and `admonition_style`.
+The main constructor options are `code_theme`, `show_line_numbers`, `show_errors`, `guess_lexer`, `default_lexer`, `sphinx_compat`, `admonition_style`, and `allow_file_access`.
+
+Directives that read other files (`include`, `literalinclude`, and `raw`/`csv-table` with `:file:` or `:url:`) are disabled by default. Pass `allow_file_access=True` to enable them, but only for markup you trust.
 
 ## Command Line Interface
 
@@ -74,7 +76,7 @@ View all available options:
 python -m rich_rst --help
 ```
 
-Useful flags include ``--code-theme``, ``--show-line-numbers``, ``--guess-lexer``, ``--default-lexer``, ``--show-errors``, ``--admonition-style``, ``-S/--save-html``, ``--html-theme``, ``--list-html-themes``, ``--output``, ``--debug``, and ``--version``.
+Useful flags include ``--code-theme``, ``--show-line-numbers``, ``--guess-lexer``, ``--default-lexer``, ``--show-errors``, ``--allow-file-access``, ``--admonition-style``, ``-S/--save-html``, ``--html-theme``, ``--list-html-themes``, ``--output``, ``--debug``, and ``--version``.
 
 ## Compatibility
 

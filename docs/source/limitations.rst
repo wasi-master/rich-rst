@@ -23,8 +23,9 @@ roles/directives to improve docstring and Sphinx-source compatibility.
 
 Important caveats:
 
-- ``.. literalinclude::`` does not read files from disk; it renders a stub panel
-  showing the referenced file name.
+- ``.. literalinclude::`` only reads files when ``allow_file_access=True``;
+  otherwise it renders a stub panel showing the referenced file name.  Paths
+  outside the source document's directory are always rejected.
 - ``.. only::`` always renders content; the expression is accepted but not
   evaluated.
 - ``.. hlist::`` accepts ``:columns:``, but terminal output is rendered as a

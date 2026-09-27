@@ -7,6 +7,13 @@ rich-rst provides a custom implementation of the standard ``.. include::``
 directive that resolves file paths relative to the **source document** and
 includes path-traversal protection.
 
+.. important::
+
+   File access is **disabled by default**.  Pass ``allow_file_access=True`` to
+   :class:`~rich_rst.RestructuredText` (or ``--allow-file-access`` on the
+   command line) to enable ``include`` and ``literalinclude``.  Only do this
+   for trusted markup.
+
 .. contents::
    :local:
 
@@ -52,8 +59,16 @@ a warning admonition instead of including the file:
 
    .. include:: /etc/passwd
 
+Symlinks are resolved before the check, so a link inside the source directory
+that points outside it is rejected too.  ``.. literalinclude::`` applies the
+same rule.
+
 The warning message will be rendered in place of the included content, making
 security issues visible during rendering.
+
+When rendering in-memory markup, the "source directory" is the current working
+directory, which may contain files you do not want to expose.  Never enable
+file access for markup supplied by untrusted users.
 
 Options
 -------

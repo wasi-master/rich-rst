@@ -36,4 +36,4 @@ Include as much detail as possible:
 
 ## Scope Notes
 
-The project renders untrusted reStructuredText input and supports directives such as `include` and `literalinclude` in compatibility mode. If your report concerns file access or include behavior, please clearly state whether `sphinx_compat=True` is enabled and what working directory/path assumptions were used.
+The project renders untrusted reStructuredText input. Directives that read other files (`include`, `literalinclude`, and `raw`/`csv-table` with `:file:` or `:url:`) are disabled unless the caller passes `allow_file_access=True`, which is intended for trusted markup only. If your report concerns file access or include behavior, please clearly state whether `sphinx_compat` and `allow_file_access` are enabled and what working directory/path assumptions were used.
