@@ -176,3 +176,36 @@
 - Improved error messages — Structured, color-formatted error output with actionable guidance
 - Better exception context and recovery hints
 - Better help text — Clearer descriptions of all CLI options and defaults
+
+## [2.2.0]
+
+### Security
+
+- Fix arbitrary local file read through `.. literalinclude::`, which accepted absolute and `../` paths ([GHSA-qf6c-j2qx-p22r](https://github.com/wasi-master/rich-rst/security/advisories/GHSA-qf6c-j2qx-p22r)).
+- Fix arbitrary local file read through `.. raw::` with `:file:` or `:url:` ([GHSA-qx2q-xxw7-587f](https://github.com/wasi-master/rich-rst/security/advisories/GHSA-qx2q-xxw7-587f)). The same fix covers `.. csv-table::` with `:file:` or `:url:` and the docutils `include` directive used when `sphinx_compat=False`.
+- `include` and `literalinclude` now resolve symlinks before checking that a path stays inside the source document's directory.
+- Thanks to @oss-security-shopify for reporting both issues.
+
+### Breaking Changes
+
+- Directives that read other files (`include`, `literalinclude`, and `raw`/`csv-table` with `:file:` or `:url:`) are now **disabled by default**. Pass the new `allow_file_access=True` option (CLI: `--allow-file-access`) to enable them for trusted markup.
+
+### New Features
+
+- Add `allow_file_access` option to `RestructuredText` and `--allow-file-access` CLI flag.
+- Add support for the `parsed-literal` directive, keeping inline markup inside the literal block.
+- Add support for sidebar subtitles (`:subtitle:`).
+- Better docinfo rendering: the table has a title, author lists render as lists, and inline markup in field values is preserved.
+- Python domain `attribute`/`property`/`data` entries show their `:type:` and `:value:` in the title.
+- Details of Python domain objects render as a plain list instead of a table.
+- Math blocks with a `:label:` show it in the panel title.
+
+### Fixes
+
+- Fix admonitions with a background color (such as `attention` and `danger`) not filling the panel body.
+- Fix admonition content inheriting the panel's style.
+- Fix extra blank lines at the end of admonitions and other panels.
+- Fix extra blank lines at the end of table-of-contents lists.
+- Fix `epigraph`, `highlights`, and `pull-quote` ignoring the `:class:` option.
+- Fix headers and footers losing inline markup, and support `|page|` substitutions in them.
+- Fix man pages being generated in the wrong section (thanks @r0x0d, #61).
