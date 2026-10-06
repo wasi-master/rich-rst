@@ -2,5 +2,7 @@
 
   {% block menu %}
     {{ super() }}
-    <a href="genindex.html">Index</a>
+    <ul>
+      <li class="toctree-l1"><a class="reference internal" href="{{ pathto('genindex') }}">Index</a></li>
+    </ul>
   {% endblock %}
