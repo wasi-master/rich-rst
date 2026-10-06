@@ -1,4 +1,4 @@
-# $Id: tables.py 10136 2025-05-20 15:48:27Z milde $
+# $Id: tables.py 10282 2026-01-07 07:51:48Z milde $
 # Authors: David Goodger <goodger@python.org>; David Priest
 # Copyright: This module has been placed in the public domain.
 
@@ -150,6 +150,9 @@ class RSTTable(Table):
         table_node = node[0]
         table_node['classes'] += self.options.get('class', [])
         self.set_table_width(table_node)
+        # update line-nr to point to the start of the directive
+        table_node.line = self.state_machine.get_source_and_line(
+                                                            self.lineno)[1]
         if 'align' in self.options:
             table_node['align'] = self.options.get('align')
         if isinstance(self.widths, list):
@@ -223,7 +226,7 @@ class CSVTable(Table):
         """
         CSV dialect used for the "header" option data.
 
-        Deprecated. Will be removed in Docutils 0.22.
+        Deprecated. Will be removed in Docutils 1.0.
         """
         # The separate HeaderDialect was introduced in revision 2294
         # (2004-06-17) in the sandbox before the "csv-table" directive moved
@@ -253,13 +256,6 @@ class CSVTable(Table):
                           'in Docutils 1.0',
                           DeprecationWarning, stacklevel=2)
             super().__init__()
-
-    @staticmethod
-    def check_requirements() -> None:
-        warnings.warn('CSVTable.check_requirements()'
-                      ' is not required with Python 3'
-                      ' and will be removed in Docutils 0.22.',
-                      DeprecationWarning, stacklevel=2)
 
     def process_header_option(self):
         source = self.state_machine.get_source(self.lineno - 1)
@@ -316,6 +312,8 @@ class CSVTable(Table):
         self.add_name(table_node)
         if title:
             table_node.insert(0, title)
+        (table_node.source,
+         table_node.line) = self.state_machine.get_source_and_line(self.lineno)
         return [table_node] + messages
 
     def get_csv_data(self):
@@ -491,6 +489,8 @@ class ListTable(Table):
     def build_table_from_list(self, table_data,
                               col_widths, header_rows, stub_columns):
         table = nodes.table()
+        (table.source,
+         table.line) = self.state_machine.get_source_and_line(self.lineno)
         if self.widths == 'auto':
             table['classes'] += ['colwidths-auto']
         elif self.widths:  # explicitly set column widths

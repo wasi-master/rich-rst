@@ -1,4 +1,4 @@
-# $Id: parts.py 10263 2025-11-28 13:51:32Z milde $
+# $Id: parts.py 10297 2026-02-06 09:09:04Z milde $
 # Authors: David Goodger <goodger@python.org>; Dmitry Jemerov
 # Copyright: This module has been placed in the public domain.
 
@@ -66,7 +66,6 @@ class Contents(Directive):
                 title = nodes.title('', language.labels['contents'])
         topic = nodes.topic(classes=['contents'])
         topic['classes'] += self.options.get('class', [])
-        # the latex2e writer needs source and line for a warning:
         topic.source, topic.line = self.state_machine.get_source_and_line()
         topic.line -= 1
         if 'local' in self.options:

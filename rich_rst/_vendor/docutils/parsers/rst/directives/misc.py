@@ -1,4 +1,4 @@
-# $Id: misc.py 10214 2025-08-20 09:39:58Z milde $
+# $Id: misc.py 10302 2026-03-27 08:40:56Z milde $
 # Authors: David Goodger <goodger@python.org>; Dethe Elza
 # Copyright: This module has been placed in the public domain.
 
@@ -63,8 +63,8 @@ class Include(Directive):
                    'tab-width': int,
                    'start-line': int,
                    'end-line': int,
-                   'start-after': directives.unchanged_required,
-                   'end-before': directives.unchanged_required,
+                   'start-after': directives.unchanged,
+                   'end-before': directives.unchanged,
                    # ignored except for 'literal' or 'code':
                    'number-lines': directives.value_or((None,), int),
                    'class': directives.class_option,
@@ -84,8 +84,8 @@ class Include(Directive):
         self.tab_width = self.options.get('tab-width', settings.tab_width)
         self.clip_options = (self.options.get('start-line', None),
                              self.options.get('end-line', None),
-                             self.options.get('start-after', ''),
-                             self.options.get('end-before', ''))
+                             self.options.get('start-after', None),
+                             self.options.get('end-before', None))
         path = directives.path(self.arguments[0])
         if path.startswith('<') and path.endswith('>'):
             path = '/' + path[1:-1]
@@ -120,19 +120,19 @@ class Include(Directive):
                                         encoding=encoding,
                                         error_handler=error_handler)
         except UnicodeEncodeError:
-            raise self.severe(f'Problems with "{self.name}" directive path:\n'
-                              f'Cannot encode input file path "{path}" '
-                              '(wrong locale?).')
+            raise self.error(f'Problems with "{self.name}" directive path:\n'
+                             f'Cannot encode input file path "{path}" '
+                             '(wrong locale?).')
         except OSError as error:
-            raise self.severe(f'Problems with "{self.name}" directive path:\n'
-                              f'{io.error_string(error)}.')
+            raise self.error(f'Problems with "{self.name}" directive path:\n'
+                             f'{io.error_string(error)}.')
         else:
             self.settings.record_dependencies.add(path)
         try:
             text = include_file.read()
         except UnicodeError as error:
-            raise self.severe(f'Problem with "{self.name}" directive:\n'
-                              + io.error_string(error))
+            raise self.error(f'Problem with "{self.name}" directive:\n'
+                             + io.error_string(error))
         # Clip to-be-included content
         startline, endline, starttext, endtext = self.clip_options
         if startline or (endline is not None):
@@ -140,19 +140,29 @@ class Include(Directive):
             text = '\n'.join(lines[startline:endline])
         # start-after/end-before: no restrictions on newlines in match-text,
         # and no restrictions on matching inside lines vs. line boundaries
+        # exception: emtpy string matches an empty line
+        if starttext == "":
+            # skip content before an empty line
+            starttext = '\n\n'
         if starttext:
             # skip content in text before *and incl.* a matching text
             after_index = text.find(starttext)
             if after_index < 0:
-                raise self.severe('Problem with "start-after" option of '
-                                  f'"{self.name}" directive:\nText not found.')
-            text = text[after_index + len(starttext):]
-        if endtext:
+                raise self.error('Problem with "start-after" option of '
+                                 f'"{self.name}" directive:\nText not found.')
+            else:
+                text = text[after_index + len(starttext):]
+        if endtext == "":
+            # skip content after an empty line
+            before_index = text.find('\n\n')
+            if before_index > 0:
+                text = text[:before_index+1]
+        elif endtext:
             # skip content in text after *and incl.* a matching text
             before_index = text.find(endtext)
             if before_index < 0:
-                raise self.severe('Problem with "end-before" option of '
-                                  f'"{self.name}" directive:\nText not found.')
+                raise self.error('Problem with "end-before" option of '
+                                 f'"{self.name}" directive:\nText not found.')
             text = text[:before_index]
         return text
 
@@ -171,7 +181,9 @@ class Include(Directive):
         literal_block.line = self.options.get('start-line', 0) + 1
         self.add_name(literal_block)
         if 'number-lines' in self.options:
-            firstline = self.options['number-lines'] or 1
+            firstline = self.options['number-lines']
+            if firstline is None:
+                firstline = 1
             text = text.removesuffix('\n')
             lastline = firstline + len(text.splitlines())
             tokens = NumberLines([([], text)], firstline, lastline)
@@ -221,6 +233,7 @@ class Include(Directive):
         settings._source = self.options['source']
         document = utils.new_document(settings._source, settings)
         document.include_log = self.state.document.include_log
+        document.names = self.state.document.names
         document.ids = self.state.document.ids
         document.nameids = self.state.document.nameids
         document.nametypes = self.state.document.nametypes
@@ -253,7 +266,7 @@ class Include(Directive):
         if not include_log:  # new document, initialize with document source
             current_source = utils.relative_path(
                                 None, self.state.document.current_source)
-            include_log.append((current_source, (None, None, '', '')))
+            include_log.append((current_source, (None, None, None, None)))
         if (source, self.clip_options) in include_log:
             source_chain = (pth for (pth, opt) in reversed(include_log))
             inclusion_chain = '\n> '.join((source, *source_chain))
@@ -315,8 +328,8 @@ class Raw(Directive):
                                         encoding=encoding,
                                         error_handler=error_handler)
             except OSError as error:
-                raise self.severe(f'Problems with "{self.name}" directive '
-                                  f'path:\n{io.error_string(error)}.')
+                raise self.error(f'Problems with "{self.name}" directive '
+                                 f'path:\n{io.error_string(error)}.')
             else:
                 # TODO: currently, raw input files are recorded as
                 # dependencies even if not used for the chosen output format.
@@ -324,25 +337,25 @@ class Raw(Directive):
             try:
                 text = raw_file.read()
             except UnicodeError as error:
-                raise self.severe(f'Problem with "{self.name}" directive:\n'
-                                  + io.error_string(error))
+                raise self.error(f'Problem with "{self.name}" directive:\n'
+                                 + io.error_string(error))
             attributes['source'] = path
         elif 'url' in self.options:
             source = self.options['url']
             try:
                 raw_text = urlopen(source).read()
             except (URLError, OSError) as error:
-                raise self.severe(f'Problems with "{self.name}" directive URL '
-                                  f'"{self.options["url"]}":\n'
-                                  f'{io.error_string(error)}.')
+                raise self.error(f'Problems with "{self.name}" directive URL '
+                                 f'"{self.options["url"]}":\n'
+                                 f'{io.error_string(error)}.')
             raw_file = io.StringInput(source=raw_text, source_path=source,
                                       encoding=encoding,
                                       error_handler=error_handler)
             try:
                 text = raw_file.read()
             except UnicodeError as error:
-                raise self.severe(f'Problem with "{self.name}" directive:\n'
-                                  + io.error_string(error))
+                raise self.error(f'Problem with "{self.name}" directive:\n'
+                                 + io.error_string(error))
             attributes['source'] = source
         else:
             # This will always fail because there is no content.

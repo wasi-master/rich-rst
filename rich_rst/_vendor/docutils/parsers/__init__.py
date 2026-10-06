@@ -1,4 +1,4 @@
-# $Id: __init__.py 10045 2025-03-09 01:02:23Z aa-turner $
+# $Id: __init__.py 10306 2026-03-28 18:54:04Z milde $
 # Author: David Goodger <goodger@python.org>
 # Copyright: This module has been placed in the public domain.
 
@@ -48,6 +48,15 @@ class Parser(Component):
           ['--line-length-limit'],
           {'metavar': '<length>', 'type': 'int', 'default': 10_000,
            'validator': frontend.validate_nonnegative_int}),
+         ('Keep identifiers backwards compatible. Default.',
+          ['--legacy-ids'],
+          {'action': 'store_true',
+           'validator': frontend.validate_boolean,
+           'default': True}),
+         ('Explicit targets use identifiers matching the reference name.',
+          ['--matching-ids'],
+          {'action': 'store_false',
+           'dest': 'legacy_ids'}),
          ('Validate the document tree after parsing.',
           ['--validate'],
           {'action': 'store_true',

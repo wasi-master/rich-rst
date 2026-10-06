@@ -1,4 +1,4 @@
-# $Id: parts.py 10136 2025-05-20 15:48:27Z milde $
+# $Id: parts.py 10309 2026-04-09 14:35:52Z milde $
 # Authors: David Goodger <goodger@python.org>; Ueli Schlaepfer; Dmitry Jemerov
 # Copyright: This module has been placed in the public domain.
 
@@ -21,7 +21,7 @@ class SectNum(Transform):
     Automatically assigns numbers to the titles of document sections.
 
     It is possible to limit the maximum section level for which the numbers
-    are added. For those sections that are auto-numbered, the "auto"
+    are added.  For those sections that are auto-numbered, the "auto"
     attribute is set, informing the contents table generator that a different
     form of the TOC should be used.
     """
@@ -57,10 +57,9 @@ class SectNum(Transform):
                 title = child[0]
                 # Use &nbsp; for spacing:
                 generated = nodes.generated(
-                    '',
-                    (self.prefix + '.'.join(numbers) + self.suffix + '\u00a0' * 3),
-                    classes=['sectnum'],
-                )
+                    '', (self.prefix + '.'.join(numbers) + self.suffix
+                         + '\u00a0' * 3),
+                    classes=['sectnum'])
                 title.insert(0, generated)
                 title['auto'] = 1
                 if depth < self.maxdepth:
@@ -69,34 +68,41 @@ class SectNum(Transform):
 
 
 class Contents(Transform):
-
     """
-    Generate a table of contents from the document tree.
+    Generate a table of contents (ToC)
 
-    The transform locates section elements, builds a nested bullet list,
-    and replaces the placeholder pending node created by the ``contents``
-    directive.
+    This transform generates a table of contents from the entire document tree
+    or from a single branch.  It locates <section> elements and builds them
+    into a nested bullet list, which is placed within a <topic> created by the
+    contents directive.  A title is either explicitly specified, taken from
+    the appropriate language module, or omitted (local table of contents).
+    The depth may be specified.  Two-way references between the table of
+    contents and section titles are generated (requires Writer support).
+
+    This transform requires a startnode, a <pending> element which contains
+    generation options and provides the location for the generated ToC (the
+    startnode is replaced by the table of contents <bullet_list>).
     """
 
     default_priority = 720
 
     def apply(self) -> None:
+        # ensure the <topic> containing the ToC has a registered ID
+        self.toc_id = self.document.set_id(self.startnode.parent)
         # let the writer (or output software) build the contents list?
         toc_by_writer = getattr(self.document.settings, 'use_latex_toc', False)
+        # TODO: handle "generate_oowriter_toc" setting of the "ODT" writer.
         if toc_by_writer:
             return
+
         details = self.startnode.details
         if 'local' in details:
+            # find the ToC root: a direct ancestor of startnode
             startnode = self.startnode.parent.parent
-            while not (
-                isinstance(startnode, nodes.section)
-                or isinstance(startnode, nodes.document)
-            ):
-                # find the ToC root: a direct ancestor of startnode
+            while not isinstance(startnode, (nodes.section, nodes.document)):
                 startnode = startnode.parent
         else:
             startnode = self.document
-        self.toc_id = self.startnode.parent['ids'][0]
         if 'backlinks' in details:
             self.backlinks = details['backlinks']
         else:
@@ -112,19 +118,18 @@ class Contents(Transform):
         sections = [sect for sect in node if isinstance(sect, nodes.section)]
         entries = []
         depth = self.startnode.details.get('depth', sys.maxsize)
-        auto = None
         for section in sections:
             title = section[0]
-            auto = title.get('auto')  # May be set by SectNum.
+            auto = title.get('auto')    # May be set by SectNum.
             entrytext = self.copy_and_filter(title)
-            reference = nodes.reference('', '', refid=section['ids'][0], *entrytext)
-            ref_id = self.document.set_id(reference, suggested_prefix='toc-entry')
+            reference = nodes.reference('', '', refid=section['ids'][0],
+                                        *entrytext)
+            ref_id = self.document.set_id(reference,
+                                          suggested_prefix='toc-entry')
             entry = nodes.paragraph('', '', reference)
             item = nodes.list_item('', entry)
-            if (
-                self.backlinks in ('entry', 'top')
-                and title.next_node(nodes.reference) is None
-            ):
+            if (self.backlinks in ('entry', 'top')
+                and title.next_node(nodes.reference) is None):
                 if self.backlinks == 'entry':
                     title['refid'] = ref_id
                 elif self.backlinks == 'top':
@@ -138,10 +143,11 @@ class Contents(Transform):
             if auto:  # auto-numbered sections
                 contents['classes'].append('auto-toc')
             return contents
-        return []
+        else:
+            return []
 
     def copy_and_filter(self, node):
-        """Return a copy of a title with references, images, etc. removed."""
+        """Return a copy of a title, with references, images, etc. removed."""
         visitor = ContentsFilter(self.document)
         node.walkabout(visitor)
         return visitor.get_entry_text()

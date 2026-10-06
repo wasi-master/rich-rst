@@ -21,12 +21,12 @@ zero-dependency package (aside from `rich` itself).
 
 ## What was vendored
 
-**Source:** Docutils 0.22.4  
+**Source:** Docutils 0.23  
 **Upstream URL:** https://docutils.sourceforge.io/  
-**PyPI:** https://pypi.org/project/docutils/0.22.4/  
+**PyPI:** https://pypi.org/project/docutils/0.23/  
 **Vendored into:** `rich_rst/_vendor/docutils/`
 
-The following 41 Python modules were copied verbatim (aside from rewriting internal
+The following 42 Python modules were copied verbatim (aside from rewriting internal
 `from docutils` / `import docutils` references to point at the vendored path
 `rich_rst._vendor.docutils`):
 
@@ -62,6 +62,7 @@ The following 41 Python modules were copied verbatim (aside from rewriting inter
 | `docutils/transforms/__init__.py` | Public Domain |
 | `docutils/transforms/frontmatter.py` | Public Domain |
 | `docutils/transforms/misc.py` | Public Domain |
+| `docutils/transforms/parts.py` | Public Domain |
 | `docutils/transforms/references.py` | Public Domain |
 | `docutils/transforms/universal.py` | Public Domain |
 | `docutils/utils/__init__.py` | Public Domain |
@@ -99,8 +100,9 @@ When upgrading the vendored copy to a newer Docutils release:
 2. Run `python tools/vendor_docutils.py` (see `tools/` directory) to re-copy and
    rewrite imports.
 3. Run the test suite to confirm nothing broke.
-4. Update the version number in **this file**, in `_vendor/LICENSES.txt`, and in
-   the `# VENDORED:` comment at the top of `rich_rst/_vendor/docutils/__init__.py`.
+4. Update the version number in **this file** and in `_vendor/LICENSES.txt`. The
+   script writes the `# VENDORED:` comment at the top of
+   `rich_rst/_vendor/docutils/__init__.py` itself.
 5. Commit the updated `rich_rst/_vendor/docutils/` tree and both docs.
 
 The internal import rewriting performed by the vendor script is the only modification

@@ -1,4 +1,4 @@
-# $Id: body.py 10263 2025-11-28 13:51:32Z milde $
+# $Id: body.py 10293 2026-01-21 15:18:32Z milde $
 # Author: David Goodger <goodger@python.org>
 # Copyright: This module has been placed in the public domain.
 
@@ -157,7 +157,7 @@ class CodeBlock(Directive):
     optional_arguments = 1
     option_spec = {'class': directives.class_option,
                    'name': directives.unchanged,
-                   'number-lines': directives.unchanged  # integer or None
+                   'number-lines': directives.value_or((None,), int),
                    }
     has_content = True
 
@@ -186,11 +186,9 @@ class CodeBlock(Directive):
                 raise self.warning(error)
 
         if 'number-lines' in options:
-            # optional argument `startline`, defaults to 1
-            try:
-                startline = int(options['number-lines'] or 1)
-            except ValueError:
-                raise self.error(':number-lines: with non-integer start value')
+            startline = self.options['number-lines']
+            if startline is None:
+                startline = 1
             endline = startline + len(self.content)
             # add linenumber filter:
             tokens = NumberLines(tokens, startline, endline)
@@ -250,6 +248,8 @@ class Rubric(Directive):
         rubric_text = self.arguments[0]
         textnodes, messages = self.state.inline_text(rubric_text, self.lineno)
         rubric = nodes.rubric(rubric_text, '', *textnodes, **options)
+        (rubric.source,
+         rubric.line) = self.state_machine.get_source_and_line(self.lineno)
         self.add_name(rubric)
         return [rubric] + messages
 

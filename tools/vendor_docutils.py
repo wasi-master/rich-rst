@@ -35,31 +35,28 @@ def rewrite_vendored_source(content):
     )
 
     # 2) import docutils.<submodule>
-    # First rewrite direct imports to the vendored module path.
-    content = re.sub(
-        r'^([ \t]*)import\s+docutils\.(\S+)([ \t]*)$',
-        r'\1import rich_rst._vendor.docutils.\2\3',
-        content,
-        flags=re.MULTILINE,
-    )
-
-    # 2b) Ensure a local `docutils` symbol exists once before each contiguous
-    # block of rewritten submodule imports (preserving local indentation).
+    # Rewrite direct imports to the vendored module path and ensure a local
+    # `docutils` symbol exists once before each contiguous block of rewritten
+    # imports (preserving local indentation). Only lines rewritten here get
+    # the extra import, so running this on already-vendored code is a no-op.
     lines = content.splitlines(keepends=True)
     rewritten_lines = []
-    import_line_re = re.compile(r'^([ \t]*)import\s+rich_rst\._vendor\.docutils\.')
+    import_line_re = re.compile(r'^([ \t]*)import\s+docutils\.(\S+)([ \t]*)$')
     from_line_tpl = '{indent}from rich_rst._vendor import docutils\n'
     previous_block_indent = None
     for line in lines:
-        match = import_line_re.match(line)
+        body = line.rstrip('\r\n')
+        match = import_line_re.match(body)
         if match:
-            indent = match.group(1)
+            indent, module, trailing = match.groups()
             needed_from = from_line_tpl.format(indent=indent)
             if previous_block_indent != indent and (
                 not rewritten_lines or rewritten_lines[-1] != needed_from
             ):
                 rewritten_lines.append(needed_from)
             previous_block_indent = indent
+            newline = line[len(body) :]
+            line = f'{indent}import rich_rst._vendor.docutils.{module}{trailing}{newline}'
         else:
             previous_block_indent = None
         rewritten_lines.append(line)
@@ -90,6 +87,21 @@ def rewrite_vendored_source(content):
         )
 
     return content
+
+
+def add_vendored_header(content):
+    """Mark the vendored package root with the upstream Docutils version."""
+    header = (
+        f'# VENDORED: This file is vendored from Docutils {docutils.__version__} '
+        '(upstream release).\n'
+        '# See rich_rst/_vendor/LICENSES.txt and VENDORED.md for details.\n'
+    )
+    # Insert after the leading comment block (``$Id``, author, copyright).
+    lines = content.splitlines(keepends=True)
+    index = 0
+    while index < len(lines) and lines[index].startswith('#'):
+        index += 1
+    return ''.join(lines[:index]) + header + ''.join(lines[index:])
 
 
 def iter_python_files(base_dir, exclude_dirs=None):
@@ -166,6 +178,8 @@ for src_path in files:
         content = f.read()
 
     content = rewrite_vendored_source(content)
+    if rel.replace(os.sep, '/') == 'docutils/__init__.py':
+        content = add_vendored_header(content)
 
     with open(dst_path, 'w') as f:
         f.write(content)
@@ -211,12 +225,12 @@ zero-dependency package (aside from `rich` itself).
 
 ## What was vendored
 
-**Source:** Docutils 0.22.4
+**Source:** Docutils 0.23
 **Upstream URL:** https://docutils.sourceforge.io/
-**PyPI:** https://pypi.org/project/docutils/0.22.4/
+**PyPI:** https://pypi.org/project/docutils/0.23/
 **Vendored into:** `rich_rst/_vendor/docutils/`
 
-The following 41 Python modules were copied verbatim (aside from rewriting internal
+The following 42 Python modules were copied verbatim (aside from rewriting internal
 `from docutils` / `import docutils` references to point at the vendored path
 `rich_rst._vendor.docutils`):
 
@@ -252,6 +266,7 @@ The following 41 Python modules were copied verbatim (aside from rewriting inter
 | `docutils/transforms/__init__.py` | Public Domain |
 | `docutils/transforms/frontmatter.py` | Public Domain |
 | `docutils/transforms/misc.py` | Public Domain |
+| `docutils/transforms/parts.py` | Public Domain |
 | `docutils/transforms/references.py` | Public Domain |
 | `docutils/transforms/universal.py` | Public Domain |
 | `docutils/utils/__init__.py` | Public Domain |
@@ -289,7 +304,9 @@ When upgrading the vendored copy to a newer Docutils release:
 2. Run `python tools/vendor_docutils.py` (see `tools/` directory) to re-copy and
    rewrite imports.
 3. Run the test suite to confirm nothing broke.
-4. Update the version number in this file and in `_vendor/LICENSES.txt`.
+4. Update the version number in **this file** and in `_vendor/LICENSES.txt`. The
+   script writes the `# VENDORED:` comment at the top of
+   `rich_rst/_vendor/docutils/__init__.py` itself.
 5. Commit the updated `rich_rst/_vendor/docutils/` tree and both docs.
 
 The internal import rewriting performed by the vendor script is the only modification
@@ -302,20 +319,20 @@ if not os.path.exists(vendored_md_path):
         f.write(vendored_md_content)
     print(f'Created {vendored_md_path}')
 
-# Create rich_rst/_vendor/License.txt
+# Create rich_rst/_vendor/LICENSES.txt
 license_txt_content = """================================================================================
 Licenses for vendored code in rich_rst/_vendor/
 ================================================================================
 
-This directory contains a vendored subset of Docutils 0.22.4, copied here to
+This directory contains a vendored subset of Docutils 0.23, copied here to
 eliminate the docutils PyPI dependency and remove GPL code from the dependency
 tree. See VENDORED.md for the full rationale.
 
-All 41 vendored Python modules are either dedicated to the public domain or
+All 42 vendored Python modules are either dedicated to the public domain or
 released under the BSD 2-Clause License. No GPL-licensed file is included.
 
 --------------------------------------------------------------------------------
-PART 1 — Public Domain (39 of 41 files)
+PART 1 — Public Domain (40 of 42 files)
 --------------------------------------------------------------------------------
 
 The following files have been dedicated to the public domain by their authors.
@@ -351,6 +368,7 @@ They carry no license requirements and no restrictions on copying or usage.
   docutils/transforms/__init__.py
   docutils/transforms/frontmatter.py
   docutils/transforms/misc.py
+  docutils/transforms/parts.py
   docutils/transforms/references.py
   docutils/transforms/universal.py
   docutils/utils/__init__.py
@@ -376,7 +394,7 @@ Public Domain Dedication (from the Docutils project):
   Upstream COPYING:  https://docutils.sourceforge.io/COPYING.html
 
 --------------------------------------------------------------------------------
-PART 2 — BSD 2-Clause License (2 of 41 files)
+PART 2 — BSD 2-Clause License (2 of 42 files)
 --------------------------------------------------------------------------------
 
 The following files are released under the BSD 2-Clause License:
@@ -536,7 +554,7 @@ the installed wheel, and is entirely absent from this vendored copy.
 ================================================================================
 """
 
-license_txt_path = os.path.join(vendor_dir, 'License.txt')
+license_txt_path = os.path.join(vendor_dir, 'LICENSES.txt')
 if not os.path.exists(license_txt_path):
     with open(license_txt_path, 'w') as f:
         f.write(license_txt_content)

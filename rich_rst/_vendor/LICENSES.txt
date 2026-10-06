@@ -2,15 +2,15 @@
 Licenses for vendored code in rich_rst/_vendor/
 ================================================================================
 
-This directory contains a vendored subset of Docutils 0.22.4, copied here to
+This directory contains a vendored subset of Docutils 0.23, copied here to
 eliminate the docutils PyPI dependency and remove GPL code from the dependency
 tree. See VENDORED.md for the full rationale.
 
-All 41 vendored Python modules are either dedicated to the public domain or
+All 42 vendored Python modules are either dedicated to the public domain or
 released under the BSD 2-Clause License. No GPL-licensed file is included.
 
 --------------------------------------------------------------------------------
-PART 1 — Public Domain (39 of 41 files)
+PART 1 — Public Domain (40 of 42 files)
 --------------------------------------------------------------------------------
 
 The following files have been dedicated to the public domain by their authors.
@@ -46,6 +46,7 @@ They carry no license requirements and no restrictions on copying or usage.
   docutils/transforms/__init__.py
   docutils/transforms/frontmatter.py
   docutils/transforms/misc.py
+  docutils/transforms/parts.py
   docutils/transforms/references.py
   docutils/transforms/universal.py
   docutils/utils/__init__.py
@@ -71,7 +72,7 @@ Public Domain Dedication (from the Docutils project):
   Upstream COPYING:  https://docutils.sourceforge.io/COPYING.html
 
 --------------------------------------------------------------------------------
-PART 2 — BSD 2-Clause License (2 of 41 files)
+PART 2 — BSD 2-Clause License (2 of 42 files)
 --------------------------------------------------------------------------------
 
 The following files are released under the BSD 2-Clause License:

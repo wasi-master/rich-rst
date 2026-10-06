@@ -1,4 +1,4 @@
-# $Id: frontend.py 10196 2025-08-07 06:35:37Z milde $
+# $Id: frontend.py 10294 2026-01-25 14:12:56Z milde $
 # Author: David Goodger <goodger@python.org>
 # Copyright: This module has been placed in the public domain.
 
@@ -1162,7 +1162,7 @@ class ConfigDeprecationWarning(FutureWarning):
     """Warning for deprecated configuration file features."""
 
 
-def get_default_settings(*components: SettingsSpec) -> Values:
+def get_default_settings(*components: type[SettingsSpec]) -> Values:
     """Return default runtime settings for `components`.
 
     Return a `frontend.Values` instance with defaults for generic Docutils
