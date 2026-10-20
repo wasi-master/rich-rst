@@ -1,3 +1,10 @@
+## [Unreleased]
+
+### Fixes
+
+- Fix `python -m rich_rst --output FILE` also printing the rendered document to stdout; the rendering now goes to the file only, as documented.
+- Fix `python -m rich_rst --output FILE --save-html FILE.html` writing an HTML file without any content, because the plain-text export cleared the recorded console output before the HTML export ran.
+
 ### [0.1.0]
 
 - Initial Release
