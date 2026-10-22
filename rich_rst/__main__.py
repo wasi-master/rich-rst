@@ -1,4 +1,5 @@
 import argparse
+import io
 import logging
 import sys
 from typing import Tuple
@@ -263,7 +264,21 @@ pre {{
     ).replace('HTML_WIDTH_PLACEHOLDER', args.html_width)
 
     record = bool(args.html_filename) or bool(args.output)
+    # ``console`` reports diagnostics (error panels) and, unless ``--output``
+    # is given, the rendered document itself.
     console = Console(force_terminal=args.force_color, width=args.width, record=record)
+    # ``document_console`` renders the document.  With ``--output`` the
+    # document goes to a file instead of stdout, so it is rendered into a
+    # throwaway buffer; the recorded segments are what the text and HTML
+    # exports are built from.
+    document_console = console
+    if args.output:
+        document_console = Console(
+            force_terminal=args.force_color,
+            width=args.width,
+            record=True,
+            file=io.StringIO(),
+        )
 
     try:
         if args.path == '-':
@@ -321,17 +336,21 @@ pre {{
     try:
         if args.output:
             log.debug(f'Writing output to: {args.output}')
-            console.print(rst, soft_wrap=args.soft_wrap)
-            text_output = console.export_text()
+            document_console.print(rst, soft_wrap=args.soft_wrap)
+            # ``clear=False`` keeps the recorded segments around so that a
+            # simultaneous ``--save-html`` export still has the content.
+            text_output = document_console.export_text(clear=False)
             with open(args.output, 'w', encoding='utf-8') as out_fh:
                 out_fh.write(text_output)
         else:
-            console.print(rst, soft_wrap=args.soft_wrap)
+            document_console.print(rst, soft_wrap=args.soft_wrap)
 
         if args.html_filename:
             log.debug(f'Exporting HTML to: {args.html_filename}')
             html_theme = _HTML_THEMES.get(args.html_theme, _DRACULA_TERMINAL_THEME)
-            console.save_html(args.html_filename, theme=html_theme, code_format=html_format)
+            document_console.save_html(
+                args.html_filename, theme=html_theme, code_format=html_format
+            )
     except OSError as e:
         console.print(
             Panel(

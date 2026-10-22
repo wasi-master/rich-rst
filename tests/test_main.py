@@ -99,6 +99,43 @@ def test_output_flag_writes_to_file(monkeypatch, tmp_path):
     assert 'world' in content
 
 
+def test_output_flag_does_not_print_to_stdout(monkeypatch, capsys, tmp_path):
+    """--output writes the rendering to the file *instead of* stdout."""
+    rst_file = tmp_path / 'test.rst'
+    rst_file.write_text('Hello **world**.', encoding='utf-8')
+    out_file = tmp_path / 'rendered.txt'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['rich-rst', str(rst_file), '-o', str(out_file)],
+    )
+    exit_code = main()
+    captured = capsys.readouterr()
+
+    assert exit_code == 0
+    assert captured.out == ''
+    content = out_file.read_text(encoding='utf-8')
+    assert 'Hello' in content
+
+
+def test_output_with_save_html_keeps_html_content(monkeypatch, tmp_path):
+    """--output together with --save-html must not empty the HTML export."""
+    rst_file = tmp_path / 'test.rst'
+    rst_file.write_text('Hello **world**.', encoding='utf-8')
+    out_file = tmp_path / 'rendered.txt'
+    html_file = tmp_path / 'rendered.html'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['rich-rst', str(rst_file), '-o', str(out_file), '-S', str(html_file)],
+    )
+    exit_code = main()
+    assert exit_code == 0
+    html = html_file.read_text(encoding='utf-8')
+    assert 'Hello' in html
+    assert 'world' in html
+
+
 def test_output_short_flag(monkeypatch, tmp_path):
     rst_file = tmp_path / 'test.rst'
     rst_file.write_text('Short text.', encoding='utf-8')
