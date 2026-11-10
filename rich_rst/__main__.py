@@ -288,13 +288,13 @@ pre {{
             log.debug(f'Reading file: {args.path}')
             with open(args.path, encoding=args.encoding) as file_handle:
                 code = file_handle.read()
-    except OSError as e:
+    except (OSError, LookupError) as e:
         console.print(
             Panel(
                 Text(
                     f'[bold red]Error reading file[/bold red]\n\n'
                     f'Path: {args.path!r}\n'
-                    f'Reason: {e.strerror}\n\n'
+                    f'Reason: {getattr(e, "strerror", None) or e}\n\n'
                     'Check that the file exists and you have read permission.'
                 ),
                 title='[bold]File Error[/bold]',

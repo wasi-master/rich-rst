@@ -44,6 +44,19 @@ def test_list_html_themes_exits_zero(monkeypatch, capsys):
     assert exit_code == 0
 
 
+def test_cli_reports_unknown_encoding_without_traceback(monkeypatch, tmp_path, capsys):
+    rst_file = tmp_path / 'test.rst'
+    rst_file.write_text('Hello world.', encoding='utf-8')
+    monkeypatch.setattr(
+        sys, 'argv', ['rich-rst', str(rst_file), '-e', 'bogus-encoding-xyz']
+    )
+    exit_code = main()
+    captured = capsys.readouterr()
+    assert exit_code == 1
+    assert 'File Error' in captured.out
+    assert 'Traceback' not in captured.out
+
+
 def test_list_html_themes_prints_theme_names(monkeypatch, capsys):
     monkeypatch.setattr(sys, 'argv', ['rich-rst', '--list-html-themes'])
     main()
